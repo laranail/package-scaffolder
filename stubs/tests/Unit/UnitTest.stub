@@ -1,0 +1,262 @@
+<?php
+
+declare(strict_types=1);
+
+namespace $ROOT_CLASS_NAMESPACE$\Tests\Unit;
+
+use $ROOT_CLASS_NAMESPACE$\Tests\TestCase;
+use $ROOT_CLASS_NAMESPACE$\Models\$MODEL_NAME$;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+/**
+ * $PACKAGE_STUDLY$Test - Unit tests for $PACKAGE_TITLE$
+ *
+ * @package $ROOT_CLASS_NAMESPACE$\Tests\Unit
+ */
+class $PACKAGE_STUDLY$Test extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Test model can be instantiated
+     */
+    public function test_model_can_be_instantiated(): void
+    {
+        $model = new $MODEL_NAME$();
+
+        $this->assertInstanceOf($MODEL_NAME$::class, $model);
+    }
+
+    /**
+     * Test model has correct table name
+     */
+    public function test_model_has_correct_table_name(): void
+    {
+        $model = new $MODEL_NAME$();
+
+        $this->assertEquals('$TABLE_NAME$', $model->getTable());
+    }
+
+    /**
+     * Test model can be created via factory
+     */
+    public function test_model_can_be_created_via_factory(): void
+    {
+        $model = $MODEL_NAME$::factory()->create();
+
+        $this->assertInstanceOf($MODEL_NAME$::class, $model);
+        $this->assertDatabaseHas('$TABLE_NAME$', ['id' => $model->id]);
+    }
+
+    /**
+     * Test model has fillable attributes
+     */
+    public function test_model_has_fillable_attributes(): void
+    {
+        $model = new $MODEL_NAME$();
+
+        $this->assertNotEmpty($model->getFillable());
+    }
+
+    /**
+     * Test helper function exists globally
+     */
+    public function test_helper_function_exists(): void
+    {
+        $this->assertTrue(function_exists('$HELPER_FUNCTION_NAME$'));
+    }
+
+    /**
+     * Test helper returns FluentPackageHelper instance
+     */
+    public function test_helper_returns_fluent_package_helper_instance(): void
+    {
+        $helper = $HELPER_FUNCTION_NAME$();
+
+        $this->assertInstanceOf(
+            \Simtabi\Laranail\PackageTools\Support\FluentPackageHelper::class,
+            $helper
+        );
+    }
+
+    /**
+     * Test helper shortcut syntax works
+     */
+    public function test_helper_shortcut_syntax_works(): void
+    {
+        config(['$CONFIG_NAMESPACE$.test_key' => 'test_value']);
+
+        // Shortcut syntax (with key)
+        $value = $HELPER_FUNCTION_NAME$('test_key');
+        $this->assertEquals('test_value', $value);
+
+        // Fluent syntax (no key)
+        $helper = $HELPER_FUNCTION_NAME$();
+        $value = $helper->config('test_key');
+        $this->assertEquals('test_value', $value);
+    }
+
+    /**
+     * Test helper config method
+     */
+    public function test_helper_config_method(): void
+    {
+        config(['$CONFIG_NAMESPACE$.key1' => 'value1']);
+
+        $value = $HELPER_FUNCTION_NAME$()->config('key1');
+        $this->assertEquals('value1', $value);
+
+        $defaultValue = $HELPER_FUNCTION_NAME$()->config('nonexistent', 'default');
+        $this->assertEquals('default', $defaultValue);
+    }
+
+    /**
+     * Test helper enabled method
+     */
+    public function test_helper_enabled_method(): void
+    {
+        config(['$CONFIG_NAMESPACE$.enabled' => true]);
+        $this->assertTrue($HELPER_FUNCTION_NAME$()->enabled());
+
+        config(['$CONFIG_NAMESPACE$.enabled' => false]);
+        $this->assertFalse($HELPER_FUNCTION_NAME$()->enabled());
+
+        // Test default (should be true)
+        config(['$CONFIG_NAMESPACE$' => []]);
+        $this->assertTrue($HELPER_FUNCTION_NAME$()->enabled());
+    }
+
+    /**
+     * Test helper namespace methods return correct values
+     */
+    public function test_helper_namespace_methods(): void
+    {
+        $this->assertEquals('$VIEW_NAMESPACE$', $HELPER_FUNCTION_NAME$()->viewNamespace());
+        $this->assertEquals('$TRANSLATION_NAMESPACE$', $HELPER_FUNCTION_NAME$()->translationNamespace());
+        $this->assertEquals('$CONFIG_NAMESPACE$', $HELPER_FUNCTION_NAME$()->configNamespace());
+    }
+
+    /**
+     * Test helper vendor and package methods
+     */
+    public function test_helper_vendor_and_package_methods(): void
+    {
+        $this->assertEquals('$VENDOR_KEBAB$', $HELPER_FUNCTION_NAME$()->vendor());
+        $this->assertEquals('$PACKAGE_KEBAB$', $HELPER_FUNCTION_NAME$()->package());
+    }
+
+    /**
+     * Test helper route prefix method
+     */
+    public function test_helper_route_prefix_method(): void
+    {
+        $this->assertEquals('$ROUTE_NAME$', $HELPER_FUNCTION_NAME$()->routePrefix());
+    }
+
+    /**
+     * Test helper asset method builds correct path
+     */
+    public function test_helper_asset_method_builds_correct_path(): void
+    {
+        $assetPath = $HELPER_FUNCTION_NAME$()->asset('test.css');
+
+        $this->assertStringContainsString('vendor/$PACKAGE_KEBAB$/test.css', $assetPath);
+    }
+
+    /**
+     * Test helper namespace method with different types
+     */
+    public function test_helper_namespace_method_with_types(): void
+    {
+        $this->assertEquals('$VIEW_NAMESPACE$', $HELPER_FUNCTION_NAME$()->namespace('view'));
+        $this->assertEquals('$TRANSLATION_NAMESPACE$', $HELPER_FUNCTION_NAME$()->namespace('translation'));
+        $this->assertEquals('$TRANSLATION_NAMESPACE$', $HELPER_FUNCTION_NAME$()->namespace('trans'));
+        $this->assertEquals('$TRANSLATION_NAMESPACE$', $HELPER_FUNCTION_NAME$()->namespace('lang'));
+        $this->assertEquals('$CONFIG_NAMESPACE$', $HELPER_FUNCTION_NAME$()->namespace('config'));
+    }
+
+    /**
+     * Test helper namespace method throws exception for invalid type
+     */
+    public function test_helper_namespace_method_throws_exception_for_invalid_type(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown namespace type: invalid');
+
+        $HELPER_FUNCTION_NAME$()->namespace('invalid');
+    }
+
+    /**
+     * Test config values can be retrieved
+     */
+    public function test_config_values_can_be_retrieved(): void
+    {
+        $config = config('$CONFIG_NAMESPACE$');
+
+        $this->assertIsArray($config);
+    }
+
+    /**
+     * Test model factory creates valid instances
+     */
+    public function test_model_factory_creates_valid_instances(): void
+    {
+        $model = $MODEL_NAME$::factory()->make();
+
+        $this->assertInstanceOf($MODEL_NAME$::class, $model);
+        $this->assertNotNull($model->name);
+    }
+
+    /**
+     * Test model can be persisted
+     */
+    public function test_model_can_be_persisted(): void
+    {
+        $model = $MODEL_NAME$::factory()->create(['name' => 'Test Name']);
+
+        $this->assertDatabaseHas('$TABLE_NAME$', [
+            'id' => $model->id,
+            'name' => 'Test Name',
+        ]);
+    }
+
+    /**
+     * Test model can be updated
+     */
+    public function test_model_can_be_updated(): void
+    {
+        $model = $MODEL_NAME$::factory()->create(['name' => 'Original Name']);
+
+        $model->update(['name' => 'Updated Name']);
+
+        $this->assertDatabaseHas('$TABLE_NAME$', [
+            'id' => $model->id,
+            'name' => 'Updated Name',
+        ]);
+    }
+
+    /**
+     * Test model can be deleted
+     */
+    public function test_model_can_be_deleted(): void
+    {
+        $model = $MODEL_NAME$::factory()->create();
+        $id = $model->id;
+
+        $model->delete();
+
+        $this->assertDatabaseMissing('$TABLE_NAME$', ['id' => $id]);
+    }
+
+    /**
+     * Test multiple models can be created
+     */
+    public function test_multiple_models_can_be_created(): void
+    {
+        $models = $MODEL_NAME$::factory()->count(5)->create();
+
+        $this->assertCount(5, $models);
+        $this->assertEquals(5, $MODEL_NAME$::count());
+    }
+}
+

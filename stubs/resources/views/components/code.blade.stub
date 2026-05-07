@@ -1,0 +1,20 @@
+<pre {{ $attributes->merge(['class' => 'demo-code']) }}>{{ $slot }}</pre>
+
+<style>
+    .demo-code {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        font-family: 'Monaco', 'Courier New', monospace;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        margin: 1rem 0;
+    }
+    .demo-code .success { color: #48bb78; }
+    .demo-code .info { color: #4299e1; }
+    .demo-code .warning { color: #ed8936; }
+    .demo-code .error { color: #f56565; }
+</style>
+

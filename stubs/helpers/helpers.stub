@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * Helper functions for $PACKAGE_TITLE$
+ *
+ * Provides a fluent API for package operations.
+ * Usage: $HELPER_FUNCTION_NAME$()->config('key')
+ *
+ * @package $ROOT_CLASS_NAMESPACE$
+ */
+
+use Simtabi\Laranail\PackageTools\Support\FluentPackageHelper;
+
+if (!function_exists('$HELPER_FUNCTION_NAME$')) {
+    /**
+     * Get $PACKAGE_TITLE$ helper instance or configuration value
+     *
+     * Fluent API Examples:
+     * --------------------
+     * $HELPER_FUNCTION_NAME$()->config('posts_per_page', 10)
+     * $HELPER_FUNCTION_NAME$()->enabled()
+     * $HELPER_FUNCTION_NAME$()->route('index')
+     * $HELPER_FUNCTION_NAME$()->asset('logo.png')
+     * $HELPER_FUNCTION_NAME$()->view('index', ['data' => $data])
+     * $HELPER_FUNCTION_NAME$()->trans('messages.welcome')
+     * $HELPER_FUNCTION_NAME$()->namespace('view')
+     *
+     * Shortcut Syntax:
+     * ----------------
+     * $HELPER_FUNCTION_NAME$('posts_per_page', 10)  // Same as ->config()
+     *
+     * Available Methods:
+     * ------------------
+     * - config(?string $key, mixed $default): mixed
+     * - enabled(): bool
+     * - route(string $name, array $params = []): string
+     * - asset(string $path): string
+     * - view(string $name, array $data = []): View
+     * - trans(string $key, array $replace = [], ?string $locale = null): string
+     * - namespace(string $type = 'view'): string
+     * - vendor(): string
+     * - package(): string
+     * - routePrefix(): string
+     * - viewNamespace(): string
+     * - translationNamespace(): string
+     * - configNamespace(): string
+     *
+     * @param string|null $key Configuration key (optional shortcut)
+     * @param mixed $default Default value (for shortcut syntax)
+     * @return FluentPackageHelper|mixed
+     */
+    function $HELPER_FUNCTION_NAME$(?string $key = null, mixed $default = null): mixed
+    {
+        $helper = new FluentPackageHelper(
+            vendor: '$VENDOR_KEBAB$',
+            package: '$PACKAGE_KEBAB$',
+            configNamespace: '$CONFIG_NAMESPACE$',
+            viewNamespace: '$VIEW_NAMESPACE$',
+            translationNamespace: '$TRANSLATION_NAMESPACE$',
+            routePrefix: '$ROUTE_NAME$'
+        );
+
+        // Shortcut syntax: $HELPER_FUNCTION_NAME$('key', 'default')
+        if ($key !== null) {
+            return $helper->config($key, $default);
+        }
+
+        // Fluent API: $HELPER_FUNCTION_NAME$()->method()
+        return $helper;
+    }
+}

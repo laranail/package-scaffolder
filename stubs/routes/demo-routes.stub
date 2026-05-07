@@ -1,0 +1,7 @@
+// Add demo route
+Route::get('/demo', [$PACKAGE_STUDLY$Controller::class, 'demo'])
+    ->name('demo');
+
+// Add API demo route
+Route::get('/api-demo', [$PACKAGE_STUDLY$Controller::class, 'apiDemo'])
+    ->name('api-demo');

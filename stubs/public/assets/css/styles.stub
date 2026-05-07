@@ -1,0 +1,9 @@
+/**
+ * $PACKAGE_TITLE$ - Compiled Styles
+ * 
+ * This file is auto-generated. Edit source files in resources/assets/styles/
+ */
+
+/* Import or add your compiled CSS here */
+@import url('./app.css');
+

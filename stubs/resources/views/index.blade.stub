@@ -1,0 +1,4 @@
+<div>
+    <h1>{{package_studly}}</h1>
+    <p>Welcome to {{package_studly}} package!</p>
+</div>

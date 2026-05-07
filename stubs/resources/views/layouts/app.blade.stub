@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', config('$CONFIG_NAMESPACE$.name', '$PACKAGE_TITLE$'))</title>
+    
+    {{-- Vite Assets (Development with HMR or Production) --}}
+    @vite(['resources/assets/styles/app.css', 'resources/assets/scripts/app.js'], '$COMPOSER_NAME$')
+    
+    @stack('styles')
+</head>
+<body class="$PACKAGE_KEBAB$-body">
+    @include('$VIEW_NAMESPACE$::partials.header')
+    
+    <main class="$PACKAGE_KEBAB$-main">
+        @yield('content')
+    </main>
+    
+    @include('$VIEW_NAMESPACE$::partials.footer')
+    
+    @stack('scripts')
+</body>
+</html>
+

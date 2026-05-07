@@ -1,0 +1,123 @@
+<?php
+
+declare(strict_types=1);
+
+namespace $ROOT_CLASS_NAMESPACE$\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use $ROOT_CLASS_NAMESPACE$\Package;
+
+/**
+ * $PACKAGE_STUDLY$ServiceProvider
+ *
+ * @package $ROOT_CLASS_NAMESPACE$\Providers
+ */
+class $PACKAGE_STUDLY$ServiceProvider extends ServiceProvider
+{
+    /**
+     * Register services
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        // Merge config
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/$PACKAGE_KEBAB$.php',
+            '$CONFIG_NAMESPACE$'
+        );
+        
+        // Load helpers
+        $this->loadHelpers();
+    }
+
+    /**
+     * Bootstrap services
+     *
+     * @return void
+     */
+    public function boot(): void
+    {
+        // Publish config
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../../config/$PACKAGE_KEBAB$.php' => config_path('$PACKAGE_KEBAB$.php'),
+            ], '$PUBLISH_TAG_PREFIX$-config');
+
+            // Publish migrations
+            $this->publishes([
+                __DIR__ . '/../../database/migrations/' => database_path('migrations'),
+            ], '$PUBLISH_TAG_PREFIX$-migrations');
+
+            // Publish views
+            $this->publishes([
+                __DIR__ . '/../../resources/views/' => resource_path('views/vendor/$PACKAGE_KEBAB$'),
+            ], '$PUBLISH_TAG_PREFIX$-views');
+            
+            // Publish assets
+            $this->publishes([
+                __DIR__ . '/../../public/assets/' => public_path('vendor/$PACKAGE_KEBAB$'),
+            ], '$PUBLISH_TAG_PREFIX$-assets');
+            
+            // Publish all
+            $this->publishes([
+                __DIR__ . '/../../config/$PACKAGE_KEBAB$.php' => config_path('$PACKAGE_KEBAB$.php'),
+                __DIR__ . '/../../database/migrations/' => database_path('migrations'),
+                __DIR__ . '/../../resources/views/' => resource_path('views/vendor/$PACKAGE_KEBAB$'),
+                __DIR__ . '/../../public/assets/' => public_path('vendor/$PACKAGE_KEBAB$'),
+            ], '$PUBLISH_TAG_PREFIX$');
+        }
+
+        // Load migrations
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+
+        // Load routes
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
+
+        // Load views with vendor/package namespace
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views', '$VIEW_NAMESPACE$');
+
+        // Load translations with vendor/package namespace
+        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', '$TRANSLATION_NAMESPACE$');
+        
+        // Register Blade components
+        $this->registerBladeComponents();
+    }
+    
+    /**
+     * Register Blade components for the package
+     *
+     * @return void
+     */
+    protected function registerBladeComponents(): void
+    {
+        // Register anonymous components with package-specific prefix
+        Blade::anonymousComponentNamespace('$VIEW_NAMESPACE$::components', '$PACKAGE_KEBAB$');
+        
+        // Alternative: Register specific components if needed
+        // Blade::component('$PACKAGE_KEBAB$::components.layout', '$PACKAGE_KEBAB$-layout');
+        // Blade::component('$PACKAGE_KEBAB$::components.section', '$PACKAGE_KEBAB$-section');
+        // Blade::component('$PACKAGE_KEBAB$::components.card', '$PACKAGE_KEBAB$-card');
+    }
+    
+    /**
+     * Load helper files
+     *
+     * @return void
+     */
+    protected function loadHelpers(): void
+    {
+        $helpersPath = __DIR__ . '/../../helpers';
+        
+        if (!is_dir($helpersPath)) {
+            return;
+        }
+        
+        foreach (glob("{$helpersPath}/*.php") as $helperFile) {
+            require_once $helperFile;
+        }
+    }
+}
+

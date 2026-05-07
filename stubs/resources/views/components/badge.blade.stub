@@ -1,0 +1,20 @@
+<span {{ $attributes->merge(['class' => 'demo-badge']) }}>
+    {{ $slot }}
+</span>
+
+<style>
+    .demo-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: {{ $color ?? '#48bb78' }};
+        color: white;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    .demo-badge.success { background: #48bb78; }
+    .demo-badge.info { background: #4299e1; }
+    .demo-badge.warning { background: #ed8936; }
+    .demo-badge.error { background: #f56565; }
+</style>
+

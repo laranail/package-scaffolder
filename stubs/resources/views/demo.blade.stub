@@ -1,0 +1,152 @@
+<x-$PACKAGE_KEBAB$::layout 
+    :title="__('$TRANSLATION_NAMESPACE$::demo.title')"
+    :headerTitle="__('$TRANSLATION_NAMESPACE$::demo.welcome')"
+    :headerSubtitle="__('$TRANSLATION_NAMESPACE$::demo.description')"
+>
+    @push('head')
+        <style>
+            .demo-success { color: #48bb78; }
+            .demo-info { color: #4299e1; }
+        </style>
+    @endpush
+
+    {{-- Package Info Section --}}
+    <x-$PACKAGE_KEBAB$::section :title="__('$TRANSLATION_NAMESPACE$::demo.sections.info')">
+        <x-$PACKAGE_KEBAB$::grid>
+            <x-$PACKAGE_KEBAB$::card :title="'Package Name'">
+                <p><strong>{{ $HELPER_FUNCTION_NAME$()->package() }}</strong></p>
+            </x-$PACKAGE_KEBAB$::card>
+
+            <x-$PACKAGE_KEBAB$::card :title="'Vendor'">
+                <p><strong>{{ $HELPER_FUNCTION_NAME$()->vendor() }}</strong></p>
+            </x-$PACKAGE_KEBAB$::card>
+
+            <x-$PACKAGE_KEBAB$::card :title="'Status'">
+                <p class="demo-success">
+                    <strong>
+                        @if($HELPER_FUNCTION_NAME$()->enabled())
+                            ✓ {{ __('$TRANSLATION_NAMESPACE$::demo.status') }}
+                        @else
+                            ✗ Disabled
+                        @endif
+                    </strong>
+                </p>
+            </x-$PACKAGE_KEBAB$::card>
+        </x-$PACKAGE_KEBAB$::grid>
+    </x-$PACKAGE_KEBAB$::section>
+
+    {{-- Namespace Information --}}
+    <x-$PACKAGE_KEBAB$::section :title="'🏷️ Namespace Configuration'">
+        <x-$PACKAGE_KEBAB$::grid>
+            <x-$PACKAGE_KEBAB$::card :title="'View Namespace'">
+                <p class="demo-info">
+                    <code>{{ $HELPER_FUNCTION_NAME$()->viewNamespace() }}</code>
+                </p>
+            </x-$PACKAGE_KEBAB$::card>
+
+            <x-$PACKAGE_KEBAB$::card :title="'Translation Namespace'">
+                <p class="demo-info">
+                    <code>{{ $HELPER_FUNCTION_NAME$()->translationNamespace() }}</code>
+                </p>
+            </x-$PACKAGE_KEBAB$::card>
+
+            <x-$PACKAGE_KEBAB$::card :title="'Config Namespace'">
+                <p class="demo-info">
+                    <code>{{ $HELPER_FUNCTION_NAME$()->configNamespace() }}</code>
+                </p>
+            </x-$PACKAGE_KEBAB$::card>
+
+            <x-$PACKAGE_KEBAB$::card :title="'Route Prefix'">
+                <p class="demo-info">
+                    <code>{{ $HELPER_FUNCTION_NAME$()->routePrefix() }}</code>
+                </p>
+            </x-$PACKAGE_KEBAB$::card>
+        </x-$PACKAGE_KEBAB$::grid>
+    </x-$PACKAGE_KEBAB$::section>
+
+    {{-- Helper Function Examples --}}
+    <x-$PACKAGE_KEBAB$::section :title="'🔧 Fluent Helper API Examples'">
+        <h3 style="margin-top: 0;">Configuration</h3>
+        <x-$PACKAGE_KEBAB$::code>
+// Get config value
+$value = $HELPER_FUNCTION_NAME$()->config('demo_key', 'default');
+
+// Shortcut syntax
+$value = $HELPER_FUNCTION_NAME$('demo_key', 'default');
+
+// Current value: <span class="success">{{ $HELPER_FUNCTION_NAME$('demo_key', 'Hello from config!') }}</span>
+        </x-$PACKAGE_KEBAB$::code>
+
+        <h3 style="margin-top: 1.5rem;">Routes</h3>
+        <x-$PACKAGE_KEBAB$::code>
+// Generate route URL
+$url = $HELPER_FUNCTION_NAME$()->route('demo');
+
+// Current demo route: <span class="success">{{ $HELPER_FUNCTION_NAME$()->route('demo') }}</span>
+        </x-$PACKAGE_KEBAB$::code>
+
+        <h3 style="margin-top: 1.5rem;">Translations</h3>
+        <x-$PACKAGE_KEBAB$::code>
+// Get translation
+$text = $HELPER_FUNCTION_NAME$()->trans('demo.welcome');
+
+// Result: <span class="success">{{ $HELPER_FUNCTION_NAME$()->trans('demo.welcome') }}</span>
+        </x-$PACKAGE_KEBAB$::code>
+
+        <h3 style="margin-top: 1.5rem;">Assets</h3>
+        <x-$PACKAGE_KEBAB$::code>
+// Get asset URL
+$url = $HELPER_FUNCTION_NAME$()->asset('logo.png');
+
+// Result: <span class="success">{{ $HELPER_FUNCTION_NAME$()->asset('logo.png') }}</span>
+        </x-$PACKAGE_KEBAB$::code>
+    </x-$PACKAGE_KEBAB$::section>
+
+    {{-- Sample Data Display --}}
+    @if(isset($items) && $items->isNotEmpty())
+    <x-$PACKAGE_KEBAB$::section :title="'📊 Sample Data'">
+        <x-$PACKAGE_KEBAB$::grid>
+            @foreach($items as $item)
+            <x-$PACKAGE_KEBAB$::card :title="$item->name ?? 'Sample Item #' . $loop->iteration">
+                <p>{{ $item->description ?? 'This is a sample item demonstrating the package functionality.' }}</p>
+                <p style="margin-top: 1rem;">
+                    <a href="{{ $HELPER_FUNCTION_NAME$()->route('show', ['id' => $item->id ?? $loop->iteration]) }}" 
+                       style="color: #667eea; text-decoration: none; font-weight: 600;">
+                        View Details →
+                    </a>
+                </p>
+            </x-$PACKAGE_KEBAB$::card>
+            @endforeach
+        </x-$PACKAGE_KEBAB$::grid>
+    </x-$PACKAGE_KEBAB$::section>
+    @endif
+
+    {{-- Test Routes Section --}}
+    <x-$PACKAGE_KEBAB$::section :title="'🚀 Test Routes'">
+        <p>Try these routes to test the package:</p>
+        <ul style="line-height: 2;">
+            <li>
+                <a href="{{ $HELPER_FUNCTION_NAME$()->route('demo') }}" style="color: #667eea;">
+                    Demo Page (You are here)
+                </a>
+            </li>
+            <li>
+                <a href="{{ $HELPER_FUNCTION_NAME$()->route('index') }}" style="color: #667eea;">
+                    Index Page
+                </a>
+            </li>
+            <li>
+                <a href="{{ $HELPER_FUNCTION_NAME$()->route('api-demo') }}" style="color: #667eea;">
+                    API Demo (JSON)
+                </a>
+            </li>
+        </ul>
+
+        <div style="margin-top: 1.5rem;">
+            <x-$PACKAGE_KEBAB$::badge class="success">
+                {{ __('$TRANSLATION_NAMESPACE$::demo.status') }}
+            </x-$PACKAGE_KEBAB$::badge>
+        </div>
+    </x-$PACKAGE_KEBAB$::section>
+
+</x-$PACKAGE_KEBAB$::layout>

@@ -1,0 +1,67 @@
+{
+    "name": "{{vendor}}/{{package}}",
+    "description": "{{description}}",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "{{package}}",
+        "{{vendor}}"
+    ],
+    "homepage": "https://github.com/{{vendor}}/{{package}}",
+    "authors": [
+        {
+            "name": "{{author_name}}",
+            "email": "{{author_email}}",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^{{php_version}}",
+        "illuminate/contracts": "{{laravel_version}}",
+        "illuminate/support": "{{laravel_version}}"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "pestphp/pest": "^2.0",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "{{namespace}}\\": "src/"
+        },
+        "files": [
+            "helpers/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "{{namespace}}\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/php-cs-fixer fix"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "{{namespace}}\\Providers\\{{package_studly}}ServiceProvider"
+            ],
+            "aliases": {
+                "{{package_studly}}": "{{namespace}}\\Facades\\{{package_studly}}"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

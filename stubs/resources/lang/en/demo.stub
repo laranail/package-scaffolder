@@ -1,0 +1,34 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Demo Page Translations
+    |--------------------------------------------------------------------------
+    |
+    | Translations for the demo page showing package functionality
+    |
+    */
+
+    'title' => '$PACKAGE_TITLE$ Demo',
+    'welcome' => 'Welcome to $PACKAGE_TITLE$!',
+    'description' => 'Your package is successfully installed and working perfectly.',
+    'status' => 'All Systems Operational',
+    
+    'sections' => [
+        'info' => 'Package Information',
+        'namespaces' => 'Namespace Configuration',
+        'helpers' => 'Fluent Helper API',
+        'data' => 'Sample Data',
+        'routes' => 'Test Routes',
+    ],
+    
+    'helpers' => [
+        'config_example' => 'Configuration example',
+        'route_example' => 'Route generation example',
+        'translation_example' => 'Translation example',
+    ],
+    
+    'footer' => 'Powered by :package | Generated with Laranail Packager v2.0',
+];
+

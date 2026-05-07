@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{namespace}}\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
+
+/**
+ * {{controller_name}} Controller
+ * 
+ * @package {{namespace}}\Http\Controllers
+ */
+class {{controller_name}} extends BaseController
+{
+    public function index(Request $request)
+    {
+        //
+    }
+}

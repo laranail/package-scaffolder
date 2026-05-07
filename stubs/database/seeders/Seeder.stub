@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace $ROOT_CLASS_NAMESPACE$\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use $ROOT_CLASS_NAMESPACE$\Models\$MODEL_NAME$;
+
+/**
+ * $SEEDER_NAME$
+ *
+ * @package $ROOT_CLASS_NAMESPACE$\Database\Seeders
+ */
+class $SEEDER_NAME$ extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Create sample data
+        $MODEL_NAME$::factory()
+            ->count(10)
+            ->create();
+    }
+}
+

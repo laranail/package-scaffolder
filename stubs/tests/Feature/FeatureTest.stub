@@ -1,0 +1,210 @@
+<?php
+
+declare(strict_types=1);
+
+namespace $ROOT_CLASS_NAMESPACE$\Tests\Feature;
+
+use $ROOT_CLASS_NAMESPACE$\Tests\TestCase;
+use $ROOT_CLASS_NAMESPACE$\Models\$MODEL_NAME$;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+/**
+ * $PACKAGE_STUDLY$Test - Feature tests for $PACKAGE_TITLE$
+ *
+ * @package $ROOT_CLASS_NAMESPACE$\Tests\Feature
+ */
+class $PACKAGE_STUDLY$Test extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Test that index page loads successfully
+     */
+    public function test_index_page_loads_successfully(): void
+    {
+        $response = $this->get($HELPER_FUNCTION_NAME$()->route('index'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('$VIEW_NAMESPACE$::index');
+    }
+
+    /**
+     * Test that demo page displays correctly
+     */
+    public function test_demo_page_displays_correctly(): void
+    {
+        $response = $this->get($HELPER_FUNCTION_NAME$()->route('demo'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('$VIEW_NAMESPACE$::demo');
+        $response->assertSee('$PACKAGE_TITLE$');
+    }
+
+    /**
+     * Test that show page displays a record
+     */
+    public function test_show_page_displays_record(): void
+    {
+        $item = $MODEL_NAME$::factory()->create();
+
+        $response = $this->get($HELPER_FUNCTION_NAME$()->route('show', ['id' => $item->id]));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('$VIEW_NAMESPACE$::show');
+        $response->assertSee($item->name);
+    }
+
+    /**
+     * Test that API demo endpoint returns correct JSON
+     */
+    public function test_api_demo_endpoint_returns_json(): void
+    {
+        $response = $this->getJson($HELPER_FUNCTION_NAME$()->route('api-demo'));
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'message' => 'API is working correctly',
+        ]);
+        $response->assertJsonStructure([
+            'success',
+            'message',
+            'package_info',
+            'helper_api',
+            'timestamp',
+        ]);
+    }
+
+    /**
+     * Test that helper function is available and works
+     */
+    public function test_helper_function_is_available(): void
+    {
+        $this->assertTrue(function_exists('$HELPER_FUNCTION_NAME$'));
+
+        $helper = $HELPER_FUNCTION_NAME$();
+        $this->assertInstanceOf(\Simtabi\Laranail\PackageTools\Support\FluentPackageHelper::class, $helper);
+    }
+
+    /**
+     * Test helper config method
+     */
+    public function test_helper_config_method_works(): void
+    {
+        config(['$CONFIG_NAMESPACE$.test_key' => 'test_value']);
+
+        $value = $HELPER_FUNCTION_NAME$()->config('test_key');
+        $this->assertEquals('test_value', $value);
+
+        // Test shortcut syntax
+        $value = $HELPER_FUNCTION_NAME$('test_key');
+        $this->assertEquals('test_value', $value);
+    }
+
+    /**
+     * Test helper enabled method
+     */
+    public function test_helper_enabled_method_works(): void
+    {
+        config(['$CONFIG_NAMESPACE$.enabled' => true]);
+        $this->assertTrue($HELPER_FUNCTION_NAME$()->enabled());
+
+        config(['$CONFIG_NAMESPACE$.enabled' => false]);
+        $this->assertFalse($HELPER_FUNCTION_NAME$()->enabled());
+    }
+
+    /**
+     * Test view namespace is correct
+     */
+    public function test_view_namespace_is_correct(): void
+    {
+        $this->assertEquals('$VIEW_NAMESPACE$', $HELPER_FUNCTION_NAME$()->viewNamespace());
+    }
+
+    /**
+     * Test translation namespace is correct
+     */
+    public function test_translation_namespace_is_correct(): void
+    {
+        $this->assertEquals('$TRANSLATION_NAMESPACE$', $HELPER_FUNCTION_NAME$()->translationNamespace());
+    }
+
+    /**
+     * Test CRUD operations work correctly
+     */
+    public function test_create_operation_works(): void
+    {
+        $data = ['name' => 'Test Item'];
+
+        $response = $this->postJson($HELPER_FUNCTION_NAME$()->route('index'), $data);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('$TABLE_NAME$', $data);
+    }
+
+    public function test_read_operation_works(): void
+    {
+        $item = $MODEL_NAME$::factory()->create();
+
+        $response = $this->getJson($HELPER_FUNCTION_NAME$()->route('show', ['id' => $item->id]));
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'data' => [
+                'id' => $item->id,
+                'name' => $item->name,
+            ],
+        ]);
+    }
+
+    public function test_update_operation_works(): void
+    {
+        $item = $MODEL_NAME$::factory()->create();
+        $newData = ['name' => 'Updated Name'];
+
+        $response = $this->putJson($HELPER_FUNCTION_NAME$()->route('show', ['id' => $item->id]), $newData);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('$TABLE_NAME$', array_merge(['id' => $item->id], $newData));
+    }
+
+    public function test_delete_operation_works(): void
+    {
+        $item = $MODEL_NAME$::factory()->create();
+
+        $response = $this->deleteJson($HELPER_FUNCTION_NAME$()->route('show', ['id' => $item->id]));
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('$TABLE_NAME$', ['id' => $item->id]);
+    }
+
+    /**
+     * Test that package routes are properly prefixed
+     */
+    public function test_routes_use_correct_prefix(): void
+    {
+        $url = $HELPER_FUNCTION_NAME$()->route('index');
+        $this->assertStringContainsString('/$ROUTE_PREFIX$/', $url);
+    }
+
+    /**
+     * Test translations work correctly
+     */
+    public function test_translations_work(): void
+    {
+        $translation = __('$TRANSLATION_NAMESPACE$::messages.welcome');
+        $this->assertIsString($translation);
+        $this->assertNotEmpty($translation);
+    }
+
+    /**
+     * Test that package assets are accessible
+     */
+    public function test_package_assets_path_is_correct(): void
+    {
+        $assetPath = $HELPER_FUNCTION_NAME$()->asset('test.css');
+        $this->assertStringContainsString('vendor/$PACKAGE_KEBAB$/', $assetPath);
+    }
+}
+

@@ -1,0 +1,85 @@
+/**
+ * $PACKAGE_TITLE$ - Main Stylesheet
+ *
+ * @package $ROOT_CLASS_NAMESPACE$
+ */
+
+/* ============================================
+   Variables & Configuration
+   ============================================ */
+:root {
+    --$PACKAGE_KEBAB$-primary-color: #3490dc;
+    --$PACKAGE_KEBAB$-secondary-color: #6c757d;
+    --$PACKAGE_KEBAB$-success-color: #38c172;
+    --$PACKAGE_KEBAB$-danger-color: #e3342f;
+    --$PACKAGE_KEBAB$-warning-color: #ffed4e;
+    --$PACKAGE_KEBAB$-info-color: #6cb2eb;
+    
+    --$PACKAGE_KEBAB$-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --$PACKAGE_KEBAB$-border-radius: 0.25rem;
+    --$PACKAGE_KEBAB$-spacing: 1rem;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+.$PACKAGE_KEBAB$ {
+    font-family: var(--$PACKAGE_KEBAB$-font-family);
+}
+
+.$PACKAGE_KEBAB$-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--$PACKAGE_KEBAB$-spacing);
+}
+
+/* ============================================
+   Components
+   ============================================ */
+.$PACKAGE_KEBAB$-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--$PACKAGE_KEBAB$-primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--$PACKAGE_KEBAB$-border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.$PACKAGE_KEBAB$-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.$PACKAGE_KEBAB$-card {
+    background: white;
+    border-radius: var(--$PACKAGE_KEBAB$-border-radius);
+    padding: var(--$PACKAGE_KEBAB$-spacing);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Utilities
+   ============================================ */
+.$PACKAGE_KEBAB$-hidden {
+    display: none !important;
+}
+
+.$PACKAGE_KEBAB$-text-center {
+    text-align: center;
+}
+
+.$PACKAGE_KEBAB$-mt-1 { margin-top: calc(var(--$PACKAGE_KEBAB$-spacing) * 0.5); }
+.$PACKAGE_KEBAB$-mt-2 { margin-top: var(--$PACKAGE_KEBAB$-spacing); }
+.$PACKAGE_KEBAB$-mt-3 { margin-top: calc(var(--$PACKAGE_KEBAB$-spacing) * 1.5); }
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+    .$PACKAGE_KEBAB$-container {
+        padding: calc(var(--$PACKAGE_KEBAB$-spacing) * 0.5);
+    }
+}
+

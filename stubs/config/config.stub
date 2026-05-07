@@ -1,0 +1,19 @@
+<?php
+
+return [
+    
+    /*
+    |--------------------------------------------------------------------------
+    | $PACKAGE_TITLE$ Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configuration options for $PACKAGE_NAME$ package
+    |
+    */
+
+    'enabled' => env('$CONSTANT_NAME$_ENABLED', true),
+
+    // Add your configuration options here
+
+];
+

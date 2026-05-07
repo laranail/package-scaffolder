@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{namespace}}\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model as BaseModel;
+
+/**
+ * {{model_name}} Model
+ * 
+ * @package {{namespace}}\Models
+ */
+class {{model_name}} extends BaseModel
+{
+    use HasFactory;
+    
+    protected $fillable = [];
+    
+    protected $casts = [];
+}

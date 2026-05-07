@@ -1,0 +1,28 @@
+{
+    "name": "$COMPOSER_NAME$",
+    "version": "1.0.0",
+    "description": "$DESCRIPTION$",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "watch": "vite build --watch"
+    },
+    "keywords": [
+        "laravel",
+        "package",
+        "$PACKAGE_KEBAB$"
+    ],
+    "author": "$AUTHOR_NAME$ <$AUTHOR_EMAIL$>",
+    "license": "$LICENSE$",
+    "devDependencies": {
+        "vite": "^5.0.0",
+        "laravel-vite-plugin": "^1.0.0",
+        "autoprefixer": "^10.4.16",
+        "postcss": "^8.4.32"
+    },
+    "dependencies": {
+    }
+}
+

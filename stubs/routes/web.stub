@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Support\Facades\Route;
+use {{namespace}}\Http\Controllers\{{controller_name}};
+
+Route::prefix('{{package}}')->group(function () {
+    Route::get('/', [{{controller_name}}::class, 'index'])->name('{{package}}.index');
+});

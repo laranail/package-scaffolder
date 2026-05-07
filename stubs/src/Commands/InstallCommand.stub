@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{namespace}}\Commands;
+
+use Illuminate\Console\Command;
+
+/**
+ * Install Command
+ * 
+ * @package {{namespace}}\Commands
+ */
+class InstallCommand extends Command
+{
+    protected $signature = '{{package}}:install';
+    
+    protected $description = 'Install {{package_studly}} package';
+    
+    public function handle(): int
+    {
+        $this->info('Installing {{package_studly}}...');
+        
+        // Publish configuration
+        $this->call('vendor:publish', [
+            '--tag' => '{{package}}-config',
+        ]);
+        
+        $this->info('{{package_studly}} installed successfully!');
+        
+        return self::SUCCESS;
+    }
+}

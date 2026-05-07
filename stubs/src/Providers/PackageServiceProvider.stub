@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{namespace}}\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Simtabi\Laranail\PackageTools\Package;
+
+/**
+ * {{package_studly}} Service Provider
+ *
+ * Registers package services, publishes assets, and boots the package.
+ *
+ * @package {{namespace}}\Providers
+ * @author {{author_name}} <{{author_email}}>
+ */
+class {{package_studly}}ServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        // Merge package configuration
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/{{package}}.php',
+            '{{package}}'
+        );
+
+        // Register package services
+        $this->registerServices();
+    }
+
+    public function boot(): void
+    {
+        // Configure package using fluent API
+        $package = new Package('{{vendor}}/{{package}}');
+
+        $package
+            ->name('{{package}}')
+            ->hasConfigFile()
+            ->hasViews()
+            ->hasTranslations()
+            ->hasMigrations()
+            ->hasRoutes('web')
+            ->hasCommands([
+                // \{{namespace}}\Commands\InstallCommand::class,
+            ]);
+
+        // Register and boot the package
+        $package->register($this);
+        $package->boot($this);
+    }
+
+    protected function registerServices(): void
+    {
+        // Register package services here
+    }
+}

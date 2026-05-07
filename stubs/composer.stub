@@ -1,0 +1,42 @@
+{
+    "name": "$COMPOSER_NAME$",
+    "description": "$DESCRIPTION$",
+    "type": "library",
+    "license": "$LICENSE$",
+    "authors": [
+        {
+            "name": "$AUTHOR_NAME$",
+            "email": "$AUTHOR_EMAIL$",
+            "homepage": "$AUTHOR_HOMEPAGE$",
+            "role": "$AUTHOR_ROLE$"
+        }
+    ],
+    "require": {
+        "php": "^8.0|^8.1|^8.2",
+        "illuminate/support": "^9.0|^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.5|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "$PSR4_NAMESPACE$": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "$PSR4_NAMESPACE$Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "$ROOT_CLASS_NAMESPACE$\\Providers\\$PACKAGE_STUDLY$ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+

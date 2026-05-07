@@ -1,0 +1,7 @@
+# Security Policy
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability within {{package_studly}}, please send an email to {{author_email}}. All security vulnerabilities will be promptly addressed.
+
+Please do not open an issue on GitHub for security vulnerabilities.

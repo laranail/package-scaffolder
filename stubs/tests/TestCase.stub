@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{namespace}}\Tests;
+
+use Orchestra\Testbench\TestCase as Orchestra;
+use {{namespace}}\Providers\{{package_studly}}ServiceProvider;
+
+abstract class TestCase extends Orchestra
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        // Additional setup
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            {{package_studly}}ServiceProvider::class,
+        ];
+    }
+
+    protected function getEnvironmentSetUp($app): void
+    {
+        // Setup test environment
+        config()->set('database.default', 'testing');
+    }
+}

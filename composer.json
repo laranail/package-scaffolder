@@ -1,0 +1,86 @@
+{
+    "name": "laranail/package-scaffolder",
+    "description": "Artisan command suite + 139 stubs for scaffolding new Laravel packages — generated packages extend laranail/package-tools.",
+    "keywords": [
+        "laravel",
+        "package-scaffolder",
+        "package-generator",
+        "scaffolding",
+        "laranail",
+        "stubs"
+    ],
+    "homepage": "https://opensource.simtabi.com/package-scaffolder/docs/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simtabi",
+            "email": "hello@simtabi.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3 || ^8.4",
+        "laranail/package-tools": "^1.0@dev",
+        "illuminate/contracts": "^13.0",
+        "symfony/process": "^7.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^3.0",
+        "phpunit/phpunit": "^11.0",
+        "spatie/pest-plugin-test-time": "^2.2",
+        "phpstan/phpstan": "^2.0",
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.18",
+        "rector/rector": "^2.0",
+        "roave/security-advisories": "dev-latest"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/laranail/package-tools.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Simtabi\\Laranail\\PackageScaffolder\\": "src/Scaffolder/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Simtabi\\Laranail\\PackageScaffolder\\Providers\\ScaffolderServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Simtabi\\Laranail\\PackageScaffolder\\Tests\\": "tests/Scaffolder/"
+        }
+    },
+    "scripts": {
+        "setup": "bash scripts/init.sh",
+        "test": "vendor/bin/pest --colors=always",
+        "test-coverage": "@test --coverage",
+        "test-dirty": "@test --dirty --compact",
+        "lint": ["@pint", "@phpstan", "@rector"],
+        "pint": "vendor/bin/pint --test",
+        "pint-fix": "vendor/bin/pint",
+        "phpstan": "vendor/bin/phpstan analyse --no-progress",
+        "rector": "vendor/bin/rector process --dry-run",
+        "rector-fix": "vendor/bin/rector process",
+        "audit": "@composer audit"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

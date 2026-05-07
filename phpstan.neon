@@ -1,0 +1,31 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    # Level 5 — catches real bugs (undefined methods, wrong types in
+    # internal calls, dead code) without forcing per-call casts on every
+    # Artisan `$this->argument(...)`. The scaffolder is a tower of those.
+    level: 5
+    paths:
+        - src
+    excludePaths:
+        - vendor
+    ignoreErrors:
+        # Scaffolder-time leaf traits that consumers can use directly via
+        # `use HasGitOperations;` etc. — never internally referenced.
+        -
+            identifier: trait.unused
+            path: src/Scaffolder/Concerns/Package/*
+        # `new static()` from non-final scaffolder helpers; the late-binding
+        # is intentional so subclasses produce subclass instances.
+        -
+            identifier: new.static
+            paths:
+                - src/Scaffolder/Support/PlaceholderResolver.php
+                - src/Scaffolder/Support/StubGenerator.php
+        # Defensive `empty()` after a guaranteed-set assignment in StubService;
+        # narrowing the type would lose the legitimate "value is falsy" check.
+        -
+            identifier: empty.variable
+            path: src/Scaffolder/Services/StubService.php
+    treatPhpDocTypesAsCertain: false

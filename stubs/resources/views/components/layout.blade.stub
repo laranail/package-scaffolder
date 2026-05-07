@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <title>{{ $title ?? config('$CONFIG_NAMESPACE$.name', '$PACKAGE_TITLE$') }}</title>
+    
+    {{-- Vite Assets --}}
+    @vite(['resources/assets/styles/app.css', 'resources/assets/scripts/app.js'], '$COMPOSER_NAME$')
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f7fafc;
+            color: #2d3748;
+        }
+        .package-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .package-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        .package-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .package-header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        .package-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .package-footer {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            color: #718096;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        @stack('styles')
+    </style>
+    
+    @stack('head')
+</head>
+<body>
+    <div class="package-container">
+        {{-- Header --}}
+        <header class="package-header">
+            <h1>{{ $headerTitle ?? '$PACKAGE_TITLE$' }}</h1>
+            <p>{{ $headerSubtitle ?? 'Laravel Package' }}</p>
+        </header>
+
+        {{-- Main Content --}}
+        <main class="package-content">
+            {{ $slot }}
+        </main>
+
+        {{-- Footer --}}
+        <footer class="package-footer">
+            <p>
+                Powered by <strong>$PACKAGE_TITLE$</strong> | 
+                Generated with Laranail Packager v2.0
+            </p>
+        </footer>
+    </div>
+
+    @stack('scripts')
+</body>
+</html>
+

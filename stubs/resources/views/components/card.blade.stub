@@ -1,0 +1,40 @@
+<div {{ $attributes->merge(['class' => 'demo-card']) }}>
+    @if(isset($title))
+    <h3 class="card-title">{{ $title }}</h3>
+    @endif
+    
+    {{ $slot }}
+</div>
+
+<style>
+    .demo-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        background: #f7fafc;
+        height: 100%;
+    }
+    .card-title {
+        color: #4a5568;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    .demo-card p {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+    .demo-card strong {
+        color: #2d3748;
+    }
+    .demo-card code {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.9rem;
+        font-family: 'Monaco', 'Courier New', monospace;
+    }
+</style>
+
