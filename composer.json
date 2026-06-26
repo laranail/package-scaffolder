@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^8.3 || ^8.4",
-        "laranail/package-tools": "^1.0@dev",
+        "laranail/package-tools": "^1.0",
         "illuminate/contracts": "^13.0",
         "symfony/process": "^7.0"
     },
