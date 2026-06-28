@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\PackageScaffolder\Support;
 
 use Illuminate\Support\Facades\File;
-use Simtabi\Laranail\PackageTools\Exceptions\InvalidPath;
-use Simtabi\Laranail\PackageTools\Support\PathResolver;
+use Simtabi\Laranail\Package\Tools\Exceptions\InvalidPath;
+use Simtabi\Laranail\Package\Tools\Support\PathResolver;
 
 /**
  * StubGenerator - Generates files from stub templates

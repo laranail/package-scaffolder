@@ -19,10 +19,10 @@
         }
     ],
     "require": {
-        "php": "^8.3 || ^8.4",
+        "php": "^8.4.1 || ^8.5",
         "laranail/package-tools": "^1.0",
         "illuminate/contracts": "^13.0",
-        "symfony/process": "^7.0"
+        "symfony/process": "^7.0 || ^8.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.6",
@@ -36,12 +36,6 @@
         "rector/rector": "^2.0",
         "roave/security-advisories": "dev-latest"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/laranail/package-tools.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "Simtabi\\Laranail\\PackageScaffolder\\": "src/Scaffolder/"

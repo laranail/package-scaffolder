@@ -6,7 +6,7 @@ namespace Simtabi\Laranail\PackageScaffolder\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Simtabi\Laranail\PackageTools\Services\Package\PackageValidator;
+use Simtabi\Laranail\Package\Tools\Services\Package\PackageValidator;
 
 /**
  * PackageValidateCommand - Validate package structure and configuration

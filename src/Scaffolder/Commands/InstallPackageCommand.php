@@ -6,8 +6,8 @@ namespace Simtabi\Laranail\PackageScaffolder\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Simtabi\Laranail\PackageTools\Concerns\Package\ManagesComposer;
-use Simtabi\Laranail\PackageTools\Support\PathResolver;
+use Simtabi\Laranail\Package\Tools\Concerns\Package\ManagesComposer;
+use Simtabi\Laranail\Package\Tools\Support\PathResolver;
 
 /**
  * InstallPackageCommand - Install a local package via composer

@@ -7,10 +7,10 @@ namespace Simtabi\Laranail\PackageScaffolder\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Simtabi\Laranail\Package\Tools\Support\PathResolver;
+use Simtabi\Laranail\Package\Tools\Validation\ValidClassNameRule;
 use Simtabi\Laranail\PackageScaffolder\Support\PlaceholderResolver;
 use Simtabi\Laranail\PackageScaffolder\Support\StubGenerator;
-use Simtabi\Laranail\PackageTools\Support\PathResolver;
-use Simtabi\Laranail\PackageTools\Validation\ValidClassNameRule;
 
 /**
  * GeneratePackageCommand - Generate a new Laravel package from stubs

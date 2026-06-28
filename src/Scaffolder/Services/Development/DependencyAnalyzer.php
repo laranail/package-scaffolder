@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\PackageScaffolder\Services\Development;
 
 use Illuminate\Support\Facades\File;
-use Simtabi\Laranail\PackageTools\Contracts\AnalyzerInterface;
+use Simtabi\Laranail\Package\Tools\Contracts\AnalyzerInterface;
 
 /**
  * DependencyAnalyzer - Dependency analysis

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\PackageScaffolder\Services\Development;
 
 use Illuminate\Support\Facades\File;
-use Simtabi\Laranail\PackageTools\Support\PathResolver;
+use Simtabi\Laranail\Package\Tools\Support\PathResolver;
 
 /**
  * TestPublisher - Test file publishing
