@@ -1,22 +1,41 @@
 {
-    "name": "nwidart/laravel-modules",
-    "description": "Laravel Module management",
+    "name": "laranail/package-scaffolder",
+    "description": "Modular (HMVC) application scaffolding for Laravel — generate, manage and migrate self-contained modules. A laranail fork of nwidart/laravel-modules.",
     "keywords": [
         "modules",
         "laravel",
-        "nwidart",
+        "laranail",
         "module",
+        "hmvc",
+        "scaffolding",
         "rad"
     ],
+    "homepage": "https://opensource.simtabi.com/package-scaffolder/",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Simtabi LLC",
+            "email": "opensource@simtabi.com",
+            "homepage": "https://opensource.simtabi.com",
+            "role": "Organization"
+        },
+        {
+            "name": "Imani Manyara",
+            "email": "imani@simtabi.com",
+            "role": "Maintainer"
+        },
         {
             "name": "Nicolas Widart",
             "email": "n.widart@gmail.com",
             "homepage": "https://nicolaswidart.com",
-            "role": "Developer"
+            "role": "Original author (nwidart/laravel-modules)"
         }
     ],
+    "support": {
+        "issues": "https://github.com/laranail/package-scaffolder/issues",
+        "source": "https://github.com/laranail/package-scaffolder",
+        "docs": "https://opensource.simtabi.com/package-scaffolder/docs/"
+    },
     "require": {
         "php": "^8.3",
         "ext-dom": "*",
@@ -25,7 +44,7 @@
         "wikimedia/composer-merge-plugin": "^2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^12.0.",
+        "phpunit/phpunit": "^12.0",
         "mockery/mockery": "^1.6",
         "orchestra/testbench": "^11.0",
         "friendsofphp/php-cs-fixer": "^v3.52",

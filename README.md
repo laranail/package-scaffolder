@@ -1,9 +1,8 @@
-# Laravel-Modules
+# Package Scaffolder
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/nwidart/laravel-modules.svg?style=flat-square)](https://packagist.org/packages/nwidart/laravel-modules)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/laranail/package-scaffolder.svg?style=flat-square)](https://packagist.org/packages/laranail/package-scaffolder)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/nWidart/laravel-modules.svg?maxAge=86400&style=flat-square)](https://scrutinizer-ci.com/g/nWidart/laravel-modules/?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/nwidart/laravel-modules.svg?style=flat-square)](https://packagist.org/packages/nwidart/laravel-modules)
+[![Total Downloads](https://img.shields.io/packagist/dt/laranail/package-scaffolder.svg?style=flat-square)](https://packagist.org/packages/laranail/package-scaffolder)
 
 | **Laravel** | **laravel-modules** |
 |-------------|---------------------|
@@ -21,18 +20,19 @@
 | 12.0        | ^12.0               |
 | 13.0        | ^13.0               |
 
-`nwidart/laravel-modules` is a Laravel package created to manage your large Laravel app using modules. A Module is like a Laravel package, it has some views, controllers or models. This package is supported and tested in Laravel 11.
+`laranail/package-scaffolder` is a Laravel package for managing a large Laravel app
+as a set of modules (HMVC). A module is like a mini Laravel package — it has its own
+views, controllers, models, migrations and service providers.
 
-This package is a re-published, re-organised and maintained version of [pingpong/modules](https://github.com/pingpong-labs/modules), which isn't maintained anymore.
-
-With one big bonus that the original package didn't have: **tests**.
+This is a laranail fork of [`nwidart/laravel-modules`](https://github.com/nWidart/laravel-modules)
+(itself derived from `pingpong/modules`), maintained by Simtabi LLC.
 
 ## Install
 
 To install via Composer, run:
 
 ``` bash
-composer require nwidart/laravel-modules
+composer require laranail/package-scaffolder
 ```
 
 The package will automatically register a service provider and alias.
@@ -40,7 +40,7 @@ The package will automatically register a service provider and alias.
 Optionally, publish the package's configuration file by running:
 
 ``` bash
-php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider"
+php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider"
 ```
 
 ### Autoloading
@@ -90,18 +90,15 @@ Answer `y` to allow the plugin to be executed. Otherwise, you will need to manua
 
 ## Documentation
 
-You'll find installation instructions and full documentation on [https://laravelmodules.com/](https://laravelmodules.com/docs).
+You'll find documentation on [https://opensource.simtabi.com/package-scaffolder/docs/](https://opensource.simtabi.com/package-scaffolder/docs/).
 
-## Community
-
-We also have a Discord community. [https://discord.gg/hkF7BRvRZK](https://discord.gg/hkF7BRvRZK) For quick help, ask questions in the appropriate channel.
+For the upstream package this fork is based on, see [laravelmodules.com](https://laravelmodules.com/docs).
 
 ## Credits
 
-- [Nicolas Widart](https://github.com/nwidart)
-- [David Carr](https://github.com/dcblogdev)
-- [gravitano](https://github.com/gravitano)
-- [All Contributors](../../contributors)
+- [Simtabi LLC](https://github.com/simtabi)
+- [Imani Manyara](https://github.com/imanimanyara)
+- [Nicolas Widart](https://github.com/nwidart) and the [laravel-modules contributors](https://github.com/nWidart/laravel-modules/graphs/contributors) (upstream)
 
 ## License
 

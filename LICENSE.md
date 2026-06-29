@@ -1,5 +1,7 @@
 # The MIT License (MIT)
 
+Copyright (c) 2026 Simtabi LLC <opensource@simtabi.com>
+
 Copyright (c) 2014 Pingpong Labs
 
 Copyright (c) 2016 Nicolas Widart bvba <n.widart@gmail.com>
