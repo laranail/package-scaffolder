@@ -1,10 +1,18 @@
 # Changelog
 
-All Notable changes to `laravel-modules` will be documented in this file.
-
-See https://github.com/nWidart/laravel-modules/releases for the latest releases.
+All Notable changes to `laranail/package-scaffolder` (a fork of
+`nwidart/laravel-modules`) will be documented in this file.
 
 ## Next
+
+### Rebrand to `laranail/package-scaffolder` (breaking)
+
+- Renamed the package from `nwidart/laravel-modules` to `laranail/package-scaffolder` (Simtabi LLC), with updated metadata, URLs, LICENSE copyright and required files.
+- Renamed the PHP root namespace `Nwidart\Modules\` → `Simtabi\Laranail\Package\Scaffolder\`. Update your imports and the published service-provider reference (`Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider`). The user-facing module namespace (`Modules\`, config-driven) is unchanged.
+- Renamed all Artisan commands to the `laranail::package-scaffolder.*` shape (e.g. `laranail::package-scaffolder.make`). The previous `module:*` names are kept as **aliases**, so existing scripts keep working.
+- Raised the PHP floor to `^8.4.1 || ^8.5` (CI matrix 8.4 / 8.5) — required by the `laranail/console` command base used for the `::` naming.
+
+### Fixes & features
 
 - Fixed generator namespaces being corrupted when stripping the app folder prefix: `ltrim($path, $appFolder)` treated the app folder as a character mask, so paths like `app/api` became `pi` and custom `app_folder` values (e.g. `src/`) were mishandled. Now stripped as a proper prefix via `PathNamespace::strip_app_folder()` (#2164, #2124, #2152).
 - Prevented a fatal error in the `module_path()` helper when the module registry is not yet resolved; it now falls back to the configured modules path (#2158).
