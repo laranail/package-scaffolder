@@ -111,8 +111,18 @@ class SeedCommand extends BaseCommand
 
             $class = implode('\\', array_map('ucwords', explode('\\', $class)));
 
+            // Derive the seeder from the module's real namespace (its own
+            // composer.json psr-4), so modules in custom scan paths whose
+            // namespace differs from the default are still discovered (#1861).
+            $moduleClass = $this->getModuleSeederName($module);
+            $moduleClass = $moduleClass !== null
+                ? implode('\\', array_map('ucwords', explode('\\', $moduleClass)))
+                : null;
+
             if (class_exists($class)) {
                 $seeders[] = $class;
+            } elseif ($moduleClass !== null && class_exists($moduleClass)) {
+                $seeders[] = $moduleClass;
             } else {
                 // look at other namespaces
                 $classes = $this->getSeederNames($name);
@@ -169,6 +179,44 @@ class SeedCommand extends BaseCommand
         $seederPath = str_replace('/', '\\', $config->getPath());
 
         return $namespace.'\\'.$name.'\\'.$seederPath.'\\'.$name.'DatabaseSeeder';
+    }
+
+    /**
+     * Get the master seeder name using the module's real root namespace,
+     * resolved from its own composer.json psr-4 mapping (#1861).
+     */
+    public function getModuleSeederName(Module $module): ?string
+    {
+        $namespace = $this->getModuleNamespace($module);
+
+        if ($namespace === null) {
+            return null;
+        }
+
+        $seederPath = str_replace('/', '\\', GenerateConfigReader::read('seeder')->getPath());
+
+        return $namespace.'\\'.$seederPath.'\\'.Str::studly($module->getName()).'DatabaseSeeder';
+    }
+
+    /**
+     * Resolve a module's root namespace from its composer.json psr-4 autoload.
+     */
+    public function getModuleNamespace(Module $module): ?string
+    {
+        $psr4 = (array) data_get($module->getComposerAttr('autoload', []), 'psr-4', []);
+        $appFolder = trim((string) config('modules.paths.app_folder', ''), '/');
+
+        foreach ($psr4 as $namespace => $path) {
+            // The module root maps to the app folder ('app/'), the module root
+            // ('' or '.'), so this is the namespace classes live under.
+            $cleaned = trim((string) $path, './');
+
+            if ($cleaned === '' || $cleaned === $appFolder) {
+                return rtrim($namespace, '\\');
+            }
+        }
+
+        return null;
     }
 
     /**
