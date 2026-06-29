@@ -11,6 +11,7 @@ See https://github.com/nWidart/laravel-modules/releases for the latest releases.
 - Added configurable web/api route generation: set `paths.generator.routes.web`/`api` to `false` to omit the matching `map*Routes()` method from a module's RouteServiceProvider (#2110).
 - Fixed `PathNamespace::app_path()` so `app`, `app/`, `App` and a custom `app_folder` are handled consistently; a bare `app` no longer produces a duplicated path such as `src/app` (#2152).
 - Fixed `paths.generator.assets.generate = false` still creating the `resources/assets` directory: the asset stub files were written regardless of the flag (#2148).
+- Fixed `module:seed` reporting a failed seeder as `DONE`: the task callback returned `false`, which the console task component (strict `match` on `TaskResult::*->value`) renders as success; it now returns `TaskResult::Failure->value` (#2151).
 - [@omerbaflah](https://github.com/omerbaflah) Fixes Invokable Controller Stub
 - [@solomon-ochepa](https://github.com/solomon-ochepa) Added create module:make-class command
 
