@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Facades;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Facades;
 
-use Nwidart\Modules\Facades\Module;
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class ModuleFacadeTest extends BaseTestCase
 {

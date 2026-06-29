@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Actions;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Support\Collection;
-use Nwidart\Modules\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 
 class CheckLangCommand extends BaseCommand
 {

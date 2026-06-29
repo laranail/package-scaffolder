@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Actions;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
-use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Contracts\ConfirmableCommand;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 
 class ModuleDeleteCommand extends BaseCommand implements ConfirmableCommand
 {

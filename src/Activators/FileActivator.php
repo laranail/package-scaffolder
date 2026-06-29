@@ -1,13 +1,13 @@
 <?php
 
-namespace Nwidart\Modules\Activators;
+namespace Simtabi\Laranail\Package\Scaffolder\Activators;
 
 use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
-use Nwidart\Modules\Contracts\ActivatorInterface;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 class FileActivator implements ActivatorInterface
 {

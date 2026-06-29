@@ -1,14 +1,14 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Support\Facades\Event;
 use Modules\Recipe\Providers\DeferredServiceProvider;
 use Modules\Recipe\Providers\RecipeServiceProvider;
-use Nwidart\Modules\Constants\ModuleEvent;
-use Nwidart\Modules\Contracts\ActivatorInterface;
-use Nwidart\Modules\Json;
-use Nwidart\Modules\Laravel\Module;
+use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Json;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
 
 class LaravelModuleTest extends BaseTestCase
 {

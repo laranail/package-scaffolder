@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules\Support\Config;
+namespace Simtabi\Laranail\Package\Scaffolder\Support\Config;
 
 class GenerateConfigReader
 {

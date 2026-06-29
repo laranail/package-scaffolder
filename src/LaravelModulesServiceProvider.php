@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules;
+namespace Simtabi\Laranail\Package\Scaffolder;
 
 use Composer\InstalledVersions;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
@@ -11,13 +11,13 @@ use Illuminate\Foundation\Events\DiscoverEvents;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\Translation\Translator;
-use Nwidart\Modules\Contracts\ActivatorInterface;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Exceptions\InvalidActivatorClass;
-use Nwidart\Modules\Facades\Module;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\PathNamespace;
-use Nwidart\Modules\Traits\ResolvesModuleNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidActivatorClass;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ResolvesModuleNamespace;
 use SplFileInfo;
 
 class LaravelModulesServiceProvider extends ModulesServiceProvider

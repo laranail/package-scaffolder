@@ -2,7 +2,7 @@
 
 namespace Modules\Blog\Providers;
 
-use Nwidart\Modules\Support\ModuleServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Support\ModuleServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 
 class BlogServiceProvider extends ModuleServiceProvider

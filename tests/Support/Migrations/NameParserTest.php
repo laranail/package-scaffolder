@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Support\Migrations;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Support\Migrations;
 
-use Nwidart\Modules\Support\Migrations\NameParser;
 use PHPUnit\Framework\TestCase;
+use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\NameParser;
 
 class NameParserTest extends TestCase
 {

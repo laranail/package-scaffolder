@@ -2,9 +2,9 @@
 
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Vite as ViteFacade;
-use Nwidart\Modules\Exceptions\ModuleNotFoundException;
-use Nwidart\Modules\FileRepository;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
+use Simtabi\Laranail\Package\Scaffolder\FileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 if (! function_exists('module')) {
     /**

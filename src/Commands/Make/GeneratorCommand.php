@@ -1,12 +1,12 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Make;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Console\Command;
-use Nwidart\Modules\Exceptions\FileAlreadyExistException;
-use Nwidart\Modules\Generators\FileGenerator;
-use Nwidart\Modules\Module;
-use Nwidart\Modules\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\FileAlreadyExistException;
+use Simtabi\Laranail\Package\Scaffolder\Generators\FileGenerator;
+use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 
 abstract class GeneratorCommand extends Command
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Publish;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
-use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Symfony\Component\Console\Input\InputOption;
 
 class PublishConfigurationCommand extends BaseCommand

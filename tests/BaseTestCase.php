@@ -1,11 +1,11 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Foundation\Application;
-use Nwidart\Modules\LaravelModulesServiceProvider;
-use Nwidart\Modules\Providers\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Providers\ConsoleServiceProvider;
 
 abstract class BaseTestCase extends OrchestraTestCase
 {

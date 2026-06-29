@@ -1,25 +1,25 @@
 <?php
 
-namespace Nwidart\Modules\Facades;
+namespace Simtabi\Laranail\Package\Scaffolder\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Nwidart\Modules\Commands\Database\MigrateFreshCommand;
-use Nwidart\Modules\Commands\Database\MigrateRefreshCommand;
-use Nwidart\Modules\Commands\Database\MigrateResetCommand;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateFreshCommand;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateRefreshCommand;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateResetCommand;
 
 /**
  * @method static array all()
  * @method static array getCached()
  * @method static array scan()
- * @method static \Nwidart\Modules\Collection toCollection()
+ * @method static \Simtabi\Laranail\Package\Scaffolder\Collection toCollection()
  * @method static array getScanPaths()
  * @method static array allEnabled()
  * @method static array allDisabled()
  * @method static int count()
  * @method static array getOrdered($direction = 'asc')
  * @method static array getByStatus($status)
- * @method static \Nwidart\Modules\Module find(string $name)
- * @method static \Nwidart\Modules\Module findOrFail(string $name)
+ * @method static \Simtabi\Laranail\Package\Scaffolder\Module find(string $name)
+ * @method static \Simtabi\Laranail\Package\Scaffolder\Module findOrFail(string $name)
  * @method static string getModulePath($moduleName)
  * @method static \Illuminate\Filesystem\Filesystem getFiles()
  * @method static mixed config(string $key, $default = null)

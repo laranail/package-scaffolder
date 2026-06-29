@@ -1,14 +1,14 @@
 <?php
 
-namespace Nwidart\Modules\Commands;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Prohibitable;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Collection;
-use Nwidart\Modules\Contracts\ConfirmableCommand;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class HelpersTest extends BaseTestCase
 {

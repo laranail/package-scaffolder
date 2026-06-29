@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Publishing;
+namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class LangPublisher extends Publisher
 {

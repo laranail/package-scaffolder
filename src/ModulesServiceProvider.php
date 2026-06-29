@@ -1,13 +1,13 @@
 <?php
 
-namespace Nwidart\Modules;
+namespace Simtabi\Laranail\Package\Scaffolder;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Providers\ConsoleServiceProvider;
-use Nwidart\Modules\Providers\ContractsServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Providers\ConsoleServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Providers\ContractsServiceProvider;
 
 abstract class ModulesServiceProvider extends ServiceProvider
 {

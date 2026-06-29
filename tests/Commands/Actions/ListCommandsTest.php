@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Commands\Actions;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Actions;
 
 use Illuminate\Filesystem\Filesystem;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class ListCommandsTest extends BaseTestCase
 {

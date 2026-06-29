@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Nwidart\Modules\Collection;
-use Nwidart\Modules\Laravel\Module;
+use Simtabi\Laranail\Package\Scaffolder\Collection;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
 
 class CollectionTest extends BaseTestCase
 {

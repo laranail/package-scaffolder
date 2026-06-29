@@ -1,13 +1,13 @@
 <?php
 
-namespace Nwidart\Modules\Support;
+namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 
 abstract class ModuleServiceProvider extends ServiceProvider
 {

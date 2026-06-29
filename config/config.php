@@ -1,7 +1,7 @@
 <?php
 
-use Nwidart\Modules\Activators\FileActivator;
-use Nwidart\Modules\Providers\ConsoleServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
+use Simtabi\Laranail\Package\Scaffolder\Providers\ConsoleServiceProvider;
 
 return [
 
@@ -53,7 +53,7 @@ return [
             /**
              * Define custom replacements for each section.
              * You can now specify a class name that extends
-             * \Nwidart\Modules\Support\ReplacementKeyCommand for dynamic values.
+             * \Simtabi\Laranail\Package\Scaffolder\Support\ReplacementKeyCommand for dynamic values.
              *
              * Example:
              *

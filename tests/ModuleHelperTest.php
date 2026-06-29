@@ -1,12 +1,12 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 class ModuleHelperTest extends BaseTestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Publish;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
-use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Publishing\AssetPublisher;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Publishing\AssetPublisher;
 
 class PublishCommand extends BaseCommand
 {

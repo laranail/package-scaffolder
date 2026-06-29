@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules\Traits;
+namespace Simtabi\Laranail\Package\Scaffolder\Traits;
 
 trait ModuleCommandTrait
 {

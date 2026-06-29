@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Publish;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
-use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Migrations\Migrator;
-use Nwidart\Modules\Publishing\MigrationPublisher;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Migrations\Migrator;
+use Simtabi\Laranail\Package\Scaffolder\Publishing\MigrationPublisher;
 
 class PublishMigrationCommand extends BaseCommand
 {

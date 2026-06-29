@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules\Support;
+namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
 class Stub
 {

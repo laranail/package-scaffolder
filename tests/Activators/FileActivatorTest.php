@@ -1,11 +1,11 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Activators;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Activators;
 
 use Illuminate\Filesystem\Filesystem;
-use Nwidart\Modules\Activators\FileActivator;
-use Nwidart\Modules\Laravel\Module;
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class FileActivatorTest extends BaseTestCase

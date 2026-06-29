@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules\Exceptions;
+namespace Simtabi\Laranail\Package\Scaffolder\Exceptions;
 
 class InvalidAssetPath extends \Exception
 {

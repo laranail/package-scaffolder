@@ -1,13 +1,13 @@
 <?php
 
-namespace Nwidart\Modules\Commands;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Nwidart\Modules\Activators\FileActivator;
-use Nwidart\Modules\Constants\ModuleEvent;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
+use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class ModuleDeleteCommandTest extends BaseTestCase

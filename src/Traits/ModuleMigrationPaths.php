@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Traits;
+namespace Simtabi\Laranail\Package\Scaffolder\Traits;
 
 use Illuminate\Support\Collection;
-use Nwidart\Modules\Module;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 /**
  * Resolves the migration paths for a module so every migrate command

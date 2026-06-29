@@ -1,12 +1,12 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Commands\Database;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Database;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
-use Nwidart\Modules\Contracts\ActivatorInterface;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class ThrowingSeeder extends Seeder
 {

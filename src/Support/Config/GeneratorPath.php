@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Support\Config;
+namespace Simtabi\Laranail\Package\Scaffolder\Support\Config;
 
-use Nwidart\Modules\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 
 class GeneratorPath
 {

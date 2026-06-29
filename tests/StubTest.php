@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 
 class StubTest extends BaseTestCase
 {

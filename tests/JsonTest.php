@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Nwidart\Modules\Exceptions\InvalidJsonException;
-use Nwidart\Modules\Json;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
+use Simtabi\Laranail\Package\Scaffolder\Json;
 
 class JsonTest extends BaseTestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules;
+namespace Simtabi\Laranail\Package\Scaffolder;
 
-use Nwidart\Modules\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 
 class LumenModulesServiceProvider extends ModulesServiceProvider
 {

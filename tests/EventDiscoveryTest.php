@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Foundation\Events\DiscoverEvents;
-use Nwidart\Modules\Contracts\ActivatorInterface;
-use Nwidart\Modules\LaravelModulesServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider;
 use SplFileInfo;
 
 class EventDiscoveryTest extends BaseTestCase

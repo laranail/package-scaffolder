@@ -1,11 +1,11 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Actions;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Commands\BaseCommand;
 use ReflectionClass;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class ListCommands extends BaseCommand

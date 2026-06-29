@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules;
+namespace Simtabi\Laranail\Package\Scaffolder;
 
 use Countable;
 use Illuminate\Container\Container;
@@ -10,12 +10,12 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Laravel\Lumen\Application;
-use Nwidart\Modules\Constants\ModuleEvent;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Exceptions\InvalidAssetPath;
-use Nwidart\Modules\Exceptions\ModuleNotFoundException;
-use Nwidart\Modules\Process\Installer;
-use Nwidart\Modules\Process\Updater;
+use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidAssetPath;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
+use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
+use Simtabi\Laranail\Package\Scaffolder\Process\Updater;
 use Symfony\Component\Process\Process;
 
 abstract class FileRepository implements Countable, RepositoryInterface

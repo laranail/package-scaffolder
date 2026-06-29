@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use Nwidart\Modules\Support\ReplacementKeyCommand;
+use Simtabi\Laranail\Package\Scaffolder\Support\ReplacementKeyCommand;
 
 class $CLASS$ extends ReplacementKeyCommand
 {

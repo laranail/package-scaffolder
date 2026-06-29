@@ -1,5 +1,5 @@
 <?php
 
-namespace Nwidart\Modules\Contracts;
+namespace Simtabi\Laranail\Package\Scaffolder\Contracts;
 
 interface ConfirmableCommand {}

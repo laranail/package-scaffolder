@@ -1,11 +1,11 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Make;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
-use Nwidart\Modules\Contracts\ActivatorInterface;
-use Nwidart\Modules\Generators\ModuleGenerator;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Generators\ModuleGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

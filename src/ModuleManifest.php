@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules;
+namespace Simtabi\Laranail\Package\Scaffolder;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Nwidart\Modules\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 
 class ModuleManifest
 {

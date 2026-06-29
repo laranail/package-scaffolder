@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Contracts;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Contracts;
 
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Laravel\LaravelFileRepository;
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\LaravelFileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class RepositoryInterfaceTest extends BaseTestCase
 {

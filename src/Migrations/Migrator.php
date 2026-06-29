@@ -1,13 +1,13 @@
 <?php
 
-namespace Nwidart\Modules\Migrations;
+namespace Simtabi\Laranail\Package\Scaffolder\Migrations;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Module;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class Migrator
 {

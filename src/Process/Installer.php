@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Process;
+namespace Simtabi\Laranail\Package\Scaffolder\Process;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Symfony\Component\Process\Process;
 
 class Installer

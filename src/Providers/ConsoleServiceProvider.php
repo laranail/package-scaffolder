@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Providers;
+namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
-use Nwidart\Modules\Commands;
+use Simtabi\Laranail\Package\Scaffolder\Commands;
 
 class ConsoleServiceProvider extends ServiceProvider
 {

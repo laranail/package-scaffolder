@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Traits;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Traits;
 
-use Nwidart\Modules\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 
 class UsePathNamespaceTrait
 {

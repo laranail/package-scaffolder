@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Actions;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Console\Command;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 use Symfony\Component\Console\Input\InputOption;
 
 class ListCommand extends Command

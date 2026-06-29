@@ -1,11 +1,11 @@
 <?php
 
-namespace Nwidart\Modules\Contracts;
+namespace Simtabi\Laranail\Package\Scaffolder\Contracts;
 
 use Illuminate\Filesystem\Filesystem;
-use Nwidart\Modules\Collection;
-use Nwidart\Modules\Exceptions\ModuleNotFoundException;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Collection;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 interface RepositoryInterface
 {

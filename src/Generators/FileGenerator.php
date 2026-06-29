@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Generators;
+namespace Simtabi\Laranail\Package\Scaffolder\Generators;
 
 use Illuminate\Filesystem\Filesystem;
-use Nwidart\Modules\Exceptions\FileAlreadyExistException;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\FileAlreadyExistException;
 
 class FileGenerator extends Generator
 {

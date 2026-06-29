@@ -2,7 +2,7 @@
 
 namespace Modules\Blog\Console\Replacements\Api;
 
-use Nwidart\Modules\Support\ReplacementKeyCommand;
+use Simtabi\Laranail\Package\Scaffolder\Support\ReplacementKeyCommand;
 
 class Demo extends ReplacementKeyCommand
 {

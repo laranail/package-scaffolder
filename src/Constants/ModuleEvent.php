@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules\Constants;
+namespace Simtabi\Laranail\Package\Scaffolder\Constants;
 
 class ModuleEvent
 {

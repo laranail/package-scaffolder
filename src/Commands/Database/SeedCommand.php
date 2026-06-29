@@ -1,18 +1,18 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Database;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
 use ErrorException;
 use Illuminate\Console\View\TaskResult;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Module;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Nwidart\Modules\Traits\ResolvesModuleNamespace;
 use RuntimeException;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ResolvesModuleNamespace;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 

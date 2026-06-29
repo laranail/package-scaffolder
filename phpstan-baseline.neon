@@ -25,7 +25,7 @@ parameters:
 			path: src/Commands/Actions/CheckLangCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Actions\\CheckLangCommand\:\:getLangFiles\(\) is unused\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Actions\\CheckLangCommand\:\:getLangFiles\(\) is unused\.$#'
 			identifier: method.unused
 			count: 1
 			path: src/Commands/Actions/CheckLangCommand.php
@@ -37,25 +37,25 @@ parameters:
 			path: src/Commands/Actions/ListCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Actions\\ListCommands\:\:findCommands\(\) should return array\<string, array\<string, string\|null\>\> but returns list\<array\>\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Actions\\ListCommands\:\:findCommands\(\) should return array\<string, array\<string, string\|null\>\> but returns list\<array\>\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Actions/ListCommands.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Database\\MigrateFreshCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''direction'', ''d'', 4, ''The direction of…'', ''asc''\}, array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''seed'', null, 1, ''Indicates if the…''\}, array\{''pretend'', null, 1, ''Dump the SQL…''\}, array\{''drop\-views'', null, 1, ''Drop all tables and…''\}, array\{''drop\-types'', null, 1, ''Drop all tables and…''\}\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Database\\MigrateFreshCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''direction'', ''d'', 4, ''The direction of…'', ''asc''\}, array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''seed'', null, 1, ''Indicates if the…''\}, array\{''pretend'', null, 1, ''Dump the SQL…''\}, array\{''drop\-views'', null, 1, ''Drop all tables and…''\}, array\{''drop\-types'', null, 1, ''Drop all tables and…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Database/MigrateFreshCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Database\\MigrateRefreshCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''seed'', null, 1, ''Indicates if the…''\}\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Database\\MigrateRefreshCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''seed'', null, 1, ''Indicates if the…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Database/MigrateRefreshCommand.php
 
 		-
-			message: '#^Call to an undefined method Nwidart\\Modules\\Contracts\\RepositoryInterface\:\:has\(\)\.$#'
+			message: '#^Call to an undefined method Simtabi\\Laranail\\Package\\Scaffolder\\Contracts\\RepositoryInterface\:\:has\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: src/Commands/Database/SeedCommand.php
@@ -67,79 +67,79 @@ parameters:
 			path: src/Commands/Database/SeedCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ActionMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ActionMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/ActionMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\CastMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\CastMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/CastMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ControllerMakeCommand\:\:getControllerNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ControllerMakeCommand\:\:getControllerNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/ControllerMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\EnumMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\EnumMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/EnumMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\EventProviderMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\EventProviderMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/EventProviderMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ExceptionMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ExceptionMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/ExceptionMakeCommand.php
 
 		-
-			message: '#^Call to an undefined method Nwidart\\Modules\\Commands\\Make\\GeneratorCommand\:\:getModuleName\(\)\.$#'
+			message: '#^Call to an undefined method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\GeneratorCommand\:\:getModuleName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: src/Commands/Make/GeneratorCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\HelperMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\HelperMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/HelperMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\InertiaComponentMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Create a Vue…''\}, array\{''react'', null, 1, ''Create a React…''\}, array\{''svelte'', null, 1, ''Create a Svelte…''\}\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\InertiaComponentMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Create a Vue…''\}, array\{''react'', null, 1, ''Create a React…''\}, array\{''svelte'', null, 1, ''Create a Svelte…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/InertiaComponentMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\InertiaPageMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Create a Vue…''\}, array\{''react'', null, 1, ''Create a React…''\}, array\{''svelte'', null, 1, ''Create a Svelte…''\}\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\InertiaPageMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Create a Vue…''\}, array\{''react'', null, 1, ''Create a React…''\}, array\{''svelte'', null, 1, ''Create a Svelte…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/InertiaPageMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\InterfaceMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\InterfaceMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/InterfaceMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ModelMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''all'', ''a'', 1, ''Flag to create all…'', null\}, array\{''controller'', ''c'', 1, ''Flag to create…'', null\}, array\{''fillable'', null, 4, ''The fillable…'', null\}, array\{''factory'', ''f'', 1, ''Create a new…'', null\}, array\{''migration'', ''m'', 1, ''Flag to create…'', null\}, array\{''request'', ''r'', 1, ''Create a new…'', null\}, array\{''resource'', ''R'', 1, ''Create a new…'', null\}, array\{''policy'', ''p'', 1, ''Create a new policy…'', null\}, \.\.\.\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ModelMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''all'', ''a'', 1, ''Flag to create all…'', null\}, array\{''controller'', ''c'', 1, ''Flag to create…'', null\}, array\{''fillable'', null, 4, ''The fillable…'', null\}, array\{''factory'', ''f'', 1, ''Create a new…'', null\}, array\{''migration'', ''m'', 1, ''Flag to create…'', null\}, array\{''request'', ''r'', 1, ''Create a new…'', null\}, array\{''resource'', ''R'', 1, ''Create a new…'', null\}, array\{''policy'', ''p'', 1, ''Create a new policy…'', null\}, \.\.\.\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/ModelMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ModuleMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''plain'', ''p'', 1, ''Generate a plain…''\}, array\{''api'', null, 1, ''Generate an api…''\}, array\{''web'', null, 1, ''Generate a web…''\}, array\{''inertia'', null, 1, ''Generate an Inertia…''\}, array\{''disabled'', ''d'', 1, ''Do not enable the…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''author\-name'', null, 4, ''Author name\.''\}, array\{''author\-email'', null, 4, ''Author email\.''\}, \.\.\.\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ModuleMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''plain'', ''p'', 1, ''Generate a plain…''\}, array\{''api'', null, 1, ''Generate an api…''\}, array\{''web'', null, 1, ''Generate a web…''\}, array\{''inertia'', null, 1, ''Generate an Inertia…''\}, array\{''disabled'', ''d'', 1, ''Do not enable the…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''author\-name'', null, 4, ''Author name\.''\}, array\{''author\-email'', null, 4, ''Author email\.''\}, \.\.\.\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/ModuleMakeCommand.php
@@ -151,49 +151,49 @@ parameters:
 			path: src/Commands/Make/ObserverMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ReplacementMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ReplacementMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/ReplacementMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\RepositoryMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\RepositoryMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/RepositoryMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\RouteProviderMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\RouteProviderMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/RouteProviderMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ScopeMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ScopeMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/ScopeMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\SeedMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''master'', null, 1, ''Indicates the…''\}, array\{''without\-base'', null, 1, ''Do not auto…''\}\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\SeedMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''master'', null, 1, ''Indicates the…''\}, array\{''without\-base'', null, 1, ''Do not auto…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/SeedMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\ServiceMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ServiceMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/ServiceMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Make\\TraitMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\TraitMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/TraitMakeCommand.php
 
 		-
-			message: '#^Method Nwidart\\Modules\\Commands\\Publish\\PublishInertiaCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Publish the Vue…''\}, array\{''react'', null, 1, ''Publish the React…''\}, array\{''svelte'', null, 1, ''Publish the Svelte…''\}, array\{''force'', ''f'', 1, ''Overwrite existing…''\}\}\.$#'
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Publish\\PublishInertiaCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Publish the Vue…''\}, array\{''react'', null, 1, ''Publish the React…''\}, array\{''svelte'', null, 1, ''Publish the Svelte…''\}, array\{''force'', ''f'', 1, ''Overwrite existing…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Publish/PublishInertiaCommand.php
@@ -217,19 +217,19 @@ parameters:
 			path: src/FileRepository.php
 
 		-
-			message: '#^Parameter \#1 \$app of method Nwidart\\Modules\\FileRepository\:\:createModule\(\) expects Illuminate\\Container\\Container, Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application given\.$#'
+			message: '#^Parameter \#1 \$app of method Simtabi\\Laranail\\Package\\Scaffolder\\FileRepository\:\:createModule\(\) expects Illuminate\\Container\\Container, Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/FileRepository.php
 
 		-
-			message: '#^Property Nwidart\\Modules\\FileRepository\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\FileRepository\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/FileRepository.php
 
 		-
-			message: '#^Property Nwidart\\Modules\\FileRepository\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\FileRepository\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
 			identifier: class.notFound
 			count: 1
 			path: src/FileRepository.php
@@ -289,19 +289,19 @@ parameters:
 			path: src/Module.php
 
 		-
-			message: '#^Property Nwidart\\Modules\\Module\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Module\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/Module.php
 
 		-
-			message: '#^Property Nwidart\\Modules\\Module\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Module\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
 			identifier: class.notFound
 			count: 1
 			path: src/Module.php
 
 		-
-			message: '#^Static property Nwidart\\Modules\\ModuleManifest\:\:\$manifestData \(Illuminate\\Support\\Collection\|null\) is never assigned null so it can be removed from the property type\.$#'
+			message: '#^Static property Simtabi\\Laranail\\Package\\Scaffolder\\ModuleManifest\:\:\$manifestData \(Illuminate\\Support\\Collection\|null\) is never assigned null so it can be removed from the property type\.$#'
 			identifier: property.unusedType
 			count: 1
 			path: src/ModuleManifest.php
@@ -349,7 +349,7 @@ parameters:
 			path: src/Support/Migrations/NameParser.php
 
 		-
-			message: '#^Call to function method_exists\(\) with \$this\(Nwidart\\Modules\\Support\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'
+			message: '#^Call to function method_exists\(\) with \$this\(Simtabi\\Laranail\\Package\\Scaffolder\\Support\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/Support/ModuleServiceProvider.php
@@ -361,7 +361,7 @@ parameters:
 			path: src/Support/Stub.php
 
 		-
-			message: '#^Trait Nwidart\\Modules\\Traits\\MigrationLoaderTrait is used zero times and is not analysed\.$#'
+			message: '#^Trait Simtabi\\Laranail\\Package\\Scaffolder\\Traits\\MigrationLoaderTrait is used zero times and is not analysed\.$#'
 			identifier: trait.unused
 			count: 1
 			path: src/Traits/MigrationLoaderTrait.php

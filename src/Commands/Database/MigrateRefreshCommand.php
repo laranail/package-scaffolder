@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Database;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
-use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Contracts\ConfirmableCommand;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 class MigrateRefreshCommand extends BaseCommand implements ConfirmableCommand

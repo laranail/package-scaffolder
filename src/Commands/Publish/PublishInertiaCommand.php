@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Publish;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
 use Illuminate\Console\Command;
-use Nwidart\Modules\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Symfony\Component\Console\Input\InputOption;
 
 class PublishInertiaCommand extends Command

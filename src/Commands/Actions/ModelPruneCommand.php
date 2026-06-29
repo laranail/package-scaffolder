@@ -1,13 +1,13 @@
 <?php
 
-namespace Nwidart\Modules\Commands\Actions;
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Database\Console\PruneCommand;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Nwidart\Modules\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -57,7 +57,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
         $selected_item = multiselect(
             label   : 'Select Modules',
             options : collect(Module::allEnabled())
-                ->map(fn (\Nwidart\Modules\Module $module) => $module->getName())
+                ->map(fn (\Simtabi\Laranail\Package\Scaffolder\Module $module) => $module->getName())
                 ->prepend(self::ALL)
                 ->values()
                 ->toArray(),

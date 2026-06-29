@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Support;
+namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
-use Nwidart\Modules\Generators\ModuleGenerator;
+use Simtabi\Laranail\Package\Scaffolder\Generators\ModuleGenerator;
 
 abstract class ReplacementKeyCommand
 {

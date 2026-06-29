@@ -2,7 +2,7 @@
 
 namespace Commands;
 
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class UpdatePhpunitCoverageTest extends BaseTestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Lumen;
+namespace Simtabi\Laranail\Package\Scaffolder\Lumen;
 
 use Illuminate\Container\Container;
-use Nwidart\Modules\FileRepository;
+use Simtabi\Laranail\Package\Scaffolder\FileRepository;
 
 class LumenFileRepository extends FileRepository
 {

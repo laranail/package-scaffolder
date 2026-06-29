@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Contracts;
+namespace Simtabi\Laranail\Package\Scaffolder\Contracts;
 
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 interface ActivatorInterface
 {

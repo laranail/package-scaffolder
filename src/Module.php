@@ -1,6 +1,6 @@
 <?php
 
-namespace Nwidart\Modules;
+namespace Simtabi\Laranail\Package\Scaffolder;
 
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -8,8 +8,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Laravel\Lumen\Application;
-use Nwidart\Modules\Constants\ModuleEvent;
-use Nwidart\Modules\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 
 abstract class Module
 {

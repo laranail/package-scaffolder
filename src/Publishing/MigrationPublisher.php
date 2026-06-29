@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Publishing;
+namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
-use Nwidart\Modules\Migrations\Migrator;
+use Simtabi\Laranail\Package\Scaffolder\Migrations\Migrator;
 
 class MigrationPublisher extends AssetPublisher
 {

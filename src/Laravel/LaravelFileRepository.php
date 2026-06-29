@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Laravel;
+namespace Simtabi\Laranail\Package\Scaffolder\Laravel;
 
 use Illuminate\Container\Container;
-use Nwidart\Modules\FileRepository;
+use Simtabi\Laranail\Package\Scaffolder\FileRepository;
 
 class LaravelFileRepository extends FileRepository
 {

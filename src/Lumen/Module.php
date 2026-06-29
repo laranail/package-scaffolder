@@ -1,9 +1,9 @@
 <?php
 
-namespace Nwidart\Modules\Lumen;
+namespace Simtabi\Laranail\Package\Scaffolder\Lumen;
 
 use Illuminate\Support\Str;
-use Nwidart\Modules\Module as BaseModule;
+use Simtabi\Laranail\Package\Scaffolder\Module as BaseModule;
 
 class Module extends BaseModule
 {

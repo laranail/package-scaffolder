@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Traits;
+namespace Simtabi\Laranail\Package\Scaffolder\Traits;
 
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 trait ResolvesModuleNamespace
 {

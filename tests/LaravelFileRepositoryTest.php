@@ -1,14 +1,14 @@
 <?php
 
-namespace Nwidart\Modules\Tests;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Filesystem\Filesystem;
-use Nwidart\Modules\Collection;
-use Nwidart\Modules\Contracts\ActivatorInterface;
-use Nwidart\Modules\Exceptions\InvalidAssetPath;
-use Nwidart\Modules\Exceptions\ModuleNotFoundException;
-use Nwidart\Modules\Laravel\LaravelFileRepository;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Collection;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidAssetPath;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\LaravelFileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 class LaravelFileRepositoryTest extends BaseTestCase
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Nwidart\Modules\Publishing;
+namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Nwidart\Modules\Contracts\PublisherInterface;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\PublisherInterface;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 abstract class Publisher implements PublisherInterface
 {

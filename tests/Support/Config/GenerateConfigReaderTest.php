@@ -1,10 +1,10 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Support\Config;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Support\Config;
 
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Config\GeneratorPath;
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GeneratorPath;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 final class GenerateConfigReaderTest extends BaseTestCase
 {

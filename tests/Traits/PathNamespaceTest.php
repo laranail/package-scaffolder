@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Tests\Traits;
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Traits;
 
-use Nwidart\Modules\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class PathNamespaceTest extends BaseTestCase
 {

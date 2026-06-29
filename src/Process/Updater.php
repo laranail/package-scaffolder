@@ -1,8 +1,8 @@
 <?php
 
-namespace Nwidart\Modules\Process;
+namespace Simtabi\Laranail\Package\Scaffolder\Process;
 
-use Nwidart\Modules\Module;
+use Simtabi\Laranail\Package\Scaffolder\Module;
 
 class Updater extends Runner
 {
