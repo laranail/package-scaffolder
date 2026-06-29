@@ -83,6 +83,16 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
+    public function test_it_does_not_generate_view_files_when_views_disabled()
+    {
+        config(['modules.paths.generator.views' => ['path' => 'resources/views', 'generate' => false]]);
+
+        $code = $this->artisan('module:make', ['name' => ['Blog']]);
+
+        $this->assertFalse($this->finder->exists($this->modulePath.'/resources/views/index.blade.php'));
+        $this->assertSame(0, $code);
+    }
+
     public function test_it_generates_module_files()
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);

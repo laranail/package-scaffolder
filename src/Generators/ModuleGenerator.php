@@ -375,6 +375,8 @@ class ModuleGenerator extends Generator
         $gatedStubs = [
             'assets/js/app' => 'assets',
             'assets/sass/app' => 'assets',
+            'views/index' => 'views',
+            'views/master' => 'views',
         ];
 
         foreach ($this->getFiles() as $stub => $file) {

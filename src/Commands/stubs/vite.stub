@@ -19,7 +19,12 @@ export default defineConfig({
                 __dirname + '/resources/assets/sass/app.scss',
                 __dirname + '/resources/assets/js/app.js'
             ],
-            refresh: true,
+            // Watch this module's own views and routes so Blade/route changes
+            // inside the module trigger a hot refresh during `npm run dev`.
+            refresh: [
+                __dirname + '/resources/views/**',
+                __dirname + '/routes/**',
+            ],
         }),
         // Uncomment the plugin for your frontend framework:
         // vue({

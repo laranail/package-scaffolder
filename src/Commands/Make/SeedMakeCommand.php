@@ -50,7 +50,55 @@ class SeedMakeCommand extends GeneratorCommand
                 InputOption::VALUE_NONE,
                 'Indicates the seeder will created is a master database seeder.',
             ],
+            [
+                'without-base',
+                null,
+                InputOption::VALUE_NONE,
+                'Do not auto-generate the module base database seeder when it is missing.',
+            ],
         ];
+    }
+
+    /**
+     * Ensure the module's base database seeder exists before generating a
+     * specific seeder, so newly created seeders always have a base to be
+     * called from (#2147).
+     */
+    public function handle(): int
+    {
+        $autoBase = ! $this->option('master') && ! $this->option('without-base');
+
+        // Capture the module before generating, since calling module:make-seed
+        // for the base re-runs this same command instance and would otherwise
+        // overwrite the current input.
+        $module = $autoBase ? $this->getModuleName() : null;
+
+        $result = parent::handle();
+
+        if ($result === 0 && $module !== null) {
+            $this->ensureBaseSeederExists($module);
+        }
+
+        return $result;
+    }
+
+    private function ensureBaseSeederExists(string $moduleName): void
+    {
+        $module = $this->laravel['modules']->findOrFail($moduleName);
+
+        $seederPath = GenerateConfigReader::read('seeder');
+        $baseName = Str::studly($module->getName()).'DatabaseSeeder';
+        $basePath = $this->laravel['modules']->getModulePath($module->getName()).$seederPath->getPath().'/'.$baseName.'.php';
+
+        if ($this->laravel['files']->exists($basePath)) {
+            return;
+        }
+
+        $this->call('module:make-seed', [
+            'name' => $module->getName(),
+            'module' => $module->getName(),
+            '--master' => true,
+        ]);
     }
 
     protected function getTemplateContents(): mixed

@@ -81,6 +81,11 @@ Answer `y` to allow the plugin to be executed. Otherwise, you will need to manua
 
 > if `"wikimedia/composer-merge-plugin": false` modules will not be autoloaded.
 
+> If you hit a `Class "Modules\…\…ServiceProvider" not found` error after following the
+> setup, the merge-plugin step above is almost always the cause: the plugin must be
+> allowed (the `allow-plugins` entry) and `composer dump-autoload` re-run so each
+> `Modules/*/composer.json` is merged.
+
 **Tip: don't forget to run `composer dump-autoload` afterwards**
 
 ## Documentation
