@@ -48,4 +48,36 @@ class PathNamespaceTest extends BaseTestCase
         $this->assertSame($configPath, $this->class->app_path(null));
         $this->assertSame('app/blog/services', $this->class->app_path('blog/services'));
     }
+
+    public function test_strip_app_folder_removes_the_prefix_as_a_prefix_not_a_char_mask()
+    {
+        // default app_folder = 'app/'
+        $this->assertSame('Providers', $this->class->strip_app_folder('app/Providers'));
+        $this->assertSame('Http/Controllers', $this->class->strip_app_folder('app/Http/Controllers'));
+
+        // a lowercase next segment must survive: ltrim() would have eaten the
+        // leading "a"/"p" characters and produced "i" here (#2152/#2164).
+        $this->assertSame('api', $this->class->strip_app_folder('app/api'));
+
+        // paths that don't start with the app folder are left untouched.
+        $this->assertSame('Providers', $this->class->strip_app_folder('Providers'));
+        $this->assertSame('SuperProviders', $this->class->strip_app_folder('SuperProviders'));
+
+        // null/empty tolerated (config key may be absent).
+        $this->assertSame('', $this->class->strip_app_folder(null));
+    }
+
+    public function test_strip_app_folder_respects_a_custom_app_folder()
+    {
+        config(['modules.paths.app_folder' => 'src/']);
+
+        $this->assertSame('Providers', $this->class->strip_app_folder('src/Providers'));
+
+        // 'app/...' is no longer the configured app folder, so keep it intact.
+        $this->assertSame('app/Providers', $this->class->strip_app_folder('app/Providers'));
+
+        // an empty app_folder leaves everything intact.
+        config(['modules.paths.app_folder' => '']);
+        $this->assertSame('app/Providers', $this->class->strip_app_folder('app/Providers'));
+    }
 }

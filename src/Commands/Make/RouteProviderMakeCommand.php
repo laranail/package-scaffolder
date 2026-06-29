@@ -123,7 +123,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.provider.namespace')
-            ?? ltrim(config('modules.paths.generator.provider.path', 'Providers'), config('modules.paths.app_folder', ''));
+            ?? $this->strip_app_folder(config('modules.paths.generator.provider.path', 'Providers'));
     }
 
     private function getControllerNameSpace(): string

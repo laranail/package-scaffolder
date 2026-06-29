@@ -6,6 +6,9 @@ See https://github.com/nWidart/laravel-modules/releases for the latest releases.
 
 ## Next
 
+- Fixed generator namespaces being corrupted when stripping the app folder prefix: `ltrim($path, $appFolder)` treated the app folder as a character mask, so paths like `app/api` became `pi` and custom `app_folder` values (e.g. `src/`) were mishandled. Now stripped as a proper prefix via `PathNamespace::strip_app_folder()` (#2164, #2124, #2152).
+- Prevented a fatal error in the `module_path()` helper when the module registry is not yet resolved; it now falls back to the configured modules path (#2158).
+- Added configurable web/api route generation: set `paths.generator.routes.web`/`api` to `false` to omit the matching `map*Routes()` method from a module's RouteServiceProvider (#2110).
 - [@omerbaflah](https://github.com/omerbaflah) Fixes Invokable Controller Stub
 - [@solomon-ochepa](https://github.com/solomon-ochepa) Added create module:make-class command
 

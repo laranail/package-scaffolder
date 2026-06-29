@@ -50,6 +50,38 @@ trait PathNamespace
     }
 
     /**
+     * Strip the configured app folder prefix from a generator path.
+     *
+     * `config('modules.paths.app_folder')` is a path prefix (e.g. "app/"), not
+     * a character set. Removing it with `ltrim($path, $appFolder)` treats it as
+     * a character mask, which corrupts any path whose next segment starts with
+     * one of those characters (e.g. "app/api" -> "pi"). This removes it as a
+     * proper prefix instead.
+     */
+    public function strip_app_folder(?string $path): string
+    {
+        $path = (string) $path;
+
+        $appFolder = trim((string) config('modules.paths.app_folder', ''), '/');
+
+        if ($appFolder === '') {
+            return $path;
+        }
+
+        $normalized = ltrim($path, '/');
+
+        if ($normalized === $appFolder) {
+            return '';
+        }
+
+        if (Str::startsWith($normalized, $appFolder.'/')) {
+            return Str::after($normalized, $appFolder.'/');
+        }
+
+        return $path;
+    }
+
+    /**
      * Get the app path basename.
      */
     public function app_path(?string $path = null): string
