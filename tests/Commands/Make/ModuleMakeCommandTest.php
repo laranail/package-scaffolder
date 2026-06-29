@@ -71,6 +71,18 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
+    public function test_it_does_not_generate_assets_when_disabled()
+    {
+        config(['modules.paths.generator.assets' => ['path' => 'resources/assets', 'generate' => false]]);
+
+        $code = $this->artisan('module:make', ['name' => ['Blog']]);
+
+        $this->assertDirectoryDoesNotExist($this->modulePath.'/resources/assets');
+        $this->assertFalse($this->finder->exists($this->modulePath.'/resources/assets/js/app.js'));
+        $this->assertFalse($this->finder->exists($this->modulePath.'/resources/assets/sass/app.scss'));
+        $this->assertSame(0, $code);
+    }
+
     public function test_it_generates_module_files()
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);

@@ -369,8 +369,20 @@ class ModuleGenerator extends Generator
     {
         $bladeViewStubs = ['views/index', 'views/master'];
 
+        // Stub files whose generation is gated by a generator group's `generate`
+        // flag. Without this, disabling a group (e.g. assets) skipped the folder
+        // but the stub still recreated it (#2148).
+        $gatedStubs = [
+            'assets/js/app' => 'assets',
+            'assets/sass/app' => 'assets',
+        ];
+
         foreach ($this->getFiles() as $stub => $file) {
             if ($this->inertia && in_array($stub, $bladeViewStubs, true)) {
+                continue;
+            }
+
+            if (isset($gatedStubs[$stub]) && GenerateConfigReader::read($gatedStubs[$stub])->generate() === false) {
                 continue;
             }
 
