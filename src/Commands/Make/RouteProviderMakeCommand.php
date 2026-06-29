@@ -67,8 +67,8 @@ class RouteProviderMakeCommand extends GeneratorCommand
             'LOWER_NAME' => $module->getLowerName(),
             'KEBAB_NAME' => $module->getKebabName(),
         ]))->setRemovalTags(array_filter([
-            !$this->shouldGenerateWebRoutes() ? 'WEB_ROUTES' : null,
-            !$this->shouldGenerateApiRoutes() ? 'API_ROUTES' : null,
+            ! $this->shouldGenerateWebRoutes() ? 'WEB_ROUTES' : null,
+            ! $this->shouldGenerateApiRoutes() ? 'API_ROUTES' : null,
         ]))->render();
     }
 
@@ -91,7 +91,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
 
         $generatorPath = GenerateConfigReader::read('provider');
 
-        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     protected function shouldGenerateWebRoutes(): bool
@@ -109,7 +109,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected function getWebRoutesPath()
     {
-        return '/' . $this->laravel['modules']->config('stubs.files.routes/web', 'Routes/web.php');
+        return '/'.$this->laravel['modules']->config('stubs.files.routes/web', 'Routes/web.php');
     }
 
     /**
@@ -117,7 +117,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected function getApiRoutesPath()
     {
-        return '/' . $this->laravel['modules']->config('stubs.files.routes/api', 'Routes/api.php');
+        return '/'.$this->laravel['modules']->config('stubs.files.routes/api', 'Routes/api.php');
     }
 
     public function getDefaultNamespace(): string

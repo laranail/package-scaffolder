@@ -119,4 +119,38 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
     }
+
+    public function test_it_omits_web_routes_when_disabled(): void
+    {
+        $this->app['config']->set('modules.paths.generator.routes.web', false);
+
+        $path = $this->modulePath.'/Providers/RouteServiceProvider.php';
+        $this->finder->delete($path);
+        $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
+
+        $file = $this->finder->get($path);
+
+        $this->assertStringNotContainsString('mapWebRoutes', $file);
+        $this->assertStringContainsString('mapApiRoutes', $file);
+        $this->assertStringNotContainsString('%START_', $file);
+        $this->assertStringNotContainsString('%END_', $file);
+        $this->assertSame(0, $code);
+    }
+
+    public function test_it_omits_api_routes_when_disabled(): void
+    {
+        $this->app['config']->set('modules.paths.generator.routes.api', false);
+
+        $path = $this->modulePath.'/Providers/RouteServiceProvider.php';
+        $this->finder->delete($path);
+        $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
+
+        $file = $this->finder->get($path);
+
+        $this->assertStringNotContainsString('mapApiRoutes', $file);
+        $this->assertStringContainsString('mapWebRoutes', $file);
+        $this->assertStringNotContainsString('%START_', $file);
+        $this->assertStringNotContainsString('%END_', $file);
+        $this->assertSame(0, $code);
+    }
 }
