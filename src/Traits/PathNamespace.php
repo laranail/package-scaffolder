@@ -86,22 +86,29 @@ trait PathNamespace
      */
     public function app_path(?string $path = null): string
     {
-        $config_path = config('modules.paths.app_folder');
+        $config_path = (string) config('modules.paths.app_folder');
 
         // Get modules config app path or use Laravel default app path.
-        $app_path = strlen($config_path) ? $config_path : 'app/';
+        $app_path = $this->clean_path(strlen($config_path) ? $config_path : 'app/');
 
-        if ($path) {
-            // Replace duplicate custom|default app paths
-            $replaces = array_unique([$this->clean_path($app_path).'/', 'app/']);
-            do {
-                $path = Str::of($path)->replaceStart($app_path, '')->replaceStart('app/', '');
-            } while (Str::of($path)->startsWith($replaces));
-
-            // Append additional path
-            $app_path .= strlen($path) ? '/'.$path : '';
+        if (! $path) {
+            return $app_path;
         }
 
-        return $this->clean_path($app_path);
+        // Drop a redundant leading app-folder segment so callers can pass
+        // 'app', 'app/', 'App' or the configured folder interchangeably without
+        // duplicating it. The previous implementation used replaceStart()/
+        // startsWith() with a trailing slash, so a bare 'app' (no slash) or a
+        // different case slipped through and produced e.g. 'src/app' (#2152).
+        $prefixes = array_unique([Str::lower($app_path), 'app']);
+        $segments = array_values(array_filter(explode('/', $this->clean_path($path)), fn ($segment) => $segment !== ''));
+
+        while ($segments !== [] && in_array(Str::lower($segments[0]), $prefixes, true)) {
+            array_shift($segments);
+        }
+
+        $remainder = implode('/', $segments);
+
+        return $remainder === '' ? $app_path : $app_path.'/'.$remainder;
     }
 }

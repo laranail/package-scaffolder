@@ -49,6 +49,29 @@ class PathNamespaceTest extends BaseTestCase
         $this->assertSame('app/blog/services', $this->class->app_path('blog/services'));
     }
 
+    public function test_app_path_treats_app_variants_consistently()
+    {
+        // default app_folder = 'app/'. 'app', 'app/' and 'App' must all collapse
+        // to the app root rather than duplicating the folder (#2152).
+        $this->assertSame('app', $this->class->app_path('app'));
+        $this->assertSame('app', $this->class->app_path('app/'));
+        $this->assertSame('app', $this->class->app_path('App'));
+        $this->assertSame('app/Http/Controllers', $this->class->app_path('app/Http/Controllers'));
+        $this->assertSame('app/Http/Controllers', $this->class->app_path('Http/Controllers'));
+    }
+
+    public function test_app_path_with_custom_app_folder()
+    {
+        config(['modules.paths.app_folder' => 'src/']);
+
+        // the bug: 'app' (no slash) used to yield 'src/app' instead of 'src'.
+        $this->assertSame('src', $this->class->app_path('app'));
+        $this->assertSame('src', $this->class->app_path('app/'));
+        $this->assertSame('src', $this->class->app_path('src'));
+        $this->assertSame('src/Models', $this->class->app_path('src/Models'));
+        $this->assertSame('src/Models', $this->class->app_path('Models'));
+    }
+
     public function test_strip_app_folder_removes_the_prefix_as_a_prefix_not_a_char_mask()
     {
         // default app_folder = 'app/'
