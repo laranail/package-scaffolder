@@ -2,13 +2,14 @@
 
 namespace Nwidart\Modules\Commands\Database;
 
-use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Support\Collection;
 use Nwidart\Modules\Commands\BaseCommand;
+use Nwidart\Modules\Traits\ModuleMigrationPaths;
 use Symfony\Component\Console\Input\InputOption;
 
 class MigrateCommand extends BaseCommand
 {
+    use ModuleMigrationPaths;
+
     /**
      * The console command name.
      *
@@ -23,34 +24,22 @@ class MigrateCommand extends BaseCommand
      */
     protected $description = 'Migrate the migrations from the specified module or from all modules.';
 
-    /**
-     * The migrator instance.
-     */
-    protected Migrator $migrator;
-
-    protected Collection $migration_list;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->migrator = app('migrator');
-        $this->migration_list = collect($this->migrator->paths());
-    }
-
     public function executeAction($name): void
     {
         $module = $this->getModuleModel($name);
 
         $this->components->twoColumnDetail("Running Migration <fg=cyan;options=bold>{$module->getName()}</> Module");
 
-        $module_path = $module->getPath();
+        $paths = $this->getModuleMigrationTarget($module, $this->option('subpath'));
 
-        $paths = $this->migration_list
-            ->filter(fn ($path) => str_starts_with($path, $module_path));
+        if (empty($paths)) {
+            $this->components->warn("No migrations found for module <fg=cyan;options=bold>{$module->getName()}</>");
+
+            return;
+        }
 
         $this->call('migrate', array_filter([
-            '--path' => $paths->toArray(),
+            '--path' => $paths,
             '--database' => $this->option('database'),
             '--pretend' => $this->option('pretend'),
             '--force' => $this->option('force'),
@@ -60,7 +49,6 @@ class MigrateCommand extends BaseCommand
         if ($this->option('seed')) {
             $this->call('module:seed', ['module' => $module->getName(), '--force' => $this->option('force')]);
         }
-
     }
 
     /**

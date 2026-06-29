@@ -3,13 +3,12 @@
 namespace Nwidart\Modules\Commands\Database;
 
 use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Migrations\Migrator;
-use Nwidart\Modules\Traits\MigrationLoaderTrait;
+use Nwidart\Modules\Traits\ModuleMigrationPaths;
 use Symfony\Component\Console\Input\InputOption;
 
 class MigrateRollbackCommand extends BaseCommand
 {
-    use MigrationLoaderTrait;
+    use ModuleMigrationPaths;
 
     /**
      * The console command name.
@@ -29,26 +28,21 @@ class MigrateRollbackCommand extends BaseCommand
     {
         $module = $this->getModuleModel($name);
 
-        $migrator = new Migrator($module, $this->getLaravel(), $this->option('subpath'));
+        $paths = $this->getModuleMigrationTarget($module, $this->option('subpath'));
 
-        $database = $this->option('database');
-
-        if (! empty($database)) {
-            $migrator->setDatabase($database);
-        }
-
-        $migrated = $migrator->rollback();
-
-        if (count($migrated)) {
-            foreach ($migrated as $migration) {
-                $this->components->task("Rollback: <info>{$migration}</info>");
-            }
+        if (empty($paths)) {
+            $this->components->warn("No migrations found for module <fg=cyan;options=bold>{$module->getName()}</>");
 
             return;
         }
 
-        $this->components->warn("Nothing to rollback on module <fg=cyan;options=bold>{$module->getName()}</>");
-
+        $this->call('migrate:rollback', array_filter([
+            '--path' => $paths,
+            '--database' => $this->option('database'),
+            '--pretend' => $this->option('pretend'),
+            '--force' => $this->option('force'),
+            '--realpath' => true,
+        ]));
     }
 
     public function getInfo(): ?string

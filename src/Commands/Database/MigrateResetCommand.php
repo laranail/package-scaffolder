@@ -4,13 +4,12 @@ namespace Nwidart\Modules\Commands\Database;
 
 use Nwidart\Modules\Commands\BaseCommand;
 use Nwidart\Modules\Contracts\ConfirmableCommand;
-use Nwidart\Modules\Migrations\Migrator;
-use Nwidart\Modules\Traits\MigrationLoaderTrait;
+use Nwidart\Modules\Traits\ModuleMigrationPaths;
 use Symfony\Component\Console\Input\InputOption;
 
 class MigrateResetCommand extends BaseCommand implements ConfirmableCommand
 {
-    use MigrationLoaderTrait;
+    use ModuleMigrationPaths;
 
     /**
      * The console command name.
@@ -30,25 +29,21 @@ class MigrateResetCommand extends BaseCommand implements ConfirmableCommand
     {
         $module = $this->getModuleModel($name);
 
-        $migrator = new Migrator($module, $this->getLaravel());
+        $paths = $this->getModuleMigrationPaths($module);
 
-        $database = $this->option('database');
-
-        if (! empty($database)) {
-            $migrator->setDatabase($database);
-        }
-
-        $migrated = $migrator->reset();
-
-        if (count($migrated)) {
-            foreach ($migrated as $migration) {
-                $this->line("Rollback: <info>{$migration}</info>");
-            }
+        if (empty($paths)) {
+            $this->components->warn("No migrations found for module <fg=cyan;options=bold>{$module->getName()}</>");
 
             return;
         }
 
-        $this->components->warn("Nothing to rollback on module <fg=cyan;options=bold>{$module->getName()}</>");
+        $this->call('migrate:reset', array_filter([
+            '--path' => $paths,
+            '--database' => $this->option('database'),
+            '--pretend' => $this->option('pretend'),
+            '--force' => $this->option('force'),
+            '--realpath' => true,
+        ]));
     }
 
     public function getInfo(): ?string

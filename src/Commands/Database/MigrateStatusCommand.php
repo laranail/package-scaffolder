@@ -3,12 +3,13 @@
 namespace Nwidart\Modules\Commands\Database;
 
 use Nwidart\Modules\Commands\BaseCommand;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Migrations\Migrator;
+use Nwidart\Modules\Traits\ModuleMigrationPaths;
 use Symfony\Component\Console\Input\InputOption;
 
 class MigrateStatusCommand extends BaseCommand
 {
+    use ModuleMigrationPaths;
+
     /**
      * The console command name.
      *
@@ -23,21 +24,23 @@ class MigrateStatusCommand extends BaseCommand
      */
     protected $description = 'Status for all module migrations';
 
-    /**
-     * @var RepositoryInterface
-     */
-    protected $module;
-
     public function executeAction($name): void
     {
         $module = $this->getModuleModel($name);
 
-        $path = str_replace(base_path(), '', (new Migrator($module, $this->getLaravel()))->getPath());
+        $paths = $this->getModuleMigrationPaths($module);
 
-        $this->call('migrate:status', [
-            '--path' => $path,
+        if (empty($paths)) {
+            $this->components->warn("No migrations found for module <fg=cyan;options=bold>{$module->getName()}</>");
+
+            return;
+        }
+
+        $this->call('migrate:status', array_filter([
+            '--path' => $paths,
             '--database' => $this->option('database'),
-        ]);
+            '--realpath' => true,
+        ]));
     }
 
     public function getInfo(): ?string
