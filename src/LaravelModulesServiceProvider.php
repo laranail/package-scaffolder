@@ -7,22 +7,31 @@ use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Foundation\Events\DiscoverEvents;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use Illuminate\Translation\Translator;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Exceptions\InvalidActivatorClass;
 use Nwidart\Modules\Facades\Module;
 use Nwidart\Modules\Support\Stub;
+use Nwidart\Modules\Traits\PathNamespace;
+use Nwidart\Modules\Traits\ResolvesModuleNamespace;
+use SplFileInfo;
 
 class LaravelModulesServiceProvider extends ModulesServiceProvider
 {
+    use PathNamespace;
+    use ResolvesModuleNamespace;
+
     /**
      * Booting the package.
      */
     public function boot()
     {
         $this->registerNamespaces();
+        $this->registerEventDiscovery();
 
         AboutCommand::add('Laravel-Modules', [
             'Version' => fn () => InstalledVersions::getPrettyVersion('nwidart/laravel-modules'),
@@ -32,6 +41,73 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         Blade::if('module', function (string $name) {
             return module($name);
         });
+    }
+
+    /**
+     * Make Laravel's event discovery resolve module listener paths to their
+     * real namespace. Without this, files under Modules/{Module}/app/Listeners
+     * are mapped using the application namespace and never resolve (#2128).
+     */
+    protected function registerEventDiscovery(): void
+    {
+        if (! $this->app['config']->get('modules.auto-discover.events', true)) {
+            return;
+        }
+
+        DiscoverEvents::guessClassNamesUsing(function (SplFileInfo $file, string $basePath): string {
+            return $this->moduleClassFromFile($file)
+                ?? $this->defaultClassFromFile($file, $basePath);
+        });
+    }
+
+    /**
+     * Resolve the fully-qualified class name for a file that belongs to a
+     * module, using the module's real namespace and app folder.
+     */
+    protected function moduleClassFromFile(SplFileInfo $file): ?string
+    {
+        $realPath = $file->getRealPath();
+
+        if ($realPath === false) {
+            return null;
+        }
+
+        foreach (Module::all() as $module) {
+            $modulePath = realpath($module->getPath());
+
+            if ($modulePath === false || ! str_starts_with($realPath, $modulePath.DIRECTORY_SEPARATOR)) {
+                continue;
+            }
+
+            $namespace = $this->getModuleNamespace($module);
+
+            if ($namespace === null) {
+                return null;
+            }
+
+            $relative = ltrim(substr($realPath, strlen($modulePath)), DIRECTORY_SEPARATOR);
+            $relative = $this->strip_app_folder(str_replace(DIRECTORY_SEPARATOR, '/', $relative));
+            $relative = preg_replace('/\.php$/', '', $relative);
+
+            return $namespace.'\\'.str_replace('/', '\\', $relative);
+        }
+
+        return null;
+    }
+
+    /**
+     * Laravel's default DiscoverEvents class-name resolution, used as the
+     * fallback for files that do not belong to a module.
+     */
+    protected function defaultClassFromFile(SplFileInfo $file, string $basePath): string
+    {
+        $class = trim(Str::replaceFirst($basePath, '', $file->getRealPath()), DIRECTORY_SEPARATOR);
+
+        return ucfirst(Str::camel(str_replace(
+            [DIRECTORY_SEPARATOR, ucfirst(basename(app()->path())).'\\'],
+            ['\\', app()->getNamespace()],
+            ucfirst(Str::replaceLast('.php', '', $class))
+        )));
     }
 
     /**

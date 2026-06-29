@@ -233,6 +233,18 @@ return [
         */
         'translations' => false,
 
+        /*
+        |--------------------------------------------------------------------------
+        | Events
+        |--------------------------------------------------------------------------
+        |
+        | When enabled, module listener paths discovered by Laravel's event
+        | discovery (e.g. withEvents(discover: [...module Listeners dirs...]) or
+        | a module EventServiceProvider) resolve to the module's real namespace.
+        |
+        */
+        'events' => true,
+
     ],
 
     /*

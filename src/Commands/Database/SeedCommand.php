@@ -11,6 +11,7 @@ use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Module;
 use Nwidart\Modules\Support\Config\GenerateConfigReader;
 use Nwidart\Modules\Traits\ModuleCommandTrait;
+use Nwidart\Modules\Traits\ResolvesModuleNamespace;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SeedCommand extends BaseCommand
 {
     use ModuleCommandTrait;
+    use ResolvesModuleNamespace;
 
     /**
      * The console command name.
@@ -196,27 +198,6 @@ class SeedCommand extends BaseCommand
         $seederPath = str_replace('/', '\\', GenerateConfigReader::read('seeder')->getPath());
 
         return $namespace.'\\'.$seederPath.'\\'.Str::studly($module->getName()).'DatabaseSeeder';
-    }
-
-    /**
-     * Resolve a module's root namespace from its composer.json psr-4 autoload.
-     */
-    public function getModuleNamespace(Module $module): ?string
-    {
-        $psr4 = (array) data_get($module->getComposerAttr('autoload', []), 'psr-4', []);
-        $appFolder = trim((string) config('modules.paths.app_folder', ''), '/');
-
-        foreach ($psr4 as $namespace => $path) {
-            // The module root maps to the app folder ('app/'), the module root
-            // ('' or '.'), so this is the namespace classes live under.
-            $cleaned = trim((string) $path, './');
-
-            if ($cleaned === '' || $cleaned === $appFolder) {
-                return rtrim($namespace, '\\');
-            }
-        }
-
-        return null;
     }
 
     /**
