@@ -177,6 +177,8 @@ class Installer
                     return "{$this->type}:{$this->name}.git";
                 }
         }
+
+        return null;
     }
 
     /**

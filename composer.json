@@ -69,6 +69,7 @@
     "scripts": {
         "update-snapshots": "phpunit --no-coverage -d --update-snapshots",
         "lint": "pint",
+        "analyse": "phpstan analyse",
         "test": "phpunit",
         "test-coverage": "phpunit --coverage-html coverage",
         "pcf": "vendor/bin/php-cs-fixer fix --verbose"

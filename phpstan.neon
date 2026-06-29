@@ -1,0 +1,13 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+
+    paths:
+        - src
+
+    # Existing issues are captured in phpstan-baseline.neon so CI stays green;
+    # new code must be clean at the level above. Regenerate the baseline with:
+    #   vendor/bin/phpstan analyse --generate-baseline
+    treatPhpDocTypesAsCertain: false
