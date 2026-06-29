@@ -15,7 +15,9 @@ class ViewMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-view';
+    protected $name = 'laranail::package-scaffolder.make-view';
+
+    protected $aliases = ['module:make-view'];
 
     protected $description = 'Create a new view for the specified module.';
 

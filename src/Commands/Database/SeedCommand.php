@@ -26,7 +26,9 @@ class SeedCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:seed';
+    protected $name = 'laranail::package-scaffolder.seed';
+
+    protected $aliases = ['module:seed'];
 
     /**
      * The console command description.

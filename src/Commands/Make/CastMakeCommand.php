@@ -15,7 +15,9 @@ class CastMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-cast';
+    protected $name = 'laranail::package-scaffolder.make-cast';
+
+    protected $aliases = ['module:make-cast'];
 
     protected $description = 'Create a new Eloquent cast class for the specified module.';
 

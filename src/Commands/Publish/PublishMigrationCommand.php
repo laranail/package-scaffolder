@@ -13,7 +13,9 @@ class PublishMigrationCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:publish-migration';
+    protected $name = 'laranail::package-scaffolder.publish-migration';
+
+    protected $aliases = ['module:publish-migration'];
 
     /**
      * The console command description.

@@ -17,7 +17,9 @@ final class ChannelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-channel';
+    protected $name = 'laranail::package-scaffolder.make-channel';
+
+    protected $aliases = ['module:make-channel'];
 
     protected $argumentName = 'name';
 

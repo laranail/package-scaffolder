@@ -11,14 +11,16 @@ class DisableCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:disable';
+    protected $name = 'laranail::package-scaffolder.disable';
+
+    protected $aliases = ['module:disable'];
 
     /**
      * The console command signature.
      *
      * @var string
      */
-    protected $signature = 'module:disable';
+    protected $signature = 'laranail::package-scaffolder.disable';
 
     /**
      * The console command description.

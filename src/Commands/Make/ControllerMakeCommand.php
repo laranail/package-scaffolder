@@ -25,7 +25,9 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-controller';
+    protected $name = 'laranail::package-scaffolder.make-controller';
+
+    protected $aliases = ['module:make-controller'];
 
     /**
      * The console command description.

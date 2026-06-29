@@ -24,7 +24,9 @@ class ComponentClassMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-component';
+    protected $name = 'laranail::package-scaffolder.make-component';
+
+    protected $aliases = ['module:make-component'];
 
     /**
      * The console command description.

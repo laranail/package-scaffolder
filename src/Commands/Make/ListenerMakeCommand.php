@@ -21,7 +21,9 @@ class ListenerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-listener';
+    protected $name = 'laranail::package-scaffolder.make-listener';
+
+    protected $aliases = ['module:make-listener'];
 
     /**
      * The console command description.

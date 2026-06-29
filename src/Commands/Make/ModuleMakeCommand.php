@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Generators\ModuleGenerator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,12 +12,16 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ModuleMakeCommand extends Command
 {
+    use SupportsNamespacedNames;
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'module:make';
+    protected $name = 'laranail::package-scaffolder.make';
+
+    protected $aliases = ['module:make'];
 
     /**
      * The console command description.

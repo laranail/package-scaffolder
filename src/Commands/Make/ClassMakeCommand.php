@@ -14,13 +14,16 @@ class ClassMakeCommand extends GeneratorCommand
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'module:make-class
+    protected $signature = 'laranail::package-scaffolder.make-class
         {--t|type=class : The type of class, e.g. class, service, repository, contract, etc.}
         {--s|suffix : Create the class without the type suffix}
         {--i|invokable : Generate a single method, invokable class}
         {--f|force : Create the class even if the class already exists}
         {name : The name of the class}
         {module : The targeted module}';
+
+    /** @var list<string> */
+    protected $aliases = ['module:make-class'];
 
     /**
      * The console command description.

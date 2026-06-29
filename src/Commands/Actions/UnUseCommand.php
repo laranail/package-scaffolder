@@ -11,7 +11,9 @@ class UnUseCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:unuse';
+    protected $name = 'laranail::package-scaffolder.unuse';
+
+    protected $aliases = ['module:unuse'];
 
     /**
      * The console command description.

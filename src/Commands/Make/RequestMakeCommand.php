@@ -24,7 +24,9 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-request';
+    protected $name = 'laranail::package-scaffolder.make-request';
+
+    protected $aliases = ['module:make-request'];
 
     /**
      * The console command description.

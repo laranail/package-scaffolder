@@ -19,7 +19,9 @@ class EventMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-event';
+    protected $name = 'laranail::package-scaffolder.make-event';
+
+    protected $aliases = ['module:make-event'];
 
     /**
      * The console command description.

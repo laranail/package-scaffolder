@@ -10,7 +10,9 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class ListCommands extends BaseCommand
 {
-    protected $name = 'module:list-commands';
+    protected $name = 'laranail::package-scaffolder.list-commands';
+
+    protected $aliases = ['module:list-commands'];
 
     protected $description = 'List all commands in the specified module(s)';
 

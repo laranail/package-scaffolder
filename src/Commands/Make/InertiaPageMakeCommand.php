@@ -20,7 +20,9 @@ class InertiaPageMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-inertia-page';
+    protected $name = 'laranail::package-scaffolder.make-inertia-page';
+
+    protected $aliases = ['module:make-inertia-page'];
 
     /**
      * The console command description.

@@ -20,7 +20,9 @@ class InertiaComponentMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-inertia-component';
+    protected $name = 'laranail::package-scaffolder.make-inertia-component';
+
+    protected $aliases = ['module:make-inertia-component'];
 
     /**
      * The console command description.

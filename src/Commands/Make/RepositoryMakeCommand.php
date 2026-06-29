@@ -15,7 +15,9 @@ class RepositoryMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-repository';
+    protected $name = 'laranail::package-scaffolder.make-repository';
+
+    protected $aliases = ['module:make-repository'];
 
     protected $description = 'Create a new repository class for the specified module.';
 

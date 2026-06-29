@@ -7,6 +7,7 @@ use Illuminate\Database\Console\PruneCommand;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,19 +16,23 @@ use Symfony\Component\Finder\Finder;
 
 use function Laravel\Prompts\multiselect;
 
-#[AsCommand(name: 'module:prune')]
+#[AsCommand(name: 'laranail::package-scaffolder.prune')]
 class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
 {
+    use SupportsNamespacedNames;
+
     public const ALL = 'All';
 
-    protected $name = 'module:prune';
+    protected $name = 'laranail::package-scaffolder.prune';
+
+    protected $aliases = ['module:prune'];
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'module:prune {module*}
+    protected $signature = 'laranail::package-scaffolder.prune {module*}
                                 {--all : Check all Modules}
                                 {--model=* : Class names of the models to be pruned}
                                 {--except=* : Class names of the models to be excluded from pruning}

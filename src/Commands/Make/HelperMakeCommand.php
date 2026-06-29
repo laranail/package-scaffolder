@@ -15,7 +15,9 @@ class HelperMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-helper';
+    protected $name = 'laranail::package-scaffolder.make-helper';
+
+    protected $aliases = ['module:make-helper'];
 
     protected $description = 'Create a new helper class for the specified module.';
 

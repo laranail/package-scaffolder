@@ -15,7 +15,9 @@ class ServiceMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-service';
+    protected $name = 'laranail::package-scaffolder.make-service';
+
+    protected $aliases = ['module:make-service'];
 
     protected $description = 'Create a new service class for the specified module.';
 

@@ -17,7 +17,9 @@ class MailMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-mail';
+    protected $name = 'laranail::package-scaffolder.make-mail';
+
+    protected $aliases = ['module:make-mail'];
 
     /**
      * The console command description.

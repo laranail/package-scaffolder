@@ -18,7 +18,9 @@ class JobMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-job';
+    protected $name = 'laranail::package-scaffolder.make-job';
+
+    protected $aliases = ['module:make-job'];
 
     /**
      * The console command description.

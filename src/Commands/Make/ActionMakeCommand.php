@@ -15,7 +15,9 @@ class ActionMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-action';
+    protected $name = 'laranail::package-scaffolder.make-action';
+
+    protected $aliases = ['module:make-action'];
 
     protected $description = 'Create a new action class for the specified module.';
 

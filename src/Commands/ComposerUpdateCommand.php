@@ -11,7 +11,9 @@ class ComposerUpdateCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:composer-update';
+    protected $name = 'laranail::package-scaffolder.composer-update';
+
+    protected $aliases = ['module:composer-update'];
 
     /**
      * The console command description.

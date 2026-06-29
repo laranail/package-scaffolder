@@ -15,7 +15,9 @@ class ExceptionMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-exception';
+    protected $name = 'laranail::package-scaffolder.make-exception';
+
+    protected $aliases = ['module:make-exception'];
 
     protected $description = 'Create a new exception class for the specified module.';
 

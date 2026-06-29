@@ -17,7 +17,9 @@ class ObserverMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-observer';
+    protected $name = 'laranail::package-scaffolder.make-observer';
+
+    protected $aliases = ['module:make-observer'];
 
     /**
      * The name of argument name.

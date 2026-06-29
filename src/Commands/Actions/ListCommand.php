@@ -3,17 +3,22 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Console\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Module;
 use Symfony\Component\Console\Input\InputOption;
 
 class ListCommand extends Command
 {
+    use SupportsNamespacedNames;
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'module:list';
+    protected $name = 'laranail::package-scaffolder.list';
+
+    protected $aliases = ['module:list'];
 
     /**
      * The console command description.

@@ -25,7 +25,9 @@ class RuleMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-rule';
+    protected $name = 'laranail::package-scaffolder.make-rule';
+
+    protected $aliases = ['module:make-rule'];
 
     /**
      * The console command description.

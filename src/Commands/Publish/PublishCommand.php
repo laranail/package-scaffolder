@@ -12,7 +12,9 @@ class PublishCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:publish';
+    protected $name = 'laranail::package-scaffolder.publish';
+
+    protected $aliases = ['module:publish'];
 
     /**
      * The console command description.

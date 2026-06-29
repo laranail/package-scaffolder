@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Console\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Module;
 
 class LaravelModulesV6Migrator extends Command
 {
-    protected $name = 'module:v6:migrate';
+    use SupportsNamespacedNames;
+
+    protected $name = 'laranail::package-scaffolder.v6:migrate';
+
+    protected $aliases = ['module:v6:migrate'];
 
     protected $description = 'Migrate laravel-modules v5 modules statuses to v6.';
 

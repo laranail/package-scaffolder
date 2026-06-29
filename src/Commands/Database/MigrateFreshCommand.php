@@ -15,7 +15,9 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
      *
      * @var string
      */
-    protected $name = 'module:migrate-fresh';
+    protected $name = 'laranail::package-scaffolder.migrate-fresh';
+
+    protected $aliases = ['module:migrate-fresh'];
 
     /**
      * The console command description.

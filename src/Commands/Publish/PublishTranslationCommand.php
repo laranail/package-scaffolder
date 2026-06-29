@@ -12,7 +12,9 @@ class PublishTranslationCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:publish-translation';
+    protected $name = 'laranail::package-scaffolder.publish-translation';
+
+    protected $aliases = ['module:publish-translation'];
 
     /**
      * The console command description.

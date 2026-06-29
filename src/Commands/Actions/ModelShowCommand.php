@@ -7,19 +7,24 @@ use Illuminate\Database\Console\ShowModelCommand;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Laravel\Prompts\search;
 
-#[AsCommand('module:model-show', 'Show information about an Eloquent model in modules')]
+#[AsCommand('laranail::package-scaffolder.model-show', 'Show information about an Eloquent model in modules')]
 class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInput
 {
+    use SupportsNamespacedNames;
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'module:model-show';
+    protected $name = 'laranail::package-scaffolder.model-show';
+
+    protected $aliases = ['module:model-show'];
 
     /**
      * The console command description.
@@ -33,7 +38,7 @@ class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInpu
      *
      * @var string
      */
-    protected $signature = 'module:model-show {model : The model to show}
+    protected $signature = 'laranail::package-scaffolder.model-show {model : The model to show}
                 {--database= : The database connection to use}
                 {--json : Output the model as JSON}';
 

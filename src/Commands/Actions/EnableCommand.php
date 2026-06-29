@@ -11,7 +11,9 @@ class EnableCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:enable';
+    protected $name = 'laranail::package-scaffolder.enable';
+
+    protected $aliases = ['module:enable'];
 
     /**
      * The console command description.

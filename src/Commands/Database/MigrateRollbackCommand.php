@@ -15,7 +15,9 @@ class MigrateRollbackCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:migrate-rollback';
+    protected $name = 'laranail::package-scaffolder.migrate-rollback';
+
+    protected $aliases = ['module:migrate-rollback'];
 
     /**
      * The console command description.

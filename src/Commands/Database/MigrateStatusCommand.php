@@ -15,7 +15,9 @@ class MigrateStatusCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:migrate-status';
+    protected $name = 'laranail::package-scaffolder.migrate-status';
+
+    protected $aliases = ['module:migrate-status'];
 
     /**
      * The console command description.

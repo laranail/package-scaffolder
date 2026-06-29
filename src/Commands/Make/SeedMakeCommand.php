@@ -20,7 +20,9 @@ class SeedMakeCommand extends GeneratorCommand
     /**
      * The console command name.
      */
-    protected $name = 'module:make-seed';
+    protected $name = 'laranail::package-scaffolder.make-seed';
+
+    protected $aliases = ['module:make-seed'];
 
     /**
      * The console command description.

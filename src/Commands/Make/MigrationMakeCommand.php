@@ -20,7 +20,9 @@ class MigrationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-migration';
+    protected $name = 'laranail::package-scaffolder.make-migration';
+
+    protected $aliases = ['module:make-migration'];
 
     /**
      * The console command description.

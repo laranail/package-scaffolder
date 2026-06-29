@@ -15,7 +15,9 @@ class EventProviderMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'module';
 
-    protected $name = 'module:make-event-provider';
+    protected $name = 'laranail::package-scaffolder.make-event-provider';
+
+    protected $aliases = ['module:make-event-provider'];
 
     protected $description = 'Create a new event service provider class for the specified module.';
 

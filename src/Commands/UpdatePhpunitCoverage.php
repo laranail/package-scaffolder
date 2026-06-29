@@ -4,15 +4,20 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use DOMDocument;
 use Illuminate\Console\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 
 class UpdatePhpunitCoverage extends Command
 {
+    use SupportsNamespacedNames;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'module:update-phpunit-coverage';
+    protected $signature = 'laranail::package-scaffolder.update-phpunit-coverage';
+
+    protected $aliases = ['module:update-phpunit-coverage'];
 
     /**
      * The console command description.

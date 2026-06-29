@@ -25,7 +25,9 @@ class ComponentViewMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-component-view';
+    protected $name = 'laranail::package-scaffolder.make-component-view';
+
+    protected $aliases = ['module:make-component-view'];
 
     /**
      * The console command description.

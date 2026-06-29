@@ -15,7 +15,9 @@ class TraitMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-trait';
+    protected $name = 'laranail::package-scaffolder.make-trait';
+
+    protected $aliases = ['module:make-trait'];
 
     protected $description = 'Create a new trait class for the specified module.';
 

@@ -11,7 +11,9 @@ class UpdateCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:update';
+    protected $name = 'laranail::package-scaffolder.update';
+
+    protected $aliases = ['module:update'];
 
     /**
      * The console command description.

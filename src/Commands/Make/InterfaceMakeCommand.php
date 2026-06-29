@@ -15,7 +15,9 @@ class InterfaceMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-interface';
+    protected $name = 'laranail::package-scaffolder.make-interface';
+
+    protected $aliases = ['module:make-interface'];
 
     protected $description = 'Create a new interface class for the specified module.';
 

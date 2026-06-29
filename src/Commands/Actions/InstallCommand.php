@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Console\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Json;
 use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,12 +11,16 @@ use Symfony\Component\Console\Input\InputOption;
 
 class InstallCommand extends Command
 {
+    use SupportsNamespacedNames;
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'module:install';
+    protected $name = 'laranail::package-scaffolder.install';
+
+    protected $aliases = ['module:install'];
 
     /**
      * The console command description.

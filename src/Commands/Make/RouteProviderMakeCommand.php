@@ -19,7 +19,9 @@ class RouteProviderMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:route-provider';
+    protected $name = 'laranail::package-scaffolder.route-provider';
+
+    protected $aliases = ['module:route-provider'];
 
     /**
      * The command description.

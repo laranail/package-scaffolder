@@ -25,7 +25,9 @@ class CommandMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-command';
+    protected $name = 'laranail::package-scaffolder.make-command';
+
+    protected $aliases = ['module:make-command'];
 
     /**
      * The console command description.

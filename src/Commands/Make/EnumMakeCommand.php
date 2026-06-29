@@ -15,7 +15,9 @@ class EnumMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-enum';
+    protected $name = 'laranail::package-scaffolder.make-enum';
+
+    protected $aliases = ['module:make-enum'];
 
     protected $description = 'Create a new enum class for the specified module.';
 

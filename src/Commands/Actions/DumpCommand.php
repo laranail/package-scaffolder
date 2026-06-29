@@ -11,7 +11,9 @@ class DumpCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:dump';
+    protected $name = 'laranail::package-scaffolder.dump';
+
+    protected $aliases = ['module:dump'];
 
     /**
      * The console command description.

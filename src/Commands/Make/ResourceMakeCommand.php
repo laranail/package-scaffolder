@@ -15,7 +15,9 @@ class ResourceMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-resource';
+    protected $name = 'laranail::package-scaffolder.make-resource';
+
+    protected $aliases = ['module:make-resource'];
 
     protected $description = 'Create a new resource class for the specified module.';
 

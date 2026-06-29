@@ -24,7 +24,9 @@ class FactoryMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-factory';
+    protected $name = 'laranail::package-scaffolder.make-factory';
+
+    protected $aliases = ['module:make-factory'];
 
     /**
      * The console command description.

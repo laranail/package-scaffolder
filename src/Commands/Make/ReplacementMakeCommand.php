@@ -16,7 +16,9 @@ class ReplacementMakeCommand extends GeneratorCommand
     /**
      * The name of the console command.
      */
-    protected $name = 'module:make-replacement';
+    protected $name = 'laranail::package-scaffolder.make-replacement';
+
+    protected $aliases = ['module:make-replacement'];
 
     /**
      * The console command description.

@@ -25,7 +25,9 @@ class MiddlewareMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-middleware';
+    protected $name = 'laranail::package-scaffolder.make-middleware';
+
+    protected $aliases = ['module:make-middleware'];
 
     /**
      * The console command description.

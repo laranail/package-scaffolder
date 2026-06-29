@@ -15,7 +15,9 @@ class MigrateCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:migrate';
+    protected $name = 'laranail::package-scaffolder.migrate';
+
+    protected $aliases = ['module:migrate'];
 
     /**
      * The console command description.

@@ -17,7 +17,9 @@ final class NotificationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-notification';
+    protected $name = 'laranail::package-scaffolder.make-notification';
+
+    protected $aliases = ['module:make-notification'];
 
     protected $argumentName = 'name';
 

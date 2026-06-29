@@ -7,6 +7,7 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Prohibitable;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Collection;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 use Simtabi\Laranail\Package\Scaffolder\Module;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,6 +21,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
 {
     use ConfirmableTrait;
     use Prohibitable;
+    use SupportsNamespacedNames;
 
     public const ALL = 'All';
 

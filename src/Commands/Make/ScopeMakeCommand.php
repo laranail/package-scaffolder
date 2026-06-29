@@ -15,7 +15,9 @@ class ScopeMakeCommand extends GeneratorCommand
 
     protected $argumentName = 'name';
 
-    protected $name = 'module:make-scope';
+    protected $name = 'laranail::package-scaffolder.make-scope';
+
+    protected $aliases = ['module:make-scope'];
 
     protected $description = 'Create a new scope class for the specified module.';
 

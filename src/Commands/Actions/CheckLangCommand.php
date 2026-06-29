@@ -14,7 +14,9 @@ class CheckLangCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:lang';
+    protected $name = 'laranail::package-scaffolder.lang';
+
+    protected $aliases = ['module:lang'];
 
     /**
      * The console command description.

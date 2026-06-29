@@ -11,7 +11,9 @@ class UseCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'module:use';
+    protected $name = 'laranail::package-scaffolder.use';
+
+    protected $aliases = ['module:use'];
 
     /**
      * The console command description.

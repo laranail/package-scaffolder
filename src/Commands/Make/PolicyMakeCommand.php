@@ -24,7 +24,9 @@ class PolicyMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-policy';
+    protected $name = 'laranail::package-scaffolder.make-policy';
+
+    protected $aliases = ['module:make-policy'];
 
     /**
      * The console command description.

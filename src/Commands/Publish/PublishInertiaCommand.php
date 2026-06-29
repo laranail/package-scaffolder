@@ -3,12 +3,17 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
 use Illuminate\Console\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Symfony\Component\Console\Input\InputOption;
 
 class PublishInertiaCommand extends Command
 {
-    protected $name = 'module:publish-inertia';
+    use SupportsNamespacedNames;
+
+    protected $name = 'laranail::package-scaffolder.publish-inertia';
+
+    protected $aliases = ['module:publish-inertia'];
 
     protected $description = 'Publish the Inertia app.js to resources/js, configured to resolve pages from all modules.';
 
