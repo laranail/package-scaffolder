@@ -35,9 +35,17 @@ class PostObserver
             $post->published_at = now();
         }
 
+        // A scheduled post with no date can never go live (scopeDue requires a date)
+        // and is hidden in the meantime — so it would be stranded. Demote it to a
+        // draft. The HTTP path rejects this at validation (clearer feedback); this
+        // covers every other writer (CLI, [[plugins]]Filament, Nova, [[/plugins]]raw Eloquent).
+        if ($post->status === PostStatus::Scheduled && $post->published_at === null) {
+            $post->status = PostStatus::Draft;
+        }
+
         // Run the body through the save-time processing pipeline (sanitize +
-        // any consumer stages) here so EVERY writer — facade/Action, admin
-        // panels, raw Eloquent — is consistent. Only when the body actually changed.
+        // any consumer stages) here so EVERY writer — facade/Action, [[plugins]]Filament,[[/plugins]]
+        // [[plugins]]Nova, [[/plugins]]raw Eloquent — is consistent. Only when the body actually changed.
         // Cast handles a null/unset body; "0" is a valid (non-empty) body.
         if ($post->isDirty('body') && (string) $post->body !== '') {
             $post->body = app(BodyProcessor::class)->process((string) $post->body);

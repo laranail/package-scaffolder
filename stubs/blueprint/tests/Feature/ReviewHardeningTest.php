@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Some\NamespacePath\Blog\DataTransferObjects\PostData;
+use Some\NamespacePath\Blog\Enums\PostStatus;
 use Some\NamespacePath\Blog\Events\CommentApproved;
 use Some\NamespacePath\Blog\Facades\Blog;
+use Some\NamespacePath\Blog\Http\Resources\PostResource;
 use Some\NamespacePath\Blog\Models\Comment;
 use Some\NamespacePath\Blog\Models\Post;
+use Some\NamespacePath\Blog\Models\Tag;
 use Some\NamespacePath\Blog\Notifications\PostPublishedNotification;
 use Some\NamespacePath\Blog\Tests\TestCase;
 
@@ -223,5 +226,157 @@ class ReviewHardeningTest extends TestCase
             ->assertFailed();
 
         $this->assertSame(0, Post::query()->count());
+    }
+
+    /**
+     * Chunk 1 #3 (observer) — non-HTTP writers (CLI/[[plugins]]Filament/Nova/[[/plugins]]raw Eloquent) that save a
+     * scheduled post with no date get it demoted to draft, so it can never strand.
+     */
+    #[Test]
+    public function a_dateless_scheduled_post_is_demoted_to_draft_on_save(): void
+    {
+        // Raw save (bypasses the FormRequest[[plugins]], like Filament/Nova/CLI[[/plugins]]).
+        $stranded = Post::factory()->create([
+            'status' => PostStatus::Scheduled,
+            'published_at' => null,
+        ]);
+
+        $this->assertSame(PostStatus::Draft, $stranded->refresh()->status);
+
+        // A properly-dated scheduled post is left untouched.
+        $valid = Post::factory()->scheduled()->create();
+        $this->assertSame(PostStatus::Scheduled, $valid->refresh()->status);
+        $this->assertNotNull($valid->published_at);
+    }
+
+    /** Chunk 6 #20 — the number of tags per post is capped (a post can't attach thousands). */
+    #[Test]
+    public function the_tag_count_is_capped(): void
+    {
+        config()->set('modules.blog.validation.tag_count_max', 3);
+
+        $this->actingAs($this->createUser())
+            ->postJson('/api/v1/posts', [
+                'title' => 'T', 'body' => 'B', 'status' => 'draft',
+                'tags' => ['a', 'b', 'c', 'd'], // 4 > 3
+            ])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['tags']);
+    }
+
+    /** Chunk 2 #8 — case/format variants of a tag name collapse to a single tag. */
+    #[Test]
+    public function tag_case_variants_collapse_to_one_tag(): void
+    {
+        $post = Blog::create(PostData::fromArray([
+            'title' => 'T', 'body' => 'B', 'status' => 'draft',
+            'tags' => ['Laravel', 'laravel', 'LARAVEL', 'Laravel '],
+        ]));
+
+        $this->assertSame(1, Tag::query()->count());
+        $this->assertSame(1, $post->tags()->count());
+        $this->assertSame('laravel', Tag::query()->value('slug'));
+    }
+
+    /** #8 (regression) — distinct names that share a slug ("C++"/"C#") must NOT collapse. */
+    #[Test]
+    public function distinct_tag_names_sharing_a_slug_stay_separate(): void
+    {
+        $post = Blog::create(PostData::fromArray([
+            'title' => 'T', 'body' => 'B', 'status' => 'draft',
+            'tags' => ['C++', 'C#', 'F#'],
+        ]));
+
+        $this->assertSame(3, $post->tags()->count());
+        $this->assertEqualsCanonicalizing(['C++', 'C#', 'F#'], $post->tags->pluck('name')->all());
+    }
+
+    /** #5 — reading_time is Unicode-aware (str_word_count would return 0 → 1 min for CJK). */
+    #[Test]
+    public function reading_time_counts_non_ascii_text(): void
+    {
+        // ~600 CJK "words" at 200/min ⇒ 3 minutes (str_word_count would have given 1).
+        $cjk = str_repeat('文', 600);
+        $post = Post::factory()->create(['body' => $cjk]);
+
+        $this->assertSame(3, $post->reading_time);
+
+        // Accented Latin counts each whitespace-delimited token (not just a–z runs).
+        $accented = Post::factory()->create(['body' => trim(str_repeat('café résumé ', 100))]); // 200 words
+        $this->assertSame(1, $accented->reading_time);
+    }
+
+    /** #4 — LIKE wildcards in a search term are escaped (matched literally). */
+    #[Test]
+    public function search_escapes_like_wildcards(): void
+    {
+        $this->assertSame('50\%off', Post::escapeLike('50%off'));
+        $this->assertSame('a\_b', Post::escapeLike('a_b'));
+
+        Post::factory()->published()->create(['title' => 'Big 50% discount']);
+        Post::factory()->published()->create(['title' => 'Totally unrelated']);
+
+        // '%' is treated literally — only the post whose title actually contains "50%".
+        $results = Blog::search(['search' => '50%']);
+        $this->assertCount(1, $results->items());
+    }
+
+    /** #9 — fromArray raises a clear exception (not a raw ValueError) on a bad status. */
+    #[Test]
+    public function post_data_from_array_rejects_an_invalid_status_clearly(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid post status [nonsense]');
+
+        PostData::fromArray(['title' => 'T', 'status' => 'nonsense']);
+    }
+
+    /** #13 — PostResource never exposes unapproved comments, even if they were eager-loaded. */
+    #[Test]
+    public function post_resource_hides_unapproved_comments_even_when_loaded(): void
+    {
+        $post = Post::factory()->published()->create();
+        Comment::factory()->for($post, 'commentable')->approved()->create(['body' => 'approved one']);
+        Comment::factory()->for($post, 'commentable')->create(['approved' => false, 'body' => 'secret pending']);
+
+        // Force-load ALL comments (the unsafe consumer pattern) then resource it.
+        $payload = (new PostResource($post->load('comments')))
+            ->toArray(request());
+
+        $bodies = collect($payload['comments']->resolve())->pluck('body');
+        $this->assertContains('approved one', $bodies);
+        $this->assertNotContains('secret pending', $bodies);
+    }
+
+    /** #13 (consistency) — the API show's comments_count reflects approved comments only. */
+    #[Test]
+    public function the_api_show_comment_count_excludes_pending(): void
+    {
+        $post = Post::factory()->published()->create();
+        Comment::factory()->for($post, 'commentable')->approved()->create();
+        Comment::factory()->for($post, 'commentable')->count(2)->create(['approved' => false]);
+
+        $this->getJson("/api/v1/posts/{$post->slug}")
+            ->assertOk()
+            ->assertJsonPath('data.comments_count', 1);
+    }
+
+    /** Chunk C — tags are admin-only taxonomy (a TagPolicy gates panel CRUD, like categories). */
+    #[Test]
+    public function tag_management_is_restricted_to_admins(): void
+    {
+        $tag = Tag::factory()->create();
+
+        $user = $this->createUser();
+        $admin = $this->createAdmin();
+
+        // Reads are open; writes require admin (the policy the panels enforce).
+        $this->assertTrue($user->can('viewAny', Tag::class));
+        $this->assertFalse($user->can('create', Tag::class));
+        $this->assertFalse($user->can('delete', $tag));
+
+        $this->assertTrue($admin->can('create', Tag::class));
+        $this->assertTrue($admin->can('update', $tag));
+        $this->assertTrue($admin->can('delete', $tag));
     }
 }

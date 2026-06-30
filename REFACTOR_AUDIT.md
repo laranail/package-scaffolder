@@ -10,6 +10,49 @@ local commits only — never pushed.
 
 ---
 
+## Blueprint RE-SYNC (Phase 0–3, second pass)
+
+Naming model (decided, D1/D2 locked + secondary-entity question answered):
+- **Artifact** = the package/module/plugin (`Blog`→{Artifact}); **primary Entity** = `Post`→{Entity}
+  (prompted via `--entity`, default = singular of the artifact name, since the blueprint decouples
+  them: Blog≠Post). **Comment/Category/Tag stay verbatim** as the standard supporting layer (generic
+  nouns; documented). Zero-leftover bar therefore targets `blog`/`post` (not comment/category/tag).
+- **D1 (panel comments) = option (a):** keep the blueprint's wording verbatim, wrap each panel-named
+  comment in `plugins` markers (block for whole comments/markdown bullets; inline `[[plugins]]…[[/plugins]]`
+  for mid-sentence parentheticals) so nova/filament keep gold-standard text and `plugin=none` strips it.
+- **D2 (cross-feature tests) = option (b):** `ReviewHardeningTest` kept as a full-feature fixture; the
+  matrix runs an artifact's own suite in full only for all-features-on, and otherwise verifies the
+  pruned artifact boots + passes applicable checks (documented matrix policy).
+
+### RS-1 — Re-sync the refactored blueprint into `stubs/` + re-apply markers (issues #1/#2/#4)
+- **What:** Diffed the current blueprint (`~/Downloads/Modules/Blog`) against the pristine baseline
+  (commit `5a781d6` via a detached worktree, so author changes are isolated from my markers). The
+  refactor is a **hardening pass**, not a restructure: 4 migrations → 1 `create_blog_tables.php`; new
+  `src/Policies/TagPolicy.php`; 16 content edits (LIKE-wildcard escaping in `Post`/`PostList`; Unicode
+  `countWords`; `PostData` clear exceptions; case-insensitive tag dedup + `tag_count_max`; approved-only
+  API comments; `SendPostPublishedNotification` `deleteWhenMissingModels`; observer demotes dateless
+  scheduled posts; provider registers `TagPolicy`, drops the `blog.publish` gate; ~20 new
+  `ReviewHardeningTest` methods; docs/CHANGELOG). Re-synced every change into `stubs/blueprint`
+  (direct-copy for no-marker files; patched author changes into the marker-bearing provider/config to
+  preserve markers; consolidated migrations).
+- **D1 implemented:** added inline-marker (`[[feat]]…[[/feat]]`) and docblock-continuation (` * `) +
+  `#` (NEON) support to `MarkerProcessor`; restored verbatim panel wording and wrapped all 17 panel
+  mentions (docblocks, `//` comments, markdown, the new `TagPolicy` docblock + `PostObserver` demote
+  comment + `ReviewHardeningTest` comments). Generator now also runs the marker pass on inline-token
+  files (not just `@artifact:` ones).
+- **Why:** issues #1 (don't lose markers), #2 (D1), #4 (migration rename).
+- **How verified:** **marker before/after diff = IDENTICAL** (68 block markers across the same 7 files;
+  nothing lost) + 34 new inline tokens (17 pairs). `php -l` clean on all edited stubs.
+  `MatrixVerificationTest` `plugin=none` scans the **whole generated tree** → zero `Filament`/`Nova`
+  and zero leftover `@artifact`/`[[ ]]` markers; nova/filament builds keep verbatim wording;
+  `GeneratedArtifactBootTest` boots the re-synced provider (TagPolicy/Gate changes included). Issue #4:
+  no generation path references the 4 old migration filenames. Full suite green (**446**).
+- **Behavior change:** generated artifacts now carry the blueprint's hardening fixes + `TagPolicy` +
+  consolidated migration; `blog.publish` convenience gate removed (publish via policy ability) — matches
+  the gold standard.
+- **Open:** entity parameterization (`Post`→{Entity}, generic-template proof with Customer/Admin),
+  D2 matrix-policy doc, sweep — next entries.
+
 ## Entries
 
 ### 0001 — Vendor the blueprint as the parameterized template

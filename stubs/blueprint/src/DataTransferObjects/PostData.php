@@ -7,6 +7,7 @@ namespace Some\NamespacePath\Blog\DataTransferObjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use InvalidArgumentException;
 use Some\NamespacePath\Blog\Enums\PostStatus;
 
 /**
@@ -51,9 +52,7 @@ final readonly class PostData
             metaDescription: $attributes['meta_description'] ?? null,
             featuredImage: $attributes['featured_image'] ?? null,
             isFeatured: array_key_exists('is_featured', $attributes) ? (bool) $attributes['is_featured'] : null,
-            status: $status instanceof PostStatus
-                ? $status
-                : ($status !== null ? PostStatus::from((string) $status) : null),
+            status: self::toStatus($status),
             categoryId: isset($attributes['category_id']) ? (int) $attributes['category_id'] : null,
             authorId: isset($attributes['author_id']) ? (int) $attributes['author_id'] : null,
             publishedAt: self::toCarbon($attributes['published_at'] ?? null),
@@ -134,6 +133,21 @@ final readonly class PostData
     }
 
     /**
+     * Resolve a status value to the enum, raising a clear exception (not a raw
+     * ValueError) on invalid direct input. The validated request path never hits
+     * the failure branch.
+     */
+    private static function toStatus(mixed $status): ?PostStatus
+    {
+        if ($status === null || $status instanceof PostStatus) {
+            return $status;
+        }
+
+        return PostStatus::tryFrom((string) $status)
+            ?? throw new InvalidArgumentException("Invalid post status [{$status}].");
+    }
+
+    /**
      * @param  mixed  $value
      */
     private static function toCarbon($value): ?Carbon
@@ -142,6 +156,16 @@ final readonly class PostData
             return null;
         }
 
-        return $value instanceof Carbon ? $value : Carbon::parse($value);
+        if ($value instanceof Carbon) {
+            return $value;
+        }
+
+        try {
+            return Carbon::parse($value);
+        } catch (\Throwable $e) {
+            $shown = is_scalar($value) ? (string) $value : get_debug_type($value);
+
+            throw new InvalidArgumentException("Invalid published_at date [{$shown}].", previous: $e);
+        }
     }
 }

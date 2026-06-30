@@ -47,7 +47,11 @@ class PostController extends Controller
 
     public function show(Post $post): PostResource
     {
-        return PostResource::make($post->load('category')->loadCount('comments'));
+        // Count APPROVED comments only — consistent with the approved-only comments
+        // the resource exposes, and so the public count doesn't reveal pending ones.
+        return PostResource::make(
+            $post->load('category')->loadCount(['comments as comments_count' => fn ($query) => $query->approved()]),
+        );
     }
 
     public function update(UpdatePostRequest $request, Post $post): PostResource

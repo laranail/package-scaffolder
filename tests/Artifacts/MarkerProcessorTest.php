@@ -59,6 +59,19 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringNotContainsString('@artifact:', $out);
     }
 
+    public function test_inline_markers_strip_a_mid_sentence_clause()
+    {
+        $line = ' * every writer (facade, [[plugins]]Filament, Nova, [[/plugins]]raw Eloquent) goes through it.';
+
+        $kept = MarkerProcessor::process($line, ['plugins']);
+        $this->assertSame(' * every writer (facade, Filament, Nova, raw Eloquent) goes through it.', $kept);
+
+        $stripped = MarkerProcessor::process($line, []);
+        $this->assertSame(' * every writer (facade, raw Eloquent) goes through it.', $stripped);
+        $this->assertStringNotContainsString('Filament', $stripped);
+        $this->assertStringNotContainsString('[[', $stripped);
+    }
+
     public function test_docblock_continuation_markers()
     {
         $php = <<<'PHP'

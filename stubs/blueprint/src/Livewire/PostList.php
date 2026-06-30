@@ -30,7 +30,7 @@ class PostList extends Component
     {
         $posts = Post::query()
             ->published()
-            ->when($this->search !== '', fn (Builder $query) => $query->where('title', 'like', "%{$this->search}%"))
+            ->when($this->search !== '', fn (Builder $query) => $query->whereRaw('title LIKE ? ESCAPE ?', ['%'.Post::escapeLike($this->search).'%', '\\']))
             ->latest('published_at')
             ->paginate((int) config('modules.blog.pagination.per_page', 15));
 

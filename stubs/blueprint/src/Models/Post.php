@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 use League\CommonMark\CommonMarkConverter;
 use Some\NamespacePath\Blog\Database\Factories\PostFactory;
 use Some\NamespacePath\Blog\Enums\PostStatus;
@@ -70,7 +69,7 @@ class Post extends Model
     ];
 
     /**
-     * Generic lifecycle events fire for every writer (facade, admin panels, raw
+     * Generic lifecycle events fire for every writer (facade, [[plugins]]Filament, Nova, [[/plugins]]raw
      * Eloquent, factories). State-transition events (published/unpublished) live
      * in {@see PostObserver}.
      *
@@ -186,11 +185,15 @@ class Post extends Model
 
         $query->when(
             $filters['search'] ?? null,
-            fn (Builder $q, string $term) => $q->where(
-                fn (Builder $w) => $w
-                    ->where('title', 'like', "%{$term}%")
-                    ->orWhere('excerpt', 'like', "%{$term}%"),
-            ),
+            function (Builder $q, string $term): void {
+                $like = '%'.self::escapeLike($term).'%';
+
+                // Explicit ESCAPE clause so the escaping is honoured on every driver
+                // (SQLite has no default LIKE escape char; MySQL/Postgres use `\`).
+                $q->where(fn (Builder $w) => $w
+                    ->whereRaw('title LIKE ? ESCAPE ?', [$like, '\\'])
+                    ->orWhereRaw('excerpt LIKE ? ESCAPE ?', [$like, '\\']));
+            },
         );
 
         $sortable = (array) config('modules.blog.ui.sortable', ['published_at']);
@@ -200,6 +203,16 @@ class Post extends Model
         $direction = strtolower((string) ($filters['direction'] ?? 'desc')) === 'asc' ? 'asc' : 'desc';
 
         return $query->orderBy($sort, $direction);
+    }
+
+    /**
+     * Escape LIKE wildcards (`%`, `_`, `\`) so a search term is matched literally
+     * and can't widen the result set. Relies on the connection's default LIKE
+     * escape character (`\`), which MySQL and Postgres use.
+     */
+    public static function escapeLike(string $value): string
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $value);
     }
 
     /**
@@ -237,12 +250,34 @@ class Post extends Model
     {
         return Attribute::make(
             get: function (): int {
-                $words = Str::wordCount(strip_tags((string) $this->body));
                 $perMinute = max(1, (int) config('modules.blog.reading.words_per_minute', 200));
 
-                return max(1, (int) ceil($words / $perMinute));
+                return max(1, (int) ceil($this->countWords(strip_tags((string) $this->body)) / $perMinute));
             },
         )->shouldCache();
+    }
+
+    /**
+     * Unicode-aware word count. `str_word_count` only sees ASCII a–z, so it
+     * undercounts accented/Cyrillic/etc. text and ignores CJK entirely. Here,
+     * scripts with no word spaces (CJK/Japanese/Korean) count per character, and
+     * everything else counts whitespace-delimited tokens.
+     */
+    private function countWords(string $text): int
+    {
+        $text = trim($text);
+
+        if ($text === '') {
+            return 0;
+        }
+
+        $cjk = '/[\x{4e00}-\x{9fff}\x{3400}-\x{4dbf}\x{3040}-\x{30ff}\x{ac00}-\x{d7af}]/u';
+        $cjkCount = (int) preg_match_all($cjk, $text);
+
+        $rest = trim((string) preg_replace($cjk, ' ', $text));
+        $wordCount = $rest === '' ? 0 : count(preg_split('/\s+/u', $rest) ?: []);
+
+        return $cjkCount + $wordCount;
     }
 
     /**

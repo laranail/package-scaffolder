@@ -27,6 +27,14 @@ class ValidTagList implements ValidationRule
             return;
         }
 
+        $countMax = (int) config('modules.blog.validation.tag_count_max', 25);
+
+        if (count($value) > $countMax) {
+            $fail('modules/blog::blog.validation.tags_too_many')->translate(['max' => $countMax]);
+
+            return;
+        }
+
         foreach ($value as $tag) {
             if (! is_string($tag) || trim($tag) === '' || mb_strlen($tag) > $max) {
                 $fail('modules/blog::blog.validation.tags_invalid')->translate();

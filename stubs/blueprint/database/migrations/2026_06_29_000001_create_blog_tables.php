@@ -7,10 +7,22 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Some\NamespacePath\Blog\Enums\PostStatus;
 
+/**
+ * Creates every table the Blog package owns, in dependency order:
+ * categories → posts → comments → tags (+ the polymorphic taggable pivot).
+ */
 return new class extends Migration
 {
     public function up(): void
     {
+        Schema::create('blog_categories', function (Blueprint $table): void {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('blog_posts', function (Blueprint $table): void {
             $table->id();
             $table->string('title');
@@ -40,10 +52,43 @@ return new class extends Migration
             // (the standalone status index is dropped; this covers status-leading lookups).
             $table->index(['status', 'published_at']);
         });
+
+        Schema::create('blog_comments', function (Blueprint $table): void {
+            $table->id();
+            // Polymorphic parent (commentable_id + commentable_type), so a comment
+            // can attach to a post — or any host model. No FK cascade on morphs;
+            // cleanup on force-delete is handled by PostObserver.
+            $table->morphs('commentable');
+            $table->unsignedBigInteger('author_id')->nullable()->index();
+            $table->string('author_name');
+            $table->string('email')->nullable();
+            $table->text('body');
+            $table->boolean('approved')->default(false)->index();
+            $table->timestamps();
+        });
+
+        Schema::create('blog_tags', function (Blueprint $table): void {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->timestamps();
+        });
+
+        // Polymorphic tag pivot — tags can be attached to posts or any host model.
+        Schema::create('blog_taggables', function (Blueprint $table): void {
+            $table->foreignId('tag_id')->constrained('blog_tags')->cascadeOnDelete();
+            $table->morphs('taggable');
+            $table->unique(['tag_id', 'taggable_id', 'taggable_type']);
+        });
     }
 
     public function down(): void
     {
+        // Reverse dependency order (drop FK-holders before their targets).
+        Schema::dropIfExists('blog_taggables');
+        Schema::dropIfExists('blog_tags');
+        Schema::dropIfExists('blog_comments');
         Schema::dropIfExists('blog_posts');
+        Schema::dropIfExists('blog_categories');
     }
 };

@@ -67,11 +67,12 @@ class MatrixVerificationTest extends BaseTestCase
         // 1. no half-processed markers survive anywhere
         $leftover = [];
         foreach ($this->fs->allFiles($target) as $f) {
-            if (str_contains($this->fs->get($f->getPathname()), '@artifact:')) {
+            $c = $this->fs->get($f->getPathname());
+            if (str_contains($c, '@artifact:') || preg_match('/\[\[\/?[\w-]+\]\]/', $c) === 1) {
                 $leftover[] = $f->getRelativePathname();
             }
         }
-        $this->assertSame([], $leftover, 'leftover @artifact markers');
+        $this->assertSame([], $leftover, 'leftover @artifact / [[inline]] markers');
 
         // 2. the densest wiring file is valid PHP
         $provider = $target.'/src/Providers/WidgetServiceProvider.php';

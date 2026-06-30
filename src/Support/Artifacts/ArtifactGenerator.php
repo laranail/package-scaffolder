@@ -57,7 +57,7 @@ final class ArtifactGenerator
             $content = $this->files->get($file->getPathname());
             $content = TokenReplacer::replace($content, $tokens);
 
-            if (str_contains($content, '@artifact:')) {
+            if (str_contains($content, '@artifact:') || str_contains($content, '[[')) {
                 $content = MarkerProcessor::process($content, $markers);
             }
 

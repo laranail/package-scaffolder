@@ -29,6 +29,7 @@ return [
     'validation' => [
         'comment_too_fast' => 'Your comment was submitted too quickly. Please try again.',
         'tags_invalid' => 'Each tag must be a non-empty string within the allowed length.',
+        'tags_too_many' => 'Too many tags; please use :max or fewer.',
         'slug_reserved' => 'That slug is reserved; please choose another.',
     ],
 

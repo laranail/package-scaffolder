@@ -284,6 +284,8 @@ return [
         'meta_description_max' => 500,
         'url_max' => 2048,
         'tag_max' => 50,
+        // Max number of tags attachable to a single post.
+        'tag_count_max' => 25,
         'category_description_max' => 1000,
         'author_name_max' => 100,
         'email_max' => 255,

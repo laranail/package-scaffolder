@@ -34,7 +34,7 @@ invisible to IDEs — ship `_ide_helper`/PHPStan stubs if you expose them widely
 ### 2. Body-processing pipeline — transform bodies on save
 
 Bodies pass through ordered stages (an `Illuminate\Pipeline`) at the **model layer**, so
-**every** writer (facade, admin panels, raw Eloquent) runs them. The default stage
+**every** writer (facade, [[plugins]]Filament, Nova, [[/plugins]]raw Eloquent) runs them. The default stage
 sanitizes HTML. Add your own three ways:
 
 ```php

@@ -66,10 +66,30 @@ final class MarkerProcessor
             }
 
             if ($skipDepth === 0) {
-                $out[] = $line;
+                $out[] = self::applyInline($line, $enabledFeatures);
             }
         }
 
         return implode("\n", $out);
+    }
+
+    /**
+     * Inline (within-line) markers for a panel name embedded mid-sentence, where a
+     * whole-line block marker can't cut just the clause:
+     *
+     *     every writer (facade, [[plugins]]Filament, Nova, [[/plugins]]raw Eloquent)
+     *
+     * An ENABLED feature keeps the inner text verbatim (only the `[[…]]` tokens are
+     * removed); a DISABLED feature removes the whole span. Same-line only.
+     *
+     * @param  list<string>  $enabledFeatures
+     */
+    private static function applyInline(string $line, array $enabledFeatures): string
+    {
+        return preg_replace_callback(
+            '/\[\[(\S+?)\]\](.*?)\[\[\/\1\]\]/',
+            static fn (array $m): string => in_array($m[1], $enabledFeatures, true) ? $m[2] : '',
+            $line,
+        ) ?? $line;
     }
 }

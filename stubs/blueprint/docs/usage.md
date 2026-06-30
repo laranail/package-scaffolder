@@ -40,8 +40,8 @@ BlogFacade::stats();           // ['posts' => …, 'published' => …, …]
 
 ```php
 $user->can('update', $post);              // PostPolicy::update (owner/admin)
-Gate::allows('blog.publish', $post);      // convenience gate
-Gate::allows('blog.moderate-comments');   // gate
+$user->can('publish', $post);             // PostPolicy::publish (owner/admin)
+Gate::allows('blog.moderate-comments');   // standalone moderation gate
 ```
 
 ## Events

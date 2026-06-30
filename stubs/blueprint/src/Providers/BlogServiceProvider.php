@@ -56,11 +56,13 @@ use Some\NamespacePath\Blog\Livewire\PostList;
 use Some\NamespacePath\Blog\Models\Category;
 use Some\NamespacePath\Blog\Models\Comment;
 use Some\NamespacePath\Blog\Models\Post;
+use Some\NamespacePath\Blog\Models\Tag;
 use Some\NamespacePath\Blog\Observers\CommentObserver;
 use Some\NamespacePath\Blog\Observers\PostObserver;
 use Some\NamespacePath\Blog\Policies\CategoryPolicy;
 use Some\NamespacePath\Blog\Policies\CommentPolicy;
 use Some\NamespacePath\Blog\Policies\PostPolicy;
+use Some\NamespacePath\Blog\Policies\TagPolicy;
 use Some\NamespacePath\Blog\Processing\BodyProcessor;
 // @artifact:start plugin-filament
 use Some\NamespacePath\Blog\Providers\Integrations\FilamentBlogServiceProvider;
@@ -192,7 +194,10 @@ class BlogServiceProvider extends PackageServiceProvider
         Gate::policy(Post::class, PostPolicy::class);
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(Comment::class, CommentPolicy::class);
-        Gate::define('blog.publish', [PostPolicy::class, 'publish']);
+        Gate::policy(Tag::class, TagPolicy::class);
+        // Comment moderation is a standalone gate (not a model-policy ability). Post
+        // publishing is authorized via the `publish` policy ability directly
+        // (see PostController/PublishPostAction), so no separate gate is needed.
         Gate::define('blog.moderate-comments', static fn ($user): bool => method_exists($user, 'hasRole') && $user->hasRole('admin'));
 
         // @artifact:start notifications

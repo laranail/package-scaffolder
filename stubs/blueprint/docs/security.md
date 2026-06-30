@@ -24,7 +24,7 @@ tags. This is a solid **dependency-free baseline**; for fully-trusted rich HTML 
 purifier as a body stage (see [extending.md](tools/extending.md)).
 
 Sanitization runs at the **model layer** (the always-last `BodyProcessor` stage, invoked from the
-`saving` observer), so it applies to **every** writer — facade/API/CLI, admin panels and raw
+`saving` observer), so it applies to **every** writer — facade/API/CLI, [[plugins]]Filament, Nova and [[/plugins]]raw
 Eloquent — and to the output of any consumer `pipe()` stage (which runs *before* it). Because the
 stored body is already sanitized, the `<x-modules-blog::post>` component renders it as HTML via
 `renderedBody()` (and renders Markdown on display from the preserved source when enabled). Keep
@@ -41,9 +41,9 @@ unaffected.
 
 - Every mutating endpoint is a **Form Request** whose `authorize()` calls a
   policy or gate — there is no `return true`.
-- Policies (`PostPolicy`, `CategoryPolicy`, `CommentPolicy`) are enforced via
-  `authorizeResource`/`authorize()` and convenience gates (`blog.publish`,
-  `blog.moderate-comments`).
+- Policies (`PostPolicy`, `CategoryPolicy`, `CommentPolicy`, `TagPolicy`) are
+  enforced via `authorizeResource`/`authorize()`; post publishing uses the
+  `publish` policy ability and comment moderation the `blog.moderate-comments` gate.
 - Drafts and scheduled posts are hidden from the public by the
   `blog.published` middleware (404, not 403, so existence isn't leaked).
 

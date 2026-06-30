@@ -34,7 +34,11 @@ class PostResource extends JsonResource
             'status' => $this->status->value,
             'status_label' => $this->status->label(),
             'category' => CategoryResource::make($this->whenLoaded('category')),
-            'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            // Only ever expose APPROVED comments — even if a consumer eager-loaded the
+            // full relation, unapproved/unmoderated comments must not leak to the API.
+            'comments' => CommentResource::collection(
+                $this->whenLoaded('comments', fn () => $this->comments->where('approved', true)->values()),
+            ),
             'comments_count' => $this->whenCounted('comments'),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'published_at' => $this->published_at?->toIso8601String(),

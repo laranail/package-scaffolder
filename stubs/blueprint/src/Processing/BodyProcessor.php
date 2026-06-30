@@ -14,7 +14,7 @@ use Some\NamespacePath\Blog\Processing\Stages\SanitizeHtmlStage;
  * (an {@see Pipeline}). The default stage is HTML sanitization; consumers add
  * their own — `Blog::pipe(MyStage::class)`, the `blog.body.stages` container tag,
  * or `config('modules.blog.processing.stages')`. Invoked from the model `saving` hook so
- * every writer (facade, admin panels, raw Eloquent) goes through it.
+ * every writer (facade, [[plugins]]Filament, Nova, [[/plugins]]raw Eloquent) goes through it.
  *
  * A stage is `handle(string $body, Closure $next): string`; a stage that does not
  * call `$next` short-circuits the rest (lets a consumer veto/replace processing).
