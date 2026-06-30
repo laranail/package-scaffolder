@@ -153,8 +153,14 @@ local commits only — never pushed.
   `CommandNamingTest::all()` confirms the console-base command constructs/registers without breaking
   listing. Full suite green (**430**).
 - **Behavior change:** new command added (additive).
-- **Open:** interactive `expectsChoice` test (deferred to matrix verification); 0004c post-gen Pint
-  pass + dep trimming; #24 host composer wiring; #23 prose scrub.
+- **Accepted gap (justified):** the interactive (TUI) branch's prompt calls are thin one-line
+  delegations to `laranail/console`'s `CommandInteractionService` (`askSelect`/`askText`/
+  `askMultiSelect`, separately tested in that library). The shared `resolve*()` logic is fully tested
+  via the flag path; the command forces non-interactive whenever `! input->isInteractive()` (true
+  under PHPUnit), so reaching the prompts would require brittle TTY/keystroke simulation for 3
+  delegation lines — not worth the fragility. The interactive↔non-interactive *parity* is structural
+  (one `resolve*()` path, branching only on `$nonInteractive`). Resolved: 0004c (Pint), 0008
+  (dep-trim), #24 (composer wiring), #23 (prose scrub).
 
 | 5 | interactive + non-interactive shared path | done (0005) | MakeArtifactCommandTest |
 | 6 | missing required flag fails; non-TTY ⇒ non-interactive | done (0005) | MakeArtifactCommandTest |
