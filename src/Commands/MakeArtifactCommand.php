@@ -10,6 +10,7 @@ use Simtabi\Laranail\Console\Tools\Commands\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\HostComposerWriter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
@@ -64,6 +65,10 @@ class MakeArtifactCommand extends Command
             $this->components->error($e->getMessage());
 
             return self::FAILURE;
+        }
+
+        if (! $this->option('no-repo')) {
+            (new HostComposerWriter(new Filesystem))->wire(base_path('composer.json'));
         }
 
         $this->components->info(sprintf('Generated %s [%s] (%s\\%s) at %s', $type, $request->studly(), $namespace, $request->studly(), $target));
@@ -197,6 +202,7 @@ class MakeArtifactCommand extends Command
             ['vendor', null, InputOption::VALUE_REQUIRED, 'Composer vendor (default from config).'],
             ['path', null, InputOption::VALUE_REQUIRED, 'Override the container base path.'],
             ['force', null, InputOption::VALUE_NONE, 'Overwrite an existing target.'],
+            ['no-repo', null, InputOption::VALUE_NONE, 'Skip wiring the host composer.json (merge-plugin + path repositories).'],
         ];
     }
 }

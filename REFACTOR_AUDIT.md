@@ -158,3 +158,23 @@ local commits only — never pushed.
 
 | 5 | interactive + non-interactive shared path | done (0005) | MakeArtifactCommandTest |
 | 6 | missing required flag fails; non-TTY ⇒ non-interactive | done (0005) | MakeArtifactCommandTest |
+
+### 0006 — Portability proof + idempotent host composer.json wiring (#24)
+- **What:** `HostComposerWriter::wire()` idempotently merges the platform shape into a host
+  composer.json — `extra.merge-plugin.include` for `./platform/{modules,packages,plugins}/*/composer.json`
+  (+ recurse/replace false), path `repositories`, `config` (allow-plugins pestphp/pest-plugin +
+  wikimedia/composer-merge-plugin, optimize-autoloader, preferred-install dist, sort-packages),
+  minimum-stability dev, prefer-stable. Arrays are unioned, scalars set only when absent, allow-plugins
+  merged with the developer's values winning. Wired into `make:artifact` (opt out via `--no-repo`).
+- **Why:** Requirements 10 (same artifact in any container) and 11 (minimal, idempotent, preserving
+  composer merge).
+- **How verified:** `PortabilityTest` (2): the same `Widget`/`Acme` artifact generated into module,
+  package and plugin containers yields a **byte-identical** provider with `namespace Acme\Widget`
+  (folder is location-only); wiring an existing composer twice is byte-identical (idempotent) and
+  preserves `name`/`require`/a developer `minimum-stability: stable`/a developer allow-plugins entry
+  while still adding the platform includes + repositories. Full suite green (**433**).
+- **Behavior change:** `make:artifact` now wires the host composer by default (opt out `--no-repo`).
+- **Open:** unique-name-across-containers validation in the command (#24 tail); matrix self-verification (#25).
+
+| 10 | same artifact resolves identically in every container | done (0006) | PortabilityTest |
+| 11 | composer merge minimal / idempotent / preserving | done (0006) | PortabilityTest |

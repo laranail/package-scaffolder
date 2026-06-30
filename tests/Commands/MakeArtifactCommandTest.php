@@ -45,6 +45,7 @@ class MakeArtifactCommandTest extends BaseTestCase
             '--features' => 'web-ui,rest-api',
             '--path' => $dir,
             '--no-interaction' => true,
+            '--no-repo' => true,
         ]);
 
         $this->assertSame(0, $code, Artisan::output());
@@ -61,6 +62,7 @@ class MakeArtifactCommandTest extends BaseTestCase
             'name' => 'Demo',
             '--path' => $this->tmp(),
             '--no-interaction' => true,
+            '--no-repo' => true,
         ]);
 
         $this->assertSame(1, $code);
@@ -75,6 +77,7 @@ class MakeArtifactCommandTest extends BaseTestCase
             '--features' => 'web-ui,teleporter',
             '--path' => $this->tmp(),
             '--no-interaction' => true,
+            '--no-repo' => true,
         ]);
 
         $this->assertSame(1, $code);
@@ -88,6 +91,7 @@ class MakeArtifactCommandTest extends BaseTestCase
             '--type' => 'plugin',
             '--path' => $this->tmp(),
             '--no-interaction' => true,
+            '--no-repo' => true,
         ]);
 
         $this->assertSame(1, $code);
