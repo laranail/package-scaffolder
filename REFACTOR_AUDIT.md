@@ -135,3 +135,26 @@ local commits only — never pushed.
 
 | 4 (partial) | feature/plugin toggles drive generation | engine done (0004); command next | ArtifactGeneratorTest |
 | 7 (partial) | plugin none zero footprint | functional footprint asserted (0004); prose scrub #23 | ArtifactGeneratorTest |
+
+### 0005 — `make:artifact` command (CLI + TUI shared path)
+- **What:** `MakeArtifactCommand` (`laranail::package-scaffolder.new`, alias `make:artifact`) on the
+  **laranail/console** `Command` base (+ `SupportsNamespacedNames`). One `resolve*()` path per input
+  (type, plugin, name, namespace, features) drives both modes via `$this->services->interaction()`:
+  a flag wins when present; else interactive prompts (`askSelect`/`askText`/`askMultiSelect`); else
+  (non-interactive) a missing **required** input fails loudly naming the flag. `nonInteractive =
+  !TTY || --no-interaction`. Builds a `GenerationRequest` and calls `ArtifactGenerator`, writing to
+  `base_path(config artifacts.kinds.{type})/{Studly}` (or `--path`). Registered in
+  `ConsoleServiceProvider::defaultCommands()`; `artifacts` config merged in the provider.
+- **Why:** Requirements 4/5/6 (prompts for type/plugin/features; one shared validation+generation
+  path; fail loud + non-TTY default) and 2 (the scaffolder itself uses laranail/console).
+- **How verified:** `MakeArtifactCommandTest` (4): non-interactive flag generation (package, ns
+  `Acme\Demo`, a non-selected feature absent); missing `--type` ⇒ exit 1 + "--type is required";
+  unknown feature ⇒ error; `--type=plugin` without `--plugin` ⇒ "--plugin is required".
+  `CommandNamingTest::all()` confirms the console-base command constructs/registers without breaking
+  listing. Full suite green (**430**).
+- **Behavior change:** new command added (additive).
+- **Open:** interactive `expectsChoice` test (deferred to matrix verification); 0004c post-gen Pint
+  pass + dep trimming; #24 host composer wiring; #23 prose scrub.
+
+| 5 | interactive + non-interactive shared path | done (0005) | MakeArtifactCommandTest |
+| 6 | missing required flag fails; non-TTY ⇒ non-interactive | done (0005) | MakeArtifactCommandTest |

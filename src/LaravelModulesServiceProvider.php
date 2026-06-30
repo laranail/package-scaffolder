@@ -123,6 +123,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $this->registerTranslations();
 
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'modules');
+        $this->mergeConfigFrom(__DIR__.'/../config/artifacts.php', 'artifacts');
 
         $this->registerModules();
     }
