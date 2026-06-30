@@ -58,7 +58,7 @@ class MakeArtifactCommand extends Command
         $source = dirname(__DIR__, 2).'/stubs/blueprint';
 
         try {
-            (new ArtifactGenerator(new Filesystem, (array) config('artifacts')))
+            (new ArtifactGenerator(new Filesystem, (array) config('artifacts'), $this->pintBinary()))
                 ->generate($request, $source, $target);
         } catch (Throwable $e) {
             $this->components->error($e->getMessage());
@@ -69,6 +69,18 @@ class MakeArtifactCommand extends Command
         $this->components->info(sprintf('Generated %s [%s] (%s\\%s) at %s', $type, $request->studly(), $namespace, $request->studly(), $target));
 
         return self::SUCCESS;
+    }
+
+    /** The Pint binary to format generated output with (scaffolder's, else host's). */
+    private function pintBinary(): ?string
+    {
+        foreach ([dirname(__DIR__, 2).'/vendor/bin/pint', base_path('vendor/bin/pint')] as $candidate) {
+            if (is_file($candidate)) {
+                return $candidate;
+            }
+        }
+
+        return null;
     }
 
     private function resolveChoice($io, string $option, string $label, array $options, bool $nonInteractive): string

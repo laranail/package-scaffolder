@@ -117,4 +117,25 @@ class ArtifactGeneratorTest extends BaseTestCase
         $this->assertStringContainsString('Integrations\\Filament', $providers);
         $this->assertStringNotContainsString('Integrations\\Nova', $providers);
     }
+
+    public function test_pint_pass_strips_imports_orphaned_by_a_disabled_feature()
+    {
+        $pint = dirname(__DIR__, 2).'/vendor/bin/pint';
+        if (! is_file($pint)) {
+            $this->markTestSkipped('Pint binary not available.');
+        }
+
+        $config = require dirname(__DIR__, 2).'/config/artifacts.php';
+        $target = sys_get_temp_dir().'/laranail-artifact-'.uniqid();
+        $this->targets[] = $target;
+
+        $features = ['web-ui', 'livewire', 'rest-api', 'feeds', 'scheduling', 'asset-pipeline', 'notifications']; // caching OFF
+        (new ArtifactGenerator($this->fs, $config, $pint))
+            ->generate(new GenerationRequest('package', 'none', $features, 'Blog', 'Modules', 'modules'), $this->source, $target);
+
+        $content = $this->fs->get($target.'/src/Providers/BlogServiceProvider.php');
+        // the caching wiring is stripped AND its now-unused import removed by Pint
+        $this->assertStringNotContainsString('CachingPostRepository', $content);
+        $this->assertTrue($this->phpLint($target.'/src/Providers/BlogServiceProvider.php'));
+    }
 }

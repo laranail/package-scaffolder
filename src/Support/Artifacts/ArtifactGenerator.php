@@ -6,6 +6,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
 
 use Illuminate\Filesystem\Filesystem;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 
 /**
  * Generates an artifact from the vendored blueprint template:
@@ -25,6 +26,7 @@ final class ArtifactGenerator
     public function __construct(
         private readonly Filesystem $files,
         private readonly array $config,
+        private readonly ?string $pintBinary = null,
     ) {}
 
     /**
@@ -67,8 +69,26 @@ final class ArtifactGenerator
         $this->deleteDisabledPaths($request, $targetPath);
         $this->renamePaths($request, $targetPath);
         $this->repairComposer($request, $targetPath);
+        $this->runPint($targetPath);
 
         return $targetPath;
+    }
+
+    /**
+     * Best-effort Pint pass over the generated artifact. Pint is purely syntactic
+     * (no autoloading needed), so its `no_unused_imports` fixer strips the `use`
+     * statements orphaned by stripped feature wiring, and it normalises formatting
+     * to the gold-standard style. Silently skipped if no Pint binary is available.
+     */
+    private function runPint(string $target): void
+    {
+        if ($this->pintBinary === null || ! is_file($this->pintBinary)) {
+            return;
+        }
+
+        $process = new Process([$this->pintBinary, $target]);
+        $process->setTimeout(120);
+        $process->run();
     }
 
     /**
