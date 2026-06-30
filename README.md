@@ -92,6 +92,8 @@ Answer `y` to allow the plugin to be executed. Otherwise, you will need to manua
 
 You'll find documentation on [https://opensource.simtabi.com/package-scaffolder/docs/](https://opensource.simtabi.com/package-scaffolder/docs/).
 
+- [Generating artifacts (`make:artifact`)](docs/make-artifact.md) — types, plugins, features, portability, composer wiring.
+
 For the upstream package this fork is based on, see [laravelmodules.com](https://laravelmodules.com/docs).
 
 ## Credits

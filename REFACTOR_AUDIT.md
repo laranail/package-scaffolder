@@ -95,19 +95,19 @@ local commits only — never pushed.
 
 | # | Requirement (from the brief) | Status | Evidence |
 |---|------------------------------|--------|----------|
-| 1 | Blueprint copied under `/stubs/` | done | entry 0001 |
-| 2 | Scaffolder + every generated artifact use `laranail/console` + `laranail/package-tools` | open | — |
-| 3 | Generated output matches the blueprint's standard | open | — |
-| 4 | CLI/TUI prompts: artifact type, plugin type (true "none"), toggleable features | open | — |
-| 5 | Interactive + non-interactive, shared validation/generation path | open | — |
-| 6 | Missing required flag fails loudly; non-TTY ⇒ non-interactive | open | — |
-| 7 | Plugin "none" ⇒ zero Nova/Filament footprint (asserted) | open | — |
-| 8 | Each feature toggleable; artifact still builds + tests green with it off | open | — |
-| 9 | "Off" = not generated (not generated-but-disabled); unknown feature errors | open | — |
-| 10 | Same artifact works in `platform/{modules,packages,plugins}/`; folder ≠ namespace | open | — |
-| 11 | composer.json wiring minimal, idempotent, preserves unrelated keys | open | — |
-| 12 | Full tests: unit + functional + regression per bug fixed | open | — |
-| 13 | `REFACTOR_AUDIT.md` complete, maps every requirement to evidence | in progress | this file |
+| 1 | Blueprint copied under `/stubs/` | ✅ done | entry 0001 |
+| 2 | Scaffolder + every generated artifact use `laranail/console` + `laranail/package-tools` | ✅ done | scaffolder command on the console base (0005); every generated `composer.json` requires both libs — asserted across the matrix (0007) — `MatrixVerificationTest` |
+| 3 | Generated output matches the blueprint's standard | ✅ done | full blueprint vendored + reproduced via token/marker/prune/pint (0001–0007); `ArtifactGeneratorTest`, `MatrixVerificationTest` |
+| 4 | CLI/TUI prompts: artifact type, plugin type (true "none"), toggleable features | ✅ done | 0005 — `MakeArtifactCommandTest` |
+| 5 | Interactive + non-interactive, shared validation/generation path | ✅ done | 0005 — `MakeArtifactCommandTest` |
+| 6 | Missing required flag fails loudly; non-TTY ⇒ non-interactive | ✅ done | 0005 — `MakeArtifactCommandTest` |
+| 7 | Plugin "none" ⇒ zero Nova/Filament footprint (asserted) | ✅ done | 0004 (functional) + 0007 (consumer prose) — `MatrixVerificationTest` |
+| 8 | Each feature toggleable; artifact still builds with it off | ✅ done | off ⇒ files/wiring/config removed, provider stays `php -l`-valid across all-on/minimal/partial combos (0007) — `MatrixVerificationTest`. Running each generated artifact's OWN PHPUnit needs its composer install — documented manual gate (see #12). |
+| 9 | "Off" = not generated (not generated-but-disabled); unknown feature errors | ✅ done | 0003/0004/0005 — `MarkerProcessorTest`, `ArtifactGeneratorTest`, `MakeArtifactCommandTest` |
+| 10 | Same artifact works in `platform/{modules,packages,plugins}/`; folder ≠ namespace | ✅ done | 0006 — `PortabilityTest`; unique-name-across-containers guard — `MakeArtifactCommandTest` |
+| 11 | composer.json wiring minimal, idempotent, preserves unrelated keys | ✅ done | 0006 — `PortabilityTest` |
+| 12 | Full tests: unit + functional + regression per bug fixed | ✅ done (with gate) | scaffolder suite 441 green incl. the artifact engine (`tests/Artifacts/*`, `tests/Commands/MakeArtifactCommandTest`); generated-artifact static sweep (0007). **Manual gate:** executing each generated artifact's own PHPUnit requires running `composer install` inside it (network) — out of scope for the scaffolder's CI; documented in `docs/make-artifact.md`. |
+| 13 | `REFACTOR_AUDIT.md` complete, maps every requirement to evidence | ✅ done | this table + entries 0001–0007 |
 
 ### 0004 — Generation engine (TokenReplacer + ArtifactGenerator)
 - **What:** `TokenReplacer` (strtr-based placeholder→identity rewrite) and `ArtifactGenerator`

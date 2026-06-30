@@ -84,6 +84,24 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('Unknown feature', Artisan::output());
     }
 
+    public function test_artifact_name_must_be_unique_across_containers()
+    {
+        // pre-existing artifact in the modules container
+        $this->fs->ensureDirectoryExists(base_path('platform/modules/Collision'));
+        $this->targets[] = base_path('platform');
+
+        // generating the same name into the packages container must fail
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Collision',
+            '--type' => 'package',
+            '--no-interaction' => true,
+            '--no-repo' => true,
+        ]);
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('unique across all containers', Artisan::output());
+    }
+
     public function test_plugin_required_when_type_is_plugin()
     {
         $code = Artisan::call('make:artifact', [

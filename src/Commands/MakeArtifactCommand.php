@@ -58,6 +58,25 @@ class MakeArtifactCommand extends Command
         $target = rtrim($base, '/').'/'.$request->studly();
         $source = dirname(__DIR__, 2).'/stubs/blueprint';
 
+        // Artifact identity is keyed by name across ALL containers (module.json
+        // name + activator), so a name must be globally unique. Skipped for an
+        // explicit --path (caller owns the location) or --force.
+        if (! $this->option('force') && ! $this->option('path')) {
+            $files = new Filesystem;
+            foreach ((array) config('artifacts.kinds') as $containerPath) {
+                $existing = base_path((string) $containerPath).'/'.$request->studly();
+                if ($files->isDirectory($existing)) {
+                    $this->components->error(sprintf(
+                        'An artifact named [%s] already exists at [%s]. Names must be unique across all containers.',
+                        $request->studly(),
+                        $existing,
+                    ));
+
+                    return self::FAILURE;
+                }
+            }
+        }
+
         try {
             (new ArtifactGenerator(new Filesystem, (array) config('artifacts'), $this->pintBinary()))
                 ->generate($request, $source, $target);
