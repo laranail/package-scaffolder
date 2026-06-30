@@ -65,4 +65,42 @@ class TokenReplacerTest extends TestCase
         $this->assertSame('modules/blog', TokenReplacer::replace('modules/blog', $t));
         $this->assertSame('BlogServiceProvider', TokenReplacer::replace('BlogServiceProvider', $t));
     }
+
+    /** @return array{namespaceBase:string,studly:string,lower:string,vendor:string,entityStudly:string,entityStudlyPlural:string,entityLower:string,entityPlural:string} */
+    private function entityTarget(): array
+    {
+        return [
+            'namespaceBase' => 'Acme', 'studly' => 'Customer', 'lower' => 'customer', 'vendor' => 'acme',
+            'entityStudly' => 'Order', 'entityStudlyPlural' => 'Orders', 'entityLower' => 'order', 'entityPlural' => 'orders',
+        ];
+    }
+
+    public function test_entity_tokenization_rewrites_identifiers()
+    {
+        $t = $this->entityTarget();
+        $this->assertSame('OrderController', TokenReplacer::replace('PostController', $t));
+        $this->assertSame('OrderStatus', TokenReplacer::replace('PostStatus', $t));
+        $this->assertSame('recentOrders()', TokenReplacer::replace('recentPosts()', $t));
+        $this->assertSame('$order = $x;', TokenReplacer::replace('$post = $x;', $t));
+        $this->assertSame('{order}', TokenReplacer::replace('{post}', $t));
+        $this->assertSame('customer_orders', TokenReplacer::replace('blog_posts', $t));
+        $this->assertSame('customer_order', TokenReplacer::replace('blog_post', $t));
+        $this->assertSame('$this->orderService', TokenReplacer::replace('$this->postService', $t));
+    }
+
+    public function test_entity_tokenization_protects_framework_and_english()
+    {
+        $t = $this->entityTarget();
+        $this->assertSame("Route::post('/', [C::class]);", TokenReplacer::replace("Route::post('/', [C::class]);", $t));
+        $this->assertSame('$this->postJson($url);', TokenReplacer::replace('$this->postJson($url);', $t));
+        $this->assertSame('->post(route(...))', TokenReplacer::replace('->post(route(...))', $t));
+        $this->assertSame('MySQL/Postgres use', TokenReplacer::replace('MySQL/Postgres use', $t));
+        $this->assertSame('a compost heap, posted today', TokenReplacer::replace('a compost heap, posted today', $t));
+    }
+
+    public function test_entity_defaults_to_post_identity_when_no_entity_keys()
+    {
+        $t = ['namespaceBase' => 'Modules', 'studly' => 'Blog', 'lower' => 'blog', 'vendor' => 'modules'];
+        $this->assertSame('PostController $post posts', TokenReplacer::replace('PostController $post posts', $t));
+    }
 }

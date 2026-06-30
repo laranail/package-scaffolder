@@ -16,6 +16,14 @@ namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
  *   - studly identifier     : `Blog`                     → {Studly}
  *   - lower identifier      : `blog`                     → {lower}
  *
+ * The blueprint also has a distinct PRIMARY ENTITY (`Post` inside `Blog`). It is
+ * tokenized separately to {Entity}: studly `Post`/`Posts`, lowercase `post`/`posts`
+ * (variables, route params, snake morph aliases, camelCase props). The entity pass
+ * deliberately PROTECTS framework API that merely shares the substring — `Route::post`
+ * / `->post(` (HTTP verb call), `->postJson`, and English words (`Postgres`,
+ * `compost`, `posted`) — so it never renames those. Comment/Category/Tag stay as the
+ * generic supporting layer (not tokenized).
+ *
  * Replacements run most-specific first so a later, broader token never clobbers
  * a more specific one. JSON files escape the namespace backslashes, handled by
  * the escaped variant.
@@ -31,10 +39,12 @@ final class TokenReplacer
 
     public const PLACEHOLDER_LOWER = 'blog';
 
+    public const PLACEHOLDER_UPPER = 'BLOG';
+
     public const PLACEHOLDER_VENDOR = 'modules';
 
     /**
-     * @param  array{namespaceBase:string, studly:string, lower:string, vendor:string}  $target
+     * @param  array{namespaceBase:string, studly:string, lower:string, vendor:string, upper?:string, entityStudly?:string, entityStudlyPlural?:string, entityLower?:string, entityPlural?:string}  $target
      */
     public static function replace(string $content, array $target): string
     {
@@ -49,12 +59,45 @@ final class TokenReplacer
             self::PLACEHOLDER_VENDOR.'/'.self::PLACEHOLDER_LOWER => $target['vendor'].'/'.$target['lower'],
             self::PLACEHOLDER_VENDOR.'-'.self::PLACEHOLDER_LOWER => $target['vendor'].'-'.$target['lower'],
             self::PLACEHOLDER_VENDOR.'.'.self::PLACEHOLDER_LOWER => $target['vendor'].'.'.$target['lower'],
+            // SCREAMING_SNAKE env-var prefix (`BLOG_USER_MODEL` → `{UPPER}_USER_MODEL`).
+            self::PLACEHOLDER_UPPER => $target['upper'] ?? self::PLACEHOLDER_UPPER,
             // Bare identifiers (studly before lower is irrelevant — case-sensitive).
             self::PLACEHOLDER_STUDLY => $target['studly'],
             self::PLACEHOLDER_LOWER => $target['lower'],
         ];
 
-        return strtr($content, $pairs);
+        return self::replaceEntity(strtr($content, $pairs), $target);
+    }
+
+    /**
+     * Tokenize the primary entity (`Post` → {Entity}), protecting framework API and
+     * English words that share the substring. Defaults to the `Post` identity, so a
+     * target without entity keys is a no-op.
+     *
+     * @param  array<string, string>  $target
+     */
+    private static function replaceEntity(string $content, array $target): string
+    {
+        $studly = $target['entityStudly'] ?? 'Post';
+        $studlyPlural = $target['entityStudlyPlural'] ?? 'Posts';
+        $lower = $target['entityLower'] ?? 'post';
+        $plural = $target['entityPlural'] ?? 'posts';
+
+        // Studly: plural before singular. `(?![a-z])` protects `Postgres`/`PostgreSQL`
+        // while still matching `PostController`, `PostStatus`, `recentPosts`, `Post::class`.
+        $content = preg_replace('/Posts(?![a-z])/', $studlyPlural, $content) ?? $content;
+        $content = preg_replace('/Post(?![a-z])/', $studly, $content) ?? $content;
+
+        // Lowercase plural: tokens/relations/tables/views (`blog_posts`, `->posts`,
+        // `posts.index`); guarded so it isn't a substring of a longer word (`composts`).
+        $content = preg_replace('/(?<![a-zA-Z])posts(?![a-z])/', $plural, $content) ?? $content;
+
+        // Lowercase singular: `$post`, `{post}`, `post_created`, `_post`, `postService`.
+        // `(?![a-z(]|Json)` protects the HTTP verb (`post(`, `Route::post(`), `postJson`,
+        // and English words (`posted`, `postpone`); `(?<![a-zA-Z])` protects `compost`.
+        $content = preg_replace('/(?<![a-zA-Z])post(?![a-z(]|Json)/', $lower, $content) ?? $content;
+
+        return $content;
     }
 
     private static function jsonEscape(string $value): string

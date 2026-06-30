@@ -97,7 +97,14 @@ final class ArtifactGenerator
      */
     private function renamePaths(GenerationRequest $request, string $targetPath): void
     {
+        $tokens = $request->tokens();
+
+        // Entity studly forms (plural before singular) rename class files like
+        // PostController.php → {Entity}Controller.php so the basename matches the
+        // tokenized class (PSR-4). Artifact tokens (Blog/blog) rename the rest.
         $map = [
+            'Posts' => $tokens['entityStudlyPlural'],
+            'Post' => $tokens['entityStudly'],
             TokenReplacer::PLACEHOLDER_STUDLY => $request->studly(),
             TokenReplacer::PLACEHOLDER_LOWER => $request->lower(),
         ];

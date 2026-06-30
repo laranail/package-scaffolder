@@ -42,6 +42,7 @@ class MakeArtifactCommand extends Command
             $type = $this->resolveChoice($io, 'type', 'Artifact type', array_keys((array) config('artifacts.kinds')), $nonInteractive);
             $plugin = $this->resolvePlugin($io, $type, $nonInteractive);
             $name = $this->resolveName($io, $nonInteractive);
+            $entity = $this->resolveEntity($io, $name, $nonInteractive);
             $namespace = $this->resolveNamespace($io, $nonInteractive);
             $features = $this->resolveFeatures($io, $nonInteractive);
         } catch (Throwable $e) {
@@ -52,7 +53,7 @@ class MakeArtifactCommand extends Command
 
         $vendor = Str::lower((string) ($this->option('vendor') ?: config('modules.composer.vendor') ?: 'laranail'));
 
-        $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'));
+        $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'), $entity);
 
         $base = $this->option('path') ?: base_path((string) config("artifacts.kinds.{$type}"));
         $target = rtrim($base, '/').'/'.$request->studly();
@@ -154,6 +155,29 @@ class MakeArtifactCommand extends Command
         return $name;
     }
 
+    /**
+     * The primary entity (Post → {entity}). The blueprint decouples it from the
+     * artifact name (Blog ≠ Post), so it's prompted; the default is the singular of
+     * the artifact name.
+     */
+    private function resolveEntity($io, string $name, bool $nonInteractive): string
+    {
+        $default = Str::singular(Str::studly($name));
+        $entity = (string) ($this->option('entity') ?? '');
+
+        if ($entity === '') {
+            $entity = $nonInteractive ? $default : $io->askText('Primary entity (StudlyCase)', $default, $default, false);
+        }
+
+        $entity = Str::studly($entity !== '' ? $entity : $default);
+
+        if ($entity === '') {
+            throw new \InvalidArgumentException('The entity name is invalid.');
+        }
+
+        return $entity;
+    }
+
     private function resolveNamespace($io, bool $nonInteractive): string
     {
         $ns = (string) ($this->option('namespace') ?? '');
@@ -217,6 +241,7 @@ class MakeArtifactCommand extends Command
             ['plugin', null, InputOption::VALUE_REQUIRED, 'nova | filament | none (required when --type=plugin)'],
             ['features', null, InputOption::VALUE_REQUIRED, 'Comma-separated feature list (default: all).'],
             ['feature', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Repeatable feature flag.'],
+            ['entity', null, InputOption::VALUE_REQUIRED, 'Primary entity name (default: singular of the artifact name).'],
             ['namespace', null, InputOption::VALUE_REQUIRED, 'Root PHP namespace (default from config).'],
             ['vendor', null, InputOption::VALUE_REQUIRED, 'Composer vendor (default from config).'],
             ['path', null, InputOption::VALUE_REQUIRED, 'Override the container base path.'],
