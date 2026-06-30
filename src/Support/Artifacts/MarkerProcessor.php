@@ -13,11 +13,19 @@ namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
  *     ...code...
  *     // @artifact:end caching
  *
- * Markdown / NEON / XML use the HTML-comment form so the template stays valid:
+ * Markdown / NEON / XML use the HTML-comment (`<!-- -->`) or hash (`#`) form. A
+ * panel-named sentence inside a PHPDoc block is isolated onto its own line(s) and
+ * bracketed with docblock-continuation (` * `) markers, so it strips cleanly while
+ * leaving a valid docblock:
  *
- *     <!-- @artifact:start plugins -->
- *     ...prose...
- *     <!-- @artifact:end plugins -->
+ *     /**
+ *      * Does the thing.
+ *
+ *      * @artifact:start plugins
+ *      * Works for every writer (facade, Filament, Nova, raw Eloquent).
+ *
+ *      * @artifact:end plugins
+ *      *​/
  *
  * For an ENABLED feature the marker comment lines are removed and the inner
  * code kept; for a DISABLED feature the whole block (markers + inner code) is
@@ -37,7 +45,7 @@ final class MarkerProcessor
         $skipDepth = 0;
 
         foreach ($lines as $line) {
-            if (preg_match('/^\s*(?:\/\/|<!--|#)\s*@artifact:start\s+(\S+?)(?:\s*-->)?\s*$/', $line, $m) === 1) {
+            if (preg_match('/^\s*(?:\/\/|<!--|#|\*)\s*@artifact:start\s+(\S+?)(?:\s*-->)?\s*$/', $line, $m) === 1) {
                 if ($skipDepth > 0) {
                     // Already inside a disabled block — track nesting so the
                     // matching end doesn't close the outer block early.
@@ -49,7 +57,7 @@ final class MarkerProcessor
                 continue; // the marker line itself is never emitted
             }
 
-            if (preg_match('/^\s*(?:\/\/|<!--|#)\s*@artifact:end\s+\S+?(?:\s*-->)?\s*$/', $line) === 1) {
+            if (preg_match('/^\s*(?:\/\/|<!--|#|\*)\s*@artifact:end\s+\S+?(?:\s*-->)?\s*$/', $line) === 1) {
                 if ($skipDepth > 0) {
                     $skipDepth--;
                 }

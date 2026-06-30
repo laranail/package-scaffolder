@@ -59,6 +59,30 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringNotContainsString('@artifact:', $out);
     }
 
+    public function test_docblock_continuation_markers()
+    {
+        $php = <<<'PHP'
+            /**
+             * Does the thing.
+             * @artifact:start plugins
+             * Works for every writer (facade, Filament, Nova, raw Eloquent).
+             * @artifact:end plugins
+             */
+            PHP;
+
+        $kept = MarkerProcessor::process($php, ['plugins']);
+        $this->assertStringContainsString('Filament, Nova', $kept);
+        $this->assertStringNotContainsString('@artifact:', $kept);
+
+        $stripped = MarkerProcessor::process($php, []);
+        $this->assertStringNotContainsString('Filament', $stripped);
+        $this->assertStringNotContainsString('Nova', $stripped);
+        $this->assertStringContainsString('Does the thing.', $stripped);
+        // remains a valid docblock skeleton
+        $this->assertStringContainsString('/**', $stripped);
+        $this->assertStringContainsString('*/', $stripped);
+    }
+
     public function test_html_comment_markers_for_markdown()
     {
         $md = <<<'MD'
