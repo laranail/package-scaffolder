@@ -1,6 +1,6 @@
 ---
 name: laravel-modules-development
-description: "Use for any task involving nWidart/laravel-modules. Activate when the user mentions modules, Modules/ directory, module:make, module:enable, module:disable, module:migrate, module.json, FileRepository, the Module facade, or modular Laravel architecture. Covers: creating and structuring modules, all module:make-* generators, module management commands, database migrations and seeding per module, publishing assets/config/translations, module namespaces and view references, service provider registration, Blade directives, Inertia.js module support, auto-discovery, inter-module communication via events, and Pest testing within modules. Do not use for non-modular Laravel features or unrelated package development."
+description: "Use for any task involving laranail/package-scaffolder (a laravel-modules fork). Activate when the user mentions make:artifact, laranail::package-scaffolder, the blueprint, generating a module/package/plugin, the feature catalog, modules, Modules/ directory, module:make, module:enable/disable/migrate, module.json, the Module facade, or modular Laravel architecture. Covers: blueprint-based generation via make:artifact (artifact types, the nova|filament|none panel, the config-driven feature catalog, the artifact-vs-entity naming model), all module:make-* per-file generators, module management commands, per-module migrations/seeding, publishing, namespaces/view references, service-provider registration, Blade directives, Inertia support, auto-discovery, inter-module events, and testing. Do not use for non-modular Laravel features or unrelated package development."
 license: MIT
 metadata:
   author: nWidart
@@ -16,7 +16,25 @@ Best practices for laravel-modules, prioritised by impact. For exact API syntax,
 
 Before applying any pattern, check what the application already does. If modules exist in the codebase, follow their structure. Don't invent a second convention.
 
+This is the **laranail/package-scaffolder** fork: Artisan commands are namespaced
+`laranail::package-scaffolder.*` with the upstream `module:*` names kept as aliases. Beyond the
+upstream per-file generators it adds **blueprint-based generation** — `make:artifact` — which
+scaffolds a complete, opinionated artifact from a gold-standard template.
+
 ## Quick Reference
+
+### 0. Blueprint generation (`make:artifact`) → `rules/artifacts.md`
+
+- `php artisan make:artifact Blog --type=package|module|plugin` (alias of `laranail::package-scaffolder.new`)
+  generates a **full `laranail/package-tools` package** (manager/DSL, services/actions, repository+
+  contract, search manager, body pipeline, lifecycle events, policies, REST API, web UI, …) — not an
+  empty shell. Use `module:make-*` to add classes into an existing artifact.
+- Output: `platform/{packages,modules,plugins}/{Name}`; the folder is location-only, the PSR-4 root is
+  `--namespace`. Artifact name (`Blog`→`{Name}`) is distinct from the primary entity (`Post`→`--entity`,
+  default = singular of the name); `Comment`/`Category`/`Tag` are fixed supporting entities.
+- Panel: `--plugin=nova|filament|none` (mutually exclusive; default `none` = zero footprint).
+- Features are config-driven (`config('artifacts.features')` / `FEATURE_CATALOG.md`), opt-in/opt-out via
+  `--features=`; off ⇒ not generated; dependencies auto-resolved (`livewire` requires `web-ui`).
 
 ### 1. Creating & Structuring Modules → `rules/architecture.md`
 
