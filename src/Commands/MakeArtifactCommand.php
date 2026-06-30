@@ -227,14 +227,20 @@ class MakeArtifactCommand extends Command
         return array_values(array_unique($list));
     }
 
-    protected function getArguments(): array
+    /**
+     * @return array<int, array<int, mixed>>
+     */
+    protected function getArguments()
     {
         return [
             ['name', InputArgument::OPTIONAL, 'The artifact name (StudlyCase).'],
         ];
     }
 
-    protected function getOptions(): array
+    /**
+     * @return array<int, array<int, mixed>>
+     */
+    protected function getOptions()
     {
         return [
             ['type', null, InputOption::VALUE_REQUIRED, 'package | module | plugin'],
