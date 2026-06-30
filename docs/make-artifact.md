@@ -26,15 +26,51 @@ php artisan laranail::package-scaffolder.new Shop --type=plugin --plugin=filamen
 
 | Input | Flag | Notes |
 |-------|------|-------|
-| Name | positional `name` | StudlyCase; **must be unique across all containers**. |
+| Name | positional `name` | The **artifact** (package/module/plugin), StudlyCase; **must be unique across all containers**. |
+| Entity | `--entity=` | The **primary entity** (StudlyCase). Defaults to the singular of the artifact name. See *Naming model*. |
 | Type | `--type=` | `package` · `module` · `plugin`. Required (no default in unattended mode). |
-| Plugin | `--plugin=` | `nova` · `filament` · `none`. Required **iff** `--type=plugin`. |
+| Panel | `--plugin=` | `nova` · `filament` · `none` — a single **mutually-exclusive** choice for any shape; default `none`. |
 | Features | `--features=a,b` or repeated `--feature=` | Default = all on (the full blueprint). Unknown feature ⇒ error. |
 | Namespace | `--namespace=` | Root PHP namespace; defaults to `config('artifacts.default_namespace')`. |
 | Vendor | `--vendor=` | Composer vendor; defaults from config. |
 | — | `--path=` | Override the container base directory. |
 | — | `--force` | Overwrite an existing target. |
 | — | `--no-repo` | Skip wiring the host `composer.json`. |
+
+## Naming model (artifact vs entity)
+
+The blueprint is a domain-agnostic template, not a "Blog". It decouples two names, which are
+tokenized independently so you can generate a `Customer`, `Admin`, `Billing` — anything — cleanly:
+
+- **Artifact** — the package/module/plugin itself (`Blog` → `{Artifact}`). Drives the namespace,
+  manager/facade, composer name, config key/file, slug, routes, `BLOG_` env prefix, and the
+  container folder.
+- **Primary entity** — the main domain record (`Post` → `{Entity}`). The blueprint deliberately makes
+  these different concepts (`Blog` ≠ `Post`), so the entity is **prompted** (`--entity`), defaulting
+  to the singular of the artifact name. Entity files are renamed too (`PostController` →
+  `{Entity}Controller`), with real inflection for singular/plural and Studly/camel/snake/SCREAMING case.
+
+`Comment`, `Category`, and `Tag` are **kept as the generic supporting layer** — they're cross-domain
+nouns (any record can have comments/categories/tags), so they are not tokenized.
+
+**`post` and the framework.** Lowercase `post` is also Laravel's HTTP verb (`Route::post`,
+`->postJson`, `->post()`), which is framework API and must not be renamed. Entity tokenization
+rewrites entity references (`$post`, `{post}`, `post_id`, `postService`, `Post*` classes) but
+**protects** framework calls and English words (`Postgres`, `compost`, `posted`). "Zero leftovers"
+therefore means zero *entity* `blog`/`post`, not the framework's own `post`.
+
+## Build & test matrix policy
+
+Generated artifacts are verified across the **type × {nova, filament, none} × feature** matrix:
+
+- **Static (every combination):** generation succeeds, the provider is `php -l`-valid, no `@artifact`
+  or `[[…]]` markers leak, both laranail libraries are required, and the plugin dimension is honored
+  (incl. `plugin=none` zero Nova/Filament footprint).
+- **Runtime (all-features-on):** the generated provider is registered and **booted** in a real
+  container (`config` merges, manager + repository binding resolve).
+- **Pruned artifacts** (a feature off → its code/routes/tests deleted) are verified to build; their
+  feature-specific suites are **not** run (they'd reference deleted code). `ReviewHardeningTest` is a
+  full-feature integration fixture — run it only against an all-features artifact.
 
 ## Types & containers
 

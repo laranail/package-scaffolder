@@ -102,17 +102,36 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('unique across all containers', Artisan::output());
     }
 
-    public function test_plugin_required_when_type_is_plugin()
+    public function test_panel_defaults_to_none_and_is_zero_footprint()
+    {
+        $dir = $this->tmp();
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo',
+            '--type' => 'plugin',
+            '--namespace' => 'Acme',
+            '--path' => $dir,
+            '--no-interaction' => true,
+            '--no-repo' => true,
+        ]);
+
+        $this->assertSame(0, $code, Artisan::output());
+        // panel omitted ⇒ none ⇒ zero Nova/Filament footprint
+        $this->assertDirectoryDoesNotExist($dir.'/Demo/src/Filament');
+        $this->assertDirectoryDoesNotExist($dir.'/Demo/src/Nova');
+    }
+
+    public function test_invalid_panel_value_is_rejected()
     {
         $code = Artisan::call('make:artifact', [
             'name' => 'Demo',
             '--type' => 'plugin',
+            '--plugin' => 'wordpress',
             '--path' => $this->tmp(),
             '--no-interaction' => true,
             '--no-repo' => true,
         ]);
 
         $this->assertSame(1, $code);
-        $this->assertStringContainsString('--plugin is required', Artisan::output());
+        $this->assertStringContainsString('--plugin must be one of', Artisan::output());
     }
 }

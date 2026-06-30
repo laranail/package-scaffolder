@@ -44,15 +44,18 @@ class MatrixVerificationTest extends BaseTestCase
     {
         $all = ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'];
 
-        return [
-            'package · none · all' => ['package', 'none', $all],
-            'module · none · all' => ['module', 'none', $all],
-            'plugin · none · all' => ['plugin', 'none', $all],
-            'plugin · nova · all' => ['plugin', 'nova', $all],
-            'plugin · filament · all' => ['plugin', 'filament', $all],
-            'package · none · minimal' => ['package', 'none', []],
-            'package · none · caching+api' => ['package', 'none', ['caching', 'rest-api']],
-        ];
+        $matrix = [];
+        // full 3 shapes × {nova, filament, none}, all features
+        foreach (['package', 'module', 'plugin'] as $kind) {
+            foreach (['nova', 'filament', 'none'] as $panel) {
+                $matrix["{$kind} · {$panel} · all"] = [$kind, $panel, $all];
+            }
+        }
+        // representative feature-pruning combos
+        $matrix['package · none · minimal'] = ['package', 'none', []];
+        $matrix['package · none · caching+api'] = ['package', 'none', ['caching', 'rest-api']];
+
+        return $matrix;
     }
 
     #[DataProvider('matrix')]

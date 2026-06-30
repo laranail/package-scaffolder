@@ -40,7 +40,7 @@ class MakeArtifactCommand extends Command
 
         try {
             $type = $this->resolveChoice($io, 'type', 'Artifact type', array_keys((array) config('artifacts.kinds')), $nonInteractive);
-            $plugin = $this->resolvePlugin($io, $type, $nonInteractive);
+            $plugin = $this->resolvePlugin($io, $nonInteractive);
             $name = $this->resolveName($io, $nonInteractive);
             $entity = $this->resolveEntity($io, $name, $nonInteractive);
             $namespace = $this->resolveNamespace($io, $nonInteractive);
@@ -127,13 +127,31 @@ class MakeArtifactCommand extends Command
         return $io->askSelect($label, $options, 0);
     }
 
-    private function resolvePlugin($io, string $type, bool $nonInteractive): string
+    /**
+     * Panel is an independent, mutually-exclusive choice for ANY artifact shape:
+     * nova, filament, or none. A single flag value can never select both; an
+     * invalid value is rejected. Defaults to `none` (a panel-free artifact).
+     */
+    private function resolvePlugin($io, bool $nonInteractive): string
     {
-        if ($type !== 'plugin') {
+        $types = (array) config('artifacts.plugin_types'); // nova | filament | none
+        $value = $this->option('plugin');
+
+        if ($value !== null && $value !== '') {
+            if (! in_array($value, $types, true)) {
+                throw new \InvalidArgumentException('--plugin must be one of: '.implode(', ', $types).'.');
+            }
+
+            return (string) $value;
+        }
+
+        if ($nonInteractive) {
             return 'none';
         }
 
-        return $this->resolveChoice($io, 'plugin', 'Plugin type', (array) config('artifacts.plugin_types'), $nonInteractive);
+        $default = array_search('none', array_values($types), true);
+
+        return $io->askSelect('Admin panel', $types, $default === false ? 0 : $default);
     }
 
     private function resolveName($io, bool $nonInteractive): string
@@ -244,7 +262,7 @@ class MakeArtifactCommand extends Command
     {
         return [
             ['type', null, InputOption::VALUE_REQUIRED, 'package | module | plugin'],
-            ['plugin', null, InputOption::VALUE_REQUIRED, 'nova | filament | none (required when --type=plugin)'],
+            ['plugin', null, InputOption::VALUE_REQUIRED, 'Admin panel: nova | filament | none (mutually exclusive; default none)'],
             ['features', null, InputOption::VALUE_REQUIRED, 'Comma-separated feature list (default: all).'],
             ['feature', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Repeatable feature flag.'],
             ['entity', null, InputOption::VALUE_REQUIRED, 'Primary entity name (default: singular of the artifact name).'],

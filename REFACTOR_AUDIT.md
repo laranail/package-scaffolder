@@ -50,8 +50,55 @@ Naming model (decided, D1/D2 locked + secondary-entity question answered):
 - **Behavior change:** generated artifacts now carry the blueprint's hardening fixes + `TagPolicy` +
   consolidated migration; `blog.publish` convenience gate removed (publish via policy ability) — matches
   the gold standard.
-- **Open:** entity parameterization (`Post`→{Entity}, generic-template proof with Customer/Admin),
-  D2 matrix-policy doc, sweep — next entries.
+### RS-2 — Generic template: entity parameterization (Post → {Entity})
+- **What:** Decided + documented the naming model (Artifact vs primary Entity, Comment/Category/Tag
+  as the generic supporting layer; framework `post` excluded — see the answered question). Added an
+  entity pass to `TokenReplacer` (studly `Post`/`Posts`, lowercase `post`/`posts`, SCREAMING `BLOG_`
+  env prefix → `{UPPER}_`) that PROTECTS framework API (`Route::post`/`->postJson`/`->post(`) and
+  English words (`Postgres`/`compost`/`posted`). `GenerationRequest` computes the forms with a real
+  inflector (`Str::plural`/`singular`/`snake`/`camel`); the generator renames entity class files
+  (`PostController.php` → `{Entity}Controller.php`) for PSR-4; `make:artifact` gained `--entity`
+  (default = singular of the artifact name).
+- **How verified:** `TokenReplacerTest` (entity rewrite + framework/English protection + Post-identity
+  no-op); `GenericTemplateTest` — `Customer`/`Account` + `Admin`/`Role` generate with **zero `blog`
+  and zero entity-`post` leftovers**, entity files renamed, all PHP valid, supporting layer kept, and
+  a **non-blog provider boots** (manager + `EloquentAccountRepository` binding resolve). Existing
+  tests unaffected (entity defaults to `Post`). Suite 452.
+- **Behavior change:** `make:artifact` now produces domain-generic artifacts; entity defaults to the
+  singular of the name.
+
+### RS-3 — Sweep + D2 policy + docs + audit (incl. a self-caught regression)
+- **What / fixes:**
+  - **Regression caught + fixed:** `src/helpers.php` (referenced by `composer.json` autoload.files)
+    was unintentionally dropped during the re-sync, fataling the autoloader (php -l passed, but
+    `vendor/autoload.php`/phpstan broke). Restored from `a3652d9`; confirmed no other non-stub file
+    was lost. Regression guard: phpstan now runs clean in the suite checks.
+  - **phpstan:** fixed a latent larastan false-positive on `make:artifact` `getOptions()` (Symfony's
+    null option-shortcut) by matching the codebase's loose `@return array` convention. `phpstan
+    analyse` → **No errors**.
+  - **D2 matrix policy documented** (docs/make-artifact.md "Build & test matrix policy"): static
+    checks every combo; runtime boot for all-features; pruned artifacts build but their feature-specific
+    suites aren't run; `ReviewHardeningTest` is a full-feature fixture.
+  - **Docs:** `docs/make-artifact.md` gains `--entity`, the naming model, the framework-`post` rule,
+    and the matrix policy.
+- **How verified:** `phpstan` clean; full suite green (**452**); `MatrixVerificationTest` (all combos)
+  + `GeneratedArtifactBootTest` + `GenericTemplateTest` green.
+
+### RE-SYNC requirement → evidence checklist
+| Prompt item | Status | Evidence |
+|---|---|---|
+| Hard rule 1 — artifact = package/module/plugin, folder ≠ namespace | ✅ | `PortabilityTest`, `MatrixVerificationTest` |
+| Hard rule 2 — panel = Nova XOR Filament XOR none (mutually exclusive) | ✅ | `--plugin` single choice; `MakeArtifactCommandTest`, `MatrixVerificationTest` |
+| Hard rule 3 — none ⇒ zero Nova/Filament (asserted) | ✅ | `MatrixVerificationTest` whole-tree scan |
+| #1 — re-sync without losing markers | ✅ | RS-1; block-marker diff IDENTICAL (68) + 34 inline |
+| #2 — D1 panel comments verbatim, plugin-markered | ✅ | RS-1; inline/docblock/`#` markers; none-scan zero |
+| #3 — D2 cross-feature tests policy | ✅ | RS-3 documented; matrix static + boot |
+| #4 — migration rename (4→1) | ✅ | RS-1; no path references old names |
+| Generic template — zero blog/post; Customer + Admin proven | ✅ | RS-2; `GenericTemplateTest` |
+| Naming model documented (artifact vs entity, inflection, case) | ✅ | RS-2; `docs/make-artifact.md` |
+| Sweep — drift / dead refs / docs / regressions | ✅ | RS-3 (helpers.php restore, phpstan, docs) |
+| Idempotency (stub copy / marker / composer merge) | ✅ | marker re-apply is data-driven + verified; `PortabilityTest` composer idempotency |
+| Audit trail | ✅ | this section |
 
 ## Entries
 
