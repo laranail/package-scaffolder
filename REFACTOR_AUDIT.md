@@ -100,6 +100,42 @@ Naming model (decided, D1/D2 locked + secondary-entity question answered):
 | Idempotency (stub copy / marker / composer merge) | ✅ | marker re-apply is data-driven + verified; `PortabilityTest` composer idempotency |
 | Audit trail | ✅ | this section |
 
+## Blueprint RE-SYNC v2 (blueprint refactored again + relocate)
+
+Re-review change list (current blueprint vs the prior sync, author changes isolated from my markers):
+an **asset-pipeline overhaul** — `Assets.php` rewritten (compiled vs `live`/HMR), `config ui.assets`
+`base`/`manifest`/`bundles` → `build_directory`/`live`, new `tailwind.config.js`, base/vanilla entry
+`app.{js,scss}` → `blog.{js,scss}`, `vite.config.js`/scss/js + `AssetsComponentTest`/`assets.md` —
+plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`), `SanitizeHtmlStage`,
+`NotReservedSlug`, `ValidTagList`, `PostData`, `Post` (Str helpers), `PostCreateCommand`, Filament
+`BlogPlugin`, CHANGELOG/UPGRADING/docs. No new toggleable feature (asset-pipeline internals changed).
+
+### RS-4 — Re-sync the asset overhaul + refinements
+- **What:** Direct-copied the no-marker changed files; patched the `ui.assets` config block in place
+  (markers preserved); re-synced `Post.php` + re-applied its inline marker; restored the phpstan
+  comment verbatim with a `plugins` inline marker (D1); re-synced `CHANGELOG.md` + re-applied its 4
+  markers; `app.*`→`blog.*` asset rename.
+- **How verified:** block-marker set IDENTICAL before/after (68); inline 34→36 (+1 new phpstan D1
+  marker, nothing lost); `php -l` clean; Artifacts suite green incl. whole-tree none-scan = zero
+  Filament/Nova over the new asset files; boot + generic green. Full suite 457; phpstan clean.
+
+### RS-5 — Relocate blueprint to the primary stub repo (decision Q2 = Both)
+- **What:** `git mv stubs/blueprint → src/Commands/stubs/blueprint` (the named primary location);
+  repointed the command (`__DIR__.'/stubs/blueprint'`) + 5 test source paths; excluded the template
+  from phpstan (`excludePaths: src/Commands/stubs/blueprint`) and composer
+  (`autoload.exclude-from-classmap`) since it uses the placeholder namespace and isn't autoloaded;
+  pint's `stubs` exclude already covers it. Updated `docs/make-artifact.md` path.
+- **Persisted user changes (read-before-assume):** the working tree exactly matched the prior commit
+  (RS-3) — no stash/branch/worktree/uncommitted changes. The user's `helpers/helpers.php` layout
+  (composer `autoload.files`) was already in HEAD and is preserved; a stale `src/helpers.php` orphan
+  was cleaned up. No user change was reverted or relocated back.
+- **How verified:** `composer dump-autoload` OK; `vendor/autoload.php` loads; `phpstan` clean
+  (template excluded); `pint --test` clean (template excluded); full suite **458** green from the new
+  location (matrix/boot/generic/portability repointed).
+- **Open (next increments):** feature catalog ✅ (`FEATURE_CATALOG.md` + config `requires` + CLI
+  dependency resolution); per-file stub upgrade (`src/Commands/stubs/*.stub` → blueprint quality,
+  improve-first); `resources/boost/*` refactor; full matrix build-and-test per D2; final checklist.
+
 ## Entries
 
 ### 0001 — Vendor the blueprint as the parameterized template
