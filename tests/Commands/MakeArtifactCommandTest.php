@@ -102,6 +102,25 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('unique across all containers', Artisan::output());
     }
 
+    public function test_selecting_livewire_pulls_in_its_required_web_ui()
+    {
+        $dir = $this->tmp();
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo',
+            '--type' => 'package',
+            '--features' => 'livewire',
+            '--path' => $dir,
+            '--no-interaction' => true,
+            '--no-repo' => true,
+        ]);
+
+        $this->assertSame(0, $code, Artisan::output());
+        // livewire selected ...
+        $this->assertDirectoryExists($dir.'/Demo/src/Livewire');
+        // ... and its required web-ui was pulled in (web component views present)
+        $this->assertDirectoryExists($dir.'/Demo/resources/views/components');
+    }
+
     public function test_panel_defaults_to_none_and_is_zero_footprint()
     {
         $dir = $this->tmp();

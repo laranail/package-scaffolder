@@ -68,36 +68,44 @@ return [
     'features' => [
         'web-ui' => [
             'default' => true,
+            'requires' => [],
             'description' => 'Blade components, views, web controllers/routes.',
             'sub' => [
                 'livewire' => [
                     'default' => true,
+                    'requires' => ['web-ui'],
                     'description' => 'Livewire components (requires web-ui).',
                 ],
             ],
         ],
         'rest-api' => [
             'default' => true,
+            'requires' => [],
             'description' => 'JSON API controllers, resources, ability middleware, api routes.',
         ],
         'caching' => [
             'default' => true,
+            'requires' => [],
             'description' => 'Caching repository decorator + event-driven invalidation.',
         ],
         'feeds' => [
             'default' => true,
+            'requires' => [],
             'description' => 'RSS feed + XML sitemap.',
         ],
         'scheduling' => [
             'default' => true,
+            'requires' => [],
             'description' => 'Scheduled-publish command + job.',
         ],
         'asset-pipeline' => [
             'default' => true,
+            'requires' => [],
             'description' => 'Vite (tailwind/bootstrap/vanilla) asset build pipeline.',
         ],
         'notifications' => [
             'default' => true,
+            'requires' => [],
             'description' => 'Publish notification listener (sub-toggle of core events).',
         ],
     ],

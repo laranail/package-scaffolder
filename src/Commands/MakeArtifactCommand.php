@@ -242,7 +242,53 @@ class MakeArtifactCommand extends Command
             throw new \InvalidArgumentException('Unknown feature(s): '.implode(', ', $unknown).'. Valid: '.implode(', ', $selectable).'.');
         }
 
-        return array_values(array_unique($list));
+        return $this->resolveRequires(array_values(array_unique($list)));
+    }
+
+    /**
+     * Pull in each selected feature's `requires` (transitively), so a dependency
+     * can never be silently missing (e.g. selecting `livewire` pulls in `web-ui`).
+     *
+     * @param  list<string>  $list
+     * @return list<string>
+     */
+    private function resolveRequires(array $list): array
+    {
+        $requires = $this->requiresMap();
+        $resolved = $list;
+
+        do {
+            $added = false;
+            foreach ($resolved as $feature) {
+                foreach ($requires[$feature] ?? [] as $dep) {
+                    if (! in_array($dep, $resolved, true)) {
+                        $resolved[] = $dep;
+                        $added = true;
+                    }
+                }
+            }
+        } while ($added);
+
+        return array_values(array_unique($resolved));
+    }
+
+    /**
+     * Feature → its required features, read from the config catalog (top-level
+     * features and their sub-toggles).
+     *
+     * @return array<string, list<string>>
+     */
+    private function requiresMap(): array
+    {
+        $map = [];
+        foreach ((array) config('artifacts.features') as $key => $def) {
+            $map[$key] = array_values((array) ($def['requires'] ?? []));
+            foreach ((array) ($def['sub'] ?? []) as $subKey => $subDef) {
+                $map[$subKey] = array_values((array) ($subDef['requires'] ?? []));
+            }
+        }
+
+        return $map;
     }
 
     /**
