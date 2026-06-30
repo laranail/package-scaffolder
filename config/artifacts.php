@@ -190,4 +190,15 @@ return [
             'docs/tools/panels.md',
         ],
     ],
+
+    /*
+    | Composer dependencies owned by a feature — dropped from require/require-dev/
+    | suggest when the feature is OFF (matched as substrings of the package name).
+    | Core-search backends (scout) and markdown (commonmark) stay: search and the
+    | body pipeline are core, only their optional drivers are opt-in at runtime.
+    */
+    'feature_deps' => [
+        'rest-api' => ['laravel/sanctum'],
+        'livewire' => ['livewire/livewire'],
+    ],
 ];

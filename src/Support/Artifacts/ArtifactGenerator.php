@@ -214,6 +214,13 @@ final class ArtifactGenerator
             $depNeedles[] = 'laravel/nova';
         }
 
+        // Deps owned by a disabled feature.
+        foreach ((array) ($this->config['feature_deps'] ?? []) as $feature => $packages) {
+            if (! in_array($feature, $request->features, true)) {
+                $depNeedles = [...$depNeedles, ...(array) $packages];
+            }
+        }
+
         if (isset($composer['extra']['laravel']['providers'])) {
             $composer['extra']['laravel']['providers'] = array_values(array_filter(
                 $composer['extra']['laravel']['providers'],

@@ -84,6 +84,20 @@ class ArtifactGeneratorTest extends BaseTestCase
         $deps = implode(' ', array_keys(($composer['require'] ?? []) + ($composer['require-dev'] ?? []) + ($composer['suggest'] ?? [])));
         $this->assertStringNotContainsStringIgnoringCase('filament', $deps);
         $this->assertStringNotContainsStringIgnoringCase('laravel/nova', $deps);
+
+        // every generated PHP file (not just the provider) is syntactically valid
+        $bad = [];
+        foreach ($this->fs->allFiles($t) as $f) {
+            if ($f->getExtension() !== 'php') {
+                continue;
+            }
+            $out = [];
+            exec('php -l '.escapeshellarg($f->getPathname()).' 2>&1', $out, $code);
+            if ($code !== 0) {
+                $bad[] = $f->getRelativePathname();
+            }
+        }
+        $this->assertSame([], $bad, 'invalid PHP in generated artifact: '.implode(', ', $bad));
     }
 
     public function test_plugin_filament_with_caching_and_livewire_off_and_renamed()
@@ -116,6 +130,10 @@ class ArtifactGeneratorTest extends BaseTestCase
         $providers = implode(' ', $composer['extra']['laravel']['providers']);
         $this->assertStringContainsString('Integrations\\Filament', $providers);
         $this->assertStringNotContainsString('Integrations\\Nova', $providers);
+
+        // livewire OFF ⇒ its composer dep is trimmed from require-dev + suggest
+        $allDeps = implode(' ', array_keys(($composer['require-dev'] ?? []) + ($composer['suggest'] ?? [])));
+        $this->assertStringNotContainsString('livewire/livewire', $allDeps);
     }
 
     public function test_pint_pass_strips_imports_orphaned_by_a_disabled_feature()

@@ -204,3 +204,16 @@ local commits only — never pushed.
 | 7 | plugin none/nova/filament; none = zero footprint | done incl. consumer prose (0007) | MatrixVerificationTest |
 | 8/9 | every feature toggleable; off ⇒ not generated; unknown ⇒ error | done | MatrixVerificationTest, MakeArtifactCommandTest |
 | 12 | matrix self-verification of generated artifacts | static sweep done (0007); per-artifact PHPUnit = documented manual gate | MatrixVerificationTest |
+
+### 0008 — Feature dep-trimming + full-tree lint (closing 0004c deferrals)
+- **What:** Added `config/artifacts.feature_deps` (rest-api→laravel/sanctum, livewire→livewire/livewire)
+  and extended `repairComposer` to drop a disabled feature's deps from require/require-dev/suggest
+  (scout + commonmark stay — search and the body pipeline are core, only their drivers are opt-in).
+  Strengthened `ArtifactGeneratorTest`: the full-features artifact now has **every** generated `.php`
+  file `php -l`-checked (not just the provider), and the filament/livewire-off case asserts
+  `livewire/livewire` is gone from composer.
+- **Why:** Finishes the 0004c-deferred dep-trimming and the #12 "static check" depth (whole tree, not
+  one file).
+- **How verified:** `ArtifactGeneratorTest` (3 tests, 32 assertions) green incl. the full-tree lint
+  and the dep-trim assertion. Full suite green (**442**).
+- **Behavior change:** generated composer no longer suggests/requires a disabled feature's packages.
