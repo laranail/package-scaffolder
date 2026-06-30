@@ -136,6 +136,29 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
   dependency resolution); per-file stub upgrade (`src/Commands/stubs/*.stub` → blueprint quality,
   improve-first); `resources/boost/*` refactor; full matrix build-and-test per D2; final checklist.
 
+### RS-6 — Per-file stub upgrade + boost refactor + real artifact build-and-test
+- **Item 1 (per-file stubs → blueprint quality, improve-first):** added `declare(strict_types=1)` to
+  all 63 PHP per-file stubs (`src/Commands/stubs/*.stub`) — the blueprint's universal convention,
+  previously absent from every one; added the modern `casts(): array` method to `model.stub`.
+  `request.stub` already typed. Skeleton `handle()`/`__invoke()` bodies left generic (the blueprint's
+  typed signatures are domain-specific, not appropriate to impose on empty stubs). Regenerated 142+1
+  snapshots; verified the ONLY diffs are strict_types/casts (no unintended changes).
+- **Item 2 (`resources/boost/*`):** `core.blade.php` + `SKILL.md` now feature `make:artifact` (the
+  blueprint generator) + laranail command naming + the config-driven feature catalog; new
+  `rules/artifacts.md` (usage, naming model, panel, catalog, D2 policy).
+- **Item 3 (real build-and-test) + bug found+fixed:** ran genuine `composer install` + the generated
+  artifact's own PHPUnit. **Blog passed 149/149 but a non-blog Customer/Account failed 10** — entity
+  tokenization renamed view *references* (`accounts.show`, livewire `account-list`) but `renamePaths`
+  only renamed PHP class files by studly token, leaving view **dirs/files** at `posts/`,
+  `post-list.blade.php` → "View not found" 500s. **Fix:** `renamePaths` now walks dirs+files
+  (CHILD_FIRST) and maps lowercase entity forms (`posts`→{entityPlural}, `post`→{entityLower}). After
+  the fix **Customer/Account builds + passes 149/149** too. Added `scripts/verify-artifacts.sh` (the
+  D2 standing check: full-test all-features Blog + Customer, build+static a pruned combo) and a
+  `GenericTemplateTest` regression guard (view dirs/files renamed). This is the bug `php -l`/boot
+  missed — proof that build-and-test was needed.
+- **Verified:** scaffolder suite 458; phpstan clean; `scripts/verify-artifacts.sh` → "ALL ARTIFACT
+  BUILDS + TESTS PASSED".
+
 ## Entries
 
 ### 0001 — Vendor the blueprint as the parameterized template
