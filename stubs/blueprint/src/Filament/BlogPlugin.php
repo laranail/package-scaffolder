@@ -47,12 +47,12 @@ class BlogPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->resources(array_values(array_filter([
+        $panel->resources(collect([
             PostResource::class,
             CategoryResource::class,
             TagResource::class,
             $this->comments ? CommentResource::class : null,
-        ])));
+        ])->filter()->values()->all());
     }
 
     public function boot(Panel $panel): void

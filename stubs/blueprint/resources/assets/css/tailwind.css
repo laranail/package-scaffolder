@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Optional JS config (content/darkMode/plugins + editor IntelliSense). Theme tokens
+   stay CSS-first in the @theme block below. */
+@config "../../../tailwind.config.js";
+
 /* Scan the package's Blade views/components for class usage (Tailwind v4 source detection). */
 @source "../../views";
 

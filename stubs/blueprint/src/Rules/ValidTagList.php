@@ -6,6 +6,7 @@ namespace Some\NamespacePath\Blog\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 
 /**
  * Validates the whole `tags` array: every entry must be a non-empty string no
@@ -36,7 +37,7 @@ class ValidTagList implements ValidationRule
         }
 
         foreach ($value as $tag) {
-            if (! is_string($tag) || trim($tag) === '' || mb_strlen($tag) > $max) {
+            if (! is_string($tag) || trim($tag) === '' || Str::length($tag) > $max) {
                 $fail('modules/blog::blog.validation.tags_invalid')->translate();
 
                 return;

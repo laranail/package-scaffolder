@@ -29,7 +29,7 @@ class PostCreateCommand extends Command
         $status = PostStatus::tryFrom($statusValue);
 
         if ($status === null) {
-            $valid = implode(', ', array_map(static fn (PostStatus $s): string => $s->value, PostStatus::cases()));
+            $valid = implode(', ', PostStatus::values());
             $this->output->writeln(Console::status()->error("Invalid status [{$statusValue}]. Use one of: {$valid}."));
 
             return self::FAILURE;

@@ -31,7 +31,7 @@ export default defineConfig({
                 'resources/assets/sass/bootstrap.scss',
                 'resources/assets/scripts/bootstrap.js',
                 // Vanilla bundle (framework-agnostic base styles only).
-                'resources/assets/scripts/app.js',
+                'resources/assets/scripts/blog.js',
             ],
             refresh: ['resources/views/**', 'resources/assets/**'],
         }),

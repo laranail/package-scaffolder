@@ -1,6 +1,3 @@
-@foreach ($styles as $href)
-    <link rel="stylesheet" href="{{ $href }}">
-@endforeach
-@foreach ($scripts as $src)
-    <script type="module" src="{{ $src }}"></script>
-@endforeach
+{{-- Vite-generated <link>/<script> tags (hashed URLs + modulepreload, or the dev
+     server when HMR is running). Empty when the framework is "none" or unbuilt. --}}
+{!! $tags !!}

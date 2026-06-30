@@ -6,6 +6,7 @@ namespace Some\NamespacePath\Blog\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 
 /**
  * Rejects a slug that would shadow a reserved web path (e.g. a post slug of
@@ -20,9 +21,10 @@ class NotReservedSlug implements ValidationRule
             return;
         }
 
-        $reserved = (array) config('modules.blog.validation.reserved_slugs', ['create', 'edit', 'feed', 'sitemap', 'sitemap.xml']);
+        $reserved = collect((array) config('modules.blog.validation.reserved_slugs', ['create', 'edit', 'feed', 'sitemap', 'sitemap.xml']))
+            ->map(fn ($slug): string => Str::lower((string) $slug));
 
-        if (in_array(strtolower($value), array_map('strtolower', $reserved), true)) {
+        if ($reserved->contains(Str::lower($value))) {
             $fail('modules/blog::blog.validation.slug_reserved')->translate();
         }
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Some\NamespacePath\Blog\Processing\Stages;
 
 use Closure;
+use Illuminate\Support\Str;
 
 /**
  * Default body stage: strips post bodies to an allow-list of HTML tags (a
@@ -63,11 +64,11 @@ class SanitizeHtmlStage
         $clean = '';
 
         foreach ($matches as $attr) {
-            $name = strtolower($attr[1]);
+            $name = Str::lower($attr[1]);
             $value = $attr[2] ?? null;
 
             // Drop inline event handlers (onclick, onerror, onmouseover, …) entirely.
-            if (str_starts_with($name, 'on')) {
+            if (Str::startsWith($name, 'on')) {
                 continue;
             }
 
@@ -97,7 +98,7 @@ class SanitizeHtmlStage
     private function hasDangerousScheme(string $value): bool
     {
         if ($value !== '' && ($value[0] === '"' || $value[0] === "'")) {
-            $value = substr($value, 1, -1);
+            $value = Str::substr($value, 1, -1);
         }
 
         $normalised = preg_replace(

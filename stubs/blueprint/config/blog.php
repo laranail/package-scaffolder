@@ -376,25 +376,18 @@ return [
         'framework' => env('BLOG_UI_FRAMEWORK', 'tailwind'), // tailwind | bootstrap | vanilla | none
 
         'assets' => [
-            // Where the published Vite manifest + build live (relative to public/).
-            'base' => 'vendor/blog/build',
-            // Vite manifest path. Defaults to the published location; falls back
-            // to the package-local build during local development.
-            'manifest' => public_path('vendor/blog/build/.vite/manifest.json'),
-            // Entry points (Vite manifest keys) per framework.
-            'bundles' => [
-                'tailwind' => [
-                    'resources/assets/css/tailwind.css',
-                    'resources/assets/scripts/tailwind.js',
-                ],
-                'bootstrap' => [
-                    'resources/assets/sass/bootstrap.scss',
-                    'resources/assets/scripts/bootstrap.js',
-                ],
-                'vanilla' => [
-                    'resources/assets/scripts/app.js',
-                ],
-            ],
+            // Where the package's built assets live, relative to public/. `blog:install`
+            // publishes them to public/vendor/blog/build. The Vite entry points that make
+            // up each framework bundle are internal build wiring (they mirror vite.config.js),
+            // so they live in code (Assets::BUNDLES), not here.
+            'build_directory' => env('BLOG_ASSET_BUILD_DIR', 'vendor/blog/build'),
+
+            // How the <x-{prefix}::assets /> component loads the bundle:
+            //  - false (default): use the already-compiled build — plain <link>/<script>
+            //    tags pointing at the hashed files (resolved once from the Vite manifest).
+            //  - true: drive it through Laravel's Vite runtime, which adds modulepreload
+            //    and hot-module reload (HMR) when the Vite dev server is running.
+            'live' => env('BLOG_ASSET_LIVE', false),
         ],
         // @artifact:end asset-pipeline
     ],

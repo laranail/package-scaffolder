@@ -60,6 +60,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added a `tailwind.config.js` (loaded via `@config` in `tailwind.css`) — the familiar
   `content`/`darkMode`/`theme.extend`/`plugins` surface for editor IntelliSense, alongside the CSS-first
   `@theme` tokens.
+- Renamed the shared base/"vanilla" asset entry from `app.{js,scss}` to **`blog.{js,scss}`** (the module
+  name), and **aligned the brand colour** across frameworks — Bootstrap's `$primary` is now `#6366f1`,
+  matching Tailwind's `--color-brand-500`, so the package looks consistent whichever framework you pick.
 - **BREAKING — views & translations vendor-namespaced.** The view/translation namespace is now
   `modules/blog::` (was `blog::`): `view('modules/blog::posts.index')`, `__('modules/blog::blog.posts')`,
   `@include('modules/blog::partials.…')`, and `config('modules.blog.ui.layout')` defaults to

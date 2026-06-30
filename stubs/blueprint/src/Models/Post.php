@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use League\CommonMark\CommonMarkConverter;
 use Some\NamespacePath\Blog\Database\Factories\PostFactory;
 use Some\NamespacePath\Blog\Enums\PostStatus;
@@ -200,7 +201,7 @@ class Post extends Model
         $sort = in_array($filters['sort'] ?? null, $sortable, true)
             ? $filters['sort']
             : ($sortable[0] ?? 'published_at');
-        $direction = strtolower((string) ($filters['direction'] ?? 'desc')) === 'asc' ? 'asc' : 'desc';
+        $direction = Str::lower((string) ($filters['direction'] ?? 'desc')) === 'asc' ? 'asc' : 'desc';
 
         return $query->orderBy($sort, $direction);
     }
@@ -212,7 +213,7 @@ class Post extends Model
      */
     public static function escapeLike(string $value): string
     {
-        return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $value);
+        return Str::replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $value);
     }
 
     /**

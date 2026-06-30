@@ -35,7 +35,8 @@ they publish to `config/modules/blog.php` and are read via `config('modules.blog
 | `ui.sortable` | `['published_at','created_at','title','views']` | Allow-list for the API `?sort=` param. |
 | `ui.framework` | `tailwind` | CSS bundle the assets component loads (`tailwind`/`bootstrap`/`vanilla`/`none`). |
 | `morph_map` | `[]` | **Host** commentable/taggable models → stable aliases (`'product' => Product::class`). The package's own models are aliased in code (`Blog::morphMap()`) and always registered, so clearing this can't make them store the placeholder FQCN. |
-| `ui.assets.base` / `.manifest` / `.bundles` | … | Published asset base path, Vite manifest path, and per-framework entry points. See [assets.md](tools/assets.md). |
+| `ui.assets.build_directory` | `vendor/blog/build` | Where the package's built assets live (relative to `public/`). The framework→entry-point mapping is internal build wiring and lives in code (`Assets::BUNDLES`), not config. See [assets.md](tools/assets.md). |
+| `ui.assets.live` | `false` | `false` = load the already-compiled build (plain `<link>`/`<script>` for the hashed files); `true` = drive it through Laravel's Vite runtime (modulepreload + HMR when the dev server runs). |
 | `components.prefix` | `modules-blog` | Unique prefix for Blade/Livewire components; normalized to a slug. |
 | `ui.layout` | `modules/blog::layouts.master` | Parent layout the package pages `@extends`; point at your app's layout to embed. |
 | `ui.routes` | `blog.*` map | Route names the components link to (remap to mount elsewhere; missing → `#`). |

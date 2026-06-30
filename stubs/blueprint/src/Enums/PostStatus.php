@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Some\NamespacePath\Blog\Enums;
 
+use Illuminate\Support\Arr;
+
 /**
  * The lifecycle states a blog post can be in.
  */
@@ -42,15 +44,9 @@ enum PostStatus: string
      */
     public static function options(): array
     {
-        return array_reduce(
-            self::cases(),
-            static function (array $carry, self $status): array {
-                $carry[$status->value] = $status->label();
-
-                return $carry;
-            },
-            [],
-        );
+        return collect(self::cases())
+            ->mapWithKeys(static fn (self $status): array => [$status->value => $status->label()])
+            ->all();
     }
 
     /**
@@ -60,6 +56,6 @@ enum PostStatus: string
      */
     public static function values(): array
     {
-        return array_column(self::cases(), 'value');
+        return Arr::pluck(self::cases(), 'value');
     }
 }

@@ -7,7 +7,7 @@ parameters:
     paths:
         - src
     # Optional-integration code whose parent classes aren't installed in CI
-    # (paid/optional integrations, guarded at runtime).
+    # ([[plugins]]Nova is paid; Filament/[[/plugins]]Scout are optional, guarded at runtime).
     excludePaths:
         # @artifact:start plugin-filament
         - src/Filament
