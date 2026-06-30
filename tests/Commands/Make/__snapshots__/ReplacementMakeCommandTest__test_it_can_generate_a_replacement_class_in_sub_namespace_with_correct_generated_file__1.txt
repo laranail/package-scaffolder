@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Blog\Console\Replacements\Api;
 
 use Simtabi\Laranail\Package\Scaffolder\Support\ReplacementKeyCommand;
