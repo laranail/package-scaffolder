@@ -17,6 +17,16 @@ class Post extends Model
      */
     protected $fillable = [];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [];
+    }
+
     // protected static function newFactory(): PostFactory
     // {
     //     // return PostFactory::new();

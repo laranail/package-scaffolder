@@ -17,6 +17,16 @@ class $CLASS$ extends Model
      */
     protected $fillable = $FILLABLE$;
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [];
+    }
+
     // protected static function newFactory(): $NAME$Factory
     // {
     //     // return $NAME$Factory::new();
