@@ -79,6 +79,16 @@ local commits only — never pushed.
 - **Behavior change:** none to the scaffolder (template-only + additive support class/tests).
 - **Open:** config/blog.php feature-key markers (next), then the generation engine (0004).
 
+### 0003b — Config feature-key markers
+- **What:** Marked the cleanly feature-owned blocks in `stubs/blueprint/config/blog.php`:
+  `web-ui` (components), `notifications`, `scheduling`, `rest-api` (routes.api), `caching` (cache),
+  `feeds` (features), `asset-pipeline` (ui.framework + ui.assets). `search`/`security`/`processing`/
+  `routes.web`/`validation`/`morph_map`/`pagination`/`comments`/`ui.*` core keys stay.
+- **How verified:** processed all-on / all-off → `php -l` valid both; markers gone; feature keys
+  present when on and absent when off; core keys retained. (Runtime array-eval N/A on the template —
+  it references placeholder classes resolved only after token replacement.)
+- **Behavior change:** none (template-only).
+
 ---
 
 ## Requirement → status → evidence checklist

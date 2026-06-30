@@ -33,6 +33,7 @@ return [
 
     'user_model' => env('BLOG_USER_MODEL', '\\App\\Models\\User'),
 
+    // @artifact:start web-ui
     /*
     |--------------------------------------------------------------------------
     | Components
@@ -48,6 +49,7 @@ return [
     'components' => [
         'prefix' => Blog::COMPONENT_PREFIX,
     ],
+    // @artifact:end web-ui
 
     /*
     |--------------------------------------------------------------------------
@@ -80,6 +82,7 @@ return [
         'max_length' => 2000,
     ],
 
+    // @artifact:start notifications
     /*
     |--------------------------------------------------------------------------
     | Notifications
@@ -89,7 +92,9 @@ return [
     'notifications' => [
         'channels' => ['mail'],
     ],
+    // @artifact:end notifications
 
+    // @artifact:start scheduling
     /*
     |--------------------------------------------------------------------------
     | Scheduling
@@ -108,6 +113,7 @@ return [
         'timezone' => env('BLOG_SCHEDULE_TIMEZONE'),
         'on_one_server' => env('BLOG_SCHEDULE_ON_ONE_SERVER', false),
     ],
+    // @artifact:end scheduling
 
     /*
     |--------------------------------------------------------------------------
@@ -129,6 +135,7 @@ return [
             // Added to author write routes. Add 'verified' if your User implements MustVerifyEmail.
             'auth_middleware' => ['auth'],
         ],
+        // @artifact:start rest-api
         'api' => [
             'enabled' => true,
             'prefix' => 'api/v1',
@@ -145,6 +152,7 @@ return [
                 'moderate' => env('BLOG_API_MODERATE_ABILITY'), // e.g. 'blog:moderate'
             ],
         ],
+        // @artifact:end rest-api
     ],
 
     /*
@@ -209,6 +217,7 @@ return [
         'driver' => env('BLOG_SEARCH_DRIVER', 'database'),
     ],
 
+    // @artifact:start caching
     /*
     |--------------------------------------------------------------------------
     | Caching
@@ -225,6 +234,7 @@ return [
         // Short negative TTL: how long a "missing slug" is cached (anti cache-penetration).
         'miss_ttl' => env('BLOG_CACHE_MISS_TTL', 60),
     ],
+    // @artifact:end caching
 
     // How popularPosts() ranks: 'comments' (default) or 'views'.
     'popular_by' => env('BLOG_POPULAR_BY', 'comments'),
@@ -282,6 +292,7 @@ return [
         'reserved_slugs' => ['create', 'edit', 'feed', 'sitemap', 'sitemap.xml'],
     ],
 
+    // @artifact:start feeds
     /*
     |--------------------------------------------------------------------------
     | Features
@@ -302,6 +313,7 @@ return [
         // Count page views on the web show route (Blog::recordView).
         'count_views' => env('BLOG_COUNT_VIEWS', false),
     ],
+    // @artifact:end feeds
 
     /*
     |--------------------------------------------------------------------------
@@ -352,6 +364,7 @@ return [
             'logout' => 'logout',
         ],
 
+        // @artifact:start asset-pipeline
         /*
         | The CSS bundle the <x-{prefix}::assets /> component loads. The package
         | ships three independent bundles — Tailwind v4, Bootstrap 5, and "vanilla"
@@ -381,6 +394,7 @@ return [
                 ],
             ],
         ],
+        // @artifact:end asset-pipeline
     ],
 
 ];
