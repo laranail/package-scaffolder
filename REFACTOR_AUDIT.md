@@ -108,3 +108,30 @@ local commits only — never pushed.
 | 11 | composer.json wiring minimal, idempotent, preserves unrelated keys | open | — |
 | 12 | Full tests: unit + functional + regression per bug fixed | open | — |
 | 13 | `REFACTOR_AUDIT.md` complete, maps every requirement to evidence | in progress | this file |
+
+### 0004 — Generation engine (TokenReplacer + ArtifactGenerator)
+- **What:** `TokenReplacer` (strtr-based placeholder→identity rewrite) and `ArtifactGenerator`
+  (copy `stubs/blueprint` → token-replace file contents → strip disabled `%marker%` blocks via
+  `MarkerProcessor` → delete disabled feature/plugin files (prune map in `config/artifacts.php`) →
+  rename surviving files to the artifact identity → repair `composer.json`: drop inactive
+  integration providers from `extra.laravel.providers` and inactive plugin deps from
+  require/require-dev/suggest). Added `GenerationRequest` value object. Markered the two
+  integration-provider `use` imports (`plugin-filament`/`plugin-nova`) so `plugin=none` carries no
+  Filament/Nova import.
+- **Why:** Requirements 3 (match blueprint), 7 (plugin none zero footprint), 8/9 (feature toggles).
+- **How verified:** `TokenReplacerTest` (6), `ArtifactGeneratorTest` (2 scenarios, 28 assertions):
+  generates a full package (plugin=none, all features) — provider namespace `Modules\Blog`, valid
+  `php -l`, caching/search/livewire present, **no `src/Filament`|`src/Nova`|integration providers**,
+  **no functional `Filament\`/`Laravel\Nova` refs in src/**, composer has 1 provider + no
+  filament/nova deps; and a renamed Filament plugin (`Acme\Shop`) with caching+livewire OFF —
+  `ShopServiceProvider.php` (rename works), no caching files, no `src/Livewire`, Filament kept /
+  Nova removed. Full suite green (**426**).
+- **Behavior change:** none to existing scaffolder; new generator is additive (not yet wired to a
+  command).
+- **Deferred to 0004c / later tasks:** generated-artifact Pint pass to strip the remaining
+  feature-off orphaned imports (cosmetic; `php -l` already valid); feature dep-trimming
+  (livewire/commonmark/scout — harmless dev deps); host composer.json idempotent wiring (#24);
+  README/docs prose scrub of Filament/Nova mentions for full literal zero-reference (#23).
+
+| 4 (partial) | feature/plugin toggles drive generation | engine done (0004); command next | ArtifactGeneratorTest |
+| 7 (partial) | plugin none zero footprint | functional footprint asserted (0004); prose scrub #23 | ArtifactGeneratorTest |

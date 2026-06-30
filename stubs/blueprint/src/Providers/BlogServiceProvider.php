@@ -62,8 +62,12 @@ use Some\NamespacePath\Blog\Policies\CategoryPolicy;
 use Some\NamespacePath\Blog\Policies\CommentPolicy;
 use Some\NamespacePath\Blog\Policies\PostPolicy;
 use Some\NamespacePath\Blog\Processing\BodyProcessor;
+// @artifact:start plugin-filament
 use Some\NamespacePath\Blog\Providers\Integrations\FilamentBlogServiceProvider;
+// @artifact:end plugin-filament
+// @artifact:start plugin-nova
 use Some\NamespacePath\Blog\Providers\Integrations\NovaBlogServiceProvider;
+// @artifact:end plugin-nova
 use Some\NamespacePath\Blog\Repositories\CachingPostRepository;
 use Some\NamespacePath\Blog\Repositories\EloquentPostRepository;
 use Some\NamespacePath\Blog\Search\SearchManager;
