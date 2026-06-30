@@ -60,7 +60,7 @@
             "Simtabi\\Laranail\\Package\\Scaffolder\\": "src"
         },
         "files": [
-            "src/helpers.php"
+            "helpers/helpers.php"
         ]
     },
     "autoload-dev": {
