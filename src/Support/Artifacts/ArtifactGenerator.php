@@ -92,28 +92,42 @@ final class ArtifactGenerator
     }
 
     /**
-     * Rename files whose basename carries a placeholder identifier
-     * (BlogServiceProvider.php → {Studly}ServiceProvider.php, blog.php → {lower}.php).
+     * Rename files AND directories whose basename carries a placeholder identifier,
+     * so the on-disk names match the tokenized references in code:
+     *   - class files: PostController.php → {Entity}Controller.php (PSR-4)
+     *   - view dirs/files: resources/views/posts/ → {entityPlural}/,
+     *     livewire/post-list.blade.php → {entityLower}-list.blade.php,
+     *     components/posts.blade.php → {entityPlural}.blade.php
+     *   - config/lang: blog.php → {lower}.php
+     *
+     * Studly/plural-before-singular and longest-match (strtr) keep `Posts`→{Plural}
+     * and `posts`→{plural} from clobbering `Post`/`post`. Walks deepest-first so a
+     * renamed child's parent dir is still renamed correctly afterwards.
      */
     private function renamePaths(GenerationRequest $request, string $targetPath): void
     {
         $tokens = $request->tokens();
 
-        // Entity studly forms (plural before singular) rename class files like
-        // PostController.php → {Entity}Controller.php so the basename matches the
-        // tokenized class (PSR-4). Artifact tokens (Blog/blog) rename the rest.
         $map = [
             'Posts' => $tokens['entityStudlyPlural'],
             'Post' => $tokens['entityStudly'],
-            TokenReplacer::PLACEHOLDER_STUDLY => $request->studly(),
-            TokenReplacer::PLACEHOLDER_LOWER => $request->lower(),
+            'posts' => $tokens['entityPlural'],
+            'post' => $tokens['entityLower'],
+            TokenReplacer::PLACEHOLDER_STUDLY => $request->studly(),  // Blog
+            TokenReplacer::PLACEHOLDER_LOWER => $request->lower(),    // blog
         ];
 
-        foreach ($this->files->allFiles($targetPath) as $file) {
-            $renamed = strtr($file->getFilename(), $map);
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($targetPath, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST,
+        );
 
-            if ($renamed !== $file->getFilename()) {
-                $this->files->move($file->getPathname(), $file->getPath().'/'.$renamed);
+        foreach ($iterator as $item) {
+            $name = $item->getFilename();
+            $renamed = strtr($name, $map);
+
+            if ($renamed !== $name) {
+                $this->files->move($item->getPathname(), $item->getPath().'/'.$renamed);
             }
         }
     }

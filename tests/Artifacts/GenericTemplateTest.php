@@ -86,6 +86,13 @@ class GenericTemplateTest extends BaseTestCase
         $this->assertFileExists($t.'/src/Models/Comment.php');
         $this->assertFileExists($t.'/src/Models/Tag.php');
 
+        // entity VIEW dirs/files renamed too, so code refs (view('…::accounts.show'),
+        // livewire 'account-list') resolve — regression guard for the renamePaths fix
+        $this->assertDirectoryExists($t.'/resources/views/accounts');
+        $this->assertDirectoryDoesNotExist($t.'/resources/views/posts');
+        $this->assertFileExists($t.'/resources/views/livewire/account-list.blade.php');
+        $this->assertFileDoesNotExist($t.'/resources/views/livewire/post-list.blade.php');
+
         $l = $this->leftovers($t);
         $this->assertSame([], $l['blog'], 'residual blog tokens in: '.implode(', ', $l['blog']));
         $this->assertSame([], $l['entity'], 'residual entity post tokens in: '.implode(', ', $l['entity']));
