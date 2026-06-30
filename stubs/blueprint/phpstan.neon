@@ -7,10 +7,16 @@ parameters:
     paths:
         - src
     # Optional-integration code whose parent classes aren't installed in CI
-    # (Nova is paid; Filament/Scout are optional, guarded at runtime).
+    # (paid/optional integrations, guarded at runtime).
     excludePaths:
+        # @artifact:start plugin-filament
         - src/Filament
+        # @artifact:end plugin-filament
+        # @artifact:start plugin-nova
         - src/Nova
+        # @artifact:end plugin-nova
+        # @artifact:start plugins
         - src/Providers/Integrations
+        # @artifact:end plugins
         - src/Search/Drivers/ScoutSearchDriver.php
     reportUnmatchedIgnoredErrors: false

@@ -86,7 +86,7 @@ needed unless you copied the old namespace.
 
 The runtime-extensibility layer (manager macros, body pipeline, container decoration, search
 drivers, lifecycle events), the new features (Markdown, view counts, featured posts, caching),
-and the optional Filament/Nova adapters are **additive and off by default** — existing setups
+and the optional admin-panel adapters are **additive and off by default** — existing setups
 behave exactly as before. See [docs/tools/extending.md](docs/tools/extending.md). Two behaviour notes:
 
 - **Body rendering**: the `<x-modules-blog::post>` component now renders the sanitized body as HTML

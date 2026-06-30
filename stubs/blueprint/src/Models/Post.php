@@ -70,7 +70,7 @@ class Post extends Model
     ];
 
     /**
-     * Generic lifecycle events fire for every writer (facade, Filament, Nova, raw
+     * Generic lifecycle events fire for every writer (facade, admin panels, raw
      * Eloquent, factories). State-transition events (published/unpublished) live
      * in {@see PostObserver}.
      *

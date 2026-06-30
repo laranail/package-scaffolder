@@ -17,8 +17,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   predictable container **decoration** of services/repository; a pluggable **search `Manager`**
   (`database`/`scout`/custom drivers); a full set of **lifecycle events** (post/comment/category/
   tag created/updated/deleted + published/unpublished/approved); `Blog::spy()` as the test seam.
+<!-- @artifact:start plugins -->
 - **Optional admin panels** — guarded **Filament** (`BlogPlugin` + resources) and **Nova**
   (resources + tool) adapters over the same core; headless when absent.
+<!-- @artifact:end plugins -->
 - **Useful features** — opt-in **Markdown** rendering on display (source-preserving), **view
   counts** + `popular_by`, **featured/pinned** posts, and an opt-in event-busted **caching** repository.
 - **Multipurpose template** — usable as a module, package or plugin; a full
@@ -82,7 +84,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Tailwind CSS v4 + Bootstrap 5** ship as separate Vite bundles, loaded by an
   `<x-…::assets />` component and chosen via `config('modules.blog.ui.framework')`.
 - Body sanitization moved from `PostService` to the **model layer** (`BodyProcessor` stage in the
-  `saving` observer), so it applies to every writer (facade/API/CLI, Filament, Nova, raw Eloquent);
+  `saving` observer), so it applies to every writer (facade/API/CLI, admin panels, raw Eloquent);
   it now also strips inline event handlers and `javascript:`/`data:` URLs.
 - The `<x-modules-blog::post>` component now renders the (sanitized) body as HTML via `renderedBody()`
   instead of escaping it as plain text — bodies are treated as rich content.

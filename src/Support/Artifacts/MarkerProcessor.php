@@ -37,7 +37,7 @@ final class MarkerProcessor
         $skipDepth = 0;
 
         foreach ($lines as $line) {
-            if (preg_match('/^\s*(?:\/\/|<!--)\s*@artifact:start\s+(\S+?)(?:\s*-->)?\s*$/', $line, $m) === 1) {
+            if (preg_match('/^\s*(?:\/\/|<!--|#)\s*@artifact:start\s+(\S+?)(?:\s*-->)?\s*$/', $line, $m) === 1) {
                 if ($skipDepth > 0) {
                     // Already inside a disabled block — track nesting so the
                     // matching end doesn't close the outer block early.
@@ -49,7 +49,7 @@ final class MarkerProcessor
                 continue; // the marker line itself is never emitted
             }
 
-            if (preg_match('/^\s*(?:\/\/|<!--)\s*@artifact:end\s+\S+?(?:\s*-->)?\s*$/', $line) === 1) {
+            if (preg_match('/^\s*(?:\/\/|<!--|#)\s*@artifact:end\s+\S+?(?:\s*-->)?\s*$/', $line) === 1) {
                 if ($skipDepth > 0) {
                     $skipDepth--;
                 }

@@ -91,13 +91,19 @@ class MatrixVerificationTest extends BaseTestCase
         } elseif ($plugin === 'filament') {
             $this->assertDirectoryExists($target.'/src/Filament');
             $this->assertDirectoryDoesNotExist($target.'/src/Nova');
-        } else { // none ⇒ zero footprint, incl. scrubbed README prose
+        } else { // none ⇒ literal zero Nova/Filament footprint across the WHOLE tree
             $this->assertDirectoryDoesNotExist($target.'/src/Nova');
             $this->assertDirectoryDoesNotExist($target.'/src/Filament');
             $this->assertFileDoesNotExist($target.'/docs/tools/panels.md');
-            $readme = $this->fs->get($target.'/README.md');
-            $this->assertStringNotContainsString('Filament', $readme);
-            $this->assertStringNotContainsString('Nova', $readme);
+
+            $refs = [];
+            foreach ($this->fs->allFiles($target) as $f) {
+                $c = $this->fs->get($f->getPathname());
+                if (str_contains($c, 'Filament') || str_contains($c, 'Nova')) {
+                    $refs[] = $f->getRelativePathname();
+                }
+            }
+            $this->assertSame([], $refs, 'plugin=none must leave zero Filament/Nova references anywhere');
         }
     }
 }

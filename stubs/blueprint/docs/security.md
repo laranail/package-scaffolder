@@ -24,7 +24,7 @@ tags. This is a solid **dependency-free baseline**; for fully-trusted rich HTML 
 purifier as a body stage (see [extending.md](tools/extending.md)).
 
 Sanitization runs at the **model layer** (the always-last `BodyProcessor` stage, invoked from the
-`saving` observer), so it applies to **every** writer — facade/API/CLI, Filament, Nova and raw
+`saving` observer), so it applies to **every** writer — facade/API/CLI, admin panels and raw
 Eloquent — and to the output of any consumer `pipe()` stage (which runs *before* it). Because the
 stored body is already sanitized, the `<x-modules-blog::post>` component renders it as HTML via
 `renderedBody()` (and renders Markdown on display from the preserved source when enabled). Keep

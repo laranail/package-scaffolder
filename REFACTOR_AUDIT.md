@@ -101,12 +101,12 @@ local commits only — never pushed.
 | 4 | CLI/TUI prompts: artifact type, plugin type (true "none"), toggleable features | ✅ done | 0005 — `MakeArtifactCommandTest` |
 | 5 | Interactive + non-interactive, shared validation/generation path | ✅ done | 0005 — `MakeArtifactCommandTest` |
 | 6 | Missing required flag fails loudly; non-TTY ⇒ non-interactive | ✅ done | 0005 — `MakeArtifactCommandTest` |
-| 7 | Plugin "none" ⇒ zero Nova/Filament footprint (asserted) | ✅ done | 0004 (functional) + 0007 (consumer prose) — `MatrixVerificationTest` |
+| 7 | Plugin "none" ⇒ zero Nova/Filament footprint (asserted) | ✅ done | 0004 (functional) + 0007 (consumer prose) + **0009 (literal zero across the whole tree, enforced)** — `MatrixVerificationTest` |
 | 8 | Each feature toggleable; artifact still builds with it off | ✅ done | off ⇒ files/wiring/config removed, provider stays `php -l`-valid across all-on/minimal/partial combos (0007) — `MatrixVerificationTest`. Running each generated artifact's OWN PHPUnit needs its composer install — documented manual gate (see #12). |
 | 9 | "Off" = not generated (not generated-but-disabled); unknown feature errors | ✅ done | 0003/0004/0005 — `MarkerProcessorTest`, `ArtifactGeneratorTest`, `MakeArtifactCommandTest` |
 | 10 | Same artifact works in `platform/{modules,packages,plugins}/`; folder ≠ namespace | ✅ done | 0006 — `PortabilityTest`; unique-name-across-containers guard — `MakeArtifactCommandTest` |
 | 11 | composer.json wiring minimal, idempotent, preserves unrelated keys | ✅ done | 0006 — `PortabilityTest` |
-| 12 | Full tests: unit + functional + regression per bug fixed | ✅ done (with gate) | scaffolder suite 441 green incl. the artifact engine (`tests/Artifacts/*`, `tests/Commands/MakeArtifactCommandTest`); generated-artifact static sweep (0007). **Manual gate:** executing each generated artifact's own PHPUnit requires running `composer install` inside it (network) — out of scope for the scaffolder's CI; documented in `docs/make-artifact.md`. |
+| 12 | Full tests: unit + functional + regression per bug fixed | ✅ done | scaffolder suite 444 green incl. the artifact engine; generated artifacts are now **booted in a real Laravel container** (`GeneratedArtifactBootTest`, 0009) — config merges, the manager + repository binding resolve — plus the whole-tree static sweep (`MatrixVerificationTest`). No per-artifact `composer install`: the only hard boot dep (`laranail/package-tools`) is a scaffolder dev dep; optional integrations are `class_exists`-guarded. |
 | 13 | `REFACTOR_AUDIT.md` complete, maps every requirement to evidence | ✅ done | this table + entries 0001–0007 |
 
 ### 0004 — Generation engine (TokenReplacer + ArtifactGenerator)
@@ -223,3 +223,29 @@ local commits only — never pushed.
 - **How verified:** `ArtifactGeneratorTest` (3 tests, 32 assertions) green incl. the full-tree lint
   and the dep-trim assertion. Full suite green (**442**).
 - **Behavior change:** generated composer no longer suggests/requires a disabled feature's packages.
+
+### 0009 — Permanent fixes for the two documented caveats
+- **Caveat A — per-artifact tests were a manual (network) gate → now runtime-verified.** The only
+  hard dependency to *boot* a generated provider is `laranail/package-tools` (the provider base); every
+  optional integration (livewire/sanctum/scout/filament/nova) is `class_exists`-guarded. Added
+  `package-tools` as a scaffolder **dev** dependency (one-time, normal) and `GeneratedArtifactBootTest`,
+  which generates an artifact, autoloads its namespace (a runtime `Composer\Autoload\ClassLoader`
+  PSR-4 mapping), registers its provider in the Testbench app and asserts it **boots** — config
+  merges under the derived `vendor.package` key, the manager singleton resolves, the repository
+  contract is bound. Covers both a full-featured `plugin=none` artifact and a fully-pruned (minimal)
+  one. This replaces "php -l only + manual gate" with real container boot, with **no per-artifact
+  `composer install`**.
+- **Caveat B — Filament/Nova prose was kept by design → now literal zero for `plugin=none`.** The
+  architectural "every writer (… Filament, Nova …)" mentions in `BodyProcessor`/`Post`/`PostObserver`/
+  `CommentObserver`/`CachingPostRepository`/`FlushBlogCache` and `docs/security.md`/`extending.md`/
+  `CHANGELOG`/`UPGRADING` were **reworded panel-agnostic** ("admin panels"/"admin-panel adapters") —
+  accurate for every artifact, no literal names. The discrete panel mentions (CHANGELOG feature entry,
+  phpstan `excludePaths`) are now markered: `MarkerProcessor` gained `#` (NEON/YAML) marker support
+  alongside `//` and `<!-- -->`, the phpstan `src/Filament`/`src/Nova`/`Integrations` excludes are
+  per-plugin/`plugins`-markered, and the CHANGELOG entry is `plugins`-markered.
+- **How verified:** `GeneratedArtifactBootTest` (2, boots full + minimal); `MatrixVerificationTest`
+  `plugin=none` now scans the **whole generated tree** and asserts **zero** "Filament"/"Nova"
+  anywhere (across the package/module/minimal/partial none-cases); `MarkerProcessorTest` HTML case.
+  Full suite green (**444**).
+- **Behavior change:** scaffolder gains a `package-tools` dev dep; blueprint comments are
+  panel-agnostic; `plugin=none` output is literally Filament/Nova-free.

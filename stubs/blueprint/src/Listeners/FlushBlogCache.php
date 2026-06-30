@@ -10,7 +10,7 @@ use Some\NamespacePath\Blog\Repositories\CachingPostRepository;
 /**
  * Busts the blog read cache on any post/comment lifecycle event by bumping a
  * version key embedded in every cache key (see {@see CachingPostRepository}).
- * Event-driven so writes from ANY source invalidate — including Filament/Nova/raw
+ * Event-driven so writes from ANY source invalidate — including admin panels/raw
  * Eloquent, which bypass the repository decorator. Wired only when caching is on.
  */
 class FlushBlogCache

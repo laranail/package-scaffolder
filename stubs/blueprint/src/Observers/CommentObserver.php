@@ -11,7 +11,7 @@ use Some\NamespacePath\Blog\Providers\BlogServiceProvider;
 /**
  * Single source of the {@see CommentApproved} event — fired when a comment
  * enters the "approved" state, whichever writer made the change (service,
- * Filament, Nova, raw Eloquent). Registered in {@see BlogServiceProvider}.
+ * an admin panel, raw Eloquent). Registered in {@see BlogServiceProvider}.
  */
 class CommentObserver
 {

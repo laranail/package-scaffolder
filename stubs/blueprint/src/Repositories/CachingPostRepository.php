@@ -20,7 +20,7 @@ use Some\NamespacePath\Blog\Models\Post;
  * published-feed reads (a missing slug is negatively cached under a short TTL, so
  * a flood of bogus slugs can't repeatedly hit the DB); writes pass straight through.
  * Invalidation is **event-driven** (see {@see FlushBlogCache}), not tied to these
- * write methods — so writes from any source (Filament/Nova/raw Eloquent) still bust
+ * write methods — so writes from any source (admin panels/raw Eloquent) still bust
  * the cache. Keys are namespaced by a bumped version, portable across all cache
  * stores (no tag support required).
  *
