@@ -56,6 +56,34 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertFileDoesNotExist($dir.'/Demo/src/Repositories/CachingPostRepository.php');
     }
 
+    public function test_default_entity_is_distinct_from_the_artifact_name()
+    {
+        // `make:artifact Admin` with no --entity must NOT make entity == artifact
+        // (that collides the manager {Artifact} with the model {Entity}); it defaults
+        // to a distinct generic entity (Item) so the artifact builds.
+        $dir = $this->tmp();
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Admin', '--type' => 'package', '--namespace' => 'Acme',
+            '--path' => $dir, '--no-interaction' => true, '--no-repo' => true,
+        ]);
+
+        $this->assertSame(0, $code, Artisan::output());
+        $this->assertFileExists($dir.'/Admin/src/Admin.php');             // manager = artifact
+        $this->assertFileExists($dir.'/Admin/src/Models/Item.php');       // model = distinct entity
+        $this->assertFileDoesNotExist($dir.'/Admin/src/Models/Admin.php'); // never entity == artifact
+    }
+
+    public function test_entity_equal_to_artifact_is_rejected()
+    {
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Admin', '--type' => 'package', '--entity' => 'Admin',
+            '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
+        ]);
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('must differ from the artifact name', Artisan::output());
+    }
+
     public function test_missing_required_type_fails_loudly()
     {
         $code = Artisan::call('make:artifact', [

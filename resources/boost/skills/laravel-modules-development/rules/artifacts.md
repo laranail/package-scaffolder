@@ -23,7 +23,7 @@ php artisan make:artifact Customer --type=package --entity=Account --plugin=fila
 | Input | Flag | Notes |
 |---|---|---|
 | Name | positional | The **artifact** (StudlyCase); unique across all containers. |
-| Entity | `--entity=` | The **primary entity**; default = singular of the name. |
+| Entity | `--entity=` | The **primary entity**; default = distinct generic `Item`, must differ from the artifact. |
 | Type | `--type=` | `package` · `module` · `plugin`. |
 | Panel | `--plugin=` | `nova` · `filament` · `none` — single mutually-exclusive choice; default `none`. |
 | Features | `--features=a,b` | Subset from the catalog; default = all. Unknown ⇒ error; requires auto-resolved. |

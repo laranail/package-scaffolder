@@ -23,7 +23,7 @@
 - One artifact, three shapes: `--type=package|module|plugin` → `platform/{packages,modules,plugins}/{Name}`.
   The folder is a location only; the PSR-4 root comes from `--namespace`, never the folder.
 - Naming model: the **artifact** (`Blog` → `{Name}`) and a distinct **primary entity**
-  (`Post` → `--entity`, default = singular of the name). `Comment`/`Category`/`Tag` ship in every
+  (`Post` → `--entity`, default = distinct generic `Item`, must differ from the artifact). `Comment`/`Category`/`Tag` ship in every
   artifact as the fixed supporting entities (do not rename per-domain).
 - Panel is one mutually-exclusive choice: `--plugin=nova|filament|none` (default `none` = zero
   Nova/Filament footprint). Never both.

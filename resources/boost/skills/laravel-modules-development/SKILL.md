@@ -31,7 +31,7 @@ scaffolds a complete, opinionated artifact from a gold-standard template.
   empty shell. Use `module:make-*` to add classes into an existing artifact.
 - Output: `platform/{packages,modules,plugins}/{Name}`; the folder is location-only, the PSR-4 root is
   `--namespace`. Artifact name (`Blog`→`{Name}`) is distinct from the primary entity (`Post`→`--entity`,
-  default = singular of the name); `Comment`/`Category`/`Tag` are fixed supporting entities.
+  default = distinct generic `Item`, must differ from the artifact); `Comment`/`Category`/`Tag` are fixed supporting entities.
 - Panel: `--plugin=nova|filament|none` (mutually exclusive; default `none` = zero footprint).
 - Features are config-driven (`config('artifacts.features')` / `FEATURE_CATALOG.md`), opt-in/opt-out via
   `--features=`; off ⇒ not generated; dependencies auto-resolved (`livewire` requires `web-ui`).

@@ -175,22 +175,32 @@ class MakeArtifactCommand extends Command
 
     /**
      * The primary entity (Post → {entity}). The blueprint decouples it from the
-     * artifact name (Blog ≠ Post), so it's prompted; the default is the singular of
-     * the artifact name.
+     * artifact name (Blog ≠ Post): the manager/facade is named after the artifact and
+     * the model after the entity, so the two MUST differ or their imports collide
+     * (`use {Artifact}` vs `use {Artifact}\Models\{Entity}`). The default is a generic,
+     * distinct name (config `artifacts.default_entity`); we never silently set
+     * entity == artifact.
      */
     private function resolveEntity($io, string $name, bool $nonInteractive): string
     {
-        $default = Str::singular(Str::studly($name));
+        $default = (string) config('artifacts.default_entity', 'Item');
         $entity = (string) ($this->option('entity') ?? '');
 
         if ($entity === '') {
-            $entity = $nonInteractive ? $default : $io->askText('Primary entity (StudlyCase)', $default, $default, false);
+            $entity = $nonInteractive ? $default : $io->askText('Primary entity (StudlyCase, distinct from the artifact)', $default, $default, false);
         }
 
         $entity = Str::studly($entity !== '' ? $entity : $default);
 
         if ($entity === '') {
             throw new \InvalidArgumentException('The entity name is invalid.');
+        }
+
+        if (Str::lower($entity) === Str::lower(Str::studly($name))) {
+            throw new \InvalidArgumentException(
+                "The primary entity must differ from the artifact name [{$entity}]: the manager is named after the "
+                .'artifact and the model after the entity, so identical names collide. Pass a distinct --entity (e.g. --entity=Account).'
+            );
         }
 
         return $entity;

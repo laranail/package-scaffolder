@@ -32,6 +32,15 @@ return [
     ],
 
     /*
+    | Default primary entity (Post → {entity}) when --entity is not given. It MUST be
+    | distinct from the artifact name — the manager is named after the artifact and the
+    | model after the entity, so identical names collide. A generic default lets
+    | `make:artifact Admin` build cleanly (an Admin package with an Item record);
+    | rename it after generation or pass --entity.
+    */
+    'default_entity' => env('ARTIFACT_DEFAULT_ENTITY', 'Item'),
+
+    /*
     | Artifact kinds → container directory (relative to base_path()). The folder
     | is a location only; all three resolve to the same prompted PSR-4 root.
     */

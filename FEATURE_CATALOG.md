@@ -14,8 +14,9 @@ prompts and flags can't drift from the catalog. Generation prunes a disabled fea
 ## Naming model
 
 - **Artifact** = the package/module/plugin (`Blog` → `{Artifact}`).
-- **Primary entity** = the main record (`Post` → `{Entity}`, prompted via `--entity`, default = the
-  singular of the artifact name).
+- **Primary entity** = the main record (`Post` → `{Entity}`, prompted via `--entity`, default = a
+  distinct generic `Item` that must differ from the artifact name — the manager is named after the
+  artifact and the model after the entity, so identical names collide).
 - **Supporting entities** = `Comment` (one-to-many child), `Category` (grouping), `Tag`
   (many-to-many label). Kept verbatim in every artifact as the three canonical relationship shapes;
   not tokenized, not prompted, not pruned.

@@ -27,7 +27,7 @@ php artisan laranail::package-scaffolder.new Shop --type=plugin --plugin=filamen
 | Input | Flag | Notes |
 |-------|------|-------|
 | Name | positional `name` | The **artifact** (package/module/plugin), StudlyCase; **must be unique across all containers**. |
-| Entity | `--entity=` | The **primary entity** (StudlyCase). Defaults to the singular of the artifact name. See *Naming model*. |
+| Entity | `--entity=` | The **primary entity** (StudlyCase). Defaults to a distinct generic (`Item`) and must differ from the artifact name. See *Naming model*. |
 | Type | `--type=` | `package` · `module` · `plugin`. Required (no default in unattended mode). |
 | Panel | `--plugin=` | `nova` · `filament` · `none` — a single **mutually-exclusive** choice for any shape; default `none`. |
 | Features | `--features=a,b` or repeated `--feature=` | Default = all on (the full blueprint). Unknown feature ⇒ error. |
@@ -47,7 +47,7 @@ tokenized independently so you can generate a `Customer`, `Admin`, `Billing` —
   container folder.
 - **Primary entity** — the main domain record (`Post` → `{Entity}`). The blueprint deliberately makes
   these different concepts (`Blog` ≠ `Post`), so the entity is **prompted** (`--entity`), defaulting
-  to the singular of the artifact name. Entity files are renamed too (`PostController` →
+  to a distinct generic (`Item`) and must differ from the artifact name (the manager is named after the artifact, the model after the entity). Entity files are renamed too (`PostController` →
   `{Entity}Controller`), with real inflection for singular/plural and Studly/camel/snake/SCREAMING case.
 
 `Comment`, `Category`, and `Tag` are **kept as the generic supporting layer** — they're cross-domain

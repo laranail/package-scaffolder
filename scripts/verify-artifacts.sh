@@ -59,6 +59,10 @@ build_and_full_test "$WORK/Blog" "package · none · all · Blog"
 gen "$WORK/Customer" "Customer" "Account" "Acme"    "acme"    "none" "$ALL"
 build_and_full_test "$WORK/Customer" "package · none · all · Customer/Account"
 
+# default-entity path (Admin + the distinct default entity "Item") — must build
+gen "$WORK/Admin"    "Admin"    "Item"    "Acme"    "acme"    "none" "$ALL"
+build_and_full_test "$WORK/Admin" "package · none · all · Admin/Item (default entity)"
+
 # pruned combo (build + static only, per D2)
 gen "$WORK/Lean"     "Lean"     "Item"    "Acme"    "acme"    "none" "caching,rest-api"
 build_only "$WORK/Lean" "package · none · caching+rest-api · Lean/Item"
