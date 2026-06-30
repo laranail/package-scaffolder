@@ -159,6 +159,31 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
 - **Verified:** scaffolder suite 458; phpstan clean; `scripts/verify-artifacts.sh` → "ALL ARTIFACT
   BUILDS + TESTS PASSED".
 
+### RS-7 — Re-verification pass (blueprint unchanged) — found+fixed 2 real bugs
+- **Re-review:** diffed the current blueprint vs the stub — **unchanged** since RS-4 (every "diff" is
+  my inline markers; only `public/build` artifact differs). No re-sync due. Removed a stray empty
+  top-level `stubs/` dir (untracked leftover of the relocate).
+- **Bug 1 (lowercase Filament/Nova leak, plugin=none):** `UPGRADING.md` named the panel deps in
+  **lowercase** (`filament/filament`, `laravel/nova`); `plugin=none` didn't strip them and the matrix
+  none-scan MISSED it (checked only capitalized `Filament`/`Nova`). Fixed: markered the clause;
+  hardened the matrix scan to case-insensitive word-bounded `/\bfilament\b|\bnova\b/i` (catches
+  lowercase product refs, not "innovation"). composer suggests were already repairComposer-stripped;
+  `panels.md` deleted — so UPGRADING was the sole leak.
+- **Bug 2 (default-entity collision — important):** `resolveEntity` defaulted entity to
+  `singular(name)`, so a single-word `make:artifact Admin` set entity==artifact → manager `{Artifact}`
+  and model `{Entity}` collide on import (`Cannot use …\Models\Admin as Admin`); the generated suite
+  fatals. The file-only command tests never built the artifact, so it went unnoticed — and it's the
+  exact "don't assume entity == artifact" case the brief flagged. Fixed: default entity = distinct
+  generic (`config artifacts.default_entity='Item'`); reject `--entity == artifact`. `make:artifact
+  Admin` now builds (Admin/Item) and passes 149/149.
+- **Verified (reproducible):** `scripts/verify-artifacts.sh` builds + full-tests **Blog/Post,
+  Customer/Account, AND Admin/Item (default entity)** — 149 tests each — plus a pruned build. Fresh
+  `plugin=none` artifact = zero filament/nova (any case). Scaffolder suite **460**; phpstan + pint
+  clean. Both bugs have regression tests (MatrixVerificationTest hardened scan;
+  MakeArtifactCommandTest distinct-default + rejection).
+- **Lesson reinforced:** build-and-test catches what static/boot/file-only checks miss; the matrix
+  scan and command tests now cover both classes of bug.
+
 ## Entries
 
 ### 0001 — Vendor the blueprint as the parameterized template
