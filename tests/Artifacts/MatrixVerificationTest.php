@@ -1,0 +1,103 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Artifacts;
+
+use Illuminate\Filesystem\Filesystem;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+
+/**
+ * Self-verification sweep across the type × plugin × feature matrix: every
+ * combination must generate a structurally valid artifact — no leftover markers,
+ * a syntactically valid provider, both laranail deps present, and the plugin
+ * dimension honored (incl. plugin=none zero footprint, prose scrub included).
+ */
+class MatrixVerificationTest extends BaseTestCase
+{
+    private Filesystem $fs;
+
+    private array $targets = [];
+
+    private array $config;
+
+    private string $source;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->fs = new Filesystem;
+        $this->config = require dirname(__DIR__, 2).'/config/artifacts.php';
+        $this->source = dirname(__DIR__, 2).'/stubs/blueprint';
+    }
+
+    protected function tearDown(): void
+    {
+        foreach ($this->targets as $t) {
+            $this->fs->deleteDirectory($t);
+        }
+        parent::tearDown();
+    }
+
+    public static function matrix(): array
+    {
+        $all = ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'];
+
+        return [
+            'package · none · all' => ['package', 'none', $all],
+            'module · none · all' => ['module', 'none', $all],
+            'plugin · none · all' => ['plugin', 'none', $all],
+            'plugin · nova · all' => ['plugin', 'nova', $all],
+            'plugin · filament · all' => ['plugin', 'filament', $all],
+            'package · none · minimal' => ['package', 'none', []],
+            'package · none · caching+api' => ['package', 'none', ['caching', 'rest-api']],
+        ];
+    }
+
+    #[DataProvider('matrix')]
+    public function test_matrix_combination_generates_a_valid_artifact(string $kind, string $plugin, array $features)
+    {
+        $target = sys_get_temp_dir().'/laranail-matrix-'.uniqid();
+        $this->targets[] = $target;
+
+        (new ArtifactGenerator($this->fs, $this->config))
+            ->generate(new GenerationRequest($kind, $plugin, $features, 'Widget', 'Acme', 'acme'), $this->source, $target);
+
+        // 1. no half-processed markers survive anywhere
+        $leftover = [];
+        foreach ($this->fs->allFiles($target) as $f) {
+            if (str_contains($this->fs->get($f->getPathname()), '@artifact:')) {
+                $leftover[] = $f->getRelativePathname();
+            }
+        }
+        $this->assertSame([], $leftover, 'leftover @artifact markers');
+
+        // 2. the densest wiring file is valid PHP
+        $provider = $target.'/src/Providers/WidgetServiceProvider.php';
+        $this->assertFileExists($provider);
+        exec('php -l '.escapeshellarg($provider).' 2>&1', $o, $code);
+        $this->assertSame(0, $code, 'invalid provider: '.implode("\n", $o));
+
+        // 3. both laranail libraries are required by the generated artifact
+        $composer = json_decode($this->fs->get($target.'/composer.json'), true);
+        $this->assertArrayHasKey('laranail/console', $composer['require']);
+        $this->assertArrayHasKey('laranail/package-tools', $composer['require']);
+
+        // 4. plugin dimension honored
+        if ($plugin === 'nova') {
+            $this->assertDirectoryExists($target.'/src/Nova');
+            $this->assertDirectoryDoesNotExist($target.'/src/Filament');
+        } elseif ($plugin === 'filament') {
+            $this->assertDirectoryExists($target.'/src/Filament');
+            $this->assertDirectoryDoesNotExist($target.'/src/Nova');
+        } else { // none ⇒ zero footprint, incl. scrubbed README prose
+            $this->assertDirectoryDoesNotExist($target.'/src/Nova');
+            $this->assertDirectoryDoesNotExist($target.'/src/Filament');
+            $this->assertFileDoesNotExist($target.'/docs/tools/panels.md');
+            $readme = $this->fs->get($target.'/README.md');
+            $this->assertStringNotContainsString('Filament', $readme);
+            $this->assertStringNotContainsString('Nova', $readme);
+        }
+    }
+}

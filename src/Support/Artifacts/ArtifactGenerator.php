@@ -135,6 +135,10 @@ final class ArtifactGenerator
             $set[] = 'plugin-nova';
         }
 
+        if ($request->plugin !== 'none') {
+            $set[] = 'plugins'; // umbrella for prose that applies to any panel
+        }
+
         return $set;
     }
 

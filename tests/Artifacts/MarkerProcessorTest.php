@@ -58,4 +58,26 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringNotContainsString('livewire line', $out);
         $this->assertStringNotContainsString('@artifact:', $out);
     }
+
+    public function test_html_comment_markers_for_markdown()
+    {
+        $md = <<<'MD'
+            Intro line.
+            <!-- @artifact:start plugins -->
+            ## Admin panels
+            Filament + Nova adapters.
+            <!-- @artifact:end plugins -->
+            Outro line.
+            MD;
+
+        $kept = MarkerProcessor::process($md, ['plugins']);
+        $this->assertStringContainsString('## Admin panels', $kept);
+        $this->assertStringNotContainsString('@artifact:', $kept);
+
+        $stripped = MarkerProcessor::process($md, []);
+        $this->assertStringNotContainsString('Admin panels', $stripped);
+        $this->assertStringNotContainsString('Filament', $stripped);
+        $this->assertStringContainsString('Intro line.', $stripped);
+        $this->assertStringContainsString('Outro line.', $stripped);
+    }
 }

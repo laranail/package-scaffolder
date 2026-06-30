@@ -178,3 +178,29 @@ local commits only — never pushed.
 
 | 10 | same artifact resolves identically in every container | done (0006) | PortabilityTest |
 | 11 | composer merge minimal / idempotent / preserving | done (0006) | PortabilityTest |
+
+### 0007 — Plugin matrix + zero-footprint prose scrub (#23) + matrix self-verification (#25 part)
+- **What:** Extended `MarkerProcessor` to also accept HTML-comment markers
+  (`<!-- @artifact:start plugins -->`) so markdown can be pruned, and added a `plugins` umbrella
+  marker (set when plugin ≠ none). Wrapped the consumer-facing panel prose (README "Admin panels"
+  bullet/section/docs-index row, `docs/architecture.md` panel bullet + its link to the deleted
+  `panels.md`) so `plugin=none` strips them. Added `MatrixVerificationTest` — a dataprovider sweep
+  over type × plugin × feature combos.
+- **Why:** Requirements 7/23 (plugin none/nova/filament + literal zero footprint at the consumer
+  surface), 2/3 (every artifact uses both laranail libs), 8/9 (toggles across combos), 12 (matrix).
+- **Decision (documented):** "zero footprint" = no Nova/Filament **code, stubs, deps, providers,
+  panel docs/tests, or consumer-facing README/docs prose**. Incidental *architectural* code-comments
+  that name Filament/Nova as examples of "writers the body-pipeline/events cover" (PostObserver,
+  BodyProcessor, Post, extending.md, security.md) and the CHANGELOG/phpstan ignore lines are **kept**
+  by design — they document a real model-layer guarantee, not a panel footprint.
+- **How verified:** `MarkerProcessorTest` HTML-marker case; `MatrixVerificationTest` (7 combos, 64
+  assertions): each combo → no leftover `@artifact:` markers anywhere, a `php -l`-valid provider,
+  **both `laranail/console` + `laranail/package-tools` in require**, plugin dir present/absent per the
+  choice, and for `plugin=none` no `src/Filament|Nova`, no `panels.md`, and **README contains zero
+  "Filament"/"Nova"**. Full suite green (**441**).
+- **Behavior change:** none (template markers + tests).
+
+| 2/3 | scaffolder + every artifact use both laranail libs | scaffolder ✓ (0005); artifacts ✓ (require asserted across the matrix) | MatrixVerificationTest |
+| 7 | plugin none/nova/filament; none = zero footprint | done incl. consumer prose (0007) | MatrixVerificationTest |
+| 8/9 | every feature toggleable; off ⇒ not generated; unknown ⇒ error | done | MatrixVerificationTest, MakeArtifactCommandTest |
+| 12 | matrix self-verification of generated artifacts | static sweep done (0007); per-artifact PHPUnit = documented manual gate | MatrixVerificationTest |

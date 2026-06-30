@@ -138,7 +138,9 @@ A consumer reshapes the package from their own provider — see [extending.md](t
   `scout`, or `Blog::extendSearch()` for your own. See [search.md](tools/search.md).
 - **Lifecycle events** — a full set (post/comment/category/tag created/updated/deleted +
   published/unpublished/approved transitions), via `$dispatchesEvents` + observers.
+<!-- @artifact:start plugins -->
 - **Admin panels** — optional, guarded Filament + Nova adapters over the same core. See [panels.md](tools/panels.md).
+<!-- @artifact:end plugins -->
 - Still available: swap the repository binding; subclass a Service/Action; add a composer-backed
   partial or a classless component; override layout/prefix/routes/auth via config; add a `DoctorCheck`.
 

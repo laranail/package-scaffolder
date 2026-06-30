@@ -95,7 +95,9 @@ Blog::related($post);  Blog::recentPosts();    // widgets
 - **SEO/feeds**: meta/OpenGraph/JSON-LD, RSS/Atom feed, XML sitemap; optional Markdown bodies.
 - **Runtime extensibility**: manager macros, a body-processing pipeline, container decoration,
   pluggable search drivers (Scout-ready), lifecycle events, opt-in caching, view counts, featured posts.
+<!-- @artifact:start plugins -->
 - **Admin panels**: optional, guarded Filament and Nova adapters over the same core.
+<!-- @artifact:end plugins -->
 - **Assets**: separate Tailwind v4 and Bootstrap 5 Vite bundles, chosen via config.
 - **Quality**: security-first validation, doctor check, `about` section, tests, PHPStan, Pint, CI.
 
@@ -142,6 +144,7 @@ writer is covered), container **decoration** of services/repository (e.g. the op
 repository), pluggable **search drivers** (`Manager`), a full set of **lifecycle events**, and
 `Blog::spy()` for tests. See [docs/tools/extending.md](docs/tools/extending.md) and [docs/tools/search.md](docs/tools/search.md).
 
+<!-- @artifact:start plugins -->
 ## Admin panels
 
 Optional, first-class **Filament** and **Nova** adapters that reuse the `Blog` core, each behind
@@ -152,6 +155,7 @@ $panel->plugin(\Some\NamespacePath\Blog\Filament\BlogPlugin::make());   // Filam
 ```
 
 See [docs/tools/panels.md](docs/tools/panels.md).
+<!-- @artifact:end plugins -->
 
 ## Configuration
 
@@ -201,7 +205,9 @@ Full docs live in [`docs/`](docs/) — guides at the top level, tool/feature pag
 | [Features](docs/tools/features.md) | SEO, markdown, tags, views, featured, feeds. |
 | [Extending](docs/tools/extending.md) | Macros, pipeline, decoration, events, drivers. |
 | [Search](docs/tools/search.md) | Pluggable search drivers (database/scout/custom). |
+<!-- @artifact:start plugins -->
 | [Panels](docs/tools/panels.md) | Optional Filament + Nova adapters. |
+<!-- @artifact:end plugins -->
 
 ## Local development
 
