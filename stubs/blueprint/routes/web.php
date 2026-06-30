@@ -30,6 +30,7 @@ Route::middleware($config['middleware'] ?? ['web'])
     ->prefix($config['prefix'] ?? 'blog')
     ->name('blog.')
     ->group(function () use ($auth): void {
+        // @artifact:start web-ui
         // ---- Authenticated author writes (registered first so /create wins) ---
         Route::middleware($auth)->group(function (): void {
             Route::get('/create', [BlogController::class, 'create'])->name('create');
@@ -41,12 +42,17 @@ Route::middleware($config['middleware'] ?? ['web'])
 
         // ---- Public reads + guest comment submission -------------------------
         Route::get('/', [BlogController::class, 'index'])->name('index');
+        // @artifact:end web-ui
+        // @artifact:start feeds
         Route::get('/feed', [FeedController::class, 'feed'])->name('feed');
         Route::get('/sitemap.xml', [FeedController::class, 'sitemap'])->name('sitemap');
+        // @artifact:end feeds
+        // @artifact:start web-ui
         Route::post('/{post}/comments', [CommentController::class, 'store'])
             ->middleware('throttle:blog-comments')
             ->name('comments.store');
         Route::get('/{post}', [BlogController::class, 'show'])
             ->middleware('blog.published')
             ->name('show');
+        // @artifact:end web-ui
     });

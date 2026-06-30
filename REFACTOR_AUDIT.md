@@ -60,6 +60,25 @@ local commits only — never pushed.
 - **Behavior change:** none (additive config + test).
 - **Open:** insert `%markers%` into the template (0003), build the generation engine (0004) + command (0005).
 
+### 0003 — Feature markers in the template (provider + routes) + MarkerProcessor
+- **What:** Added `src/Support/Artifacts/MarkerProcessor.php` — strips comment-delimited
+  `// @artifact:start <feature>` / `// @artifact:end <feature>` blocks (drops markers for enabled
+  features, removes the whole block for disabled ones; nesting-aware). Inserted markers into
+  `stubs/blueprint/src/Providers/BlogServiceProvider.php` (asset-pipeline, rest-api, scheduling,
+  caching, notifications, web-ui, livewire, plugin-filament, plugin-nova) and `routes/web.php`
+  (web-ui vs feeds). Truly-shared registrations (`blog.published`+`EnsurePostIsPublished`,
+  `hasViews`/`hasTranslations`/`hasRoute('web')`, rate limiter) kept as core to avoid OR-logic.
+- **Why:** Requirements 8/9 — feature "off = not generated"; the engine (0004) strips disabled
+  blocks. Comment markers keep the template valid PHP. Imports orphaned by stripped wiring are
+  cleaned by the planned post-generation Pint `no_unused_imports` pass (verified: only `use` lines
+  remain after stripping; php -l stays valid).
+- **How verified:** `MarkerProcessorTest` (4 tests, incl. nested sub-toggle). Processed the marked
+  provider/routes across feature sets (all-on, all-off, nova-only, feeds-only) → `php -l` valid in
+  every case, zero markers left, feature code present/absent as expected, core wiring survives.
+  Full scaffolder suite green (**418** tests).
+- **Behavior change:** none to the scaffolder (template-only + additive support class/tests).
+- **Open:** config/blog.php feature-key markers (next), then the generation engine (0004).
+
 ---
 
 ## Requirement → status → evidence checklist

@@ -92,15 +92,23 @@ class BlogServiceProvider extends PackageServiceProvider
             // resolve as view('modules/blog::…') and __('modules/blog::blog.…').
             ->hasViews('modules/blog')
             ->hasTranslations()
+            // @artifact:start asset-pipeline
             ->hasAssets()
+            // @artifact:end asset-pipeline
             ->discoversMigrations()
             ->runsMigrations()
             ->hasRoute('web')
+            // @artifact:start rest-api
             ->hasRoute('api')
+            // @artifact:end rest-api
             ->registerMiddlewareAlias('blog.published', EnsurePostIsPublished::class)
+            // @artifact:start rest-api
             ->registerMiddlewareAlias('blog.ability', EnsureApiAbility::class)
+            // @artifact:end rest-api
             ->hasCommands([
+                // @artifact:start scheduling
                 PublishScheduledPostsCommand::class,
+                // @artifact:end scheduling
                 PostCreateCommand::class,
                 PostListCommand::class,
                 PostPublishCommand::class,
@@ -116,7 +124,9 @@ class BlogServiceProvider extends PackageServiceProvider
                 $command
                     ->startWith(fn (InstallCommand $c) => $c->info('Installing the Blog package…'))
                     ->publishConfigFile()
+                    // @artifact:start asset-pipeline
                     ->publishAssets()
+                    // @artifact:end asset-pipeline
                     ->publishMigrations()
                     ->askToRunMigrations()
                     ->endWith(fn (InstallCommand $c) => $c->info('Blog is ready. Visit /blog or use the Blog facade.'));
@@ -148,8 +158,12 @@ class BlogServiceProvider extends PackageServiceProvider
 
         // Optional panel adapters — each self-disables when its panel is absent,
         // so all three usage modes (package/module/plugin) pick them up safely.
+        // @artifact:start plugin-filament
         $this->app->register(FilamentBlogServiceProvider::class);
+        // @artifact:end plugin-filament
+        // @artifact:start plugin-nova
         $this->app->register(NovaBlogServiceProvider::class);
+        // @artifact:end plugin-nova
     }
 
     /**
@@ -177,8 +191,11 @@ class BlogServiceProvider extends PackageServiceProvider
         Gate::define('blog.publish', [PostPolicy::class, 'publish']);
         Gate::define('blog.moderate-comments', static fn ($user): bool => method_exists($user, 'hasRole') && $user->hasRole('admin'));
 
+        // @artifact:start notifications
         Event::listen(PostPublished::class, SendPostPublishedNotification::class);
+        // @artifact:end notifications
 
+        // @artifact:start caching
         // Opt-in caching: decorate the repository (the worked example of container
         // extend() decoration) and bust it on any lifecycle event. Done in boot so
         // host config is fully merged; the repo is only resolved lazily afterwards.
@@ -196,9 +213,12 @@ class BlogServiceProvider extends PackageServiceProvider
                 CategorySaved::class, CategoryDeleted::class, TagSaved::class, TagDeleted::class,
             ], FlushBlogCache::class);
         }
+        // @artifact:end caching
 
+        // @artifact:start web-ui
         $this->registerComponents();
         $this->registerComposerPartials();
+        // @artifact:end web-ui
 
         RateLimiter::for('blog-comments', static function (Request $request): Limit {
             $perMinute = (int) config('modules.blog.rate_limiting.comments_per_minute', 5);
@@ -206,9 +226,12 @@ class BlogServiceProvider extends PackageServiceProvider
             return Limit::perMinute($perMinute)->by($request->user()?->getAuthIdentifier() ?: $request->ip());
         });
 
+        // @artifact:start scheduling
         $this->registerSchedule();
+        // @artifact:end scheduling
     }
 
+    // @artifact:start web-ui
     /**
      * Register Blade (<x-{prefix}::…>) and Livewire (<livewire:{prefix}.…>)
      * components under a unique, configurable prefix.
@@ -251,6 +274,7 @@ class BlogServiceProvider extends PackageServiceProvider
             });
         });
 
+        // @artifact:start livewire
         if (! class_exists(Livewire::class)) {
             return;
         }
@@ -263,6 +287,7 @@ class BlogServiceProvider extends PackageServiceProvider
         };
 
         $this->app->bound('livewire') ? $register() : $this->app->booted($register);
+        // @artifact:end livewire
     }
 
     /**
@@ -298,7 +323,9 @@ class BlogServiceProvider extends PackageServiceProvider
 
         return $prefix !== '' ? $prefix : Blog::COMPONENT_PREFIX;
     }
+    // @artifact:end web-ui
 
+    // @artifact:start scheduling
     /**
      * Self-register the scheduled-publish command unless the host opts out.
      */
@@ -323,4 +350,5 @@ class BlogServiceProvider extends PackageServiceProvider
             }
         });
     }
+    // @artifact:end scheduling
 }
