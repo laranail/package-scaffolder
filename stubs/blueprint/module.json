@@ -1,0 +1,15 @@
+{
+    "name": "Blog",
+    "alias": "blog",
+    "description": "A security-first blogging package: posts, categories and comments with a REST API, CLI, Blade components, optional Livewire, actions, policies, events and a facade.",
+    "keywords": [
+        "blog",
+        "cms",
+        "content"
+    ],
+    "priority": 0,
+    "providers": [
+        "Some\\NamespacePath\\Blog\\Providers\\BlogServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,9 @@
+// Blog package — Bootstrap variable overrides (the package's default theme).
+// These are the package defaults; override them again in your host app's own
+// Sass entry if you want a different look, then rebuild. Only variables Bootstrap
+// declares with `!default` can be set here (see bootstrap/scss/_variables.scss).
+
+$primary: #5c6ac4;
+$border-radius: 0.5rem;
+$enable-shadows: true;
+$enable-negative-margins: true;

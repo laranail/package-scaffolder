@@ -1,0 +1,16 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+    # Optional-integration code whose parent classes aren't installed in CI
+    # (Nova is paid; Filament/Scout are optional, guarded at runtime).
+    excludePaths:
+        - src/Filament
+        - src/Nova
+        - src/Providers/Integrations
+        - src/Search/Drivers/ScoutSearchDriver.php
+    reportUnmatchedIgnoredErrors: false
