@@ -98,4 +98,4 @@ behave exactly as before. See [docs/tools/extending.md](docs/tools/extending.md)
   (it previously, by mistake, read a non-existent `…api.abilities.*` and was a no-op). If you set
   `BLOG_API_WRITE_ABILITY`/`BLOG_API_MODERATE_ABILITY`, the gate now actually enforces it.
 - **Optional deps**: Markdown needs `league/commonmark`, Scout search needs `laravel/scout`,
-  and the panels need `filament/filament` / `laravel/nova` — all `suggest`-only and guarded.
+  [[plugins]]and the panels need `filament/filament` / `laravel/nova` [[/plugins]]— all `suggest`-only and guarded.

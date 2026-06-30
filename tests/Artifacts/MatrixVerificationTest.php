@@ -103,7 +103,9 @@ class MatrixVerificationTest extends BaseTestCase
             $refs = [];
             foreach ($this->fs->allFiles($target) as $f) {
                 $c = $this->fs->get($f->getPathname());
-                if (str_contains($c, 'Filament') || str_contains($c, 'Nova')) {
+                // case-insensitive, word-bounded so it catches lowercase product refs
+                // (filament/filament, laravel/nova) but not words like "innovation".
+                if (preg_match('/\bfilament\b|\bnova\b/i', $c) === 1) {
                     $refs[] = $f->getRelativePathname();
                 }
             }
