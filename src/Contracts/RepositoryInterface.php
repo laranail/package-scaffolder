@@ -3,9 +3,9 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Contracts;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Collection;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
-use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 interface RepositoryInterface
 {

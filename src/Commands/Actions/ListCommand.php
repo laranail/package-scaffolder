@@ -4,7 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Console\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Symfony\Component\Console\Input\InputOption;
 
 class ListCommand extends Command

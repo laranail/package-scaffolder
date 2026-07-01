@@ -5,8 +5,8 @@ namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 use Illuminate\Support\Facades\Event;
 use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
-use Simtabi\Laranail\Package\Scaffolder\Json;
 use Simtabi\Laranail\Package\Scaffolder\Lumen\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 
 class LumenModuleTest extends BaseTestCase
 {

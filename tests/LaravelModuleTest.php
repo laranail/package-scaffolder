@@ -7,8 +7,8 @@ use Modules\Recipe\Providers\DeferredServiceProvider;
 use Modules\Recipe\Providers\RecipeServiceProvider;
 use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
-use Simtabi\Laranail\Package\Scaffolder\Json;
 use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 
 class LaravelModuleTest extends BaseTestCase
 {

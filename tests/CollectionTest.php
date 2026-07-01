@@ -2,8 +2,8 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Simtabi\Laranail\Package\Scaffolder\Collection;
 use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
 
 class CollectionTest extends BaseTestCase
 {

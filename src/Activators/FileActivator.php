@@ -7,7 +7,7 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
-use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 class FileActivator implements ActivatorInterface
 {

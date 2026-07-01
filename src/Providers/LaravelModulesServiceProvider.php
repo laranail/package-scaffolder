@@ -1,6 +1,6 @@
 <?php
 
-namespace Simtabi\Laranail\Package\Scaffolder;
+namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
 use Composer\InstalledVersions;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
@@ -15,6 +15,9 @@ use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidActivatorClass;
 use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\LaravelFileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\Module as LaravelModule;
+use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ResolvesModuleNamespace;
@@ -122,8 +125,8 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $this->registerMigrations();
         $this->registerTranslations();
 
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'modules');
-        $this->mergeConfigFrom(__DIR__.'/../config/artifacts.php', 'artifacts');
+        $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'modules');
+        $this->mergeConfigFrom(__DIR__.'/../../config/artifacts.php', 'artifacts');
 
         $this->registerModules();
     }
@@ -133,7 +136,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
      */
     public function setupStubPath()
     {
-        $path = $this->app['config']->get('modules.stubs.path') ?? __DIR__.'/Commands/stubs';
+        $path = $this->app['config']->get('modules.stubs.path') ?? dirname(__DIR__).'/Commands/stubs';
         Stub::setBasePath($path);
 
         $this->app->booted(function ($app) {
@@ -153,7 +156,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $this->app->singleton(RepositoryInterface::class, function ($app) {
             $path = $app['config']->get('modules.paths.modules');
 
-            return new Laravel\LaravelFileRepository($app, $path);
+            return new LaravelFileRepository($app, $path);
         });
         $this->app->singleton(ActivatorInterface::class, function ($app) {
             $activator = $app['config']->get('modules.activator');
@@ -188,7 +191,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $this->app->resolving(Migrator::class, function (Migrator $migrator) {
             $migration_path = $this->app['config']->get('modules.paths.generator.migration.path');
             collect(Module::allEnabled())
-                ->each(function (Laravel\Module $module) use ($migration_path, $migrator) {
+                ->each(function (LaravelModule $module) use ($migration_path, $migrator) {
                     $migrator->path($module->getExtraPath($migration_path));
                 });
         });
@@ -205,7 +208,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
             }
 
             collect(Module::allEnabled())
-                ->each(function (Laravel\Module $module) use ($translator) {
+                ->each(function (LaravelModule $module) use ($translator) {
                     $path = $module->getExtraPath($this->app['config']->get('modules.paths.generator.lang.path'));
                     $translator->addNamespace($module->getLowerName(), $path);
                     $translator->addJsonPath($path);

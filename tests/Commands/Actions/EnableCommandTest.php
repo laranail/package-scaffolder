@@ -3,7 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Actions;
 
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class EnableCommandTest extends BaseTestCase

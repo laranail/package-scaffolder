@@ -62,7 +62,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
         $selected_item = multiselect(
             label   : 'Select Modules',
             options : collect(Module::allEnabled())
-                ->map(fn (\Simtabi\Laranail\Package\Scaffolder\Module $module) => $module->getName())
+                ->map(fn (\Simtabi\Laranail\Package\Scaffolder\Support\Module $module) => $module->getName())
                 ->prepend(self::ALL)
                 ->values()
                 ->toArray(),

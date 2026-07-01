@@ -211,36 +211,6 @@ parameters:
 			path: src/Exceptions/InvalidAssetPath.php
 
 		-
-			message: '#^Call to method runningUnitTests\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/FileRepository.php
-
-		-
-			message: '#^Parameter \#1 \$app of method Simtabi\\Laranail\\Package\\Scaffolder\\FileRepository\:\:createModule\(\) expects Illuminate\\Container\\Container, Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/FileRepository.php
-
-		-
-			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\FileRepository\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/FileRepository.php
-
-		-
-			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\FileRepository\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/FileRepository.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 1
-			path: src/Json.php
-
-		-
 			message: '#^Call to method getCachedConfigPath\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
 			identifier: class.notFound
 			count: 1
@@ -277,42 +247,6 @@ parameters:
 			path: src/Migrations/Migrator.php
 
 		-
-			message: '#^Access to offset ''events'' on an unknown class Laravel\\Lumen\\Application\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/Module.php
-
-		-
-			message: '#^Call to method afterResolving\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/Module.php
-
-		-
-			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Module\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/Module.php
-
-		-
-			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Module\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/Module.php
-
-		-
-			message: '#^Static property Simtabi\\Laranail\\Package\\Scaffolder\\ModuleManifest\:\:\$manifestData \(Illuminate\\Support\\Collection\|null\) is never assigned null so it can be removed from the property type\.$#'
-			identifier: property.unusedType
-			count: 1
-			path: src/ModuleManifest.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Contracts\\Foundation\\Application\:\:getCachedServicesPath\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/ModulesServiceProvider.php
-
-		-
 			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 2
@@ -331,6 +265,12 @@ parameters:
 			path: src/Process/Installer.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Foundation\\Application\:\:getCachedServicesPath\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Providers/ModulesServiceProvider.php
+
+		-
 			message: '#^Access to protected property Illuminate\\Console\\Command\:\:\$components\.$#'
 			identifier: property.protected
 			count: 3
@@ -343,10 +283,70 @@ parameters:
 			path: src/Publishing/Publisher.php
 
 		-
+			message: '#^Call to method runningUnitTests\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Parameter \#1 \$app of method Simtabi\\Laranail\\Package\\Scaffolder\\Repositories\\FileRepository\:\:createModule\(\) expects Illuminate\\Container\\Container, Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Repositories\\FileRepository\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Repositories\\FileRepository\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Support/Json.php
+
+		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
 			count: 3
 			path: src/Support/Migrations/NameParser.php
+
+		-
+			message: '#^Access to offset ''events'' on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Call to method afterResolving\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Support\\Module\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Support\\Module\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Static property Simtabi\\Laranail\\Package\\Scaffolder\\Support\\ModuleManifest\:\:\$manifestData \(Illuminate\\Support\\Collection\|null\) is never assigned null so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Support/ModuleManifest.php
 
 		-
 			message: '#^Call to function method_exists\(\) with \$this\(Simtabi\\Laranail\\Package\\Scaffolder\\Support\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'

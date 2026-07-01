@@ -4,7 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Foundation\Events\DiscoverEvents;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
-use Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider;
 use SplFileInfo;
 
 class EventDiscoveryTest extends BaseTestCase

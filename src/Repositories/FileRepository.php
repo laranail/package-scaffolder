@@ -1,6 +1,6 @@
 <?php
 
-namespace Simtabi\Laranail\Package\Scaffolder;
+namespace Simtabi\Laranail\Package\Scaffolder\Repositories;
 
 use Countable;
 use Illuminate\Container\Container;
@@ -16,6 +16,9 @@ use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidAssetPath;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
 use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
 use Simtabi\Laranail\Package\Scaffolder\Process\Updater;
+use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
+use Simtabi\Laranail\Package\Scaffolder\Support\Json;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Symfony\Component\Process\Process;
 
 abstract class FileRepository implements Countable, RepositoryInterface

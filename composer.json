@@ -75,7 +75,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Simtabi\\Laranail\\Package\\Scaffolder\\LaravelModulesServiceProvider"
+                "Simtabi\\Laranail\\Package\\Scaffolder\\Providers\\LaravelModulesServiceProvider"
             ],
             "aliases": {
                 "Module": "Simtabi\\Laranail\\Package\\Scaffolder\\Facades\\Module"

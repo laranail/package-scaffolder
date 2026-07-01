@@ -2,7 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Traits;
 
-use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 trait ResolvesModuleNamespace
 {

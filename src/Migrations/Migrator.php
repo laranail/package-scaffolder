@@ -6,8 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Simtabi\Laranail\Package\Scaffolder\Module;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 class Migrator
 {

@@ -3,8 +3,8 @@
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Vite as ViteFacade;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
-use Simtabi\Laranail\Package\Scaffolder\FileRepository;
-use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Repositories\FileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 if (! function_exists('module')) {
     /**

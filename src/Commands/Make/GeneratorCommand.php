@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\FileAlreadyExistException;
 use Simtabi\Laranail\Package\Scaffolder\Generators\FileGenerator;
-use Simtabi\Laranail\Package\Scaffolder\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 
 abstract class GeneratorCommand extends Command

@@ -3,8 +3,8 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Traits;
 
 use Illuminate\Support\Collection;
-use Simtabi\Laranail\Package\Scaffolder\Module;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 /**
  * Resolves the migration paths for a module so every migrate command

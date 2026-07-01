@@ -3,7 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
-use Simtabi\Laranail\Package\Scaffolder\Json;
+use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 
 class JsonTest extends BaseTestCase
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Simtabi\Laranail\Package\Scaffolder;
+namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Simtabi\Laranail\Package\Scaffolder\Providers\ConsoleServiceProvider;
-use Simtabi\Laranail\Package\Scaffolder\Providers\ContractsServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
 
 abstract class ModulesServiceProvider extends ServiceProvider
 {
@@ -40,8 +40,8 @@ abstract class ModulesServiceProvider extends ServiceProvider
      */
     protected function registerNamespaces()
     {
-        $configPath = __DIR__.'/../config/config.php';
-        $stubsPath = dirname(__DIR__).'/src/Commands/stubs';
+        $configPath = __DIR__.'/../../config/config.php';
+        $stubsPath = dirname(__DIR__).'/Commands/stubs';
 
         $this->publishes([
             $configPath => config_path('modules.php'),
@@ -52,7 +52,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
         ], 'stubs');
 
         $this->publishes([
-            __DIR__.'/../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
+            __DIR__.'/../../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
         ], 'vite');
     }
 
@@ -66,7 +66,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
      */
     public function provides(): array
     {
-        return [Contracts\RepositoryInterface::class, 'modules'];
+        return [RepositoryInterface::class, 'modules'];
     }
 
     /**

@@ -4,8 +4,8 @@ namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider;
 use Simtabi\Laranail\Package\Scaffolder\Providers\ConsoleServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider;
 
 abstract class BaseTestCase extends OrchestraTestCase
 {

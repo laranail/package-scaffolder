@@ -1,6 +1,6 @@
 <?php
 
-namespace Simtabi\Laranail\Package\Scaffolder;
+namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;

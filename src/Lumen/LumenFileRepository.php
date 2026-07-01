@@ -3,7 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Lumen;
 
 use Illuminate\Container\Container;
-use Simtabi\Laranail\Package\Scaffolder\FileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Repositories\FileRepository;
 
 class LumenFileRepository extends FileRepository
 {
