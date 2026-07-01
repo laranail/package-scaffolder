@@ -31,7 +31,7 @@ class PortabilityTest extends BaseTestCase
     public function test_same_artifact_resolves_to_same_namespace_in_every_container()
     {
         $config = require dirname(__DIR__, 2).'/config/artifacts.php';
-        $source = dirname(__DIR__, 2).'/src/Commands/stubs/blueprint';
+        $source = dirname(__DIR__, 2).'/stubs/blueprint';
         $features = array_keys($config['features']);
         $features[] = 'livewire';
 

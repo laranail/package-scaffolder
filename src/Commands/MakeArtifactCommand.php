@@ -57,7 +57,7 @@ class MakeArtifactCommand extends Command
 
         $base = $this->option('path') ?: base_path((string) config("artifacts.kinds.{$type}"));
         $target = rtrim($base, '/').'/'.$request->studly();
-        $source = __DIR__.'/stubs/blueprint';
+        $source = dirname(__DIR__, 2).'/stubs/blueprint';
 
         // Artifact identity is keyed by name across ALL containers (module.json
         // name + activator), so a name must be globally unique. Skipped for an

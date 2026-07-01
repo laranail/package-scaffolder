@@ -63,7 +63,7 @@
             "helpers/helpers.php"
         ],
         "exclude-from-classmap": [
-            "src/Commands/stubs/blueprint/"
+            "stubs/blueprint/"
         ]
     },
     "autoload-dev": {

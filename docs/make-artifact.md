@@ -2,7 +2,7 @@
 
 `make:artifact` (canonical name `laranail::package-scaffolder.new`) generates a complete,
 opinionated artifact — a **module**, **package**, or **plugin** — from the bundled blueprint
-template (`src/Commands/stubs/blueprint/`). The output is a full `laranail/package-tools` package (models,
+template (`stubs/blueprint/`). The output is a full `laranail/package-tools` package (models,
 services, actions, repositories, search manager, body pipeline, lifecycle events, console commands,
 optional web/API/feeds/panels, tests and docs), parameterised to your name and namespace and pruned
 to the features you select.

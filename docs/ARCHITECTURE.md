@@ -10,7 +10,8 @@ type folder appends one segment to that base.
 
 | Type | Folder | Namespace | Notes |
 |---|---|---|---|
-| Artisan commands | `src/Commands/` (`Actions/`, `Database/`, `Make/`, `Publish/`) | `…\Commands\…` | Command tree. `Commands/stubs/` is template content, **not** package classes (excluded from classmap). |
+| Artisan commands | `src/Commands/` (`Actions/`, `Database/`, `Make/`, `Publish/`) | `…\Commands\…` | Command tree. |
+| Stub templates | `stubs/` (top-level, incl. `stubs/blueprint/`) | — (not PHP classes) | Generator/`make:*` templates + the vendored blueprint; excluded from classmap + phpstan. |
 | Support / utilities | `src/Support/` | `…\Support` | Incl. `Collection`, `Json`, `Module`, `ModuleManifest`, and `Support\Artifacts\*` (the artifact generator). |
 | Repositories | `src/Repositories/` | `…\Repositories` | `FileRepository` (the abstract module repository). |
 | Service providers | `src/Providers/` | `…\Providers` | ALL providers: `ModulesServiceProvider` (abstract), `LaravelModulesServiceProvider` (the published/auto-discovered one), `LumenModulesServiceProvider`, `ModuleServiceProvider` (abstract base that generated module providers extend), `ConsoleServiceProvider`, `ContractsServiceProvider`. |

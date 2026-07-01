@@ -9,13 +9,13 @@ mirrors its namespace segment." This is the **before** state. No files moved yet
 |---|---|
 | psr-4 base | `Simtabi\Laranail\Package\Scaffolder\` → `src` |
 | files autoload | `helpers/helpers.php` (procedural — stays a function file, not namespaced) |
-| exclude-from-classmap | `src/Commands/stubs/blueprint/` (the vendored artifact **template** — NOT package source; excluded from this refactor) |
+| exclude-from-classmap | `stubs/blueprint/` (the vendored artifact **template** — NOT package source; excluded from this refactor) |
 | `extra.laravel.providers` | `Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider` |
 | `extra.laravel.aliases` | `Module` → `Simtabi\Laranail\Package\Scaffolder\Facades\Module` |
 | PHP | `^8.4.1 || ^8.5` |
 
-Scope note: `src/Commands/stubs/blueprint/` (240 template files, placeholder namespace
-`Some\NamespacePath\Blog`) and `src/Commands/stubs/*.stub` are **template content**, not
+Scope note: `stubs/blueprint/` (240 template files, placeholder namespace
+`Some\NamespacePath\Blog`) and `stubs/*.stub` are **template content**, not
 package classes — excluded from every count and move below. This is a laravel-modules fork,
 so the tree largely follows nwidart conventions.
 

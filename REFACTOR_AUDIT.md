@@ -120,9 +120,9 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
   Filament/Nova over the new asset files; boot + generic green. Full suite 457; phpstan clean.
 
 ### RS-5 — Relocate blueprint to the primary stub repo (decision Q2 = Both)
-- **What:** `git mv stubs/blueprint → src/Commands/stubs/blueprint` (the named primary location);
+- **What:** `git mv stubs/blueprint → stubs/blueprint` (the named primary location);
   repointed the command (`__DIR__.'/stubs/blueprint'`) + 5 test source paths; excluded the template
-  from phpstan (`excludePaths: src/Commands/stubs/blueprint`) and composer
+  from phpstan (`excludePaths: stubs/blueprint`) and composer
   (`autoload.exclude-from-classmap`) since it uses the placeholder namespace and isn't autoloaded;
   pint's `stubs` exclude already covers it. Updated `docs/make-artifact.md` path.
 - **Persisted user changes (read-before-assume):** the working tree exactly matched the prior commit
@@ -133,12 +133,12 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
   (template excluded); `pint --test` clean (template excluded); full suite **458** green from the new
   location (matrix/boot/generic/portability repointed).
 - **Open (next increments):** feature catalog ✅ (`FEATURE_CATALOG.md` + config `requires` + CLI
-  dependency resolution); per-file stub upgrade (`src/Commands/stubs/*.stub` → blueprint quality,
+  dependency resolution); per-file stub upgrade (`stubs/*.stub` → blueprint quality,
   improve-first); `resources/boost/*` refactor; full matrix build-and-test per D2; final checklist.
 
 ### RS-6 — Per-file stub upgrade + boost refactor + real artifact build-and-test
 - **Item 1 (per-file stubs → blueprint quality, improve-first):** added `declare(strict_types=1)` to
-  all 63 PHP per-file stubs (`src/Commands/stubs/*.stub`) — the blueprint's universal convention,
+  all 63 PHP per-file stubs (`stubs/*.stub`) — the blueprint's universal convention,
   previously absent from every one; added the modern `casts(): array` method to `model.stub`.
   `request.stub` already typed. Skeleton `handle()`/`__invoke()` bodies left generic (the blueprint's
   typed signatures are domain-specific, not appropriate to impose on empty stubs). Regenerated 142+1

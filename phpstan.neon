@@ -7,11 +7,11 @@ parameters:
     paths:
         - src
 
-    # The vendored blueprint template lives under src/Commands/stubs/blueprint but
+    # The vendored blueprint template lives under stubs/blueprint but
     # uses the find-replace placeholder namespace (Some\NamespacePath\Blog) and is
     # never autoloaded — exclude it from static analysis.
     excludePaths:
-        - src/Commands/stubs/blueprint
+        - stubs/blueprint
 
     # Existing issues are captured in phpstan-baseline.neon so CI stays green;
     # new code must be clean at the level above. Regenerate the baseline with:

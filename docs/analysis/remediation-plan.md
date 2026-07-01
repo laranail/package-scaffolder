@@ -43,7 +43,7 @@ salvage a couple of unique scraps from stale branches.
   `config/config.php`.
 - **Scaffolding flow:** `ModuleMakeCommand` → `ModuleGenerator` (folders →
   `module.json` → stub files → sub-`make` resources → activate → dump-autoload).
-  Stubs in `src/Commands/stubs/` rendered by `src/Support/Stub.php` via
+  Stubs in `stubs/` rendered by `src/Support/Stub.php` via
   `$PLACEHOLDER$` substitution; replacements resolved in
   `ModuleGenerator::getReplacement()`.
 - **Tests:** 91 test files, Testbench-based (`tests/BaseTestCase.php`),
