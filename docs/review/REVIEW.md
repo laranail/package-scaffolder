@@ -89,6 +89,25 @@ unescaped shell input / fail loudly / surface exit codes / no longer `TypeError`
 (3) + `RunnerTest`, `StubTest` (2). **Coverage backfill:** `Process/*` + `HostComposerWriter` (previously
 untested).
 
+## Post-review gap audit
+
+A full re-audit of the session against the plan surfaced one real miss + confirmed the rest:
+
+- **Test-pollution flake (FIXED).** The suite generates modules into the shared Testbench skeleton;
+  an interrupted/timed-out run left `modules/Blog` + `bootstrap/cache/modules.php` that registered an
+  unautoloadable provider and failed **every** subsequent boot (hit twice this session). Now cleared
+  at three points — a phpunit bootstrap (`tests/bootstrap.php`, before any app boots), `getEnvironmentSetUp`
+  (before the module provider reads the manifest), and `tearDown` (per test). Verified: the suite stays
+  green with pollution deliberately injected.
+- **Identity strip — re-verified complete.** `nwidart` / `nicolas` / `n.widart` / `pingpong` /
+  `laravelmodules.com` / `laravel-modules` = 0 across the repo (the only `LaravelModules` hits are the
+  legitimate class name). CONTRIBUTING / CI workflows / helpers clean; no broken internal doc links.
+- **Accepted test-coverage note.** All critical/high fixes have dedicated regression tests. Three
+  MEDIUM *defensive JSON-safety guards* on inherited command paths — `Updater::copyScriptsToMainComposerJson`
+  (A2-3), `ModuleGenerator` provider-disabled `module.json` rewrite (A4-1), `ComposerUpdateCommand`
+  (A5-1) — are exercised (happy path) by the existing command suite; dedicated corrupt-input tests were
+  deferred (simple `is_array`/encode guards; integration setup disproportionate). Documented, not silently skipped.
+
 ## Final verification
 
 - `vendor/bin/phpunit --no-coverage` → **473 tests, 1253 assertions** green.
