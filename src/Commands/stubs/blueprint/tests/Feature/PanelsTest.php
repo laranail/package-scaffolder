@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Some\NamespacePath\Blog\Tests\Feature;
 
 use PHPUnit\Framework\Attributes\Test;
+// @artifact:start plugin-filament
 use Some\NamespacePath\Blog\Providers\Integrations\FilamentBlogServiceProvider;
+// @artifact:end plugin-filament
+// @artifact:start plugin-nova
 use Some\NamespacePath\Blog\Providers\Integrations\NovaBlogServiceProvider;
+// @artifact:end plugin-nova
 use Some\NamespacePath\Blog\Tests\TestCase;
 
 /**
@@ -20,8 +24,12 @@ class PanelsTest extends TestCase
     {
         $loaded = $this->app->getLoadedProviders();
 
+        // @artifact:start plugin-filament
         $this->assertArrayHasKey(FilamentBlogServiceProvider::class, $loaded);
+        // @artifact:end plugin-filament
+        // @artifact:start plugin-nova
         $this->assertArrayHasKey(NovaBlogServiceProvider::class, $loaded);
+        // @artifact:end plugin-nova
     }
 
     #[Test]

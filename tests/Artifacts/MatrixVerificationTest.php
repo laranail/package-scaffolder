@@ -88,17 +88,29 @@ class MatrixVerificationTest extends BaseTestCase
         $this->assertArrayHasKey('laranail/console', $composer['require']);
         $this->assertArrayHasKey('laranail/package-tools', $composer['require']);
 
-        // 4. plugin dimension honored
+        // 4. plugin dimension honored. PanelsTest is a fixture that references the
+        // integration provider(s); a single-panel artifact keeps ONLY its own (else
+        // it references a deleted provider — the bug this guards).
+        $panelsTest = $target.'/tests/Feature/PanelsTest.php';
         if ($plugin === 'nova') {
             $this->assertDirectoryExists($target.'/src/Nova');
             $this->assertDirectoryDoesNotExist($target.'/src/Filament');
+            $this->assertFileExists($panelsTest);
+            $pt = $this->fs->get($panelsTest);
+            $this->assertStringContainsString('Integrations\\Nova', $pt);
+            $this->assertStringNotContainsString('Integrations\\Filament', $pt);
         } elseif ($plugin === 'filament') {
             $this->assertDirectoryExists($target.'/src/Filament');
             $this->assertDirectoryDoesNotExist($target.'/src/Nova');
+            $this->assertFileExists($panelsTest);
+            $pt = $this->fs->get($panelsTest);
+            $this->assertStringContainsString('Integrations\\Filament', $pt);
+            $this->assertStringNotContainsString('Integrations\\Nova', $pt);
         } else { // none ⇒ literal zero Nova/Filament footprint across the WHOLE tree
             $this->assertDirectoryDoesNotExist($target.'/src/Nova');
             $this->assertDirectoryDoesNotExist($target.'/src/Filament');
             $this->assertFileDoesNotExist($target.'/docs/tools/panels.md');
+            $this->assertFileDoesNotExist($panelsTest);
 
             $refs = [];
             foreach ($this->fs->allFiles($target) as $f) {

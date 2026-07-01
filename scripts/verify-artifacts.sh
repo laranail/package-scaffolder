@@ -63,6 +63,14 @@ build_and_full_test "$WORK/Customer" "package · none · all · Customer/Account
 gen "$WORK/Admin"    "Admin"    "Item"    "Acme"    "acme"    "none" "$ALL"
 build_and_full_test "$WORK/Admin" "package · none · all · Admin/Item (default entity)"
 
+# panel builds (filament / nova) — the packages aren't installed (suggest-only), so
+# the guarded providers self-disable; PanelsTest keeps ONLY the selected panel.
+gen "$WORK/Shop"     "Shop"     "Product" "Acme"    "acme"    "filament" "$ALL"
+build_and_full_test "$WORK/Shop" "package · filament · all · Shop/Product"
+
+gen "$WORK/Store"    "Store"    "Listing" "Acme"    "acme"    "nova" "$ALL"
+build_and_full_test "$WORK/Store" "package · nova · all · Store/Listing"
+
 # pruned combo (build + static only, per D2)
 gen "$WORK/Lean"     "Lean"     "Item"    "Acme"    "acme"    "none" "caching,rest-api"
 build_only "$WORK/Lean" "package · none · caching+rest-api · Lean/Item"
