@@ -31,3 +31,19 @@ input that previously caused silent data loss). Suite green; phpstan + pint clea
 with unescaped shell input, (b) fail loudly on an unresolvable git type, (c) surface exit codes, and
 (d) no longer `TypeError` on a version-less git/subtree install. All strictly safer; no valid
 invocation regresses. Suite 471; phpstan + pint clean.
+
+## Chunk A3–A7 — Support / Generators / Commands / rest
+
+| # | Location | Sev | Issue | Fix | Test |
+|---|----------|-----|-------|-----|------|
+| A3-1 | `Support/Stub.php:104` | MEDIUM | `removeContentsBetweenTagMarkers` interpolated the removal tag into a regex without escaping — a tag with a metachar (esp. `/`, the delimiter) broke the pattern. | `preg_quote($tag, '/')`. | `StubTest::test_removal_tag_with_regex_metacharacters_is_literal` |
+| A3-2 | `Support/Stub.php:86` | MEDIUM | `file_get_contents` result unchecked → a missing/unreadable stub fed `false` into `str_replace`. | `@file_get_contents` + throw `RuntimeException` on `false`. | `StubTest::test_get_contents_throws_when_the_stub_is_missing` |
+| A3-3 | `Support/Module.php:70` | LOW | `getAssets` read `build/manifest.json` after a `file_exists` (TOCTOU), read unchecked. | `is_file` + `@file_get_contents` guard. | existing suite |
+| A4-1 | `Generators/ModuleGenerator.php:427` | MEDIUM | With the provider generator disabled, `module.json` was edited by `preg_replace` regex surgery on JSON. | Decode → `providers = []` → re-encode. Snapshot-uncovered path, no churn. | existing generation suite |
+| A5-1 | `Commands/ComposerUpdateCommand.php:33,53` | MEDIUM | Unvalidated `json_decode`; unchecked `json_encode`; non-atomic write. | `is_array` guard; encode check; atomic temp+rename. | existing suite |
+| A5-2 | `Commands/Actions/ListCommands.php:180` | LOW | `catch (\Throwable)` returns fallback without logging. | **Accepted**: graceful degradation for a display/listing command. | n/a |
+| A5-3 | `Commands/Actions/DumpCommand.php:32` | LOW | `passthru('composer dump …')` exit code not captured. | **Accepted**: static command (no injection); composer prints its own errors. | n/a |
+| A6-1 | `Activators/FileActivator.php:125` | LOW | `modules_statuses.json` written non-atomically. | **Noted**: simple bool map; low risk; left to avoid snapshot churn. | n/a |
+
+No CRITICAL/HIGH remained after the sweep (no raw SQL; the only other shell-out is a static composer
+command). Suite 473; phpstan + pint clean.

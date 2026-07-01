@@ -32,6 +32,10 @@ class ComposerUpdateCommand extends BaseCommand
 
             $composer = json_decode(File::get($composer_path), true);
 
+            if (! is_array($composer)) {
+                return;
+            }
+
             $autoload = data_get($composer, 'autoload.psr-4');
 
             if (! $autoload) {
@@ -50,7 +54,15 @@ class ComposerUpdateCommand extends BaseCommand
 
             data_set($composer, 'autoload.psr-4', $autoload);
 
-            file_put_contents($composer_path, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            $encoded = json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+            if ($encoded === false) {
+                return;
+            }
+
+            // Atomic write so an interrupted write can't corrupt the module's composer.json.
+            $tmp = $composer_path.'.tmp'.getmypid();
+            file_put_contents($tmp, $encoded);
+            rename($tmp, $composer_path);
 
         });
     }

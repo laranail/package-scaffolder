@@ -66,8 +66,10 @@ abstract class Module
     {
         $paths = [];
 
-        if (file_exists(public_path('build/manifest.json'))) {
-            $files = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+        $manifest = public_path('build/manifest.json');
+        $raw = is_file($manifest) ? @file_get_contents($manifest) : false;
+        if ($raw !== false) {
+            $files = json_decode($raw, true);
 
             if (is_array($files)) {
                 foreach ($files as $file) {

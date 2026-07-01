@@ -101,4 +101,36 @@ class StubTest extends BaseTestCase
         $this->assertTrue($this->finder->exists(base_path('stub-override-exists.php')));
         $this->assertEquals('stub-override', $this->finder->get(base_path('stub-override-exists.php')));
     }
+
+    /**
+     * Regression: a removal tag is interpolated into a regex, so a tag containing a
+     * metacharacter (here `/`, the delimiter) used to break the pattern. It must be
+     * treated literally (preg_quote).
+     */
+    public function test_removal_tag_with_regex_metacharacters_is_literal()
+    {
+        Stub::setBasePath(sys_get_temp_dir());
+        $name = '/laranail-tagtest-'.getmypid().'.stub';
+        file_put_contents(sys_get_temp_dir().$name, 'keep %START_A/B%gone%END_A/B% end');
+
+        $out = (new Stub($name, [], ['A/B']))->getContents();
+        @unlink(sys_get_temp_dir().$name);
+
+        $this->assertStringNotContainsString('gone', $out);
+        $this->assertStringContainsString('keep', $out);
+        $this->assertStringContainsString('end', $out);
+    }
+
+    /**
+     * Regression: an unreadable stub used to feed `false` into str_replace; now it
+     * fails loudly.
+     */
+    public function test_get_contents_throws_when_the_stub_is_missing()
+    {
+        Stub::setBasePath(sys_get_temp_dir());
+        $stub = new Stub('/laranail-definitely-missing-'.getmypid().'.stub');
+
+        $this->expectException(\RuntimeException::class);
+        $stub->getContents();
+    }
 }

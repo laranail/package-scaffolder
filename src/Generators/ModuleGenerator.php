@@ -421,13 +421,19 @@ class ModuleGenerator extends Generator
                 '--master' => true,
             ]);
         } else {
-            // delete register ServiceProvider on module.json
+            // Provider generation disabled — clear the registered providers in
+            // module.json. Decode/encode (not regex surgery) so the file stays valid
+            // JSON regardless of formatting.
             $path = $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.'module.json';
-            $module_file = $this->filesystem->get($path);
-            $this->filesystem->put(
-                $path,
-                preg_replace('/"providers": \[.*?\],/s', '"providers": [ ],', $module_file)
-            );
+            $manifest = json_decode($this->filesystem->get($path), true);
+
+            if (is_array($manifest)) {
+                $manifest['providers'] = [];
+                $this->filesystem->put(
+                    $path,
+                    json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL,
+                );
+            }
         }
 
         $eventGeneratorConfig = GenerateConfigReader::read('event-provider');

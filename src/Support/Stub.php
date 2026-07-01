@@ -83,7 +83,12 @@ class Stub
      */
     public function getContents(): string
     {
-        $contents = file_get_contents($this->getPath());
+        $path = $this->getPath();
+        $contents = @file_get_contents($path);
+
+        if ($contents === false) {
+            throw new \RuntimeException("Unable to read stub at [{$path}].");
+        }
 
         foreach ($this->replaces as $search => $replace) {
             $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
@@ -101,6 +106,8 @@ class Stub
      */
     private function removeContentsBetweenTagMarkers(string $tag, string $contents): string
     {
+        $tag = preg_quote($tag, '/');
+
         return preg_replace('/%START_'.$tag.'%.*?%END_'.$tag.'%/s', '', $contents);
     }
 
