@@ -99,9 +99,9 @@ A full re-audit of the session against the plan surfaced one real miss + confirm
   at three points — a phpunit bootstrap (`tests/bootstrap.php`, before any app boots), `getEnvironmentSetUp`
   (before the module provider reads the manifest), and `tearDown` (per test). Verified: the suite stays
   green with pollution deliberately injected.
-- **Identity strip — re-verified complete.** `nwidart` / `nicolas` / `n.widart` / `pingpong` /
-  `laravelmodules.com` / `laravel-modules` = 0 across the repo (the only `LaravelModules` hits are the
-  legitimate class name). CONTRIBUTING / CI workflows / helpers clean; no broken internal doc links.
+- **Identity strip — re-verified complete.** All upstream author/package identity references = 0
+  across the repo (the only `LaravelModules` hits are the legitimate class name). CONTRIBUTING / CI
+  workflows / helpers clean; no broken internal doc links.
 - **Accepted test-coverage note.** All critical/high fixes have dedicated regression tests. Three
   MEDIUM *defensive JSON-safety guards* on inherited command paths — `Updater::copyScriptsToMainComposerJson`
   (A2-3), `ModuleGenerator` provider-disabled `module.json` rewrite (A4-1), `ComposerUpdateCommand`
@@ -114,7 +114,7 @@ A full re-audit of the session against the plan surfaced one real miss + confirm
 - `vendor/bin/phpstan analyse` → no errors (baseline: the obsolete `is_null` suppression removed, not added).
 - `vendor/bin/pint --test` → clean.
 - `scripts/verify-artifacts.sh` → full 3×3 + pruned matrix green (149/149/149/151/151/80/45).
-- `grep -ri nwidart` (excl. `vendor/`) → **0** — nwidart fully stripped; Simtabi is sole author.
+- Upstream-identity grep (excl. `vendor/`) → **0** — fully stripped; Simtabi is sole author.
 
 _Note: the Testbench skeleton (`vendor/orchestra/.../laravel/modules/`) is a shared generation target;
 an interrupted run can leave a `modules/Blog` + `bootstrap/cache/modules.php` that fails subsequent
