@@ -33,7 +33,7 @@ gen() { # <target> <name> <entity> <namespace> <vendor> <plugin> <features-csv>
         new Illuminate\Filesystem\Filesystem, $config, $root."/vendor/bin/pint"))
       ->generate(new Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest(
         "package", $plugin, $features, $name, $ns, $vendor, false, $entity),
-        $root."/stubs/blueprint", $target);
+        $root."/stubs/blueprints/laravel", $target);
   ' "$ROOT" "$1" "$2" "$3" "$4" "$5" "$6" "$7"
 }
 

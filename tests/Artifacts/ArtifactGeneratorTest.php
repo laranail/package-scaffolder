@@ -19,7 +19,7 @@ class ArtifactGeneratorTest extends BaseTestCase
     {
         parent::setUp();
         $this->fs = new Filesystem;
-        $this->source = dirname(__DIR__, 2).'/stubs/blueprint';
+        $this->source = dirname(__DIR__, 2).'/stubs/blueprints/laravel';
     }
 
     protected function tearDown(): void

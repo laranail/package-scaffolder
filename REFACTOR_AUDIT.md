@@ -32,7 +32,7 @@ Naming model (decided, D1/D2 locked + secondary-entity question answered):
   `countWords`; `PostData` clear exceptions; case-insensitive tag dedup + `tag_count_max`; approved-only
   API comments; `SendPostPublishedNotification` `deleteWhenMissingModels`; observer demotes dateless
   scheduled posts; provider registers `TagPolicy`, drops the `blog.publish` gate; ~20 new
-  `ReviewHardeningTest` methods; docs/CHANGELOG). Re-synced every change into `stubs/blueprint`
+  `ReviewHardeningTest` methods; docs/CHANGELOG). Re-synced every change into `stubs/blueprints/laravel`
   (direct-copy for no-marker files; patched author changes into the marker-bearing provider/config to
   preserve markers; consolidated migrations).
 - **D1 implemented:** added inline-marker (`[[feat]]…[[/feat]]`) and docblock-continuation (` * `) +
@@ -120,9 +120,9 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
   Filament/Nova over the new asset files; boot + generic green. Full suite 457; phpstan clean.
 
 ### RS-5 — Relocate blueprint to the primary stub repo (decision Q2 = Both)
-- **What:** `git mv stubs/blueprint → stubs/blueprint` (the named primary location);
-  repointed the command (`__DIR__.'/stubs/blueprint'`) + 5 test source paths; excluded the template
-  from phpstan (`excludePaths: stubs/blueprint`) and composer
+- **What:** `git mv stubs/blueprints/laravel → stubs/blueprints/laravel` (the named primary location);
+  repointed the command (`__DIR__.'/stubs/blueprints/laravel'`) + 5 test source paths; excluded the template
+  from phpstan (`excludePaths: stubs/blueprints/laravel`) and composer
   (`autoload.exclude-from-classmap`) since it uses the placeholder namespace and isn't autoloaded;
   pint's `stubs` exclude already covers it. Updated `docs/make-artifact.md` path.
 - **Persisted user changes (read-before-assume):** the working tree exactly matched the prior commit
@@ -232,7 +232,7 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
 ## Entries
 
 ### 0001 — Vendor the blueprint as the parameterized template
-- **What:** Added `stubs/blueprint/` — a copy of the reference module
+- **What:** Added `stubs/blueprints/laravel/` — a copy of the reference module
   `/Users/imanimanyara/Downloads/Modules/Blog/` (240 files), excluding `vendor/`, `node_modules/`,
   `composer.lock`, `package-lock.json`, `.phpunit.result.cache`, `.claude/`, and built `public/build/`.
   The blueprint already uses the find-replace placeholder namespace `Some\NamespacePath\Blog` (present
@@ -240,7 +240,7 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
   template (and the `%marker%` blocks added later) are never reformatted.
 - **Why:** Requirement — "keep a local copy of its relevant files in the repo under `/stubs/` so
   generation doesn't depend on an external path." It is the gold standard the generator reproduces.
-- **How verified:** `find stubs/blueprint -type f` = 240; placeholder token present in 120 src files;
+- **How verified:** `find stubs/blueprints/laravel -type f` = 240; placeholder token present in 120 src files;
   `phpstan` (`paths: src`) and `phpunit` (`testsuite: tests`) don't scan `stubs/`; `pint --test` clean.
   Scaffolder suite re-run to confirm vendoring is inert (stubs are not autoloaded).
 - **Behavior change:** none (additive; stubs aren't autoloaded/analysed/tested).
@@ -283,7 +283,7 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
 - **What:** Added `src/Support/Artifacts/MarkerProcessor.php` — strips comment-delimited
   `// @artifact:start <feature>` / `// @artifact:end <feature>` blocks (drops markers for enabled
   features, removes the whole block for disabled ones; nesting-aware). Inserted markers into
-  `stubs/blueprint/src/Providers/BlogServiceProvider.php` (asset-pipeline, rest-api, scheduling,
+  `stubs/blueprints/laravel/src/Providers/BlogServiceProvider.php` (asset-pipeline, rest-api, scheduling,
   caching, notifications, web-ui, livewire, plugin-filament, plugin-nova) and `routes/web.php`
   (web-ui vs feeds). Truly-shared registrations (`blog.published`+`EnsurePostIsPublished`,
   `hasViews`/`hasTranslations`/`hasRoute('web')`, rate limiter) kept as core to avoid OR-logic.
@@ -299,7 +299,7 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
 - **Open:** config/blog.php feature-key markers (next), then the generation engine (0004).
 
 ### 0003b — Config feature-key markers
-- **What:** Marked the cleanly feature-owned blocks in `stubs/blueprint/config/blog.php`:
+- **What:** Marked the cleanly feature-owned blocks in `stubs/blueprints/laravel/config/blog.php`:
   `web-ui` (components), `notifications`, `scheduling`, `rest-api` (routes.api), `caching` (cache),
   `feeds` (features), `asset-pipeline` (ui.framework + ui.assets). `search`/`security`/`processing`/
   `routes.web`/`validation`/`morph_map`/`pagination`/`comments`/`ui.*` core keys stay.
@@ -330,7 +330,7 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
 
 ### 0004 — Generation engine (TokenReplacer + ArtifactGenerator)
 - **What:** `TokenReplacer` (strtr-based placeholder→identity rewrite) and `ArtifactGenerator`
-  (copy `stubs/blueprint` → token-replace file contents → strip disabled `%marker%` blocks via
+  (copy `stubs/blueprints/laravel` → token-replace file contents → strip disabled `%marker%` blocks via
   `MarkerProcessor` → delete disabled feature/plugin files (prune map in `config/artifacts.php`) →
   rename surviving files to the artifact identity → repair `composer.json`: drop inactive
   integration providers from `extra.laravel.providers` and inactive plugin deps from

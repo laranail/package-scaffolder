@@ -8,7 +8,7 @@ the internal structure of this package itself. Part 1 is the one you'll interact
 ## 1. Generated artifact structure (what `make:artifact` produces)
 
 `make:artifact` (canonical `laranail::package-scaffolder.new`) generates a complete, opinionated
-`laranail/package-tools` artifact from the vendored blueprint (`stubs/blueprint/`). The canonical
+`laranail/package-tools` artifact from the vendored blueprint (`stubs/blueprints/laravel/`). The canonical
 reference layout is the blueprint itself.
 
 - **Type & container.** `--type` = `package` | `module` | `plugin` selects the container directory
@@ -98,7 +98,7 @@ its namespace segment. PSR-4 base `Simtabi\Laranail\Package\Scaffolder\` → `sr
 `Support\Module`) — grouped by framework because splitting would collide the three `Module` variants.
 
 **Templates.** `stubs/` (top-level) holds the `module:make-*` per-file templates + the vendored
-`stubs/blueprint/` (excluded from classmap + phpstan). **Procedural helpers** live in
+`stubs/blueprints/laravel/` (excluded from classmap + phpstan). **Procedural helpers** live in
 `helpers/helpers.php` (composer `files` autoload — not namespaced).
 
 **Invariant.** Every `src/**/*.php` class's declared namespace equals its directory path under the

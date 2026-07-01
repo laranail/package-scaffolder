@@ -7,7 +7,7 @@ full-aggressive (root utilities → `Support`/`Repositories`, all providers →
 ## Invariant checks — PASS
 
 - **Namespace ↔ path mismatches:** `0` (every `src/**/*.php`, excluding the
-  `stubs/blueprint/` template, declares a namespace equal to its dir).
+  `stubs/blueprints/laravel/` template, declares a namespace equal to its dir).
 - **Root-level `src/*.php` classes:** `0` — every class is in a type folder.
 - **Type ↔ folder (kind/name vs folder):** clean — every `interface`→`Contracts/`,
   `trait`→`Traits/`, `enum`→`Enums/`, `*Exception`→`Exceptions/`, and

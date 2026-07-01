@@ -45,7 +45,7 @@ class GenericTemplateTest extends BaseTestCase
 
         $all = ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'];
         (new ArtifactGenerator($this->fs, $config, dirname(__DIR__, 2).'/vendor/bin/pint'))
-            ->generate(new GenerationRequest('package', 'none', $all, $name, $base, $vendor, false, $entity), dirname(__DIR__, 2).'/stubs/blueprint', $target);
+            ->generate(new GenerationRequest('package', 'none', $all, $name, $base, $vendor, false, $entity), dirname(__DIR__, 2).'/stubs/blueprints/laravel', $target);
 
         return $target;
     }

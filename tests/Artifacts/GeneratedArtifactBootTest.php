@@ -52,7 +52,7 @@ class GeneratedArtifactBootTest extends BaseTestCase
         $this->targets[] = $target;
 
         (new ArtifactGenerator($this->fs, $config, dirname(__DIR__, 2).'/vendor/bin/pint'))
-            ->generate(new GenerationRequest($plugin === 'none' ? 'package' : 'plugin', $plugin, $features, $name, $base, $vendor), dirname(__DIR__, 2).'/stubs/blueprint', $target);
+            ->generate(new GenerationRequest($plugin === 'none' ? 'package' : 'plugin', $plugin, $features, $name, $base, $vendor), dirname(__DIR__, 2).'/stubs/blueprints/laravel', $target);
 
         $loader = new ClassLoader;
         $loader->addPsr4($base.'\\'.$name.'\\', $target.'/src');

@@ -69,7 +69,7 @@ breaking change for consumers. The old → new map above is the upgrade table. C
 3. Update FQCN strings: provider registration, container bindings, event/listener maps,
    `publishes()` paths, config references, the Lumen bootstrap, any `::class` string.
 4. Update tests + any scaffolder stubs/templates referencing these FQCNs. (Note: the blueprint
-   template under `stubs/blueprint/` uses `Some\NamespacePath\Blog\*` — it does NOT
+   template under `stubs/blueprints/laravel/` uses `Some\NamespacePath\Blog\*` — it does NOT
    reference the package's own classes, so it is unaffected.)
 5. Small commits, one type-group each, lowercase messages.
 6. Docs (Phase 4): README/CONTRIBUTING/CHANGELOG upgrade map + `docs/ARCHITECTURE.md`.

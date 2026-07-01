@@ -1,7 +1,7 @@
 # Blueprint generation — `make:artifact`
 
 `make:artifact` (canonical `laranail::package-scaffolder.new`) scaffolds a **complete, opinionated
-artifact** from the bundled gold-standard blueprint (`stubs/blueprint/`): a full
+artifact** from the bundled gold-standard blueprint (`stubs/blueprints/laravel/`): a full
 `laranail/package-tools` package with the manager + fluent DSL, services/actions, a repository +
 contract, a search manager, a model body-processing pipeline, lifecycle events, policies, an
 optional REST API, web UI, feeds, scheduling, an asset pipeline, and tests.

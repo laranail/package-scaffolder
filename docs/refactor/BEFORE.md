@@ -9,12 +9,12 @@ mirrors its namespace segment." This is the **before** state. No files moved yet
 |---|---|
 | psr-4 base | `Simtabi\Laranail\Package\Scaffolder\` → `src` |
 | files autoload | `helpers/helpers.php` (procedural — stays a function file, not namespaced) |
-| exclude-from-classmap | `stubs/blueprint/` (the vendored artifact **template** — NOT package source; excluded from this refactor) |
+| exclude-from-classmap | `stubs/blueprints/laravel/` (the vendored artifact **template** — NOT package source; excluded from this refactor) |
 | `extra.laravel.providers` | `Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider` |
 | `extra.laravel.aliases` | `Module` → `Simtabi\Laranail\Package\Scaffolder\Facades\Module` |
 | PHP | `^8.4.1 || ^8.5` |
 
-Scope note: `stubs/blueprint/` (240 template files, placeholder namespace
+Scope note: `stubs/blueprints/laravel/` (240 template files, placeholder namespace
 `Some\NamespacePath\Blog`) and `stubs/*.stub` are **template content**, not
 package classes — excluded from every count and move below. The tree largely follows classic Laravel module-package conventions.
 
