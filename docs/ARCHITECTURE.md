@@ -7,14 +7,24 @@ the internal structure of this package itself. Part 1 is the one you'll interact
 
 ## 1. Generated artifact structure (what `make:artifact` produces)
 
-`make:artifact` (canonical `laranail::package-scaffolder.new`) generates a complete, opinionated
-`laranail/package-tools` artifact from the vendored blueprint (`stubs/blueprints/laravel/`). The canonical
-reference layout is the blueprint itself.
+`make:artifact` (canonical `laranail::package-scaffolder.new`) generates a complete artifact from a
+per-flavor blueprint under `stubs/blueprints/{flavor}/`. Generation has four orthogonal, data-driven
+dimensions (all from the `flavors`/`kinds`/`plugin_types`/`features` registries in
+`config/artifacts.php`):
 
+- **Flavor (`--flavor`).** The framework: `laravel` (default, the full `laravel/package-tools`
+  blueprint) · `lumen` (lean service-provider package) · `vanilla` (pure-PHP library, no Illuminate).
+  The registry maps each flavor → blueprint dir + which manifests/panels/features it allows. **Adding
+  a framework (e.g. `symfony`) = one registry entry + one `stubs/blueprints/{flavor}/` dir; no code.**
 - **Type & container.** `--type` = `package` | `module` | `plugin` selects the container directory
   (`platform/packages/{Name}`, `platform/modules/{Name}`, `platform/plugins/{Name}`). The folder is a
   **location only** — the PHP root namespace comes from `--namespace`, never the container. The same
   artifact generated into any container resolves to the identical namespace.
+- **Manifests & the runtime loader.** A generated repo carries every manifest its flavor supports —
+  `composer.json` (package) + `module.json` (module) + `plugin.json` (plugin) — so one repo is
+  consumable as any role, loaded at runtime by
+  [`laranail/package-management`](https://opensource.simtabi.com/package-management/). Panels
+  (Nova/Filament) are laravel-only and make the repo a panel plugin.
 - **PSR-4 root is `src/`** (not `app/`). The blueprint decouples four identifiers: the root namespace
   (`--namespace`, e.g. `Modules\Blog`), the composer name (`{vendor}/{name}`), the config/view/trans
   key (`{vendor}.{name}`), and the component slug (`{vendor}-{name}`).
