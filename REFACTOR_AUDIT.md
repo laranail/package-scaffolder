@@ -184,6 +184,24 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
 - **Lesson reinforced:** build-and-test catches what static/boot/file-only checks miss; the matrix
   scan and command tests now cover both classes of bug.
 
+### RS-8 — Complete the 3×3 build-and-test; fix PanelsTest single-panel coupling
+- **What:** Extended real build-and-test to the panel dimension (build a filament + nova artifact,
+  not just none). This exposed a 3rd cross-fixture coupling: `PanelsTest` asserts BOTH the Filament
+  AND Nova integration providers are registered, but panels are mutually exclusive — a filament
+  artifact has no Nova provider (deleted), so its generated suite failed
+  (`assertArrayHasKey Nova…ServiceProvider`). Static/`php -l` missed it.
+- **Fix:** markered `PanelsTest`'s per-panel imports + provider assertions (`plugin-filament` /
+  `plugin-nova`) so a single-panel artifact keeps only its own; `none` deletes the file (shared).
+- **How verified:** `scripts/verify-artifacts.sh` now runs the full 3×3 via real `composer install` +
+  suites — **Blog/Post, Customer/Account, Admin/Item (none, 149 each), Shop/Product (filament, 151),
+  Store/Listing (nova, 151)** + a pruned build — → "ALL ARTIFACT BUILDS + TESTS PASSED".
+  `MatrixVerificationTest` now asserts PanelsTest is single-panel (present with only the selected
+  provider for filament/nova; absent for none). Scaffolder suite **460** (1225 assertions); phpstan +
+  pint clean.
+- **Running tally of bugs the build-and-test loop caught that static/boot/file-only checks missed:**
+  (1) renamePaths view dirs/files [RS-6], (2) lowercase Filament/Nova leak in UPGRADING [RS-7],
+  (3) default-entity collision [RS-7], (4) PanelsTest both-panels coupling [RS-8].
+
 ## Entries
 
 ### 0001 — Vendor the blueprint as the parameterized template
