@@ -5,10 +5,31 @@ All Notable changes to `laranail/package-scaffolder` (a fork of
 
 ## Next
 
+### Class reorganisation into type folders (breaking)
+
+Every package class now lives in a type folder whose path mirrors its namespace
+segment. The eight previously root-level classes moved — update your imports:
+
+| Old FQCN | New FQCN |
+|---|---|
+| `Simtabi\Laranail\Package\Scaffolder\Collection` | `…\Support\Collection` |
+| `Simtabi\Laranail\Package\Scaffolder\Json` | `…\Support\Json` |
+| `Simtabi\Laranail\Package\Scaffolder\ModuleManifest` | `…\Support\ModuleManifest` |
+| `Simtabi\Laranail\Package\Scaffolder\Module` | `…\Support\Module` |
+| `Simtabi\Laranail\Package\Scaffolder\FileRepository` | `…\Repositories\FileRepository` |
+| `Simtabi\Laranail\Package\Scaffolder\ModulesServiceProvider` | `…\Providers\ModulesServiceProvider` |
+| `Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider` | `…\Providers\LaravelModulesServiceProvider` |
+| `Simtabi\Laranail\Package\Scaffolder\LumenModulesServiceProvider` | `…\Providers\LumenModulesServiceProvider` |
+
+The published service-provider reference (Laravel auto-discovery / `vendor:publish`)
+is now `…\Providers\LaravelModulesServiceProvider`. The framework-variant classes
+under `Laravel\` and `Lumen\` are unchanged. No behavior changed — this is a
+namespace/path move only. See `docs/ARCHITECTURE.md`.
+
 ### Rebrand to `laranail/package-scaffolder` (breaking)
 
 - Renamed the package from `nwidart/laravel-modules` to `laranail/package-scaffolder` (Simtabi LLC), with updated metadata, URLs, LICENSE copyright and required files.
-- Renamed the PHP root namespace `Nwidart\Modules\` → `Simtabi\Laranail\Package\Scaffolder\`. Update your imports and the published service-provider reference (`Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider`). The user-facing module namespace (`Modules\`, config-driven) is unchanged.
+- Renamed the PHP root namespace `Nwidart\Modules\` → `Simtabi\Laranail\Package\Scaffolder\`. Update your imports and the published service-provider reference (`Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider`). The user-facing module namespace (`Modules\`, config-driven) is unchanged.
 - Renamed all Artisan commands to the `laranail::package-scaffolder.*` shape (e.g. `laranail::package-scaffolder.make`). The previous `module:*` names are kept as **aliases**, so existing scripts keep working.
 - Raised the PHP floor to `^8.4.1 || ^8.5` (CI matrix 8.4 / 8.5) — required by the `laranail/console` command base used for the `::` naming.
 

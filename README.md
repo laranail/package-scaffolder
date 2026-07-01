@@ -40,7 +40,7 @@ The package will automatically register a service provider and alias.
 Optionally, publish the package's configuration file by running:
 
 ``` bash
-php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider"
+php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider"
 ```
 
 ### Autoloading
@@ -93,6 +93,7 @@ Answer `y` to allow the plugin to be executed. Otherwise, you will need to manua
 You'll find documentation on [https://opensource.simtabi.com/package-scaffolder/docs/](https://opensource.simtabi.com/package-scaffolder/docs/).
 
 - [Generating artifacts (`make:artifact`)](docs/make-artifact.md) — types, plugins, features, portability, composer wiring.
+- [Architecture](docs/ARCHITECTURE.md) — source layout: the type-folder → namespace map.
 
 For the upstream package this fork is based on, see [laravelmodules.com](https://laravelmodules.com/docs).
 
