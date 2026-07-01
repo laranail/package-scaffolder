@@ -21,7 +21,7 @@ class Migrator
     /**
      * Laravel Application instance.
      *
-     * @var Application.
+     * @var Application
      */
     protected $laravel;
 

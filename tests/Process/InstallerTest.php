@@ -7,6 +7,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Tests\Process;
 use InvalidArgumentException;
 use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Symfony\Component\Process\Process;
 
 /**
  * Regression: module name / version(branch) / type reach a shell command, so a
@@ -35,6 +36,22 @@ class InstallerTest extends BaseTestCase
 
         $this->assertStringContainsString(escapeshellarg('acme/mod; rm -rf /tmp/x:dev-master'), $cmd);
         $this->assertStringNotContainsString('rm -rf /tmp/x:dev-master', str_replace(escapeshellarg('acme/mod; rm -rf /tmp/x:dev-master'), '', $cmd));
+    }
+
+    /**
+     * Regression: `$console` was an uninitialized typed property, so the
+     * `instanceof` guard in run() threw an Error before it could evaluate. It is
+     * now nullable, so run() without a console simply skips execution.
+     */
+    public function test_run_without_a_console_does_not_error(): void
+    {
+        $installer = (new Installer('acme/mod', 'main', 'github-https'))
+            ->setPath(sys_get_temp_dir().'/laranail-dest');
+
+        // no setConsole() — must not throw an uninitialized-property Error
+        $process = $installer->run();
+
+        $this->assertInstanceOf(Process::class, $process);
     }
 
     public function test_git_install_fails_loudly_on_an_unresolvable_type(): void

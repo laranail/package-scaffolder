@@ -48,6 +48,22 @@ invocation regresses. Suite 471; phpstan + pint clean.
 No CRITICAL/HIGH remained after the sweep (no raw SQL; the only other shell-out is a static composer
 command). Suite 473; phpstan + pint clean.
 
+## Chunk A8 — phpstan-baseline audit (post-review deep pass)
+
+Went through the 70 baselined pre-existing issues; the `deadCode`/`instanceof`/`phpDoc` categories
+surfaced more real bugs:
+
+| # | Location | Sev | Issue | Fix |
+|---|----------|-----|-------|-----|
+| A8-1 | `Process/Installer.php` `$console` | MEDIUM (real bug) | `protected Command $console;` uninitialized; the `instanceof Command` guard in `run()` throws an `Error` (uninitialized typed property) instead of evaluating — so `run()` crashed when no console was set. | `?Command $console = null` (guard is now meaningful). `InstallerTest::test_run_without_a_console_does_not_error`. |
+| A8-2 | `Publishing/Publisher.php` `$console` | MEDIUM (real bug) | Same pattern — `publish()`'s `instanceof` guard threw an `Error` before its intended `RuntimeException`. | `?Command $console = null`; `getConsole(): ?Command`. |
+| A8-3 | `Process/Installer.php` `getRepoUrl` | LOW | Unreachable `break;` after a `return` (dead code). | removed. |
+| A8-4 | `Migrations/Migrator.php:24` | LOW | `@var Application.` — malformed docblock (parse error). | `@var \Illuminate\Contracts\Foundation\Application` (+ import). |
+
+Removed the 4 now-obsolete baseline suppressions (regenerated; no new suppressions added). Remaining
+baseline entries are genuine pre-existing noise (Lumen `Application` not installed, Symfony option
+`getOptions()` return shapes, `new static()` in fluent helpers) — documented, left as-is.
+
 ## Summary (severity-sorted)
 
 | Sev | Count | Items |

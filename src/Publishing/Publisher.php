@@ -21,9 +21,9 @@ abstract class Publisher implements PublisherInterface
     protected RepositoryInterface $repository;
 
     /**
-     * The laravel console instance.
+     * The laravel console instance (null until setConsole() is called).
      */
-    protected Command $console;
+    protected ?Command $console = null;
 
     /**
      * The success message will displayed at console.
@@ -107,7 +107,7 @@ abstract class Publisher implements PublisherInterface
     /**
      * Get console instance.
      */
-    public function getConsole(): Command
+    public function getConsole(): ?Command
     {
         return $this->console;
     }

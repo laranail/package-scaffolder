@@ -25,9 +25,9 @@ class Installer
     protected RepositoryInterface $repository;
 
     /**
-     * The console command instance.
+     * The console command instance (null until setConsole() is called).
      */
-    protected Command $console;
+    protected ?Command $console = null;
 
     /**
      * The destination path (empty until setPath() is called; getDestinationPath()
@@ -161,8 +161,6 @@ class Installer
 
             case 'gitlab':
                 return "git@gitlab.com:{$this->name}.git";
-
-                break;
 
             case 'bitbucket':
                 return "git@bitbucket.org:{$this->name}.git";

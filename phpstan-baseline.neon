@@ -241,22 +241,10 @@ parameters:
 			path: src/Migrations/Migrator.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(Application\.\)\: Unexpected token "\.", expected TOKEN_HORIZONTAL_WS at offset 71 on line 4$#'
-			identifier: phpDoc.parseError
+			message: '#^Call to function method_exists\(\) with \$this\(Simtabi\\Laranail\\Package\\Scaffolder\\Providers\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
-			path: src/Migrations/Migrator.php
-
-		-
-			message: '#^Instanceof between Illuminate\\Console\\Command and Illuminate\\Console\\Command will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: src/Process/Installer.php
-
-		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 1
-			path: src/Process/Installer.php
+			path: src/Providers/ModuleServiceProvider.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Contracts\\Foundation\\Application\:\:getCachedServicesPath\(\)\.$#'
@@ -268,12 +256,6 @@ parameters:
 			message: '#^Access to protected property Illuminate\\Console\\Command\:\:\$components\.$#'
 			identifier: property.protected
 			count: 3
-			path: src/Publishing/Publisher.php
-
-		-
-			message: '#^Instanceof between Illuminate\\Console\\Command and Illuminate\\Console\\Command will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
 			path: src/Publishing/Publisher.php
 
 		-
@@ -341,12 +323,6 @@ parameters:
 			identifier: property.unusedType
 			count: 1
 			path: src/Support/ModuleManifest.php
-
-		-
-			message: '#^Call to function method_exists\(\) with \$this\(Simtabi\\Laranail\\Package\\Scaffolder\\Providers\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/Providers/ModuleServiceProvider.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
