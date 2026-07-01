@@ -5,9 +5,10 @@
 # Generates artifacts, runs `composer install` (the real build), then their own
 # PHPUnit suites:
 #   - all-features-on combos (Blog + a non-blog Customer): run the FULL suite.
-#   - a pruned combo: build + verify it has no leftover markers and php -l is clean
-#     (its feature-specific suites are intentionally not run — they'd reference
-#     deleted code; ReviewHardeningTest is a full-feature fixture).
+#   - panel combos (filament / nova) + a default-entity combo.
+#   - pruned combos: build + run applicable tests (feature-specific + ReviewHardening
+#     fixture excluded — they'd reference deleted code).
+#   - framework flavors (vanilla / lumen): build + run each flavor's own suite.
 #
 # NETWORK-GATED: `composer install` downloads each artifact's deps, so this runs
 # manually / in CI, not in the unit-test suite. The scaffolder's PHPUnit instead
@@ -35,6 +36,22 @@ gen() { # <target> <name> <entity> <namespace> <vendor> <plugin> <features-csv>
         "package", $plugin, $features, $name, $ns, $vendor, false, $entity),
         $root."/stubs/blueprints/laravel", $target);
   ' "$ROOT" "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+}
+
+gen_flavor() { # <target> <name> <entity> <flavor> <features-csv>
+  php -r '
+    $root = $argv[1];
+    require $root."/vendor/autoload.php";
+    $config = require $root."/config/artifacts.php";
+    [$target, $name, $entity, $flavor, $feat] = array_slice($argv, 2);
+    $features = $feat === "" ? [] : explode(",", $feat);
+    $blueprint = (string) ($config["flavors"][$flavor]["blueprint"] ?? $flavor);
+    (new Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator(
+        new Illuminate\Filesystem\Filesystem, $config, $root."/vendor/bin/pint"))
+      ->generate(new Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest(
+        "package", "none", $features, $name, "Acme", "acme", false, $entity, $flavor),
+        $root."/stubs/blueprints/".$blueprint, $target);
+  ' "$ROOT" "$1" "$2" "$3" "$4" "$5"
 }
 
 build_and_full_test() { # <dir> <label>
@@ -78,4 +95,12 @@ build_and_applicable_test "$WORK/Lean" "package · none · caching+rest-api · L
 gen "$WORK/Min" "Min" "Item" "Acme" "acme" "none" ""
 build_and_applicable_test "$WORK/Min" "package · none · MINIMAL (all optional off) · Min/Item"
 
-echo "ALL ARTIFACT BUILDS + TESTS PASSED (D2 matrix policy)."
+# framework flavors — vanilla (pure PHP, no Illuminate) + lumen (service provider).
+# Each generates from its own blueprint and runs its own (lean) suite.
+gen_flavor "$WORK/Vanilla" "Widget" "Item" "vanilla" ""
+build_and_full_test "$WORK/Vanilla" "package · vanilla · Widget/Item"
+
+gen_flavor "$WORK/Lumen" "Gadget" "Item" "lumen" ""
+build_and_full_test "$WORK/Lumen" "package · lumen · Gadget/Item"
+
+echo "ALL ARTIFACT BUILDS + TESTS PASSED (flavor + D2 matrix policy)."
