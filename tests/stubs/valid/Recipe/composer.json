@@ -21,8 +21,8 @@
     "prefer-stable": true,
 	"authors": [
 		{
-			"name": "Pingpong Labs",
-			"email": "pingpong.labs@gmail.com"
+			"name": "Simtabi LLC",
+			"email": "opensource@simtabi.com"
 		}
 	],
 	"autoload": {
