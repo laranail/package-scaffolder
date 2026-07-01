@@ -9,15 +9,18 @@ full-aggressive (root utilities → `Support`/`Repositories`, all providers →
 - **Namespace ↔ path mismatches:** `0` (every `src/**/*.php`, excluding the
   `src/Commands/stubs/blueprint/` template, declares a namespace equal to its dir).
 - **Root-level `src/*.php` classes:** `0` — every class is in a type folder.
+- **Type ↔ folder (kind/name vs folder):** clean — every `interface`→`Contracts/`,
+  `trait`→`Traits/`, `enum`→`Enums/`, `*Exception`→`Exceptions/`, and
+  `*ServiceProvider`→`Providers/` (no provider left in `Support/`).
 
 ## Inventory after — top-level `src/` groups
 
 | Group | Count | Δ from before |
 |---|---:|---|
 | `Commands/` | 72 | — |
-| `Support/` | 16 | +4 (Collection, Json, Module, ModuleManifest) |
+| `Support/` | 15 | +3 (Collection, Json, Module, ModuleManifest; −1 ModuleServiceProvider→Providers) |
 | `Traits/` | 6 | — |
-| `Providers/` | 5 | +3 (Modules/Laravel/Lumen ServiceProvider) |
+| `Providers/` | 6 | +4 (Modules/Laravel/Lumen ServiceProvider + ModuleServiceProvider) |
 | `Exceptions/` | 5 | — |
 | `Contracts/` | 5 | — |
 | `Publishing/` | 4 | — |
@@ -40,6 +43,13 @@ full-aggressive (root utilities → `Support`/`Repositories`, all providers →
 | `…\ModulesServiceProvider` | `…\Providers\ModulesServiceProvider` |
 | `…\LaravelModulesServiceProvider` | `…\Providers\LaravelModulesServiceProvider` |
 | `…\LumenModulesServiceProvider` | `…\Providers\LumenModulesServiceProvider` |
+| `…\Support\ModuleServiceProvider` | `…\Providers\ModuleServiceProvider` |
+
+The last move was surfaced by a **deeper re-audit** (class *kind*/name vs folder, not
+just namespace↔path): `ModuleServiceProvider` — the abstract base that generated
+module providers extend — was sitting in `Support/` despite the "all providers in
+`Providers/`" rule. Moving it also updated the shipped `scaffold/provider.stub` and
+its 11 command snapshots (diff = only the `use` line).
 
 ## Reference updates applied
 

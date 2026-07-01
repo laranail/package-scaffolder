@@ -13,7 +13,7 @@ type folder appends one segment to that base.
 | Artisan commands | `src/Commands/` (`Actions/`, `Database/`, `Make/`, `Publish/`) | `…\Commands\…` | Command tree. `Commands/stubs/` is template content, **not** package classes (excluded from classmap). |
 | Support / utilities | `src/Support/` | `…\Support` | Incl. `Collection`, `Json`, `Module`, `ModuleManifest`, and `Support\Artifacts\*` (the artifact generator). |
 | Repositories | `src/Repositories/` | `…\Repositories` | `FileRepository` (the abstract module repository). |
-| Service providers | `src/Providers/` | `…\Providers` | ALL providers: `ModulesServiceProvider` (abstract), `LaravelModulesServiceProvider` (the published/auto-discovered one), `LumenModulesServiceProvider`, `ConsoleServiceProvider`, `ContractsServiceProvider`. |
+| Service providers | `src/Providers/` | `…\Providers` | ALL providers: `ModulesServiceProvider` (abstract), `LaravelModulesServiceProvider` (the published/auto-discovered one), `LumenModulesServiceProvider`, `ModuleServiceProvider` (abstract base that generated module providers extend), `ConsoleServiceProvider`, `ContractsServiceProvider`. |
 | Contracts | `src/Contracts/` | `…\Contracts` | Interfaces (`RepositoryInterface`, `ActivatorInterface`, …). |
 | Traits | `src/Traits/` | `…\Traits` | Reusable behaviour. |
 | Exceptions | `src/Exceptions/` | `…\Exceptions` | |

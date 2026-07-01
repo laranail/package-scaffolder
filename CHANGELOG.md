@@ -20,6 +20,12 @@ segment. The eight previously root-level classes moved — update your imports:
 | `Simtabi\Laranail\Package\Scaffolder\ModulesServiceProvider` | `…\Providers\ModulesServiceProvider` |
 | `Simtabi\Laranail\Package\Scaffolder\LaravelModulesServiceProvider` | `…\Providers\LaravelModulesServiceProvider` |
 | `Simtabi\Laranail\Package\Scaffolder\LumenModulesServiceProvider` | `…\Providers\LumenModulesServiceProvider` |
+| `Simtabi\Laranail\Package\Scaffolder\Support\ModuleServiceProvider` | `…\Providers\ModuleServiceProvider` |
+
+The last row is the abstract base that **generated module providers extend** (via
+the `module:make-provider` stub): already-generated modules import
+`…\Support\ModuleServiceProvider` and must update to `…\Providers\ModuleServiceProvider`
+(newly-generated modules use the new path automatically).
 
 The published service-provider reference (Laravel auto-discovery / `vendor:publish`)
 is now `…\Providers\LaravelModulesServiceProvider`. The framework-variant classes

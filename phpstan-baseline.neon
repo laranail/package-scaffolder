@@ -349,10 +349,10 @@ parameters:
 			path: src/Support/ModuleManifest.php
 
 		-
-			message: '#^Call to function method_exists\(\) with \$this\(Simtabi\\Laranail\\Package\\Scaffolder\\Support\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'
+			message: '#^Call to function method_exists\(\) with \$this\(Simtabi\\Laranail\\Package\\Scaffolder\\Providers\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
-			path: src/Support/ModuleServiceProvider.php
+			path: src/Providers/ModuleServiceProvider.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'

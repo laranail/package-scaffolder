@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ModuleName\Providers;
 
-use Simtabi\Laranail\Package\Scaffolder\Support\ModuleServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Providers\ModuleServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 
 class ModuleNameServiceProvider extends ModuleServiceProvider

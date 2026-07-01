@@ -1,6 +1,6 @@
 <?php
 
-namespace Simtabi\Laranail\Package\Scaffolder\Support;
+namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
