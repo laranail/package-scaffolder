@@ -51,6 +51,48 @@ return [
     ],
 
     /*
+    | Framework flavor registry — the single source of truth for the framework
+    | dimension. Each flavor maps to a blueprint dir (stubs/blueprints/{blueprint})
+    | and declares which manifests / panels / features it supports. Adding a
+    | framework (e.g. symfony) = one entry here + one stubs/blueprints/{name} dir;
+    | no generator code changes. `manifests`/`panels`/`features` gate validation +
+    | per-flavor pruning. (Only `laravel` ships a blueprint today; lumen/vanilla
+    | are registered and their blueprints follow.)
+    */
+    'default_flavor' => env('ARTIFACT_DEFAULT_FLAVOR', 'laravel'),
+
+    'flavors' => [
+        'laravel' => [
+            'blueprint' => 'laravel',
+            'manifests' => ['composer', 'module', 'plugin'],
+            'panels' => ['nova', 'filament', 'none'],
+            'features' => ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'],
+        ],
+        'lumen' => [
+            'blueprint' => 'lumen',
+            'manifests' => ['composer', 'module', 'plugin'],
+            'panels' => ['none'],
+            'features' => ['rest-api', 'caching', 'scheduling', 'notifications'],
+        ],
+        'vanilla' => [
+            'blueprint' => 'vanilla',
+            'manifests' => ['composer'],
+            'panels' => ['none'],
+            'features' => ['caching'],
+        ],
+    ],
+
+    /*
+    | Manifest → the file(s) that make an artifact loadable in that role. Used to
+    | prune manifests a flavor does not support (e.g. vanilla keeps composer.json
+    | only). Blueprint-relative paths.
+    */
+    'manifest_files' => [
+        'module' => ['module.json'],
+        'plugin' => ['plugin.json'],
+    ],
+
+    /*
     | Plugin dimension (only when kind = plugin). "none" generates ZERO
     | Nova/Filament code, stubs or dependencies (asserted by the generator).
     */

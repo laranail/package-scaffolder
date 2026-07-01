@@ -84,6 +84,60 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('must differ from the artifact name', Artisan::output());
     }
 
+    public function test_default_flavor_emits_all_manifests_from_the_laravel_blueprint()
+    {
+        $dir = $this->tmp();
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo', '--type' => 'package', '--namespace' => 'Acme', '--vendor' => 'acme',
+            '--path' => $dir, '--no-interaction' => true, '--no-repo' => true,
+        ]);
+
+        $this->assertSame(0, $code, Artisan::output());
+        // one repo, three role manifests (laravel flavor supports all)
+        $this->assertFileExists($dir.'/Demo/composer.json');
+        $this->assertFileExists($dir.'/Demo/module.json');
+        $this->assertFileExists($dir.'/Demo/plugin.json');
+        $pj = json_decode($this->fs->get($dir.'/Demo/plugin.json'), true);
+        $this->assertSame('acme/demo', $pj['id']);
+        $this->assertSame('Demo', $pj['name']);
+        $this->assertStringContainsString('Acme\\Demo\\Providers\\DemoServiceProvider', $pj['provider']);
+    }
+
+    public function test_unknown_flavor_is_rejected()
+    {
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo', '--type' => 'package', '--flavor' => 'symfony',
+            '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
+        ]);
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('--flavor must be one of', Artisan::output());
+    }
+
+    public function test_panel_incompatible_with_flavor_is_rejected()
+    {
+        // vanilla has no admin panels
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo', '--type' => 'package', '--flavor' => 'vanilla', '--plugin' => 'filament',
+            '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
+        ]);
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('not available for the [vanilla] flavor', Artisan::output());
+    }
+
+    public function test_feature_incompatible_with_flavor_is_rejected()
+    {
+        // web-ui is not part of the vanilla flavor's feature set
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo', '--type' => 'package', '--flavor' => 'vanilla', '--plugin' => 'none',
+            '--features' => 'web-ui', '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
+        ]);
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('not available for the [vanilla] flavor', Artisan::output());
+    }
+
     public function test_missing_required_type_fails_loudly()
     {
         $code = Artisan::call('make:artifact', [

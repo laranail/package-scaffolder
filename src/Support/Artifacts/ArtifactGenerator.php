@@ -67,11 +67,36 @@ final class ArtifactGenerator
         // Delete first (prune map uses the blueprint's original file names), then
         // rename the surviving files to the artifact identity.
         $this->deleteDisabledPaths($request, $targetPath);
+        $this->deleteUnsupportedManifests($request, $targetPath);
         $this->renamePaths($request, $targetPath);
         $this->repairComposer($request, $targetPath);
         $this->runPint($targetPath);
 
         return $targetPath;
+    }
+
+    /**
+     * Remove manifests the selected flavor does not support (e.g. vanilla keeps
+     * composer.json only, dropping module.json/plugin.json). Driven by the config
+     * flavors[flavor].manifests list + the manifest_files map. Inert for a flavor
+     * that supports all manifests (laravel).
+     */
+    private function deleteUnsupportedManifests(GenerationRequest $request, string $targetPath): void
+    {
+        $supported = (array) ($this->config['flavors'][$request->flavor]['manifests'] ?? ['composer', 'module', 'plugin']);
+
+        foreach ((array) ($this->config['manifest_files'] ?? []) as $manifest => $files) {
+            if (in_array($manifest, $supported, true)) {
+                continue;
+            }
+
+            foreach ((array) $files as $relative) {
+                $path = $targetPath.'/'.$relative;
+                if ($this->files->exists($path)) {
+                    $this->files->delete($path);
+                }
+            }
+        }
     }
 
     /**

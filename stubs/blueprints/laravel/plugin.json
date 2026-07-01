@@ -1,0 +1,13 @@
+{
+    "id": "modules/blog",
+    "name": "Blog",
+    "namespace": "Some\\NamespacePath\\Blog\\",
+    "provider": "Some\\NamespacePath\\Blog\\Providers\\BlogServiceProvider",
+    "version": "1.0.0",
+    "description": "A security-first blogging package: posts, categories and comments with a REST API, CLI, Blade components, optional Livewire, actions, policies, events and a facade.",
+    "author": "Simtabi LLC",
+    "url": "https://opensource.simtabi.com",
+    "require": [],
+    "minimum_core_version": "1.0.0",
+    "type": "plugin"
+}

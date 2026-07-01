@@ -40,11 +40,13 @@ class MakeArtifactCommand extends Command
 
         try {
             $type = $this->resolveChoice($io, 'type', 'Artifact type', array_keys((array) config('artifacts.kinds')), $nonInteractive);
+            $flavor = $this->resolveFlavor($io, $nonInteractive);
             $plugin = $this->resolvePlugin($io, $nonInteractive);
             $name = $this->resolveName($io, $nonInteractive);
             $entity = $this->resolveEntity($io, $name, $nonInteractive);
             $namespace = $this->resolveNamespace($io, $nonInteractive);
             $features = $this->resolveFeatures($io, $nonInteractive);
+            $this->assertFlavorCompatible($flavor, $plugin, $features);
         } catch (Throwable $e) {
             $this->components->error($e->getMessage());
 
@@ -53,11 +55,12 @@ class MakeArtifactCommand extends Command
 
         $vendor = Str::lower((string) ($this->option('vendor') ?: config('modules.composer.vendor') ?: 'laranail'));
 
-        $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'), $entity);
+        $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'), $entity, $flavor);
 
         $base = $this->option('path') ?: base_path((string) config("artifacts.kinds.{$type}"));
         $target = rtrim($base, '/').'/'.$request->studly();
-        $source = dirname(__DIR__, 2).'/stubs/blueprints/laravel';
+        $blueprint = (string) config("artifacts.flavors.{$flavor}.blueprint", $flavor);
+        $source = dirname(__DIR__, 2).'/stubs/blueprints/'.$blueprint;
 
         // Artifact identity is keyed by name across ALL containers (module.json
         // name + activator), so a name must be globally unique. Skipped for an
@@ -106,6 +109,51 @@ class MakeArtifactCommand extends Command
         }
 
         return null;
+    }
+
+    private function resolveFlavor($io, bool $nonInteractive): string
+    {
+        $flavors = array_keys((array) config('artifacts.flavors'));
+        $default = (string) config('artifacts.default_flavor', 'laravel');
+        $value = (string) ($this->option('flavor') ?? '');
+
+        if ($value === '') {
+            $value = $nonInteractive
+                ? $default
+                : $io->askSelect('Framework flavor', $flavors, (int) (array_search($default, $flavors, true) ?: 0));
+        }
+
+        if (! in_array($value, $flavors, true)) {
+            throw new \InvalidArgumentException('--flavor must be one of: '.implode(', ', $flavors).'.');
+        }
+
+        return $value;
+    }
+
+    /**
+     * A flavor gates which panels + features are available (e.g. vanilla has no
+     * Nova/Filament and no Laravel-only features). Fail loudly on a mismatch.
+     *
+     * @param  list<string>  $features
+     */
+    private function assertFlavorCompatible(string $flavor, string $plugin, array $features): void
+    {
+        $caps = (array) config("artifacts.flavors.{$flavor}", []);
+
+        $panels = (array) ($caps['panels'] ?? ['none']);
+        if (! in_array($plugin, $panels, true)) {
+            throw new \InvalidArgumentException(
+                "Panel [{$plugin}] is not available for the [{$flavor}] flavor (allowed: ".implode(', ', $panels).').',
+            );
+        }
+
+        $allowed = (array) ($caps['features'] ?? []);
+        $unsupported = array_values(array_diff($features, $allowed));
+        if ($unsupported !== []) {
+            throw new \InvalidArgumentException(
+                'Feature(s) ['.implode(', ', $unsupported)."] are not available for the [{$flavor}] flavor.",
+            );
+        }
     }
 
     private function resolveChoice($io, string $option, string $label, array $options, bool $nonInteractive): string
@@ -318,6 +366,7 @@ class MakeArtifactCommand extends Command
     {
         return [
             ['type', null, InputOption::VALUE_REQUIRED, 'package | module | plugin'],
+            ['flavor', null, InputOption::VALUE_REQUIRED, 'Framework flavor: vanilla | laravel | lumen (default from config).'],
             ['plugin', null, InputOption::VALUE_REQUIRED, 'Admin panel: nova | filament | none (mutually exclusive; default none)'],
             ['features', null, InputOption::VALUE_REQUIRED, 'Comma-separated feature list (default: all).'],
             ['feature', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Repeatable feature flag.'],

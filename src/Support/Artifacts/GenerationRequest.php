@@ -26,6 +26,7 @@ final readonly class GenerationRequest
         public string $vendor,
         public bool $force = false,
         public string $entity = 'Post',
+        public string $flavor = 'laravel',   // vanilla | laravel | lumen (framework)
     ) {}
 
     public function studly(): string
