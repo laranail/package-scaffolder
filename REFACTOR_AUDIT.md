@@ -200,7 +200,34 @@ plus refinements: `PostStatus` (dependency-light `array_reduce`/`array_column`),
   pint clean.
 - **Running tally of bugs the build-and-test loop caught that static/boot/file-only checks missed:**
   (1) renamePaths view dirs/files [RS-6], (2) lowercase Filament/Nova leak in UPGRADING [RS-7],
-  (3) default-entity collision [RS-7], (4) PanelsTest both-panels coupling [RS-8].
+  (3) default-entity collision [RS-7], (4) PanelsTest both-panels coupling [RS-8],
+  (5) feature methods in shared/core files [RS-9], (6) cross-feature methods + undeclared
+  feeds/asset-pipeline→web-ui deps [RS-10].
+
+### RS-9 — Pruned-artifact test coupling (feature methods in shared/core files)
+- **What:** a MINIMAL (all-optional-off) artifact failed many tests — "core" test files
+  (ConsoleCommandTest, FeaturesTest, RegressionTest, ValidationRulesTest) exercise optional features
+  *through* web/api routes, so pruning left dangling 404s / class-not-found.
+- **Fix:** markered 14 feature-specific test methods with their feature key; ReviewHardeningTest stays
+  the one full-feature fixture (excluded on pruned runs). Minimal artifact → 45/45 applicable green.
+
+### RS-10 — Capability-isolation sweep: cross-feature methods + missing feature-deps
+- **What:** the all-off minimal (RS-9) can't catch methods in *feature* files that survive only in
+  mixed combos. A capability-isolation build sweep (each feature ON alone → real `composer install` +
+  applicable tests) surfaced: (a) `ApiAbilityTest::a_guest_can_submit_a_web_comment` — a web-ui method
+  inside a rest-api file (broke on rest-api-on/web-ui-off, the standing Lean combo);
+  (b) `CustomComponentPrefixTest::internal_views_follow_the_custom_prefix` — a livewire method
+  (`Livewire::test(PostList)`) inside a web-ui file; (c) **feeds** and **asset-pipeline** are genuinely
+  web/Blade-coupled (feed/sitemap are routes in `routes/web.php` + a web controller → 500 without
+  web-ui; the `<x-…::assets>` component needs the view layer) but declared `requires: []`.
+- **Fix:** markered (a) web-ui + (b) livewire; declared **`feeds` and `asset-pipeline` `requires: web-ui`**
+  in `config/artifacts.php` (the command's generic `requiresMap()` now pulls web-ui transitively).
+- **How verified:** corrected combos build+pass — Lean(caching,rest-api) 80, feeds+web-ui 67,
+  asset-pipeline+web-ui 73, web-ui+livewire 68. Added command tests
+  (`test_selecting_{feeds,asset_pipeline}_pulls_in_its_required_web_ui`). Updated FEATURE_CATALOG.md +
+  docs/make-artifact.md. Scaffolder suite **462**; phpstan + pint clean.
+- **Method note:** capability-isolation (one feature on at a time) is the reliable way to flush
+  cross-feature methods and undeclared feature-deps — the all-off minimal and all-on matrix miss them.
 
 ## Entries
 

@@ -56,6 +56,7 @@ class ApiAbilityTest extends TestCase
             ->assertCreated();
     }
 
+    // @artifact:start web-ui
     #[Test]
     public function a_guest_can_submit_a_web_comment(): void
     {
@@ -71,4 +72,5 @@ class ApiAbilityTest extends TestCase
             'approved' => false,
         ]);
     }
+    // @artifact:end web-ui
 }

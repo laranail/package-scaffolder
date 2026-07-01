@@ -38,8 +38,9 @@ rewriting `PostService`/`PostObserver`/the models, so it is **core**, not option
 ## Optional features (toggleable; `config('artifacts.features')`)
 
 All default **on** — a plain `make:artifact` reproduces the full gold-standard blueprint, and you
-opt **out** via `--features=` (the selected subset). `livewire` is the one dependency edge
-(`requires: web-ui`) and pulls `web-ui` in automatically if selected alone.
+opt **out** via `--features=` (the selected subset). Three features `require: web-ui` and pull it
+in automatically if selected alone — `livewire` (Livewire components), `feeds` (web feed
+routes/controller), and `asset-pipeline` (the Blade `<x-…::assets>` component).
 
 | Key | Default | Requires | Classification | Description |
 |---|---|---|---|---|
@@ -47,9 +48,9 @@ opt **out** via `--features=` (the selected subset). `livewire` is the one depen
 | `livewire` (sub of web-ui) | on | `web-ui` | optional-default-on | Livewire components (post list, comment form) |
 | `rest-api` | on | — | optional-default-on | JSON API controllers, resources, ability middleware, `routes/api.php` |
 | `caching` | on | — | optional-default-on | Caching repository decorator + event-driven invalidation |
-| `feeds` | on | — | optional-default-on | RSS/Atom feed + XML sitemap |
+| `feeds` | on | `web-ui` | optional-default-on | RSS/Atom feed + XML sitemap (web routes/controller) |
 | `scheduling` | on | — | optional-default-on | Scheduled-publish command + job |
-| `asset-pipeline` | on | — | optional-default-on | Vite (tailwind/bootstrap/vanilla) build pipeline + `<x-…::assets>` |
+| `asset-pipeline` | on | `web-ui` | optional-default-on | Vite (tailwind/bootstrap/vanilla) build pipeline + `<x-…::assets>` (Blade/view layer) |
 | `notifications` | on | — | optional-default-on | Published-post notification listener (a sub-toggle of core events) |
 
 ### Per-feature footprint (pruned when off)

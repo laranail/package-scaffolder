@@ -149,6 +149,42 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertDirectoryExists($dir.'/Demo/resources/views/components');
     }
 
+    public function test_selecting_feeds_pulls_in_its_required_web_ui()
+    {
+        // feeds (RSS/sitemap) are web routes + a web controller, so choosing feeds
+        // must transitively pull in web-ui (else the generated feed 500s at runtime).
+        $dir = $this->tmp();
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo',
+            '--type' => 'package',
+            '--features' => 'feeds',
+            '--path' => $dir,
+            '--no-interaction' => true,
+            '--no-repo' => true,
+        ]);
+
+        $this->assertSame(0, $code, Artisan::output());
+        // its required web-ui was pulled in (web component views present)
+        $this->assertDirectoryExists($dir.'/Demo/resources/views/components');
+    }
+
+    public function test_selecting_asset_pipeline_pulls_in_its_required_web_ui()
+    {
+        // the Assets component is a Blade/view concern, so asset-pipeline requires web-ui.
+        $dir = $this->tmp();
+        $code = Artisan::call('make:artifact', [
+            'name' => 'Demo',
+            '--type' => 'package',
+            '--features' => 'asset-pipeline',
+            '--path' => $dir,
+            '--no-interaction' => true,
+            '--no-repo' => true,
+        ]);
+
+        $this->assertSame(0, $code, Artisan::output());
+        $this->assertDirectoryExists($dir.'/Demo/resources/views/components');
+    }
+
     public function test_panel_defaults_to_none_and_is_zero_footprint()
     {
         $dir = $this->tmp();

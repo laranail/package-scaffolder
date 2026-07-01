@@ -99,8 +99,8 @@ return [
         ],
         'feeds' => [
             'default' => true,
-            'requires' => [],
-            'description' => 'RSS feed + XML sitemap.',
+            'requires' => ['web-ui'],
+            'description' => 'RSS feed + XML sitemap (web routes/controller — requires web-ui).',
         ],
         'scheduling' => [
             'default' => true,
@@ -109,8 +109,8 @@ return [
         ],
         'asset-pipeline' => [
             'default' => true,
-            'requires' => [],
-            'description' => 'Vite (tailwind/bootstrap/vanilla) asset build pipeline.',
+            'requires' => ['web-ui'],
+            'description' => 'Vite (tailwind/bootstrap/vanilla) asset build pipeline (Blade/view layer — requires web-ui).',
         ],
         'notifications' => [
             'default' => true,

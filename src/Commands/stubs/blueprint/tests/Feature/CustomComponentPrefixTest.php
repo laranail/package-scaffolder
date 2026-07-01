@@ -43,6 +43,7 @@ class CustomComponentPrefixTest extends TestCase
             ->assertSee('Hi');
     }
 
+    // @artifact:start livewire
     #[Test]
     public function internal_views_follow_the_custom_prefix(): void
     {
@@ -52,4 +53,5 @@ class CustomComponentPrefixTest extends TestCase
         // which only resolves if the shared prefix and registration agree.
         Livewire::test(PostList::class)->assertSee('Hello prefix');
     }
+    // @artifact:end livewire
 }

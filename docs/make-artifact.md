@@ -97,6 +97,10 @@ Toggleable (default all on): `web-ui` (with a `livewire` sub-toggle), `rest-api`
 files are removed, its wiring blocks stripped, its config keys dropped, and any orphaned imports
 cleaned by a Pint pass.
 
+`livewire`, `feeds`, and `asset-pipeline` **require `web-ui`** (they are web/Blade concerns —
+Livewire components, feed routes/controller, and the `<x-…::assets>` component). Selecting any of
+them pulls `web-ui` in automatically.
+
 The blueprint's core substrate — lifecycle events, the search manager, the body pipeline, the
 macroable manager/DSL and the `Blog::spy()` test seam — is always present (it is the blueprint's
 identity and is not separable).
