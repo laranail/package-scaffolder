@@ -103,4 +103,24 @@ class TokenReplacerTest extends TestCase
         $t = ['namespaceBase' => 'Modules', 'studly' => 'Blog', 'lower' => 'blog', 'vendor' => 'modules'];
         $this->assertSame('PostController $post posts', TokenReplacer::replace('PostController $post posts', $t));
     }
+
+    /**
+     * Regression: the entity replacement must be inserted LITERALLY. An entity form
+     * containing regex-replacement syntax (`$1`, `\1`, `$`) must not be interpreted
+     * as a backreference (the pre-hardening `preg_replace` would have expanded it).
+     */
+    public function test_entity_replacement_is_literal_not_a_backreference()
+    {
+        $t = [
+            'namespaceBase' => 'Acme', 'studly' => 'Shop', 'lower' => 'shop', 'vendor' => 'acme',
+            'entityStudly' => 'A$1B', 'entityStudlyPlural' => 'A$1Bs',
+            'entityLower' => 'a$1b', 'entityPlural' => 'a$1bs',
+        ];
+
+        $this->assertSame('A$1B', TokenReplacer::replace('Post', $t));
+        $this->assertSame('a$1b', TokenReplacer::replace('post', $t));
+        // a literal backslash form must survive too
+        $t['entityStudly'] = 'X\\1Y';
+        $this->assertSame('X\\1Y', TokenReplacer::replace('Post', $t));
+    }
 }

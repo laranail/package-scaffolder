@@ -83,19 +83,23 @@ final class TokenReplacer
         $lower = $target['entityLower'] ?? 'post';
         $plural = $target['entityPlural'] ?? 'posts';
 
+        // preg_replace_callback keeps the replacement LITERAL — an entity name
+        // containing `$1`/`\1`/`$` can never be interpreted as a backreference
+        // (defence-in-depth; GenerationRequest already Str::studly-sanitises entities).
+
         // Studly: plural before singular. `(?![a-z])` protects `Postgres`/`PostgreSQL`
         // while still matching `PostController`, `PostStatus`, `recentPosts`, `Post::class`.
-        $content = preg_replace('/Posts(?![a-z])/', $studlyPlural, $content) ?? $content;
-        $content = preg_replace('/Post(?![a-z])/', $studly, $content) ?? $content;
+        $content = preg_replace_callback('/Posts(?![a-z])/', static fn (): string => $studlyPlural, $content) ?? $content;
+        $content = preg_replace_callback('/Post(?![a-z])/', static fn (): string => $studly, $content) ?? $content;
 
         // Lowercase plural: tokens/relations/tables/views (`blog_posts`, `->posts`,
         // `posts.index`); guarded so it isn't a substring of a longer word (`composts`).
-        $content = preg_replace('/(?<![a-zA-Z])posts(?![a-z])/', $plural, $content) ?? $content;
+        $content = preg_replace_callback('/(?<![a-zA-Z])posts(?![a-z])/', static fn (): string => $plural, $content) ?? $content;
 
         // Lowercase singular: `$post`, `{post}`, `post_created`, `_post`, `postService`.
         // `(?![a-z(]|Json)` protects the HTTP verb (`post(`, `Route::post(`), `postJson`,
         // and English words (`posted`, `postpone`); `(?<![a-zA-Z])` protects `compost`.
-        $content = preg_replace('/(?<![a-zA-Z])post(?![a-z(]|Json)/', $lower, $content) ?? $content;
+        $content = preg_replace_callback('/(?<![a-zA-Z])post(?![a-z(]|Json)/', static fn (): string => $lower, $content) ?? $content;
 
         return $content;
     }

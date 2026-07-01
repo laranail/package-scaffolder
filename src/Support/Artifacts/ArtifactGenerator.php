@@ -127,7 +127,10 @@ final class ArtifactGenerator
             $renamed = strtr($name, $map);
 
             if ($renamed !== $name) {
-                $this->files->move($item->getPathname(), $item->getPath().'/'.$renamed);
+                $destination = $item->getPath().'/'.$renamed;
+                if (! $this->files->move($item->getPathname(), $destination)) {
+                    throw new RuntimeException("Failed to rename [{$item->getPathname()}] to [{$destination}].");
+                }
             }
         }
     }
@@ -261,10 +264,23 @@ final class ArtifactGenerator
             );
         }
 
-        $this->files->put(
-            $path,
-            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL,
-        );
+        $encoded = json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        if ($encoded === false) {
+            throw new RuntimeException("Failed to encode repaired composer.json at [{$path}].");
+        }
+
+        $this->atomicPut($path, $encoded.PHP_EOL);
+    }
+
+    /**
+     * Write via a temp file + rename so an interrupted write never leaves a
+     * half-written file. rename() is atomic on the same filesystem.
+     */
+    private function atomicPut(string $path, string $content): void
+    {
+        $tmp = $path.'.tmp'.getmypid();
+        $this->files->put($tmp, $content);
+        $this->files->move($tmp, $path);
     }
 
     /**

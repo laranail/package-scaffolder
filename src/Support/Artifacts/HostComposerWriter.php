@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
 
 use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 
 /**
  * Idempotently wires the host application's composer.json so generated artifacts
@@ -22,9 +23,21 @@ final class HostComposerWriter
 
     public function wire(string $composerPath): void
     {
-        $composer = $this->files->exists($composerPath)
-            ? (json_decode($this->files->get($composerPath), true) ?: [])
-            : [];
+        // An absent (or empty) file starts from scratch; a NON-empty file that fails
+        // to parse must NOT be silently discarded — refuse rather than clobber the
+        // developer's composer.json.
+        $raw = $this->files->exists($composerPath) ? trim($this->files->get($composerPath)) : '';
+        if ($raw === '') {
+            $composer = [];
+        } else {
+            $decoded = json_decode($raw, true);
+            if (! is_array($decoded)) {
+                throw new RuntimeException(
+                    "Host composer.json at [{$composerPath}] is not valid JSON; refusing to overwrite it.",
+                );
+            }
+            $composer = $decoded;
+        }
 
         // composer-merge-plugin includes (union, deduped).
         $includes = array_map(static fn (string $c): string => "./platform/{$c}/*/composer.json", self::CONTAINERS);
@@ -64,9 +77,23 @@ final class HostComposerWriter
         $composer['minimum-stability'] ??= 'dev';
         $composer['prefer-stable'] ??= true;
 
-        $this->files->put(
-            $composerPath,
-            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL,
-        );
+        $encoded = json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        if ($encoded === false) {
+            throw new RuntimeException("Failed to encode composer.json for [{$composerPath}].");
+        }
+
+        $this->atomicPut($composerPath, $encoded.PHP_EOL);
+    }
+
+    /**
+     * Write via a temp file + rename so an interrupted write never leaves a
+     * half-written (corrupt) composer.json on disk. rename() is atomic on the
+     * same filesystem.
+     */
+    private function atomicPut(string $path, string $content): void
+    {
+        $tmp = $path.'.tmp'.getmypid();
+        $this->files->put($tmp, $content);
+        $this->files->move($tmp, $path);
     }
 }
