@@ -48,6 +48,35 @@ if (! function_exists('module_path')) {
     }
 }
 
+if (! function_exists('artifact_path')) {
+    /**
+     * Absolute path to a generated artifact of the given role (package|module|plugin).
+     * Role-generic sibling of module_path() — resolves from the artifact containers
+     * (config artifacts.kinds) without needing the module runtime.
+     */
+    function artifact_path(string $role, string $name, string $path = ''): string
+    {
+        $container = (string) config("artifacts.kinds.{$role}", "platform/{$role}s");
+        $base = base_path($container).DIRECTORY_SEPARATOR.$name;
+
+        return $path === '' ? $base : $base.DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+    }
+}
+
+if (! function_exists('package_path')) {
+    function package_path(string $name, string $path = ''): string
+    {
+        return artifact_path('package', $name, $path);
+    }
+}
+
+if (! function_exists('plugin_path')) {
+    function plugin_path(string $name, string $path = ''): string
+    {
+        return artifact_path('plugin', $name, $path);
+    }
+}
+
 if (! function_exists('config_path')) {
     /**
      * Get the configuration path.
@@ -75,5 +104,16 @@ if (! function_exists('module_vite')) {
     function module_vite(string $module, string $asset, ?string $hotFilePath = null): Vite
     {
         return ViteFacade::useHotFile($hotFilePath ?: storage_path('vite.hot'))->useBuildDirectory($module)->withEntryPoints([$asset]);
+    }
+}
+
+if (! function_exists('artifact_vite')) {
+    /**
+     * Vite entry-point helper for any generated artifact (role-generic alias of
+     * module_vite(); the build directory is the artifact's own name).
+     */
+    function artifact_vite(string $artifact, string $asset, ?string $hotFilePath = null): Vite
+    {
+        return module_vite($artifact, $asset, $hotFilePath);
     }
 }

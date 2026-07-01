@@ -52,4 +52,21 @@ class HelpersTest extends BaseTestCase
             module_path('Unknown', 'config/config.php')
         );
     }
+
+    public function test_role_generic_artifact_path_helpers()
+    {
+        // resolve from the artifact containers (config artifacts.kinds), role-generic
+        $this->assertStringEndsWith(
+            'platform/packages/Billing',
+            str_replace(DIRECTORY_SEPARATOR, '/', package_path('Billing')),
+        );
+        $this->assertStringEndsWith(
+            'platform/plugins/Shop/src',
+            str_replace(DIRECTORY_SEPARATOR, '/', plugin_path('Shop', 'src')),
+        );
+        $this->assertStringEndsWith(
+            'platform/modules/Blog',
+            str_replace(DIRECTORY_SEPARATOR, '/', artifact_path('module', 'Blog')),
+        );
+    }
 }
