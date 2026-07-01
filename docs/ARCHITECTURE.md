@@ -1,49 +1,108 @@
-# Architecture — source layout
+# Architecture
 
-The package follows a strict **type-folder** layout: every class lives in a folder
-whose path mirrors its namespace segment, so any class is locatable by its type.
+Two layouts matter here: **(1)** the structure of the artifact this package *generates*, and **(2)**
+the internal structure of this package itself. Part 1 is the one you'll interact with day to day.
 
-PSR-4 base: `Simtabi\Laranail\Package\Scaffolder\` → `src/` (`composer.json`). Each
-type folder appends one segment to that base.
+---
 
-## Type → folder → namespace
+## 1. Generated artifact structure (what `make:artifact` produces)
 
-| Type | Folder | Namespace | Notes |
-|---|---|---|---|
-| Artisan commands | `src/Commands/` (`Actions/`, `Database/`, `Make/`, `Publish/`) | `…\Commands\…` | Command tree. |
-| Stub templates | `stubs/` (top-level, incl. `stubs/blueprint/`) | — (not PHP classes) | Generator/`make:*` templates + the vendored blueprint; excluded from classmap + phpstan. |
-| Support / utilities | `src/Support/` | `…\Support` | Incl. `Collection`, `Json`, `Module`, `ModuleManifest`, and `Support\Artifacts\*` (the artifact generator). |
-| Repositories | `src/Repositories/` | `…\Repositories` | `FileRepository` (the abstract module repository). |
-| Service providers | `src/Providers/` | `…\Providers` | ALL providers: `ModulesServiceProvider` (abstract), `LaravelModulesServiceProvider` (the published/auto-discovered one), `LumenModulesServiceProvider`, `ModuleServiceProvider` (abstract base that generated module providers extend), `ConsoleServiceProvider`, `ContractsServiceProvider`. |
-| Contracts | `src/Contracts/` | `…\Contracts` | Interfaces (`RepositoryInterface`, `ActivatorInterface`, …). |
-| Traits | `src/Traits/` | `…\Traits` | Reusable behaviour. |
-| Exceptions | `src/Exceptions/` | `…\Exceptions` | |
-| Generators | `src/Generators/` | `…\Generators` | |
-| Publishing | `src/Publishing/` | `…\Publishing` | |
-| Process | `src/Process/` | `…\Process` | Installer/Updater. |
-| Routing | `src/Routing/` | `…\Routing` | |
-| Migrations | `src/Migrations/` | `…\Migrations` | |
-| Facades | `src/Facades/` | `…\Facades` | `Module` facade (alias `Module`). |
-| Constants | `src/Constants/` | `…\Constants` | |
-| Activators | `src/Activators/` | `…\Activators` | |
+`make:artifact` (canonical `laranail::package-scaffolder.new`) generates a complete, opinionated
+`laranail/package-tools` artifact from the vendored blueprint (`stubs/blueprint/`). The canonical
+reference layout is the blueprint itself.
 
-## Framework variants (kept as-is, by design)
+- **Type & container.** `--type` = `package` | `module` | `plugin` selects the container directory
+  (`platform/packages/{Name}`, `platform/modules/{Name}`, `platform/plugins/{Name}`). The folder is a
+  **location only** — the PHP root namespace comes from `--namespace`, never the container. The same
+  artifact generated into any container resolves to the identical namespace.
+- **PSR-4 root is `src/`** (not `app/`). The blueprint decouples four identifiers: the root namespace
+  (`--namespace`, e.g. `Modules\Blog`), the composer name (`{vendor}/{name}`), the config/view/trans
+  key (`{vendor}.{name}`), and the component slug (`{vendor}-{name}`).
+- **Artifact vs entity.** The **artifact** is the package/module/plugin (`Blog` → `{Artifact}`, the
+  manager/facade/config/slug). The **primary entity** is the main record (`Post` → `{Entity}`, via
+  `--entity`, default `Item`, must differ from the artifact). `Comment`/`Category`/`Tag` stay as the
+  generic supporting layer. See [make-artifact.md](make-artifact.md).
 
-`src/Laravel/` (`…\Laravel`) and `src/Lumen/` (`…\Lumen`) group **framework-specific
-subclasses** — `LaravelFileRepository`/`LumenFileRepository` (extend
-`Repositories\FileRepository`) and `Laravel\Module`/`Lumen\Module` (extend
-`Support\Module`). They group by framework rather than by type because splitting them
-would collide the three `Module` variants and force renames; the grouping is
-intentional.
+### Canonical tree
 
-## Procedural helpers (not namespaced)
+```
+platform/{packages,modules,plugins}/{Name}/      # container = --type; folder ≠ namespace
+├── composer.json  module.json  package.json      # module.json = manager manifest (name/alias/providers)
+├── phpstan.neon  phpunit.xml  pint.json  rector.php
+├── vite.config.js  tailwind.config.js            # asset-pipeline
+├── config/{artifact}.php                          # config('{vendor}.{name}.*')
+├── routes/{web,api}.php
+├── database/{factories,migrations,seeders}/
+├── resources/
+│   ├── assets/{css,sass,scripts}/                 # asset-pipeline (tailwind/bootstrap/vanilla)
+│   ├── lang/en/{artifact}.php
+│   └── views/{components,livewire,partials,feed,layouts,{entity}}/
+├── tests/{Feature, Feature/Api, Unit, Fixtures}/
+├── docs/  (+ docs/tools/)
+└── src/                                           # PSR-4 root — namespace from --namespace
+    ├── {Artifact}.php                             # Macroable manager + fluent DSL
+    ├── Facades/  Mixins/
+    ├── Models/  Enums/  DataTransferObjects/  Traits/  Exceptions/
+    ├── Contracts/  Repositories/                  # {Eloquent,Caching}{Entity}Repository
+    ├── Services/  Actions/
+    ├── Search/ (SearchManager + Drivers/)         # Database + Scout drivers
+    ├── Processing/ (BodyProcessor + Stages/)
+    ├── Events/  Listeners/  Observers/  Jobs/  Notifications/
+    ├── Console/                                   # commands on the laranail/console base
+    ├── Http/{Controllers, Controllers/Api, Middleware, Requests (+Concerns), Resources}/
+    ├── Policies/  Rules/  Doctor/
+    ├── View/Components/  Livewire/
+    ├── Providers/ ({Artifact}ServiceProvider + Integrations/{Filament,Nova}ServiceProvider)
+    └── Filament/ (Plugin + Resources/)  Nova/ (Resources/ + Tools/)   # only for --plugin
+```
 
-`helpers/helpers.php` holds global helper **functions**, loaded via composer's `files`
-autoload — not namespaced, by design.
+### How features & plugins shape the output
 
-## Invariant
+A disabled feature is **not generated at all** — its files are removed, its provider wiring is
+stripped, its config keys and tests dropped:
 
-Every class file's declared namespace equals its directory path under the PSR-4 base
-(verified in `docs/refactor/AFTER.md`). There are no root-level `src/*.php` classes.
+| Feature | Adds | Requires |
+|---|---|---|
+| `web-ui` | `Http/Controllers`, `View/Components`, `resources/views`, `routes/web.php` | — |
+| `livewire` | `Livewire/` components | `web-ui` |
+| `rest-api` | `Http/Controllers/Api`, `Http/Resources`, `EnsureApiAbility`, `routes/api.php` | — |
+| `caching` | `Repositories/Caching{Entity}Repository` + invalidation listener | — |
+| `feeds` | RSS/sitemap controller + views + routes | `web-ui` |
+| `scheduling` | scheduled-publish command + job | — |
+| `asset-pipeline` | Vite config + `resources/assets` + `<x-…::assets>` | `web-ui` |
+| `notifications` | published-record notification listener | — |
+
+`--plugin` is `nova` \| `filament` \| `none` (mutually exclusive). `none` produces a **literal-zero**
+Nova/Filament footprint (no panel code, deps, providers, docs, or prose). The **core substrate** —
+the Macroable manager/DSL, `Search` manager, `Processing` pipeline, lifecycle `Events`, and the
+`{Artifact}::spy()` test seam — is always present. See [FEATURE_CATALOG.md](../FEATURE_CATALOG.md).
+
+---
+
+## 2. Scaffolder package internals (this repo)
+
+The package follows a strict **type-folder** layout: every class lives in a folder whose path mirrors
+its namespace segment. PSR-4 base `Simtabi\Laranail\Package\Scaffolder\` → `src/`.
+
+| Type | Folder → namespace | Notes |
+|---|---|---|
+| Artisan commands | `src/Commands/` (`Actions/`, `Database/`, `Make/`, `Publish/`) | Incl. `MakeArtifactCommand` (the blueprint generator). |
+| Artifact engine | `src/Support/Artifacts/` | `ArtifactGenerator`, `GenerationRequest`, `TokenReplacer`, `MarkerProcessor`, `HostComposerWriter`. |
+| Support / utilities | `src/Support/` | `Collection`, `Json`, `Module`, `ModuleManifest`, `Stub`. |
+| Repositories | `src/Repositories/` | `FileRepository` (abstract module repository). |
+| Service providers | `src/Providers/` | ALL providers, incl. the published `LaravelModulesServiceProvider` and the `ModuleServiceProvider` base that generated module providers extend. |
+| Contracts · Traits · Exceptions · Generators · Publishing · Process · Routing · Migrations · Facades · Constants · Activators | `src/{Type}/` | one concern each. |
+
+**Framework variants.** `src/Laravel/` and `src/Lumen/` group framework-specific subclasses
+(`*FileRepository` extend `Repositories\FileRepository`; `Laravel\Module`/`Lumen\Module` extend
+`Support\Module`) — grouped by framework because splitting would collide the three `Module` variants.
+
+**Templates.** `stubs/` (top-level) holds the `module:make-*` per-file templates + the vendored
+`stubs/blueprint/` (excluded from classmap + phpstan). **Procedural helpers** live in
+`helpers/helpers.php` (composer `files` autoload — not namespaced).
+
+**Invariant.** Every `src/**/*.php` class's declared namespace equals its directory path under the
+PSR-4 base; there are no root-level `src/*.php` classes (verified in
+[refactor/AFTER.md](refactor/AFTER.md)).
 
 [← Docs index](../README.md#documentation)
