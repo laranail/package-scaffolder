@@ -47,3 +47,32 @@ invocation regresses. Suite 471; phpstan + pint clean.
 
 No CRITICAL/HIGH remained after the sweep (no raw SQL; the only other shell-out is a static composer
 command). Suite 473; phpstan + pint clean.
+
+## Summary (severity-sorted)
+
+| Sev | Count | Items |
+|---|---:|---|
+| **Critical** | 1 | Command injection in `Process/Installer` (fixed: `escapeshellarg`). |
+| **High** | 3 | `HostComposerWriter` corrupt-file clobber (A1-1); `Updater` shell injection via module metadata (A2-2) + non-atomic/unvalidated host composer write (A2-3). |
+| **Medium** | 8 | Non-atomic/unchecked JSON writes (A1-2, A5-1); TokenReplacer backref (A1-3); Runner exit code (A2-4); Installer null-type props real bug (A2-5); Stub preg_quote + read check (A3-1/2); ModuleGenerator JSON regex surgery (A4-1). |
+| **Low** | 5 | renamePaths move check (A1-4); Module manifest TOCTOU (A3-3); accepted-by-design items (Pint best-effort, ListCommands graceful catch, static composer-dump, FileActivator non-atomic status). |
+
+**Behavior changes flagged & applied** (all strictly safer): `Process/*` install/update refuse
+unescaped shell input / fail loudly / surface exit codes / no longer `TypeError`; corrupt host
+`composer.json` is refused rather than clobbered; generated-module composer defaults are now Simtabi.
+
+**Regression tests added:** `HostComposerWriterTest` (4), `TokenReplacerTest` backref, `Process/InstallerTest`
+(3) + `RunnerTest`, `StubTest` (2). **Coverage backfill:** `Process/*` + `HostComposerWriter` (previously
+untested).
+
+## Final verification
+
+- `vendor/bin/phpunit --no-coverage` → **473 tests, 1253 assertions** green.
+- `vendor/bin/phpstan analyse` → no errors (baseline: the obsolete `is_null` suppression removed, not added).
+- `vendor/bin/pint --test` → clean.
+- `scripts/verify-artifacts.sh` → full 3×3 + pruned matrix green (149/149/149/151/151/80/45).
+- `grep -ri nwidart` (excl. `vendor/`) → **0** — nwidart fully stripped; Simtabi is sole author.
+
+_Note: the Testbench skeleton (`vendor/orchestra/.../laravel/modules/`) is a shared generation target;
+an interrupted run can leave a `modules/Blog` + `bootstrap/cache/modules.php` that fails subsequent
+boots — delete both if the suite mass-errors with "…\Providers\BlogServiceProvider not found"._
