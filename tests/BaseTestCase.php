@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Providers\ConsoleServiceProvider;
@@ -17,6 +18,31 @@ abstract class BaseTestCase extends OrchestraTestCase
             $this->withoutMockingConsoleOutput();
         }
         // $this->setUpDatabase();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->cleanGeneratedModules(base_path());
+
+        parent::tearDown();
+    }
+
+    /**
+     * Defensively clear generated modules + the cached manifest from any prior (or
+     * interrupted) run in the shared Testbench skeleton — a leftover modules/{Name}
+     * + bootstrap/cache/modules.php otherwise registers a provider whose class isn't
+     * autoloadable and fails EVERY subsequent boot. Done in getEnvironmentSetUp (i.e.
+     * before the module provider boots and reads the manifest).
+     */
+    private function cleanGeneratedModules(string $basePath): void
+    {
+        $files = new Filesystem;
+        $files->deleteDirectory($basePath.'/modules');
+
+        $manifest = $basePath.'/bootstrap/cache/modules.php';
+        if ($files->exists($manifest)) {
+            $files->delete($manifest);
+        }
     }
 
     private function resetDatabase()
@@ -40,6 +66,9 @@ abstract class BaseTestCase extends OrchestraTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        // Runs before the module provider boots / reads the manifest — clean first.
+        $this->cleanGeneratedModules($app->basePath());
+
         $module_config = require __DIR__.'/../config/config.php';
 
         // enable all generators
