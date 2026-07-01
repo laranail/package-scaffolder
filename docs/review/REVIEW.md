@@ -43,7 +43,7 @@ invocation regresses. Suite 471; phpstan + pint clean.
 | A5-1 | `Commands/ComposerUpdateCommand.php:33,53` | MEDIUM | Unvalidated `json_decode`; unchecked `json_encode`; non-atomic write. | `is_array` guard; encode check; atomic temp+rename. | existing suite |
 | A5-2 | `Commands/Actions/ListCommands.php:180` | LOW | `catch (\Throwable)` returns fallback without logging. | **Accepted**: graceful degradation for a display/listing command. | n/a |
 | A5-3 | `Commands/Actions/DumpCommand.php:32` | LOW | `passthru('composer dump …')` exit code not captured. | **Accepted**: static command (no injection); composer prints its own errors. | n/a |
-| A6-1 | `Activators/FileActivator.php:125` | LOW | `modules_statuses.json` written non-atomically. | **Noted**: simple bool map; low risk; left to avoid snapshot churn. | n/a |
+| A6-1 | `Activators/FileActivator.php:125` | LOW | `modules_statuses.json` (module enable/disable state) written non-atomically. | **Fixed**: check `json_encode` + atomic temp+rename write (final content unchanged → snapshots pass). | existing FileActivator/Actions suite |
 
 No CRITICAL/HIGH remained after the sweep (no raw SQL; the only other shell-out is a static composer
 command). Suite 473; phpstan + pint clean.
@@ -63,6 +63,14 @@ surfaced more real bugs:
 Removed the 4 now-obsolete baseline suppressions (regenerated; no new suppressions added). Remaining
 baseline entries are genuine pre-existing noise (Lumen `Application` not installed, Symfony option
 `getOptions()` return shapes, `new static()` in fluent helpers) — documented, left as-is.
+
+**Uninitialized-typed-property sweep.** The recurring bug class (a `protected T $x;` with no default,
+set only via a setter, then read through `instanceof` / `if($this->x)` / `=== null` — which throw an
+`Error` on an uninitialized typed property instead of evaluating) was swept across all of `src/`.
+Four instances were found and fixed (`Installer::$version`, `$path`, `$console`; `Publisher::$console`).
+Every other guarded property (`FileRepository::$stubPath`, `ModuleGenerator::$force`/`$inertia`,
+`ArtifactGenerator::$pintBinary`, `Installer::$type`/`$tree`) is already nullable or defaulted — the
+class is fully resolved, no further instances.
 
 ## Summary (severity-sorted)
 

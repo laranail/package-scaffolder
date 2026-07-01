@@ -122,7 +122,16 @@ class FileActivator implements ActivatorInterface
      */
     private function writeJson(): void
     {
-        $this->files->put($this->statusesFile, json_encode($this->modulesStatuses, JSON_PRETTY_PRINT));
+        $encoded = json_encode($this->modulesStatuses, JSON_PRETTY_PRINT);
+        if ($encoded === false) {
+            throw new \RuntimeException("Failed to encode module statuses for [{$this->statusesFile}].");
+        }
+
+        // Atomic write (temp + rename) so an interrupted write can't corrupt the
+        // module enable/disable state file and break module discovery.
+        $tmp = $this->statusesFile.'.tmp'.getmypid();
+        $this->files->put($tmp, $encoded);
+        $this->files->move($tmp, $this->statusesFile);
     }
 
     /**
