@@ -72,13 +72,13 @@ return [
             'blueprint' => 'lumen',
             'manifests' => ['composer', 'module', 'plugin'],
             'panels' => ['none'],
-            'features' => ['rest-api', 'caching', 'scheduling', 'notifications'],
+            'features' => [],
         ],
         'vanilla' => [
             'blueprint' => 'vanilla',
             'manifests' => ['composer'],
             'panels' => ['none'],
-            'features' => ['caching'],
+            'features' => [],
         ],
     ],
 

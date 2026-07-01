@@ -45,7 +45,7 @@ class MakeArtifactCommand extends Command
             $name = $this->resolveName($io, $nonInteractive);
             $entity = $this->resolveEntity($io, $name, $nonInteractive);
             $namespace = $this->resolveNamespace($io, $nonInteractive);
-            $features = $this->resolveFeatures($io, $nonInteractive);
+            $features = $this->resolveFeatures($io, $nonInteractive, $flavor);
             $this->assertFlavorCompatible($flavor, $plugin, $features);
         } catch (Throwable $e) {
             $this->components->error($e->getMessage());
@@ -275,10 +275,14 @@ class MakeArtifactCommand extends Command
     /**
      * @return list<string>
      */
-    private function resolveFeatures($io, bool $nonInteractive): array
+    private function resolveFeatures($io, bool $nonInteractive, string $flavor): array
     {
         $selectable = array_keys((array) config('artifacts.features'));
         $selectable[] = 'livewire'; // sub-toggle, independently selectable
+
+        // The default feature set is the flavor's own (laravel = full; vanilla = none),
+        // so a plain `make:artifact --flavor=vanilla` doesn't request Laravel-only features.
+        $default = (array) config("artifacts.flavors.{$flavor}.features", $selectable);
 
         $csv = (string) ($this->option('features') ?? '');
         $repeated = (array) $this->option('feature');
@@ -288,9 +292,9 @@ class MakeArtifactCommand extends Command
         } elseif ($repeated !== []) {
             $list = $repeated;
         } elseif ($nonInteractive) {
-            return $selectable; // default = full blueprint
+            return $this->resolveRequires(array_values($default)); // default = the flavor's features
         } else {
-            $list = $io->askMultiSelect('Features', $selectable, $selectable);
+            $list = $io->askMultiSelect('Features', $selectable, array_values($default));
         }
 
         $list = array_values(array_filter($list, static fn ($f) => $f !== ''));

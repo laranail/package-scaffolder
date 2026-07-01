@@ -28,9 +28,10 @@ php artisan laranail::package-scaffolder.new Shop --type=plugin --plugin=filamen
 |-------|------|-------|
 | Name | positional `name` | The **artifact** (package/module/plugin), StudlyCase; **must be unique across all containers**. |
 | Entity | `--entity=` | The **primary entity** (StudlyCase). Defaults to a distinct generic (`Item`) and must differ from the artifact name. See *Naming model*. |
-| Type | `--type=` | `package` · `module` · `plugin`. Required (no default in unattended mode). |
-| Panel | `--plugin=` | `nova` · `filament` · `none` — a single **mutually-exclusive** choice for any shape; default `none`. |
-| Features | `--features=a,b` or repeated `--feature=` | Default = all on (the full blueprint). Unknown feature ⇒ error. |
+| Type | `--type=` | `package` · `module` · `plugin`. Required (no default in unattended mode). The role/container; the repo still carries all manifests its flavor supports. |
+| Flavor | `--flavor=` | `laravel` · `lumen` · `vanilla` — the framework. Default `laravel`. Selects the blueprint + gates panels/features. |
+| Panel | `--plugin=` | `nova` · `filament` · `none` — a single **mutually-exclusive** choice; **laravel-only**; default `none`. |
+| Features | `--features=a,b` or repeated `--feature=` | Default = the flavor's feature set (laravel = all; lumen/vanilla = none). Unknown or flavor-incompatible feature ⇒ error. |
 | Namespace | `--namespace=` | Root PHP namespace; defaults to `config('artifacts.default_namespace')`. |
 | Vendor | `--vendor=` | Composer vendor; defaults from config. |
 | — | `--path=` | Override the container base directory. |
@@ -83,6 +84,25 @@ into any container resolves to the identical namespace.
 | `package` | `platform/packages/{Name}` |
 | `module` | `platform/modules/{Name}` |
 | `plugin` | `platform/plugins/{Name}` |
+
+## Flavors & manifests
+
+`--flavor` is the **framework** dimension (orthogonal to `--type`). It's data-driven from the
+`flavors` registry in `config/artifacts.php` — adding a framework (e.g. `symfony`) is one registry
+entry + one `stubs/blueprints/{flavor}/` dir, no code change.
+
+| Flavor | Blueprint | Manifests emitted | Panels | Features |
+|--------|-----------|-------------------|--------|----------|
+| `laravel` (default) | full package-tools blueprint | composer + module + plugin | nova/filament/none | all |
+| `lumen` | lean service-provider package | composer + module + plugin | none | none (lean) |
+| `vanilla` | pure-PHP library (no Illuminate) | composer only | none | none |
+
+A generated repo carries **all manifests its flavor supports**, so one repo is consumable as a
+Composer **package** (`composer.json`), a **module** (`module.json`), and/or a **plugin**
+(`plugin.json`) — loaded at runtime by
+[`laranail/package-management`](https://opensource.simtabi.com/package-management/). The manifest
+schemas are the shared contract (see that package's `docs/manifests.md`). Nova/Filament code makes the
+same repo a panel plugin; those are laravel-only.
 
 ## Plugins
 

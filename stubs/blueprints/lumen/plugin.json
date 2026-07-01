@@ -1,0 +1,13 @@
+{
+    "id": "modules/blog",
+    "name": "Blog",
+    "namespace": "Some\\NamespacePath\\Blog\\",
+    "provider": "Some\\NamespacePath\\Blog\\Providers\\BlogServiceProvider",
+    "version": "1.0.0",
+    "description": "A Lumen Blog package.",
+    "author": "Simtabi LLC",
+    "url": "https://opensource.simtabi.com",
+    "require": [],
+    "minimum_core_version": "1.0.0",
+    "type": "plugin"
+}
