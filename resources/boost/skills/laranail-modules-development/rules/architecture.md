@@ -1,52 +1,46 @@
 # Module Architecture Patterns
 
-## Module Directory Structure
+## Generated artifact directory structure
+
+`make:artifact` generates a complete `laranail/package-tools` artifact from the blueprint. The
+`--type` chooses the container (`platform/packages`, `platform/modules`, or `platform/plugins`); the
+folder is **location only** — the PHP root namespace comes from `--namespace`, never the container.
+The PSR-4 root is **`src/`** (not `app/`).
 
 ```
-Modules/
-└── Blog/
-    ├── app/
-    │   ├── Actions/
-    │   ├── Console/Commands/
-    │   ├── Events/
-    │   ├── Http/
-    │   │   ├── Controllers/
-    │   │   ├── Middleware/
-    │   │   └── Requests/
-    │   ├── Jobs/
-    │   ├── Listeners/
-    │   ├── Mail/
-    │   ├── Models/
-    │   ├── Notifications/
-    │   ├── Observers/
-    │   ├── Policies/
-    │   ├── Providers/
-    │   │   ├── BlogServiceProvider.php
-    │   │   └── RouteServiceProvider.php
-    │   ├── Repositories/
-    │   ├── Services/
-    │   └── View/Components/
-    ├── config/
-    │   └── config.php
-    ├── database/
-    │   ├── factories/
-    │   ├── migrations/
-    │   └── seeders/
-    ├── resources/
-    │   ├── assets/
-    │   ├── lang/
-    │   │   └── en/
-    │   │       └── messages.php
-    │   └── views/
-    ├── routes/
-    │   ├── api.php
-    │   └── web.php
-    ├── tests/
-    │   ├── Feature/
-    │   └── Unit/
-    ├── composer.json
-    └── module.json
+platform/{packages,modules,plugins}/{Name}/     # container = --type; folder ≠ namespace
+├── composer.json  module.json  package.json     # module.json = manager manifest (name/alias/providers)
+├── phpstan.neon  phpunit.xml  pint.json  rector.php  vite.config.js  tailwind.config.js
+├── config/{artifact}.php                         # config('{vendor}.{name}.*')
+├── routes/{web,api}.php
+├── database/{factories,migrations,seeders}/
+├── resources/{assets,lang,views}/               # views: components, livewire, partials, feed, {entity}
+├── tests/{Feature,Feature/Api,Unit,Fixtures}/
+├── docs/  (+ docs/tools/)
+└── src/                                          # PSR-4 root, namespace = --namespace
+    ├── {Artifact}.php                            # Macroable manager (DSL) + Facades/ + Mixins/
+    ├── Models/  Enums/  DataTransferObjects/  Traits/  Exceptions/
+    ├── Contracts/  Repositories/                 # {Eloquent,Caching}{Entity}Repository
+    ├── Services/  Actions/
+    ├── Search/ (Manager + Drivers/)  Processing/ (BodyProcessor + Stages/)
+    ├── Events/  Listeners/  Observers/  Jobs/  Notifications/
+    ├── Console/                                  # artisan commands on the laranail/console base
+    ├── Http/{Controllers, Controllers/Api, Middleware, Requests, Resources}/
+    ├── Policies/  Rules/  Doctor/
+    ├── View/Components/  Livewire/               # web-ui / livewire features
+    ├── Providers/ (+ Integrations/{Filament,Nova}ServiceProvider)
+    └── Filament/  Nova/                          # only with --plugin=filament | nova
 ```
+
+**Feature & plugin pruning.** Disabled features are *not generated* (files removed, wiring stripped):
+e.g. `--features` without `web-ui` drops `Http`/`View`/`Livewire`/web routes; without `rest-api` drops
+`Http/Controllers/Api` + `Http/Resources` + `routes/api.php`; `--plugin=none` produces **zero**
+`Filament`/`Nova` footprint. `feeds`, `asset-pipeline`, and `livewire` require `web-ui` (pulled in
+automatically). The core substrate (manager/DSL, search Manager, body pipeline, events, `spy()` seam)
+is always present.
+
+The per-file `module:make-*` generators still exist for adding individual classes into an
+already-generated artifact.
 
 ## Service Provider Architecture
 
@@ -60,7 +54,7 @@ Handles boot-time registration of resources:
 namespace Modules\Blog\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Nwidart\Modules\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 
 class BlogServiceProvider extends ServiceProvider
 {
@@ -148,7 +142,7 @@ class RouteServiceProvider extends ServiceProvider
 ## Module Facade & Helpers
 
 ```php
-use Nwidart\Modules\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 
 // Collection operations
 Module::all();                         // All modules (enabled + disabled)

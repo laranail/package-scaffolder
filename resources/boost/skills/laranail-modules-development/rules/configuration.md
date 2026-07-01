@@ -1,6 +1,6 @@
 # Laravel Modules Configuration
 
-Publish config: `php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider"`
+Publish config: `php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider"`
 
 The config file lands at `config/modules.php`.
 
@@ -114,14 +114,14 @@ Customise generated file templates:
 ```php
 'stubs' => [
     'enabled'  => false,
-    'path'     => base_path('stubs/nwidart-stubs'),
+    'path'     => base_path('stubs/laranail-package-scaffolder'),
     'gitkeep'  => true,
 ],
 ```
 
 Set `enabled` to `true` and publish stubs with:
 ```bash
-php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider" --tag="stubs"
+php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider" --tag="stubs"
 ```
 
 ### Inertia

@@ -132,7 +132,7 @@ class PostFactory extends Factory
 ### Test Module Is Enabled/Disabled
 
 ```php
-use Nwidart\Modules\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 
 it('Blog module is enabled', function () {
     expect(Module::isEnabled('Blog'))->toBeTrue();
