@@ -247,12 +247,6 @@ parameters:
 			path: src/Migrations/Migrator.php
 
 		-
-			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 2
-			path: src/Process/Installer.php
-
-		-
 			message: '#^Instanceof between Illuminate\\Console\\Command and Illuminate\\Console\\Command will always evaluate to true\.$#'
 			identifier: instanceof.alwaysTrue
 			count: 1

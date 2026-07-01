@@ -17,7 +17,7 @@ class Installer
     /**
      * The version of module being installed.
      */
-    protected string $version;
+    protected ?string $version = null;
 
     /**
      * The module repository instance.
@@ -30,9 +30,10 @@ class Installer
     protected Command $console;
 
     /**
-     * The destionation path.
+     * The destination path (empty until setPath() is called; getDestinationPath()
+     * falls back to the repository path when empty).
      */
-    protected string $path;
+    protected string $path = '';
 
     /**
      * The process timeout.
@@ -218,11 +219,11 @@ class Installer
     {
         return Process::fromShellCommandline(sprintf(
             'cd %s && git clone %s %s && cd %s && git checkout %s',
-            base_path(),
-            $this->getRepoUrl(),
-            $this->getDestinationPath(),
-            $this->getDestinationPath(),
-            $this->getBranch()
+            escapeshellarg(base_path()),
+            escapeshellarg($this->requireRepoUrl()),
+            escapeshellarg($this->getDestinationPath()),
+            escapeshellarg($this->getDestinationPath()),
+            escapeshellarg($this->getBranch())
         ));
     }
 
@@ -233,12 +234,12 @@ class Installer
     {
         return Process::fromShellCommandline(sprintf(
             'cd %s && git remote add %s %s && git subtree add --prefix=%s --squash %s %s',
-            base_path(),
-            $this->getModuleName(),
-            $this->getRepoUrl(),
-            $this->getDestinationPath(),
-            $this->getModuleName(),
-            $this->getBranch()
+            escapeshellarg(base_path()),
+            escapeshellarg($this->getModuleName()),
+            escapeshellarg($this->requireRepoUrl()),
+            escapeshellarg($this->getDestinationPath()),
+            escapeshellarg($this->getModuleName()),
+            escapeshellarg($this->getBranch())
         ));
     }
 
@@ -249,8 +250,25 @@ class Installer
     {
         return Process::fromShellCommandline(sprintf(
             'cd %s && composer require %s',
-            base_path(),
-            $this->getPackageName()
+            escapeshellarg(base_path()),
+            escapeshellarg($this->getPackageName())
         ));
+    }
+
+    /**
+     * The resolved git URL, or fail loudly. Prevents a null URL (unresolvable
+     * type) from producing a malformed command.
+     */
+    private function requireRepoUrl(): string
+    {
+        $url = $this->getRepoUrl();
+
+        if ($url === null) {
+            throw new \InvalidArgumentException(
+                "Cannot resolve a git URL for module [{$this->name}] with type [{$this->type}].",
+            );
+        }
+
+        return $url;
     }
 }
