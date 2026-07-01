@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" backupGlobals="false" backupStaticProperties="false" colors="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd">
   <testsuites>
-    <testsuite name="Laravel Modules Test Suite">
+    <testsuite name="Package Scaffolder Test Suite">
       <directory>tests</directory>
     </testsuite>
   </testsuites>

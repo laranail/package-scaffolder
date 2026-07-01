@@ -1,4 +1,4 @@
-# Laravel Modules Configuration
+# Package Scaffolder Configuration
 
 Publish config: `php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider"`
 

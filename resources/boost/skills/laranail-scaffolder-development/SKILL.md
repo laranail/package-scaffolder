@@ -1,12 +1,12 @@
 ---
-name: laranail-modules-development
+name: laranail-scaffolder-development
 description: "Use for any task involving laranail/package-scaffolder (the laranail module/package/plugin scaffolder). Activate when the user mentions make:artifact, laranail::package-scaffolder, the blueprint, generating a module/package/plugin, the feature catalog, modules, Modules/ directory, module:make, module:enable/disable/migrate, module.json, the Module facade, or modular Laravel architecture. Covers: blueprint-based generation via make:artifact (artifact types, the nova|filament|none panel, the config-driven feature catalog, the artifact-vs-entity naming model), all module:make-* per-file generators, module management commands, per-module migrations/seeding, publishing, namespaces/view references, service-provider registration, Blade directives, Inertia support, auto-discovery, inter-module events, and testing. Do not use for non-modular Laravel features or unrelated package development."
 license: MIT
 metadata:
   author: Simtabi LLC
 ---
 
-# Laravel Modules Development
+# Package Scaffolder Development
 
 laranail/package-scaffolder organises a large Laravel application into self-contained feature bundles (modules) under a `Modules/` directory. Each module has its own controllers, models, migrations, routes, views, and service providers — like a mini Laravel package inside your app.
 

@@ -1,4 +1,4 @@
-# Testing Laravel Modules
+# Testing generated artifacts
 
 ## Test Location
 
