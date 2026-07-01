@@ -26,6 +26,7 @@ class RegressionTest extends TestCase
         parent::tearDown();
     }
 
+    // @artifact:start rest-api
     #[Test]
     public function filtering_by_category_id_returns_only_that_categorys_posts(): void
     {
@@ -40,7 +41,9 @@ class RegressionTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
+    // @artifact:end rest-api
 
+    // @artifact:start rest-api
     #[Test]
     public function filtering_by_tag_id_returns_only_tagged_posts(): void
     {
@@ -53,6 +56,7 @@ class RegressionTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
+    // @artifact:end rest-api
 
     #[Test]
     public function a_post_can_be_featured_through_the_write_path(): void
@@ -66,6 +70,7 @@ class RegressionTest extends TestCase
         $this->assertTrue($post->refresh()->is_featured);
     }
 
+    // @artifact:start rest-api
     #[Test]
     public function the_featured_filter_narrows_the_api_feed(): void
     {
@@ -76,6 +81,7 @@ class RegressionTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
+    // @artifact:end rest-api
 
     #[Test]
     public function a_consumer_pipe_stage_cannot_reintroduce_unsanitized_html(): void
@@ -112,6 +118,7 @@ class RegressionTest extends TestCase
         $this->assertEquals($original, $post->refresh()->updated_at);
     }
 
+    // @artifact:start web-ui
     #[Test]
     public function a_comment_email_is_persisted(): void
     {
@@ -123,4 +130,5 @@ class RegressionTest extends TestCase
 
         $this->assertDatabaseHas('blog_comments', ['author_name' => 'Jane', 'email' => 'jane@example.com']);
     }
+    // @artifact:end web-ui
 }

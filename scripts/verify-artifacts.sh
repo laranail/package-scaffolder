@@ -42,14 +42,15 @@ build_and_full_test() { # <dir> <label>
   ( cd "$1" && composer install --no-interaction --prefer-dist --quiet && vendor/bin/phpunit --no-coverage )
 }
 
-build_only() { # <dir> <label>
-  echo "==> [$2] composer install + static checks (pruned: feature suites not run)"
+build_and_applicable_test() { # <dir> <label>
+  echo "==> [$2] composer install + applicable tests (ReviewHardening full-feature fixture excluded)"
   ( cd "$1" && composer install --no-interaction --prefer-dist --quiet )
   if grep -rq '@artifact:\|\[\[plugins\]\]' "$1/src" "$1/config" 2>/dev/null; then
     echo "FAIL: leftover markers in $2"; exit 1
   fi
-  find "$1/src" -name '*.php' -print0 | xargs -0 -n1 php -l >/dev/null
-  echo "    ok (no leftover markers, php -l clean)"
+  # per D2: run everything except the all-features ReviewHardeningTest fixture; the
+  # remaining suite must pass with no dangling references to pruned code.
+  ( cd "$1" && vendor/bin/phpunit --no-coverage --filter '/^(?!.*ReviewHardening).*/' )
 }
 
 # all-features-on (full suite) — Blog (identity) + non-blog Customer/Account
@@ -73,6 +74,8 @@ build_and_full_test "$WORK/Store" "package · nova · all · Store/Listing"
 
 # pruned combo (build + static only, per D2)
 gen "$WORK/Lean"     "Lean"     "Item"    "Acme"    "acme"    "none" "caching,rest-api"
-build_only "$WORK/Lean" "package · none · caching+rest-api · Lean/Item"
+build_and_applicable_test "$WORK/Lean" "package · none · caching+rest-api · Lean/Item"
+gen "$WORK/Min" "Min" "Item" "Acme" "acme" "none" ""
+build_and_applicable_test "$WORK/Min" "package · none · MINIMAL (all optional off) · Min/Item"
 
 echo "ALL ARTIFACT BUILDS + TESTS PASSED (D2 matrix policy)."

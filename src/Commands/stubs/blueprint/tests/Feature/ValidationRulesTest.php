@@ -29,6 +29,7 @@ class ValidationRulesTest extends TestCase
         $this->assertNull(config('blog.name')); // the bare key no longer exists
     }
 
+    // @artifact:start web-ui
     #[Test]
     public function views_and_translations_are_namespaced_under_modules_blog(): void
     {
@@ -40,7 +41,9 @@ class ValidationRulesTest extends TestCase
         $this->assertTrue(view()->exists('modules/blog::posts.index'));
         $this->assertFalse(view()->exists('blog::posts.index'));
     }
+    // @artifact:end web-ui
 
+    // @artifact:start rest-api
     #[Test]
     public function a_reserved_slug_is_rejected(): void
     {
@@ -49,7 +52,9 @@ class ValidationRulesTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors('slug');
     }
+    // @artifact:end rest-api
 
+    // @artifact:start rest-api
     #[Test]
     public function an_oversized_tag_is_rejected(): void
     {
@@ -58,7 +63,9 @@ class ValidationRulesTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors('tags');
     }
+    // @artifact:end rest-api
 
+    // @artifact:start rest-api
     #[Test]
     public function a_valid_tag_list_passes(): void
     {
@@ -66,7 +73,9 @@ class ValidationRulesTest extends TestCase
             ->postJson('/api/v1/posts', $this->payload(['tags' => ['Laravel', 'PHP']]))
             ->assertCreated();
     }
+    // @artifact:end rest-api
 
+    // @artifact:start rest-api
     #[Test]
     public function a_comment_submitted_too_quickly_is_rejected(): void
     {
@@ -78,4 +87,5 @@ class ValidationRulesTest extends TestCase
             'rendered_at' => now()->timestamp, // 0 seconds elapsed
         ])->assertStatus(422)->assertJsonValidationErrors('rendered_at');
     }
+    // @artifact:end rest-api
 }

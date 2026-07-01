@@ -51,6 +51,7 @@ class FeaturesTest extends TestCase
         $this->assertSame(2, Tag::query()->count());
     }
 
+    // @artifact:start rest-api
     #[Test]
     public function the_api_can_filter_posts_by_tag(): void
     {
@@ -62,6 +63,7 @@ class FeaturesTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
+    // @artifact:end rest-api
 
     #[Test]
     public function the_body_is_sanitised_of_dangerous_html_on_save(): void
@@ -75,6 +77,7 @@ class FeaturesTest extends TestCase
         $this->assertStringContainsString('<strong>', $post->body);
     }
 
+    // @artifact:start feeds
     #[Test]
     public function the_rss_feed_renders(): void
     {
@@ -86,7 +89,9 @@ class FeaturesTest extends TestCase
             ->assertSee('Feed item')
             ->assertSee('<rss', false);
     }
+    // @artifact:end feeds
 
+    // @artifact:start feeds
     #[Test]
     public function the_sitemap_renders(): void
     {
@@ -97,7 +102,9 @@ class FeaturesTest extends TestCase
             ->assertSee('<urlset', false)
             ->assertSee($post->slug);
     }
+    // @artifact:end feeds
 
+    // @artifact:start feeds
     #[Test]
     public function feeds_can_be_disabled(): void
     {
@@ -105,4 +112,5 @@ class FeaturesTest extends TestCase
 
         $this->get('/blog/feed')->assertNotFound();
     }
+    // @artifact:end feeds
 }

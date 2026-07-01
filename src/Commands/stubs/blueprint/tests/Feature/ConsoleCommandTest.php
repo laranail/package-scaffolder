@@ -14,6 +14,7 @@ class ConsoleCommandTest extends TestCase
 {
     use RefreshDatabase;
 
+    // @artifact:start scheduling
     #[Test]
     public function it_publishes_due_scheduled_posts(): void
     {
@@ -30,6 +31,7 @@ class ConsoleCommandTest extends TestCase
         $this->assertSame(PostStatus::Published, $due->refresh()->status);
         $this->assertSame(PostStatus::Scheduled, $future->refresh()->status);
     }
+    // @artifact:end scheduling
 
     #[Test]
     public function the_stats_command_runs(): void
