@@ -1,7 +1,7 @@
 # Architecture & Design Specification
 
 > A **multipurpose scaffolding template**: the same codebase runs as a Composer
-> **package**, an nWidart **module**, or a drop-in **plugin** — chosen by the host,
+> **package**, a **module**, or a drop-in **plugin** — chosen by the host,
 > not the code.
 
 ## 1. Purpose & principles
@@ -23,7 +23,7 @@ A security-first blogging domain you scaffold from, not a black box. Design tene
 | Mode | Discovery | Notes |
 | --- | --- | --- |
 | **Package** | `composer require` → Laravel auto-discovery (`extra.laravel.providers` + `aliases`) | Standard install; `php artisan blog:install`. |
-| **Module** | Dropped under a host modules dir; `module.json` + the same provider | nWidart-compatible; loaded by the module manager. |
+| **Module** | Dropped under a host modules dir; `module.json` + the same provider | Loaded by the module manager. |
 | **Plugin** | Manual `BlogServiceProvider` registration | Everything (routes/views/layout/prefix/auth/assets) is config-driven, so it embeds without owning the app. |
 
 Nothing in the code assumes a mode: migrations/routes/views/config load identically.

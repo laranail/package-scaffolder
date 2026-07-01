@@ -16,8 +16,7 @@ mirrors its namespace segment." This is the **before** state. No files moved yet
 
 Scope note: `stubs/blueprint/` (240 template files, placeholder namespace
 `Some\NamespacePath\Blog`) and `stubs/*.stub` are **template content**, not
-package classes — excluded from every count and move below. This is a laravel-modules fork,
-so the tree largely follows nwidart conventions.
+package classes — excluded from every count and move below. The tree largely follows classic Laravel module-package conventions.
 
 ## Inventory — 129 package classes by top-level group
 
@@ -92,7 +91,7 @@ entry in `composer.json` must be updated in lockstep (Phase 3).
 
 ## Upstream-divergence caveat
 
-This is a fork of nwidart/laravel-modules; the root classes (`Module`, `FileRepository`,
+The root classes (`Module`, `FileRepository`,
 `Collection`, `Json`, the service providers) match upstream's layout. Relocating them **diverges
 from upstream**, making future upstream merges harder. This is a real trade-off to weigh in the
 plan/approval, independent of the consumer-breaking-change concern.

@@ -115,7 +115,7 @@ class LaravelModuleTest extends BaseTestCase
 
     public function test_it_reads_key_from_composer_json_file_via_helper_method()
     {
-        $this->assertEquals('nwidart/recipe', $this->module->getComposerAttr('name'));
+        $this->assertEquals('simtabi/recipe', $this->module->getComposerAttr('name'));
     }
 
     public function test_it_casts_module_to_string()

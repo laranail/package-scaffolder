@@ -47,7 +47,7 @@ Use it in whichever shape your project needs — nothing in the code assumes a m
 | As a… | How |
 | --- | --- |
 | **Package** | `composer require modules/blog` → auto-discovered, then `php artisan blog:install` |
-| **Module** | Drop under your modules dir; `module.json` + the provider load it (nWidart-compatible) |
+| **Module** | Drop under your modules dir; `module.json` + the provider load it (module-manager-compatible) |
 | **Plugin** | Register `BlogServiceProvider` manually; everything is config-driven and embeds into your app |
 
 ```bash

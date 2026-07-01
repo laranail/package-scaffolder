@@ -1,10 +1,10 @@
 {
-    "name": "nwidart/blog",
+    "name": "simtabi/blog",
     "description": "",
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Simtabi LLC",
+            "email": "opensource@simtabi.com"
         }
     ],
     "extra": {

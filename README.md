@@ -4,7 +4,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/laranail/package-scaffolder.svg?style=flat-square)](https://packagist.org/packages/laranail/package-scaffolder)
 
-| **Laravel** | **laravel-modules** |
+| **Laravel** | **package-scaffolder** |
 |-------------|---------------------|
 | 5.4         | ^1.0                |
 | 5.5         | ^2.0                |
@@ -24,8 +24,7 @@
 as a set of modules (HMVC). A module is like a mini Laravel package — it has its own
 views, controllers, models, migrations and service providers.
 
-This is a laranail fork of [`nwidart/laravel-modules`](https://github.com/nWidart/laravel-modules)
-(itself derived from `pingpong/modules`), maintained by Simtabi LLC.
+`laranail/package-scaffolder` is developed and maintained by Simtabi LLC.
 
 ## Install
 
@@ -101,7 +100,6 @@ For the upstream package this fork is based on, see [laravelmodules.com](https:/
 
 - [Simtabi LLC](https://github.com/simtabi)
 - [Imani Manyara](https://github.com/imanimanyara)
-- [Nicolas Widart](https://github.com/nwidart) and the [laravel-modules contributors](https://github.com/nWidart/laravel-modules/graphs/contributors) (upstream)
 
 ## License
 

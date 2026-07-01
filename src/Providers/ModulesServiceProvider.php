@@ -48,7 +48,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            $stubsPath => base_path('stubs/nwidart-stubs'),
+            $stubsPath => base_path('stubs/laranail-package-scaffolder'),
         ], 'stubs');
 
         $this->publishes([

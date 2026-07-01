@@ -36,8 +36,8 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $this->registerNamespaces();
         $this->registerEventDiscovery();
 
-        AboutCommand::add('Laravel-Modules', [
-            'Version' => fn () => InstalledVersions::getPrettyVersion('nwidart/laravel-modules'),
+        AboutCommand::add('Package Scaffolder', [
+            'Version' => fn () => InstalledVersions::getPrettyVersion('laranail/package-scaffolder'),
         ]);
 
         // Create @module() blade directive.

@@ -6,7 +6,7 @@ labels: bug
 ---
 
 ### Versions:
-- laravel-modules Version: #.#.#
+- package-scaffolder Version: #.#.#
 - Laravel Version: #.#.#
 - PHP Version: #.#.#
 

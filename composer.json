@@ -1,6 +1,6 @@
 {
     "name": "laranail/package-scaffolder",
-    "description": "Modular (HMVC) application scaffolding for Laravel — generate, manage and migrate self-contained modules. A laranail fork of nwidart/laravel-modules.",
+    "description": "Modular (HMVC) application scaffolding for Laravel — generate, manage and migrate self-contained modules.",
     "keywords": [
         "modules",
         "laravel",
@@ -23,12 +23,6 @@
             "name": "Imani Manyara",
             "email": "imani@simtabi.com",
             "role": "Maintainer"
-        },
-        {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com",
-            "homepage": "https://nicolaswidart.com",
-            "role": "Original author (nwidart/laravel-modules)"
         }
     ],
     "support": {

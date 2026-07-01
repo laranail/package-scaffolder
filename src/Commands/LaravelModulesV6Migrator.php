@@ -17,7 +17,7 @@ class LaravelModulesV6Migrator extends Command
 
     protected $aliases = ['module:v6:migrate'];
 
-    protected $description = 'Migrate laravel-modules v5 modules statuses to v6.';
+    protected $description = 'Migrate legacy v5 module statuses to the v6 format.';
 
     public function handle(): int
     {

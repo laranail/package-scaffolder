@@ -78,7 +78,7 @@ breaking change for consumers. The old → new map above is the upgrade table. C
 
 ## Trade-off to weigh before approving
 
-This is a **fork of nwidart/laravel-modules**; the root classes match upstream's layout. Relocating
+The root classes historically sat at the src/ root. Relocating
 them **diverges from upstream** (harder future merges) and is a **breaking change** for every
 consumer. The type-purity gain is real but modest (the package is already ~94% grouped). Options:
 - **Approve Groups A+B, keep C as recommended (Module at root, framework dirs kept)** — clean, low

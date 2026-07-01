@@ -27,7 +27,7 @@ input that previously caused silent data loss). Suite green; phpstan + pint clea
 | A2-4 | `Process/Runner.php:23-26` | MEDIUM | `run()` `passthru($command)` discarded the exit code (callers couldn't detect a failed install/update) and had no return. | `passthru($command, $exitCode); return $exitCode;`. | `Process/RunnerTest::test_run_returns_the_command_exit_code` |
 | A2-5 | `Process/Installer.php` (`$version`, `$path` props) | MEDIUM (real bug) | `$version` was typed `string` but the constructor assigns `?string $version = null` → **`TypeError` on any version-less install**; `$path` was an uninitialized typed property (`Error` if `getDestinationPath()` ran before `setPath()`). | `?string $version = null`; `string $path = ''`. Removed the now-obsolete phpstan-baseline `is_null()` suppression (the fix makes the null-check meaningful). | exercised by the composer-install test (version-less path) |
 
-**Behavior flagged:** these change inherited nwidart behavior — install/update now (a) refuse to run
+**Behavior flagged:** these change inherited upstream behavior — install/update now (a) refuse to run
 with unescaped shell input, (b) fail loudly on an unresolvable git type, (c) surface exit codes, and
 (d) no longer `TypeError` on a version-less git/subtree install. All strictly safer; no valid
 invocation regresses. Suite 471; phpstan + pint clean.
