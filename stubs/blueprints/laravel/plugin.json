@@ -10,5 +10,9 @@
     "require": [],
     "minimum_core_version": "1.0.0",
     "type": "plugin",
-    "hook": "Some\\NamespacePath\\Blog\\Hooks\\BlogHook"
+    "hook": "Some\\NamespacePath\\Blog\\Hooks\\BlogHook",
+    "settings": {
+        "per_page": 15,
+        "cache_ttl": 3600
+    }
 }
