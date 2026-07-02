@@ -80,6 +80,12 @@ return [
             'panels' => ['none'],
             'features' => [],
         ],
+        'symfony' => [
+            'blueprint' => 'symfony',
+            'manifests' => ['composer', 'module', 'plugin'],
+            'panels' => ['none'],
+            'features' => [],
+        ],
     ],
 
     /*

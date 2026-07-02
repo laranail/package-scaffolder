@@ -13,7 +13,8 @@ dimensions (all from the `flavors`/`kinds`/`plugin_types`/`features` registries 
 `config/artifacts.php`):
 
 - **Flavor (`--flavor`).** The framework: `laravel` (default, the full `laravel/package-tools`
-  blueprint) · `lumen` (lean service-provider package) · `vanilla` (pure-PHP library, no Illuminate).
+  blueprint) · `lumen` (lean service-provider package) · `vanilla` (pure-PHP library, no Illuminate) ·
+  `symfony` (Symfony container-service package).
   The registry maps each flavor → blueprint dir + which manifests/panels/features it allows. **Adding
   a framework (e.g. `symfony`) = one registry entry + one `stubs/blueprints/{flavor}/` dir; no code.**
 - **Type & container.** `--type` = `package` | `module` | `plugin` selects the container directory

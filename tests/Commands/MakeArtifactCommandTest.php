@@ -106,7 +106,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     public function test_unknown_flavor_is_rejected()
     {
         $code = Artisan::call('make:artifact', [
-            'name' => 'Demo', '--type' => 'package', '--flavor' => 'symfony',
+            'name' => 'Demo', '--type' => 'package', '--flavor' => 'django',
             '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
         ]);
 

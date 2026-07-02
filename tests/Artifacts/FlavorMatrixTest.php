@@ -92,4 +92,17 @@ class FlavorMatrixTest extends BaseTestCase
         $pj = json_decode($this->fs->get($t.'/plugin.json'), true);
         $this->assertSame('acme/shop', $pj['id']);
     }
+
+    public function test_symfony_carries_all_manifests_and_a_provider()
+    {
+        $t = $this->generate('symfony', 'Portal');
+
+        $this->assertFileExists($t.'/composer.json');
+        $this->assertFileExists($t.'/module.json');
+        $this->assertFileExists($t.'/plugin.json');
+        $this->assertFileExists($t.'/src/Providers/PortalServiceProvider.php');
+        // depends on Symfony DI, not Illuminate
+        $composer = json_decode($this->fs->get($t.'/composer.json'), true);
+        $this->assertArrayHasKey('symfony/dependency-injection', $composer['require']);
+    }
 }

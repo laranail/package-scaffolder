@@ -29,7 +29,7 @@ php artisan laranail::package-scaffolder.new Shop --type=plugin --plugin=filamen
 | Name | positional `name` | The **artifact** (package/module/plugin), StudlyCase; **must be unique across all containers**. |
 | Entity | `--entity=` | The **primary entity** (StudlyCase). Defaults to a distinct generic (`Item`) and must differ from the artifact name. See *Naming model*. |
 | Type | `--type=` | `package` · `module` · `plugin`. Required (no default in unattended mode). The role/container; the repo still carries all manifests its flavor supports. |
-| Flavor | `--flavor=` | `laravel` · `lumen` · `vanilla` — the framework. Default `laravel`. Selects the blueprint + gates panels/features. |
+| Flavor | `--flavor=` | `laravel` · `lumen` · `vanilla` · `symfony` — the framework. Default `laravel`. Selects the blueprint + gates panels/features. |
 | Panel | `--plugin=` | `nova` · `filament` · `none` — a single **mutually-exclusive** choice; **laravel-only**; default `none`. |
 | Features | `--features=a,b` or repeated `--feature=` | Default = the flavor's feature set (laravel = all; lumen/vanilla = none). Unknown or flavor-incompatible feature ⇒ error. |
 | Namespace | `--namespace=` | Root PHP namespace; defaults to `config('artifacts.default_namespace')`. |
@@ -96,6 +96,7 @@ entry + one `stubs/blueprints/{flavor}/` dir, no code change.
 | `laravel` (default) | full package-tools blueprint | composer + module + plugin | nova/filament/none | all |
 | `lumen` | lean service-provider package | composer + module + plugin | none | none (lean) |
 | `vanilla` | pure-PHP library (no Illuminate) | composer only | none | none |
+| `symfony` | Symfony container-service package | composer + module + plugin | none | none (lean) |
 
 A generated repo carries **all manifests its flavor supports**, so one repo is consumable as a
 Composer **package** (`composer.json`), a **module** (`module.json`), and/or a **plugin**
@@ -104,7 +105,7 @@ Composer **package** (`composer.json`), a **module** (`module.json`), and/or a *
 schemas are the shared contract (see that package's `docs/manifests.md`). Nova/Filament code makes the
 same repo a panel plugin; those are laravel-only.
 
-The laravel/lumen flavors also generate a **lifecycle `Hook`** (`src/Hooks/{Artifact}Hook.php`, referenced
+The laravel/lumen/symfony flavors also generate a **lifecycle `Hook`** (`src/Hooks/{Artifact}Hook.php`, referenced
 by the `hook` field in `module.json`/`plugin.json`) with `activated`/`deactivated`/`installed`/`removed`
 stubs. It's a **plain, decoupled class** — the loader duck-types it, so the generated repo keeps **no
 runtime dependency** on `laranail/package-management` (only a `suggest`).

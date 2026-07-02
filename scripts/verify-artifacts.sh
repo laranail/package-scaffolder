@@ -95,12 +95,15 @@ build_and_applicable_test "$WORK/Lean" "package · none · caching+rest-api · L
 gen "$WORK/Min" "Min" "Item" "Acme" "acme" "none" ""
 build_and_applicable_test "$WORK/Min" "package · none · MINIMAL (all optional off) · Min/Item"
 
-# framework flavors — vanilla (pure PHP, no Illuminate) + lumen (service provider).
+# framework flavors — vanilla (pure PHP) + lumen (service provider) + symfony (container service).
 # Each generates from its own blueprint and runs its own (lean) suite.
 gen_flavor "$WORK/Vanilla" "Widget" "Item" "vanilla" ""
 build_and_full_test "$WORK/Vanilla" "package · vanilla · Widget/Item"
 
 gen_flavor "$WORK/Lumen" "Gadget" "Item" "lumen" ""
 build_and_full_test "$WORK/Lumen" "package · lumen · Gadget/Item"
+
+gen_flavor "$WORK/Portal" "Portal" "Item" "symfony" ""
+build_and_full_test "$WORK/Portal" "package · symfony · Portal/Item"
 
 echo "ALL ARTIFACT BUILDS + TESTS PASSED (flavor + D2 matrix policy)."
