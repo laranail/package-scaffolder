@@ -11,5 +11,6 @@
     "providers": [
         "Some\\NamespacePath\\Blog\\Providers\\BlogServiceProvider"
     ],
+    "hook": "Some\\NamespacePath\\Blog\\Hooks\\BlogHook",
     "files": []
 }

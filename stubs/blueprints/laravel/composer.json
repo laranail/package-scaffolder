@@ -31,6 +31,7 @@
         "rector/rector": "^2.0"
     },
     "suggest": {
+        "laranail/package-management": "Load this artifact as a runtime module/plugin (activation, lifecycle hooks, settings) via its module.json / plugin.json.",
         "livewire/livewire": "To use the optional Livewire 4 components (post list, comment form).",
         "laravel/sanctum": "To protect the write REST API routes with token auth (the default api middleware).",
         "league/commonmark": "(^2.4) Render Markdown post bodies to HTML on display (enable blog.processing.markdown).",

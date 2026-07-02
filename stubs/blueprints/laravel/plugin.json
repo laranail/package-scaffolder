@@ -9,5 +9,6 @@
     "url": "https://opensource.simtabi.com",
     "require": [],
     "minimum_core_version": "1.0.0",
-    "type": "plugin"
+    "type": "plugin",
+    "hook": "Some\\NamespacePath\\Blog\\Hooks\\BlogHook"
 }

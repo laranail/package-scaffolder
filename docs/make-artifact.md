@@ -104,6 +104,11 @@ Composer **package** (`composer.json`), a **module** (`module.json`), and/or a *
 schemas are the shared contract (see that package's `docs/manifests.md`). Nova/Filament code makes the
 same repo a panel plugin; those are laravel-only.
 
+The laravel/lumen flavors also generate a **lifecycle `Hook`** (`src/Hooks/{Artifact}Hook.php`, referenced
+by the `hook` field in `module.json`/`plugin.json`) with `activated`/`deactivated`/`installed`/`removed`
+stubs. It's a **plain, decoupled class** — the loader duck-types it, so the generated repo keeps **no
+runtime dependency** on `laranail/package-management` (only a `suggest`).
+
 ## Plugins
 
 Only relevant for `--type=plugin`. `filament` / `nova` generate that panel's integration (resources +

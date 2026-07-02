@@ -10,6 +10,9 @@
     "require-dev": {
         "phpunit/phpunit": "^11.0"
     },
+    "suggest": {
+        "laranail/package-management": "Load this artifact as a runtime module/plugin (activation, lifecycle hooks, settings) via its module.json / plugin.json."
+    },
     "autoload": {
         "psr-4": {
             "Some\\NamespacePath\\Blog\\": "src/"
