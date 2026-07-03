@@ -47,6 +47,9 @@ deviations:
 
 - **Test framework: PHPUnit** (not Pest). Deliberate — the suite is large and the value of a rewrite is
   low. `composer test` / `composer lint` (Pint + PHPStan) are the gate.
-- **Rector** is configured (`rector.php`, `composer rector` / `rector-fix`) but a full pass is a **pending
-  remediation** (~200 files) and is **not yet in the CI gate**. Run `composer rector` to preview it.
-  Prefer `composer pint-fix` for day-to-day style; a Rector cleanup will be its own change.
+- **Rector** is in the gate (`composer lint` runs Pint + PHPStan + Rector; CI runs a Rector dry-run). It
+  applies the code-quality, dead-code, early-return and mechanical PHP-8.x sets. `SetList::TYPE_DECLARATION`
+  is **intentionally omitted** — bulk param/return/property typing on the module engine's interfaces and
+  base classes breaks the suite (the types don't line up across implementers), so it's a coordinated
+  typing project tracked separately, not a mechanical pass. A few individual rules are skipped in
+  `rector.php` with reasons.

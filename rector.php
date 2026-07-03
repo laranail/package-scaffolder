@@ -25,14 +25,17 @@ return RectorConfig::configure()
         ClassPropertyAssignToConstructorPromotionRector::class, // relocates docblocks inline + retypes a public ctor param
         ReadOnlyClassRector::class,                              // straitjackets the emit engine
         DisallowedEmptyRuleFixerRector::class,                  // behaviour-sensitive; not in the intended sets
-        NullToStrictStringFuncCallArgRector::class,             // coercion change — deferred (its own batch)
-        ReadOnlyPropertyRector::class,                          // deferred — needs per-property write-once review
+        NullToStrictStringFuncCallArgRector::class,             // coercion change (php81) — behaviour-risky here
+        ReadOnlyPropertyRector::class,                          // php81 — would need per-property write-once review
     ])
     ->withPhpSets(php83: true)
     ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
+        // TYPE_DECLARATION is intentionally omitted: bulk param/return/property typing on this fork's
+        // engine interfaces + base classes breaks ~446 tests (types don't line up across implementers).
+        // It is a coordinated typing project, not a mechanical cleanup — tracked as a separate effort.
     ])
     // Keep the codebase parseable on the 8.3 syntax floor: wrap PHP 8.4
     // "new X()->method()" expressions.

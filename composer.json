@@ -95,7 +95,8 @@
         "update-snapshots": "phpunit --no-coverage -d --update-snapshots",
         "lint": [
             "@pint",
-            "@phpstan"
+            "@phpstan",
+            "@rector"
         ],
         "pint": "vendor/bin/pint --test",
         "pint-fix": "vendor/bin/pint",

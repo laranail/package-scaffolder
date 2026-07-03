@@ -5,7 +5,7 @@
 ## Checklist
 
 - [ ] Tests added/updated and `composer test` passes
-- [ ] `composer lint` is clean (Pint + PHPStan)
+- [ ] `composer lint` is clean (Pint + PHPStan + Rector)
 - [ ] `CHANGELOG.md` updated (for user-facing changes)
 - [ ] Docs updated under `docs/` (if behavior or public API changed)
 - [ ] Manifest schema changes kept in sync with `laranail/package-management`
