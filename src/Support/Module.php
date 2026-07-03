@@ -212,7 +212,7 @@ abstract class Module implements Stringable
             $file = 'module.json';
         }
 
-        return Arr::get($this->moduleJson, $file, fn () => $this->moduleJson[$file] = new Json($this->getPath().'/'.$file, $this->files));
+        return Arr::get($this->moduleJson, $file, fn (): Json => $this->moduleJson[$file] = new Json($this->getPath().'/'.$file, $this->files));
     }
 
     /**
@@ -384,7 +384,7 @@ abstract class Module implements Stringable
     private function loadTranslationsFrom(string $path, string $namespace): void
     {
         // Use afterResolving to ensure translations are registered when translator becomes available
-        $this->app->afterResolving('translator', function ($translator) use ($path, $namespace) {
+        $this->app->afterResolving('translator', function ($translator) use ($path, $namespace): void {
             $translator->addNamespace($namespace, $path);
         });
     }

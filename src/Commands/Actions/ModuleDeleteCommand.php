@@ -18,7 +18,7 @@ class ModuleDeleteCommand extends BaseCommand implements ConfirmableCommand
     public function executeAction($name): void
     {
         $module = $this->getModuleModel($name);
-        $this->components->task("Deleting <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module) {
+        $this->components->task("Deleting <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
             $module->delete();
         });
     }

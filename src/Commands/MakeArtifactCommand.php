@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Console\Tools\Commands\Services\CommandInteractionService;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\HostComposerWriter;
@@ -113,7 +114,7 @@ class MakeArtifactCommand extends Command
         return null;
     }
 
-    private function resolveFlavor($io, bool $nonInteractive): string
+    private function resolveFlavor(CommandInteractionService $io, bool $nonInteractive): string
     {
         $flavors = array_keys((array) config('artifacts.flavors'));
         $default = (string) config('artifacts.default_flavor', 'laravel');
@@ -158,7 +159,7 @@ class MakeArtifactCommand extends Command
         }
     }
 
-    private function resolveChoice($io, string $option, string $label, array $options, bool $nonInteractive): string
+    private function resolveChoice(CommandInteractionService $io, string $option, string $label, array $options, bool $nonInteractive): string
     {
         $value = $this->option($option);
 
@@ -182,7 +183,7 @@ class MakeArtifactCommand extends Command
      * nova, filament, or none. A single flag value can never select both; an
      * invalid value is rejected. Defaults to `none` (a panel-free artifact).
      */
-    private function resolvePlugin($io, bool $nonInteractive): string
+    private function resolvePlugin(CommandInteractionService $io, bool $nonInteractive): string
     {
         $types = (array) config('artifacts.plugin_types'); // nova | filament | none
         $value = $this->option('plugin');
@@ -204,7 +205,7 @@ class MakeArtifactCommand extends Command
         return $io->askSelect('Admin panel', $types, $default === false ? 0 : $default);
     }
 
-    private function resolveName($io, bool $nonInteractive): string
+    private function resolveName(CommandInteractionService $io, bool $nonInteractive): string
     {
         $name = (string) ($this->argument('name') ?? '');
 
@@ -231,7 +232,7 @@ class MakeArtifactCommand extends Command
      * distinct name (config `artifacts.default_entity`); we never silently set
      * entity == artifact.
      */
-    private function resolveEntity($io, string $name, bool $nonInteractive): string
+    private function resolveEntity(CommandInteractionService $io, string $name, bool $nonInteractive): string
     {
         $default = (string) config('artifacts.default_entity', 'Item');
         $entity = (string) ($this->option('entity') ?? '');
@@ -256,7 +257,7 @@ class MakeArtifactCommand extends Command
         return $entity;
     }
 
-    private function resolveNamespace($io, bool $nonInteractive): string
+    private function resolveNamespace(CommandInteractionService $io, bool $nonInteractive): string
     {
         $ns = (string) ($this->option('namespace') ?? '');
         $default = (string) config('artifacts.default_namespace', 'Modules');
@@ -277,7 +278,7 @@ class MakeArtifactCommand extends Command
     /**
      * @return list<string>
      */
-    private function resolveFeatures($io, bool $nonInteractive, string $flavor): array
+    private function resolveFeatures(CommandInteractionService $io, bool $nonInteractive, string $flavor): array
     {
         $selectable = array_keys((array) config('artifacts.features'));
         $selectable[] = 'livewire'; // sub-toggle, independently selectable
@@ -299,7 +300,7 @@ class MakeArtifactCommand extends Command
             $list = $io->askMultiSelect('Features', $selectable, array_values($default));
         }
 
-        $list = array_values(array_filter($list, static fn ($f) => $f !== ''));
+        $list = array_values(array_filter($list, static fn ($f): bool => $f !== ''));
         $unknown = array_diff($list, $selectable);
 
         if ($unknown !== []) {

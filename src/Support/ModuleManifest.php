@@ -77,7 +77,7 @@ class ModuleManifest
     {
         // todo check this section store on module.php or not?
         $this->getModulesData()
-            ->each(function (array $manifest) {
+            ->each(function (array $manifest): void {
                 if (empty($manifest['files'])) {
                     return;
                 }
@@ -102,12 +102,12 @@ class ModuleManifest
                 }
 
                 return collect($manifests)
-                    ->map(fn ($manifest) => [
+                    ->map(fn ($manifest): array => [
                         'module_directory' => dirname($manifest),
                         ...$this->files->json($manifest),
                     ]);
             })
-            ->filter(fn ($module) => $this->activator->hasStatus($module['name'], true))
+            ->filter(fn ($module): bool => $this->activator->hasStatus($module['name'], true))
             ->sortBy(fn ($module) => $module['priority'] ?? 0);
 
         return self::$manifestData;

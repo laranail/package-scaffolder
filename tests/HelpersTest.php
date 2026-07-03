@@ -19,17 +19,17 @@ class HelpersTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_finds_the_module_path()
+    public function test_it_finds_the_module_path(): void
     {
         $this->assertTrue(Str::contains(module_path('Blog'), 'modules/Blog'));
     }
 
-    public function test_it_can_bind_a_relative_path_to_module_path()
+    public function test_it_can_bind_a_relative_path_to_module_path(): void
     {
         $this->assertTrue(Str::contains(module_path('Blog', 'config/config.php'), 'modules/Blog/config/config.php'));
     }
 
-    public function test_module_path_falls_back_to_configured_path_when_module_not_found()
+    public function test_module_path_falls_back_to_configured_path_when_module_not_found(): void
     {
         $base = config('modules.paths.modules');
 
@@ -40,7 +40,7 @@ class HelpersTest extends BaseTestCase
         );
     }
 
-    public function test_role_generic_artifact_path_helpers()
+    public function test_role_generic_artifact_path_helpers(): void
     {
         // resolve from the artifact containers (config artifacts.kinds), role-generic
         $this->assertStringEndsWith(

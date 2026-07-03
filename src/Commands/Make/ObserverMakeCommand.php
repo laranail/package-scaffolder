@@ -50,10 +50,7 @@ class ObserverMakeCommand extends GeneratorCommand
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
@@ -101,10 +98,7 @@ class ObserverMakeCommand extends GeneratorCommand
         return '$'.Str::lower($this->argument('name'));
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
@@ -113,10 +107,7 @@ class ObserverMakeCommand extends GeneratorCommand
         return $path.$observerPath->getPath().'/'.$this->getFileName();
     }
 
-    /**
-     * @return string
-     */
-    private function getFileName()
+    private function getFileName(): string
     {
         return Str::studly($this->argument('name')).'Observer.php';
     }

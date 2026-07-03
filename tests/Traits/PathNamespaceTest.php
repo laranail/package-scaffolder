@@ -15,33 +15,33 @@ class PathNamespaceTest extends BaseTestCase
         $this->class = new UsePathNamespaceTrait;
     }
 
-    public function test_studly_path()
+    public function test_studly_path(): void
     {
         $this->assertSame('Blog/Services', $this->class->studly_path('/blog/services'));
     }
 
-    public function test_studly_namespace()
+    public function test_studly_namespace(): void
     {
         $this->assertSame('/blog/services', $this->class->studly_namespace('/blog/services'));
     }
 
-    public function test_path_namespace()
+    public function test_path_namespace(): void
     {
         $this->assertSame('Blog\Services', $this->class->path_namespace('/blog/services'));
     }
 
-    public function test_module_namespace()
+    public function test_module_namespace(): void
     {
         $this->assertSame('Modules\Blog/services', $this->class->module_namespace('blog/services'));
     }
 
-    public function test_clean_path()
+    public function test_clean_path(): void
     {
         $this->assertSame('blog/services', $this->class->clean_path('blog/services'));
         $this->assertSame('', $this->class->clean_path(''));
     }
 
-    public function test_app_path()
+    public function test_app_path(): void
     {
         $configPath = config('modules.paths.app_folder');
         $configPath = rtrim($configPath, '/');
@@ -51,7 +51,7 @@ class PathNamespaceTest extends BaseTestCase
         $this->assertSame('app/blog/services', $this->class->app_path('blog/services'));
     }
 
-    public function test_app_path_treats_app_variants_consistently()
+    public function test_app_path_treats_app_variants_consistently(): void
     {
         // default app_folder = 'app/'. 'app', 'app/' and 'App' must all collapse
         // to the app root rather than duplicating the folder (#2152).
@@ -62,7 +62,7 @@ class PathNamespaceTest extends BaseTestCase
         $this->assertSame('app/Http/Controllers', $this->class->app_path('Http/Controllers'));
     }
 
-    public function test_app_path_with_custom_app_folder()
+    public function test_app_path_with_custom_app_folder(): void
     {
         config(['modules.paths.app_folder' => 'src/']);
 
@@ -74,7 +74,7 @@ class PathNamespaceTest extends BaseTestCase
         $this->assertSame('src/Models', $this->class->app_path('Models'));
     }
 
-    public function test_strip_app_folder_removes_the_prefix_as_a_prefix_not_a_char_mask()
+    public function test_strip_app_folder_removes_the_prefix_as_a_prefix_not_a_char_mask(): void
     {
         // default app_folder = 'app/'
         $this->assertSame('Providers', $this->class->strip_app_folder('app/Providers'));
@@ -92,7 +92,7 @@ class PathNamespaceTest extends BaseTestCase
         $this->assertSame('', $this->class->strip_app_folder(null));
     }
 
-    public function test_strip_app_folder_respects_a_custom_app_folder()
+    public function test_strip_app_folder_respects_a_custom_app_folder(): void
     {
         config(['modules.paths.app_folder' => 'src/']);
 

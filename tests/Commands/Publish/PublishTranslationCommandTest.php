@@ -19,7 +19,7 @@ class PublishTranslationCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_published_module_translations()
+    public function test_it_published_module_translations(): void
     {
         $code = $this->artisan('module:publish-translation', ['module' => 'Blog']);
 

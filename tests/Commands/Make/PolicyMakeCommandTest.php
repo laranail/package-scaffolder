@@ -11,15 +11,9 @@ class PolicyMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class PolicyMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_makes_policy()
+    public function test_it_makes_policy(): void
     {
         $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
@@ -46,7 +40,7 @@ class PolicyMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.policies.path', 'SuperPolicies');
 
@@ -58,7 +52,7 @@ class PolicyMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace_specific()
+    public function test_it_can_change_the_default_namespace_specific(): void
     {
         $this->app['config']->set('modules.paths.generator.policies.namespace', 'SuperPolicies');
 

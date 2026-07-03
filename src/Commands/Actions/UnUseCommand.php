@@ -26,7 +26,7 @@ class UnUseCommand extends BaseCommand
     {
         $module = $this->getModuleModel($name);
 
-        $this->components->task("Forget Using <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module) {
+        $this->components->task("Forget Using <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
             $this->laravel['modules']->forgetUsed($module);
         });
     }

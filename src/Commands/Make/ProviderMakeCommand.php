@@ -72,10 +72,7 @@ class ProviderMakeCommand extends GeneratorCommand
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $stub = $this->option('master') ? 'scaffold/provider' : 'provider';
 
@@ -95,10 +92,7 @@ class ProviderMakeCommand extends GeneratorCommand
         ]))->render();
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 

@@ -27,7 +27,7 @@ class PublishTranslationCommand extends BaseCommand
     {
         $module = $this->getModuleModel($name);
 
-        $this->components->task("Publishing Translations <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module) {
+        $this->components->task("Publishing Translations <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
             with(new LangPublisher($module))
                 ->setRepository($this->laravel['modules'])
                 ->setConsole($this)

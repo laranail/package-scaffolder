@@ -8,7 +8,7 @@ use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 final class GenerateConfigReaderTest extends BaseTestCase
 {
-    public function test_it_can_read_a_configuration_value_with_new_format()
+    public function test_it_can_read_a_configuration_value_with_new_format(): void
     {
         $seedConfig = GenerateConfigReader::read('seeder');
 
@@ -17,7 +17,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
         $this->assertTrue($seedConfig->generate());
     }
 
-    public function test_it_can_read_a_configuration_value_with_new_format_set_to_false()
+    public function test_it_can_read_a_configuration_value_with_new_format_set_to_false(): void
     {
         $this->app['config']->set('modules.paths.generator.seeder', ['path' => 'Database/Seeders', 'generate' => false]);
 
@@ -28,7 +28,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
         $this->assertFalse($seedConfig->generate());
     }
 
-    public function test_it_can_read_a_configuration_value_with_old_format()
+    public function test_it_can_read_a_configuration_value_with_old_format(): void
     {
         $this->app['config']->set('modules.paths.generator.seeder', 'Database/Seeders');
 
@@ -39,7 +39,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
         $this->assertTrue($seedConfig->generate());
     }
 
-    public function test_it_can_read_a_configuration_value_with_old_format_set_to_false()
+    public function test_it_can_read_a_configuration_value_with_old_format_set_to_false(): void
     {
         $this->app['config']->set('modules.paths.generator.seeder', false);
 
@@ -50,7 +50,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
         $this->assertFalse($seedConfig->generate());
     }
 
-    public function test_it_can_guess_namespace_from_path()
+    public function test_it_can_guess_namespace_from_path(): void
     {
         $this->app['config']->set('modules.paths.generator.provider', ['path' => 'Base/Providers', 'generate' => true]);
 

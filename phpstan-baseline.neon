@@ -61,12 +61,6 @@ parameters:
 			path: src/Commands/Database/SeedCommand.php
 
 		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ControllerMakeCommand\:\:getControllerNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/ControllerMakeCommand.php
-
-		-
 			message: '#^Call to an undefined method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\GeneratorCommand\:\:getModuleName\(\)\.$#'
 			identifier: method.notFound
 			count: 1

@@ -46,7 +46,7 @@ class ArtifactGeneratorTest extends BaseTestCase
         return $code === 0;
     }
 
-    public function test_full_package_with_all_features_and_plugin_none()
+    public function test_full_package_with_all_features_and_plugin_none(): void
     {
         $all = ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'];
         $t = $this->generate(new GenerationRequest('package', 'none', $all, 'Blog', 'Modules', 'modules'));
@@ -100,7 +100,7 @@ class ArtifactGeneratorTest extends BaseTestCase
         $this->assertSame([], $bad, 'invalid PHP in generated artifact: '.implode(', ', $bad));
     }
 
-    public function test_plugin_filament_with_caching_and_livewire_off_and_renamed()
+    public function test_plugin_filament_with_caching_and_livewire_off_and_renamed(): void
     {
         $features = ['web-ui', 'rest-api', 'feeds', 'scheduling', 'asset-pipeline', 'notifications']; // no caching, no livewire
         $t = $this->generate(new GenerationRequest('plugin', 'filament', $features, 'Shop', 'Acme', 'acme'));
@@ -136,7 +136,7 @@ class ArtifactGeneratorTest extends BaseTestCase
         $this->assertStringNotContainsString('livewire/livewire', $allDeps);
     }
 
-    public function test_pint_pass_strips_imports_orphaned_by_a_disabled_feature()
+    public function test_pint_pass_strips_imports_orphaned_by_a_disabled_feature(): void
     {
         $pint = dirname(__DIR__, 2).'/vendor/bin/pint';
         if (! is_file($pint)) {

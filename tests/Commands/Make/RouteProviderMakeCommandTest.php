@@ -11,15 +11,9 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_a_new_service_provider_class()
+    public function test_it_generates_a_new_service_provider_class(): void
     {
         $path = $this->modulePath.'/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
@@ -45,7 +39,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_file_with_content()
+    public function test_it_generated_correct_file_with_content(): void
     {
         $path = $this->modulePath.'/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
@@ -57,7 +51,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.provider.path', 'SuperProviders');
 
@@ -69,7 +63,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace_specific()
+    public function test_it_can_change_the_default_namespace_specific(): void
     {
         $this->app['config']->set('modules.paths.generator.provider.namespace', 'SuperProviders');
 
@@ -83,7 +77,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_overwrite_route_file_names()
+    public function test_it_can_overwrite_route_file_names(): void
     {
         $this->app['config']->set('modules.stubs.files.routes/web', 'SuperRoutes/web.php');
         $this->app['config']->set('modules.stubs.files.routes/api', 'SuperRoutes/api.php');

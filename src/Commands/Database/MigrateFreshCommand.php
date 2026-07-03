@@ -46,7 +46,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
     public function handle(): void
     {
         // drop tables
-        $this->components->task('Dropping all tables', fn () => $this->callSilent('db:wipe', array_filter([
+        $this->components->task('Dropping all tables', fn (): bool => $this->callSilent('db:wipe', array_filter([
             '--database' => $this->option('database'),
             '--drop-views' => $this->option('drop-views'),
             '--drop-types' => $this->option('drop-types'),
@@ -61,7 +61,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
         // run migration of root
         $root_paths = $this->migration_paths
             ->push($this->laravel->databasePath().DIRECTORY_SEPARATOR.'migrations')
-            ->reject(fn (string $path) => str_starts_with($path, config('modules.paths.modules')));
+            ->reject(fn (string $path): bool => str_starts_with($path, config('modules.paths.modules')));
 
         if ($root_paths->count() > 0) {
             $this->components->twoColumnDetail('Running Migration of <fg=cyan;options=bold>Root</>');

@@ -92,7 +92,7 @@ class ModuleGenerator extends Generator
      * The constructor.
      */
     public function __construct(
-        $name,
+        ?string $name,
         ?FileRepository $module = null,
         ?Config $config = null,
         ?Filesystem $filesystem = null,
@@ -336,7 +336,7 @@ class ModuleGenerator extends Generator
     /**
      * Generate the folders.
      */
-    public function generateFolders()
+    public function generateFolders(): void
     {
         foreach ($this->getFolders() as $key => $folder) {
             $folder = GenerateConfigReader::read($key);
@@ -357,7 +357,7 @@ class ModuleGenerator extends Generator
     /**
      * Generate git keep to the specified path.
      */
-    public function generateGitKeep(string $path)
+    public function generateGitKeep(string $path): void
     {
         $this->filesystem->put($path.'/.gitkeep', '');
     }
@@ -365,7 +365,7 @@ class ModuleGenerator extends Generator
     /**
      * Generate the files.
      */
-    public function generateFiles()
+    public function generateFiles(): void
     {
         $bladeViewStubs = ['views/index', 'views/master'];
 
@@ -390,7 +390,7 @@ class ModuleGenerator extends Generator
 
             $path = $this->module->getModulePath($this->getName()).$file;
 
-            $this->component->task("Generating file {$path}", function () use ($stub, $path) {
+            $this->component->task("Generating file {$path}", function () use ($stub, $path): void {
                 if (! $this->filesystem->isDirectory($dir = dirname($path))) {
                     $this->filesystem->makeDirectory($dir, 0775, true);
                 }
@@ -403,7 +403,7 @@ class ModuleGenerator extends Generator
     /**
      * Generate some resources.
      */
-    public function generateResources()
+    public function generateResources(): void
     {
         if (GenerateConfigReader::read('seeder')->generate()) {
             $this->console->call('module:make-seed', [
@@ -490,7 +490,7 @@ class ModuleGenerator extends Generator
     /**
      * Get the contents of the specified stub file by given stub name.
      */
-    protected function getStubContents($stub): string
+    protected function getStubContents(string $stub): string
     {
         return (new Stub(
             '/'.$stub.'.stub',
@@ -559,11 +559,11 @@ class ModuleGenerator extends Generator
     /**
      * Generate the module.json file
      */
-    private function generateModuleJsonFile()
+    private function generateModuleJsonFile(): void
     {
         $path = $this->module->getModulePath($this->getName()).'module.json';
 
-        $this->component->task("Generating file $path", function () use ($path) {
+        $this->component->task("Generating file $path", function () use ($path): void {
             if (! $this->filesystem->isDirectory($dir = dirname($path))) {
                 $this->filesystem->makeDirectory($dir, 0775, true);
             }
@@ -576,7 +576,7 @@ class ModuleGenerator extends Generator
      * Remove the default service provider that was added in the module.json file
      * This is needed when a --plain module was created
      */
-    private function cleanModuleJsonFile()
+    private function cleanModuleJsonFile(): void
     {
         $path = $this->module->getModulePath($this->getName()).'module.json';
 

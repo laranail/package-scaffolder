@@ -50,10 +50,7 @@ class FactoryMakeCommand extends GeneratorCommand
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
@@ -64,10 +61,7 @@ class FactoryMakeCommand extends GeneratorCommand
         ]))->render();
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
@@ -76,10 +70,7 @@ class FactoryMakeCommand extends GeneratorCommand
         return $path.$factoryPath->getPath().'/'.$this->getFileName();
     }
 
-    /**
-     * @return string
-     */
-    private function getFileName()
+    private function getFileName(): string
     {
         return Str::studly($this->argument('name')).'Factory.php';
     }

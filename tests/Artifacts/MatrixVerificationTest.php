@@ -59,7 +59,7 @@ class MatrixVerificationTest extends BaseTestCase
     }
 
     #[DataProvider('matrix')]
-    public function test_matrix_combination_generates_a_valid_artifact(string $kind, string $plugin, array $features)
+    public function test_matrix_combination_generates_a_valid_artifact(string $kind, string $plugin, array $features): void
     {
         $target = sys_get_temp_dir().'/laranail-matrix-'.uniqid();
         $this->targets[] = $target;

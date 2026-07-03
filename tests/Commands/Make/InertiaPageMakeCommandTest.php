@@ -29,7 +29,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_a_vue_inertia_page_by_default()
+    public function test_it_generates_a_vue_inertia_page_by_default(): void
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'Index', 'module' => 'Blog']);
 
@@ -37,7 +37,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_vue_inertia_page_with_correct_content()
+    public function test_it_generates_a_vue_inertia_page_with_correct_content(): void
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'Index', 'module' => 'Blog']);
 
@@ -47,7 +47,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_vue_inertia_page_with_vue_flag()
+    public function test_it_generates_a_vue_inertia_page_with_vue_flag(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
             'name' => 'Index',
@@ -59,7 +59,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_react_inertia_page()
+    public function test_it_generates_a_react_inertia_page(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
             'name' => 'Index',
@@ -71,7 +71,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_react_inertia_page_with_correct_content()
+    public function test_it_generates_a_react_inertia_page_with_correct_content(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
             'name' => 'Index',
@@ -85,7 +85,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_studly_cases_the_page_name()
+    public function test_it_studly_cases_the_page_name(): void
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'my-page', 'module' => 'Blog']);
 
@@ -93,7 +93,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_page_in_a_subdirectory()
+    public function test_it_generates_a_page_in_a_subdirectory(): void
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'Contacts/Index', 'module' => 'Blog']);
 
@@ -101,7 +101,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_react_page_in_a_subdirectory()
+    public function test_it_generates_a_react_page_in_a_subdirectory(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
             'name' => 'Contacts/Index',
@@ -113,7 +113,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_svelte_inertia_page()
+    public function test_it_generates_a_svelte_inertia_page(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
             'name' => 'Index',
@@ -125,7 +125,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_svelte_inertia_page_with_correct_content()
+    public function test_it_generates_a_svelte_inertia_page_with_correct_content(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
             'name' => 'Index',
@@ -139,7 +139,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_svelte_page_in_a_subdirectory()
+    public function test_it_generates_a_svelte_page_in_a_subdirectory(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
             'name' => 'Contacts/Index',

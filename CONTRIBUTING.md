@@ -42,14 +42,14 @@ composer test-coverage
 
 ## laranail conventions
 
-This package follows the [laranail conventions](https://github.com/laranail) with two recorded
-deviations:
+This package follows the [laranail conventions](https://github.com/laranail) with one recorded
+deviation:
 
 - **Test framework: PHPUnit** (not Pest). Deliberate — the suite is large and the value of a rewrite is
-  low. `composer test` / `composer lint` (Pint + PHPStan) are the gate.
-- **Rector** is in the gate (`composer lint` runs Pint + PHPStan + Rector; CI runs a Rector dry-run). It
-  applies the code-quality, dead-code, early-return and mechanical PHP-8.x sets. `SetList::TYPE_DECLARATION`
-  is **intentionally omitted** — bulk param/return/property typing on the module engine's interfaces and
-  base classes breaks the suite (the types don't line up across implementers), so it's a coordinated
-  typing project tracked separately, not a mechanical pass. A few individual rules are skipped in
-  `rector.php` with reasons.
+  low. `composer test` / `composer lint` (Pint + PHPStan + Rector) are the gate.
+
+**Rector** is in the gate (`composer lint` runs Pint + PHPStan + Rector; CI runs a Rector dry-run) and
+applies the code-quality, dead-code, early-return, mechanical PHP-8.x **and TYPE_DECLARATION** sets. A few
+individual rules are skipped in `rector.php` with inline reasons — notably `StrictArrayParamDimFetchRector`
+(it mistypes Laravel container closures' `$app` as `array`) and `TypedPropertyFromStrictConstructorRector`
+scoped to the two `$app` holders (it narrows an Application to the base `Container`).

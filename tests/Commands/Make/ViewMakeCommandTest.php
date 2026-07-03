@@ -32,14 +32,14 @@ class ViewMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_the_view()
+    public function test_it_generates_the_view(): void
     {
         $code = $this->artisan('module:make-view', ['name' => 'Blog', 'module' => 'Blog']);
         $this->assertTrue(is_file($this->getModuleBasePath().'/resources/views/blog.blade.php'));
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_file_with_content()
+    public function test_it_generated_correct_file_with_content(): void
     {
         $code = $this->artisan('module:make-view', ['name' => 'Blog', 'module' => 'Blog']);
         $file = $this->finder->get($this->getModuleBasePath().'/resources/views/blog.blade.php');
@@ -47,7 +47,7 @@ class ViewMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.views.path', 'resources/views');
 

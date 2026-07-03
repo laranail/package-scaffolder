@@ -12,7 +12,7 @@ class CommandNamingTest extends BaseTestCase
      * surface any `::`-named command that is not bypassing Symfony's name
      * validator (i.e. missing the SupportsNamespacedNames trait).
      */
-    public function test_all_commands_instantiate_and_use_the_namespaced_name()
+    public function test_all_commands_instantiate_and_use_the_namespaced_name(): void
     {
         $commands = $this->app[Kernel::class]->all();
 
@@ -21,7 +21,7 @@ class CommandNamingTest extends BaseTestCase
         $this->assertArrayHasKey('laranail::package-scaffolder.migrate', $commands);
     }
 
-    public function test_legacy_module_names_are_kept_as_aliases()
+    public function test_legacy_module_names_are_kept_as_aliases(): void
     {
         $commands = $this->app[Kernel::class]->all();
 

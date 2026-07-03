@@ -28,7 +28,7 @@ class PortabilityTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_same_artifact_resolves_to_same_namespace_in_every_container()
+    public function test_same_artifact_resolves_to_same_namespace_in_every_container(): void
     {
         $config = require dirname(__DIR__, 2).'/config/artifacts.php';
         $source = dirname(__DIR__, 2).'/stubs/blueprints/laravel';
@@ -53,7 +53,7 @@ class PortabilityTest extends BaseTestCase
         $this->assertSame($providers['module'], $providers['plugin']);
     }
 
-    public function test_host_composer_wiring_is_idempotent_and_preserves_unrelated_keys()
+    public function test_host_composer_wiring_is_idempotent_and_preserves_unrelated_keys(): void
     {
         $path = sys_get_temp_dir().'/laranail-host-'.uniqid().'.json';
         $this->cleanup[] = $path;

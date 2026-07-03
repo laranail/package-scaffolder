@@ -14,15 +14,9 @@ class ModuleDeleteCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var FileActivator
-     */
-    private $activator;
+    private FileActivator $activator;
 
     protected function setUp(): void
     {
@@ -101,7 +95,7 @@ class ModuleDeleteCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_fires_events_when_module_deleted()
+    public function test_it_fires_events_when_module_deleted(): void
     {
         $module_name = 'Blog';
 
@@ -117,7 +111,7 @@ class ModuleDeleteCommandTest extends BaseTestCase
         Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::DELETED, strtolower($module_name)));
     }
 
-    public function test_it_fires_events_when_multi_module_deleted()
+    public function test_it_fires_events_when_multi_module_deleted(): void
     {
         $modules = [
             'Foo',

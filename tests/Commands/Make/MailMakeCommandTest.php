@@ -11,15 +11,9 @@ class MailMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class MailMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_the_mail_class()
+    public function test_it_generates_the_mail_class(): void
     {
         $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 
@@ -43,7 +37,7 @@ class MailMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_file_with_content()
+    public function test_it_generated_correct_file_with_content(): void
     {
         $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 
@@ -53,7 +47,7 @@ class MailMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.emails.path', 'SuperEmails');
 
@@ -65,7 +59,7 @@ class MailMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace_specific()
+    public function test_it_can_change_the_default_namespace_specific(): void
     {
         $this->app['config']->set('modules.paths.generator.emails.namespace', 'SuperEmails');
 

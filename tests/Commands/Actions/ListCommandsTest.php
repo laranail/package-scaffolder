@@ -8,15 +8,9 @@ use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class ListCommandsTest extends BaseTestCase
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
+    private Filesystem $filesystem;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -32,7 +26,7 @@ class ListCommandsTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_can_list_commands_from_module_commands_directory()
+    public function test_it_can_list_commands_from_module_commands_directory(): void
     {
         // Create a command in the module's Commands directory
         $this->createModuleCommand('TestCommand', 'Commands');
@@ -44,7 +38,7 @@ class ListCommandsTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_list_commands_from_module_console_commands_directory()
+    public function test_it_can_list_commands_from_module_console_commands_directory(): void
     {
         // Create a command in the module's Console/Commands directory
         $this->createModuleCommand('ConsoleTestCommand', 'Console/Commands');
@@ -56,7 +50,7 @@ class ListCommandsTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_list_commands_from_module_app_commands_directory()
+    public function test_it_can_list_commands_from_module_app_commands_directory(): void
     {
         // Create a command in the module's app/Commands directory
         $this->createModuleCommand('AppTestCommand', 'app/Commands');
@@ -68,7 +62,7 @@ class ListCommandsTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_list_commands_from_module_app_console_commands_directory()
+    public function test_it_can_list_commands_from_module_app_console_commands_directory(): void
     {
         // Create a command in the module's app/Console/Commands directory
         $this->createModuleCommand('AppConsoleTestCommand', 'app/Console/Commands');
@@ -80,7 +74,7 @@ class ListCommandsTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_list_commands_from_multiple_directories()
+    public function test_it_can_list_commands_from_multiple_directories(): void
     {
         // Create commands in different directories
         $this->createModuleCommand('TestCommand1', 'Commands');
@@ -95,7 +89,7 @@ class ListCommandsTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_shows_message_when_no_commands_found()
+    public function test_it_shows_message_when_no_commands_found(): void
     {
         // Run the command without creating any commands
         $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
@@ -104,7 +98,7 @@ class ListCommandsTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_ignores_non_command_classes()
+    public function test_it_ignores_non_command_classes(): void
     {
         // Create a non-command class in the Commands directory
         $this->createNonCommandClass('NonCommandClass', 'Commands');

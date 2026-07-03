@@ -11,10 +11,7 @@ use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 
 class StubTest extends BaseTestCase
 {
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
     protected function setUp(): void
     {
@@ -32,7 +29,7 @@ class StubTest extends BaseTestCase
         ]);
     }
 
-    public function test_it_initialises_a_stub_instance()
+    public function test_it_initialises_a_stub_instance(): void
     {
         $stub = new Stub('/model.stub', [
             'NAME' => 'Name',
@@ -42,7 +39,7 @@ class StubTest extends BaseTestCase
         $this->assertEquals(['NAME' => 'Name'], $stub->getReplaces());
     }
 
-    public function test_it_sets_new_replaces_array()
+    public function test_it_sets_new_replaces_array(): void
     {
         $stub = new Stub('/model.stub', [
             'NAME' => 'Name',
@@ -52,7 +49,7 @@ class StubTest extends BaseTestCase
         $this->assertEquals(['VENDOR' => 'MyVendor'], $stub->getReplaces());
     }
 
-    public function test_it_stores_stub_to_specific_path()
+    public function test_it_stores_stub_to_specific_path(): void
     {
         $stub = new Stub('/command.stub', [
             'COMMAND_NAME' => 'my:command',
@@ -65,7 +62,7 @@ class StubTest extends BaseTestCase
         $this->assertTrue($this->finder->exists(base_path('my-command.php')));
     }
 
-    public function test_it_sets_new_path()
+    public function test_it_sets_new_path(): void
     {
         $stub = new Stub('/model.stub', [
             'NAME' => 'Name',
@@ -76,7 +73,7 @@ class StubTest extends BaseTestCase
         $this->assertTrue(Str::contains($stub->getPath(), 'stubs/new-path/'));
     }
 
-    public function test_use_default_stub_if_override_not_exists()
+    public function test_use_default_stub_if_override_not_exists(): void
     {
         $stub = new Stub('/command.stub', [
             'COMMAND_NAME' => 'my:command',
@@ -91,7 +88,7 @@ class StubTest extends BaseTestCase
         $this->assertTrue($this->finder->exists(base_path('stub-override-not-exists.php')));
     }
 
-    public function test_use_override_stub_if_exists()
+    public function test_use_override_stub_if_exists(): void
     {
         $stub = new Stub('/model.stub', [
             'NAME' => 'Name',
@@ -110,7 +107,7 @@ class StubTest extends BaseTestCase
      * metacharacter (here `/`, the delimiter) used to break the pattern. It must be
      * treated literally (preg_quote).
      */
-    public function test_removal_tag_with_regex_metacharacters_is_literal()
+    public function test_removal_tag_with_regex_metacharacters_is_literal(): void
     {
         Stub::setBasePath(sys_get_temp_dir());
         $name = '/laranail-tagtest-'.getmypid().'.stub';
@@ -128,7 +125,7 @@ class StubTest extends BaseTestCase
      * Regression: an unreadable stub used to feed `false` into str_replace; now it
      * fails loudly.
      */
-    public function test_get_contents_throws_when_the_stub_is_missing()
+    public function test_get_contents_throws_when_the_stub_is_missing(): void
     {
         Stub::setBasePath(sys_get_temp_dir());
         $stub = new Stub('/laranail-definitely-missing-'.getmypid().'.stub');

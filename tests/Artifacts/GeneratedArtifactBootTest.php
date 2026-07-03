@@ -61,7 +61,7 @@ class GeneratedArtifactBootTest extends BaseTestCase
         return $target;
     }
 
-    public function test_full_featured_plugin_none_artifact_boots()
+    public function test_full_featured_plugin_none_artifact_boots(): void
     {
         $all = ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'];
         $this->generateAndAutoload('BootFull', 'Widget', 'bootfull', 'none', $all);
@@ -81,7 +81,7 @@ class GeneratedArtifactBootTest extends BaseTestCase
         );
     }
 
-    public function test_minimal_pruned_artifact_still_boots()
+    public function test_minimal_pruned_artifact_still_boots(): void
     {
         // every toggleable feature OFF — only the always-on core survives
         $this->generateAndAutoload('BootMin', 'Gadget', 'bootmin', 'none', []);

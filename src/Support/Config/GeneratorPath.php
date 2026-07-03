@@ -39,7 +39,7 @@ class GeneratorPath
         return $this->generate;
     }
 
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return $this->studly_namespace($this->namespace);
     }

@@ -8,15 +8,9 @@ use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class PublishCommandTest extends BaseTestCase
 {
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -33,7 +27,7 @@ class PublishCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_published_module_assets()
+    public function test_it_published_module_assets(): void
     {
         $code = $this->artisan('module:publish', ['module' => 'Blog']);
 

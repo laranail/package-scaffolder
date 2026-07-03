@@ -61,7 +61,7 @@ class ListenerMakeCommand extends GeneratorCommand
         ];
     }
 
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
@@ -80,7 +80,7 @@ class ListenerMakeCommand extends GeneratorCommand
             ?? $this->strip_app_folder(config('modules.paths.generator.listener.path', 'Listeners'));
     }
 
-    protected function getEventName(Module $module)
+    protected function getEventName(Module $module): string|array
     {
         $namespace = $this->laravel['modules']->config('namespace').'\\'.$module->getStudlyName();
         $eventPath = GenerateConfigReader::read('event');
@@ -90,12 +90,12 @@ class ListenerMakeCommand extends GeneratorCommand
         return str_replace('/', '\\', $eventName);
     }
 
-    protected function getShortEventName()
+    protected function getShortEventName(): string
     {
         return class_basename($this->option('event'));
     }
 
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 

@@ -32,7 +32,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
     /**
      * Booting the package.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerNamespaces();
         $this->registerEventDiscovery();
@@ -42,7 +42,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         ]);
 
         // Create @module() blade directive.
-        Blade::if('module', fn (string $name) => module($name));
+        Blade::if('module', fn (string $name): bool|\Simtabi\Laranail\Package\Scaffolder\Support\Module => module($name));
     }
 
     /**
@@ -116,7 +116,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
      * Register the service provider.
      */
     #[Override]
-    public function register()
+    public function register(): void
     {
         $this->registerServices();
         $this->setupStubPath();
@@ -134,12 +134,12 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
     /**
      * Setup stub path.
      */
-    public function setupStubPath()
+    public function setupStubPath(): void
     {
         $path = $this->app['config']->get('modules.stubs.path') ?? dirname(__DIR__, 2).'/stubs';
         Stub::setBasePath($path);
 
-        $this->app->booted(function ($app) {
+        $this->app->booted(function ($app): void {
             /** @var RepositoryInterface $moduleRepository */
             $moduleRepository = $app[RepositoryInterface::class];
             if ($moduleRepository->config('stubs.enabled') === true) {
@@ -153,12 +153,12 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
      */
     protected function registerServices()
     {
-        $this->app->singleton(RepositoryInterface::class, function ($app) {
+        $this->app->singleton(RepositoryInterface::class, function ($app): LaravelFileRepository {
             $path = $app['config']->get('modules.paths.modules');
 
             return new LaravelFileRepository($app, $path);
         });
-        $this->app->singleton(ActivatorInterface::class, function ($app) {
+        $this->app->singleton(ActivatorInterface::class, function ($app): object {
             $activator = $app['config']->get('modules.activator');
             $class = $app['config']->get('modules.activators.'.$activator)['class'];
 
@@ -172,7 +172,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
 
         $this->app->singleton(
             ModuleManifest::class,
-            fn () => new ModuleManifest(
+            fn (): ModuleManifest => new ModuleManifest(
                 new Filesystem,
                 app(RepositoryInterface::class)->getScanPaths(),
                 $this->getCachedModulePath(),
@@ -188,10 +188,10 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
             return;
         }
 
-        $this->app->resolving(Migrator::class, function (Migrator $migrator) {
+        $this->app->resolving(Migrator::class, function (Migrator $migrator): void {
             $migration_path = $this->app['config']->get('modules.paths.generator.migration.path');
             collect(Module::allEnabled())
-                ->each(function (LaravelModule $module) use ($migration_path, $migrator) {
+                ->each(function (LaravelModule $module) use ($migration_path, $migrator): void {
                     $migrator->path($module->getExtraPath($migration_path));
                 });
         });
@@ -202,13 +202,13 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         if (! $this->app['config']->get('modules.auto-discover.translations', true)) {
             return;
         }
-        $this->callAfterResolving('translator', function (TranslatorContract $translator) {
+        $this->callAfterResolving('translator', function (TranslatorContract $translator): void {
             if (! $translator instanceof Translator) {
                 return;
             }
 
             collect(Module::allEnabled())
-                ->each(function (LaravelModule $module) use ($translator) {
+                ->each(function (LaravelModule $module) use ($translator): void {
                     $path = $module->getExtraPath($this->app['config']->get('modules.paths.generator.lang.path'));
                     $translator->addNamespace($module->getLowerName(), $path);
                     $translator->addJsonPath($path);

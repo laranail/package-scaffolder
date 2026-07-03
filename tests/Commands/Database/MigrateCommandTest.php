@@ -24,7 +24,7 @@ class MigrateCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_migrates_shows_status_and_rolls_back_a_module()
+    public function test_it_migrates_shows_status_and_rolls_back_a_module(): void
     {
         Artisan::call('module:migrate', ['module' => ['Blog'], '--force' => true]);
         $this->assertTrue(Schema::hasTable('blog_posts'));
@@ -36,7 +36,7 @@ class MigrateCommandTest extends BaseTestCase
         $this->assertFalse(Schema::hasTable('blog_posts'));
     }
 
-    public function test_it_resets_a_module_migrations()
+    public function test_it_resets_a_module_migrations(): void
     {
         Artisan::call('module:migrate', ['module' => ['Blog'], '--force' => true]);
         $this->assertTrue(Schema::hasTable('blog_posts'));
@@ -45,7 +45,7 @@ class MigrateCommandTest extends BaseTestCase
         $this->assertFalse(Schema::hasTable('blog_posts'));
     }
 
-    public function test_it_refreshes_a_module_migrations()
+    public function test_it_refreshes_a_module_migrations(): void
     {
         Artisan::call('module:migrate', ['module' => ['Blog'], '--force' => true]);
         $this->assertTrue(Schema::hasTable('blog_posts'));
@@ -54,7 +54,7 @@ class MigrateCommandTest extends BaseTestCase
         $this->assertTrue(Schema::hasTable('blog_posts'));
     }
 
-    public function test_migrate_and_rollback_are_symmetric_for_a_disabled_module()
+    public function test_migrate_and_rollback_are_symmetric_for_a_disabled_module(): void
     {
         // The asymmetry #2159 reports: rollback worked on a disabled module but
         // migrate silently no-oped because the provider was never booted.
@@ -67,7 +67,7 @@ class MigrateCommandTest extends BaseTestCase
         $this->assertFalse(Schema::hasTable('blog_posts'));
     }
 
-    public function test_it_warns_when_a_module_has_no_migrations()
+    public function test_it_warns_when_a_module_has_no_migrations(): void
     {
         Artisan::call('module:migrate-rollback', ['module' => ['Blog'], '--subpath' => 'does_not_exist.php', '--force' => true]);
 

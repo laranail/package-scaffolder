@@ -13,7 +13,7 @@ class TokenReplacerTest extends TestCase
         return ['namespaceBase' => 'Acme\\Shop', 'studly' => 'Invoicing', 'lower' => 'invoicing', 'vendor' => 'acme'];
     }
 
-    public function test_rewrites_php_namespace_and_manager_class()
+    public function test_rewrites_php_namespace_and_manager_class(): void
     {
         $this->assertSame(
             'namespace Acme\\Shop\\Invoicing\\Models;',
@@ -27,13 +27,13 @@ class TokenReplacerTest extends TestCase
         );
     }
 
-    public function test_rewrites_class_prefixes_and_facade()
+    public function test_rewrites_class_prefixes_and_facade(): void
     {
         $this->assertSame('InvoicingServiceProvider', TokenReplacer::replace('BlogServiceProvider', $this->target()));
         $this->assertSame('Invoicing::morphMap()', TokenReplacer::replace('Blog::morphMap()', $this->target()));
     }
 
-    public function test_rewrites_composite_name_forms_distinctly()
+    public function test_rewrites_composite_name_forms_distinctly(): void
     {
         $this->assertSame('acme/invoicing', TokenReplacer::replace('modules/blog', $this->target()));
         $this->assertSame('acme-invoicing', TokenReplacer::replace('modules-blog', $this->target()));
@@ -42,7 +42,7 @@ class TokenReplacerTest extends TestCase
         $this->assertSame("view('acme/invoicing::layouts.master')", TokenReplacer::replace("view('modules/blog::layouts.master')", $this->target()));
     }
 
-    public function test_rewrites_json_escaped_psr4_root()
+    public function test_rewrites_json_escaped_psr4_root(): void
     {
         $this->assertSame(
             '"Acme\\\\Shop\\\\Invoicing\\\\": "src/"',
@@ -50,13 +50,13 @@ class TokenReplacerTest extends TestCase
         );
     }
 
-    public function test_rewrites_lower_identifiers()
+    public function test_rewrites_lower_identifiers(): void
     {
         $this->assertSame("'invoicing'", TokenReplacer::replace("'blog'", $this->target()));
         $this->assertSame('invoicing:publish-scheduled', TokenReplacer::replace('blog:publish-scheduled', $this->target()));
     }
 
-    public function test_identity_rename_under_a_new_base_only_moves_namespace()
+    public function test_identity_rename_under_a_new_base_only_moves_namespace(): void
     {
         // Generating a "Blog" artifact under base "Modules" + vendor "modules"
         // only rewrites the namespace base; names/slugs/keys are unchanged.
@@ -75,7 +75,7 @@ class TokenReplacerTest extends TestCase
         ];
     }
 
-    public function test_entity_tokenization_rewrites_identifiers()
+    public function test_entity_tokenization_rewrites_identifiers(): void
     {
         $t = $this->entityTarget();
         $this->assertSame('OrderController', TokenReplacer::replace('PostController', $t));
@@ -88,7 +88,7 @@ class TokenReplacerTest extends TestCase
         $this->assertSame('$this->orderService', TokenReplacer::replace('$this->postService', $t));
     }
 
-    public function test_entity_tokenization_protects_framework_and_english()
+    public function test_entity_tokenization_protects_framework_and_english(): void
     {
         $t = $this->entityTarget();
         $this->assertSame("Route::post('/', [C::class]);", TokenReplacer::replace("Route::post('/', [C::class]);", $t));
@@ -98,7 +98,7 @@ class TokenReplacerTest extends TestCase
         $this->assertSame('a compost heap, posted today', TokenReplacer::replace('a compost heap, posted today', $t));
     }
 
-    public function test_entity_defaults_to_post_identity_when_no_entity_keys()
+    public function test_entity_defaults_to_post_identity_when_no_entity_keys(): void
     {
         $t = ['namespaceBase' => 'Modules', 'studly' => 'Blog', 'lower' => 'blog', 'vendor' => 'modules'];
         $this->assertSame('PostController $post posts', TokenReplacer::replace('PostController $post posts', $t));
@@ -109,7 +109,7 @@ class TokenReplacerTest extends TestCase
      * containing regex-replacement syntax (`$1`, `\1`, `$`) must not be interpreted
      * as a backreference (the pre-hardening `preg_replace` would have expanded it).
      */
-    public function test_entity_replacement_is_literal_not_a_backreference()
+    public function test_entity_replacement_is_literal_not_a_backreference(): void
     {
         $t = [
             'namespaceBase' => 'Acme', 'studly' => 'Shop', 'lower' => 'shop', 'vendor' => 'acme',

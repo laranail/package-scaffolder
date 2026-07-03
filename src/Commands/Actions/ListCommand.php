@@ -34,7 +34,7 @@ class ListCommand extends Command
     public function handle(): int
     {
         $this->components->twoColumnDetail('<fg=gray>Status / Name</>', '<fg=gray>Path / priority</>');
-        collect($this->getRows())->each(function ($row) {
+        collect($this->getRows())->each(function ($row): void {
 
             $this->components->twoColumnDetail("[{$row[1]}] {$row[0]}", "{$row[3]} [{$row[2]}]");
         });
@@ -44,10 +44,8 @@ class ListCommand extends Command
 
     /**
      * Get table rows.
-     *
-     * @return array
      */
-    public function getRows()
+    public function getRows(): array
     {
         $rows = [];
 

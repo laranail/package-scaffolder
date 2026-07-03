@@ -51,18 +51,12 @@ class ComponentViewMakeCommand extends GeneratorCommand
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new Stub('/component-view.stub', ['QUOTE' => Inspiring::quote()]))->render();
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
         $factoryPath = GenerateConfigReader::read('component-view');
@@ -70,10 +64,7 @@ class ComponentViewMakeCommand extends GeneratorCommand
         return $path.$factoryPath->getPath().'/'.$this->getFileName();
     }
 
-    /**
-     * @return string
-     */
-    private function getFileName()
+    private function getFileName(): string
     {
         return Str::lower($this->argument('name')).'.blade.php';
     }

@@ -64,7 +64,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
         $selected_item = multiselect(
             label   : 'Select Modules',
             options : collect(Module::allEnabled())
-                ->map(fn (\Simtabi\Laranail\Package\Scaffolder\Support\Module $module) => $module->getName())
+                ->map(fn (\Simtabi\Laranail\Package\Scaffolder\Support\Module $module): string => $module->getName())
                 ->prepend(self::ALL)
                 ->values()
                 ->toArray(),
@@ -86,7 +86,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
     protected function models(): Collection
     {
         if (! empty($models = $this->option('model'))) {
-            return collect($models)->filter(fn ($model) => class_exists($model))->values();
+            return collect($models)->filter(fn ($model): bool => class_exists($model))->values();
         }
 
         $except = $this->option('except');
@@ -104,13 +104,13 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
                 config('modules.paths.generator.model.path')
             );
         } else {
-            $path = collect($modules)->map(fn ($module) => sprintf(
+            $path = collect($modules)->map(fn ($module): string => sprintf(
                 '%s/%s/%s',
                 config('modules.paths.modules'),
                 $module,
                 config('modules.paths.generator.model.path')
             ))
-                ->filter(fn ($path) => is_dir($path))
+                ->filter(fn ($path): bool => is_dir($path))
                 ->toArray();
         }
 
@@ -126,6 +126,6 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
                 );
             })
             ->values()
-            ->when(! empty($except), fn ($models) => $models->reject(fn ($model) => in_array($model, $except)))->filter(fn ($model) => class_exists($model))->filter(fn ($model) => $this->isPrunable($model))->values();
+            ->when(! empty($except), fn ($models) => $models->reject(fn ($model): bool => in_array($model, $except)))->filter(fn ($model): bool => class_exists($model))->filter(fn (string $model) => $this->isPrunable($model))->values();
     }
 }

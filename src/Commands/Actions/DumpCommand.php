@@ -26,7 +26,7 @@ class DumpCommand extends BaseCommand
     {
         $module = $this->getModuleModel($name);
 
-        $this->components->task("Generating for <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module) {
+        $this->components->task("Generating for <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
             chdir($module->getPath());
 
             passthru('composer dump -o -n -q');

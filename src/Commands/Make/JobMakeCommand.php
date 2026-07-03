@@ -68,10 +68,8 @@ class JobMakeCommand extends GeneratorCommand
 
     /**
      * Get template contents.
-     *
-     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
@@ -83,10 +81,8 @@ class JobMakeCommand extends GeneratorCommand
 
     /**
      * Get the destination file path.
-     *
-     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 

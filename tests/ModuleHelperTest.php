@@ -21,12 +21,12 @@ class ModuleHelperTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_module_returns_true_when_found()
+    public function test_module_returns_true_when_found(): void
     {
         $this->assertTrue(module('Blog'));
     }
 
-    public function test_module_returns_instance_when_instance_parameter_is_true()
+    public function test_module_returns_instance_when_instance_parameter_is_true(): void
     {
         $module = module('Blog', true);
 
@@ -34,14 +34,14 @@ class ModuleHelperTest extends BaseTestCase
         $this->assertEquals('Blog', $module->getName());
     }
 
-    public function test_module_returns_false_when_disabled()
+    public function test_module_returns_false_when_disabled(): void
     {
         Artisan::call('module:disable Blog');
 
         $this->assertFalse(module('Blog'));
     }
 
-    public function test_module_returns_instance_when_disabled_and_instance_parameter_is_true()
+    public function test_module_returns_instance_when_disabled_and_instance_parameter_is_true(): void
     {
         Artisan::call('module:disable Blog');
 
@@ -51,14 +51,14 @@ class ModuleHelperTest extends BaseTestCase
         $this->assertEquals('Blog', $module->getName());
     }
 
-    public function test_module_directive_renders_content_when_module_is_enabled()
+    public function test_module_directive_renders_content_when_module_is_enabled(): void
     {
         $blade = "@module('Blog') Enabled @endmodule";
 
         $this->assertStringContainsString('Enabled', Blade::render($blade));
     }
 
-    public function test_module_directive_does_not_render_content_when_module_is_disabled()
+    public function test_module_directive_does_not_render_content_when_module_is_disabled(): void
     {
         Artisan::call('module:disable Blog');
 

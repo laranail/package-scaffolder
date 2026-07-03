@@ -10,6 +10,8 @@ use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
+use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -27,15 +29,22 @@ return RectorConfig::configure()
         DisallowedEmptyRuleFixerRector::class,                  // behaviour-sensitive; not in the intended sets
         NullToStrictStringFuncCallArgRector::class,             // coercion change (php81) — behaviour-risky here
         ReadOnlyPropertyRector::class,                          // php81 — would need per-property write-once review
+        // Types the container closures' `$app` param as `array` (from `$app['config']` dim-fetch), but
+        // Laravel passes the Application — one wrong type on the service provider breaks the whole suite.
+        StrictArrayParamDimFetchRector::class,
+        // Copies the loose `Container $app` ctor param onto the property, but `$app` is really an
+        // Application (the @var union) + is used with Application methods — scoped to the two holders.
+        TypedPropertyFromStrictConstructorRector::class => [
+            __DIR__.'/src/Repositories/FileRepository.php',
+            __DIR__.'/src/Support/Module.php',
+        ],
     ])
     ->withPhpSets(php83: true)
     ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
-        // TYPE_DECLARATION is intentionally omitted: bulk param/return/property typing on this fork's
-        // engine interfaces + base classes breaks ~446 tests (types don't line up across implementers).
-        // It is a coordinated typing project, not a mechanical cleanup — tracked as a separate effort.
+        SetList::TYPE_DECLARATION,
     ])
     // Keep the codebase parseable on the 8.3 syntax floor: wrap PHP 8.4
     // "new X()->method()" expressions.

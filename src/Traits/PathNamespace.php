@@ -101,7 +101,7 @@ trait PathNamespace
         // startsWith() with a trailing slash, so a bare 'app' (no slash) or a
         // different case slipped through and produced e.g. 'src/app' (#2152).
         $prefixes = array_unique([Str::lower($app_path), 'app']);
-        $segments = array_values(array_filter(explode('/', $this->clean_path($path)), fn ($segment) => $segment !== ''));
+        $segments = array_values(array_filter(explode('/', $this->clean_path($path)), fn ($segment): bool => $segment !== ''));
 
         while ($segments !== [] && in_array(Str::lower($segments[0]), $prefixes, true)) {
             array_shift($segments);

@@ -62,7 +62,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      */
     private Filesystem $files;
 
-    private static $modules = [];
+    private static array $modules = [];
 
     /**
      * The constructor.
@@ -120,7 +120,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      */
     public function scan(): array
     {
-        if (! empty(self::$modules) && ! $this->app->runningUnitTests()) {
+        if (self::$modules !== [] && ! $this->app->runningUnitTests()) {
             return self::$modules;
         }
 
@@ -216,7 +216,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     {
         $modules = $this->allEnabled();
 
-        uasort($modules, function (Module $a, Module $b) use ($direction) {
+        uasort($modules, function (Module $a, Module $b) use ($direction): int {
             if ($a->get('priority') === $b->get('priority')) {
                 return 0;
             }
@@ -342,7 +342,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      *
      * @throws ModuleNotFoundException
      */
-    public function setUsed($name)
+    public function setUsed(string $name): void
     {
         $module = $this->findOrFail($name);
 
@@ -354,7 +354,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     /**
      * Forget the module used for cli session.
      */
-    public function forgetUsed()
+    public function forgetUsed(): void
     {
         if ($this->getFiles()->exists($this->getUsedStoragePath())) {
             $this->getFiles()->delete($this->getUsedStoragePath());
@@ -427,7 +427,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      *
      * @throws ModuleNotFoundException
      */
-    public function enable(string $name)
+    public function enable(string $name): void
     {
         $this->findOrFail($name)->enable();
     }
@@ -437,7 +437,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      *
      * @throws ModuleNotFoundException
      */
-    public function disable(string $name)
+    public function disable(string $name): void
     {
         $this->findOrFail($name)->disable();
     }
@@ -453,7 +453,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     /**
      * Update dependencies for the specified module.
      */
-    public function update(string $module)
+    public function update(string $module): void
     {
         with(new Updater($this))->update($module);
     }

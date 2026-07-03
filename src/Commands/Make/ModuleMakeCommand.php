@@ -99,10 +99,8 @@ class ModuleMakeCommand extends Command
 
     /**
      * Get module type .
-     *
-     * @return string
      */
-    private function getModuleType()
+    private function getModuleType(): string
     {
         $isPlain = $this->option('plain');
         $isApi = $this->option('api');

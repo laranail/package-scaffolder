@@ -72,7 +72,7 @@ class GenericTemplateTest extends BaseTestCase
         return ['blog' => $blog, 'entity' => $entity];
     }
 
-    public function test_customer_artifact_is_blog_and_post_free()
+    public function test_customer_artifact_is_blog_and_post_free(): void
     {
         $t = $this->generate('Generic1', 'Customer', 'acme', 'Account');
 
@@ -112,7 +112,7 @@ class GenericTemplateTest extends BaseTestCase
         $this->assertSame([], $bad, 'invalid PHP: '.implode(', ', $bad));
     }
 
-    public function test_admin_artifact_is_blog_and_post_free()
+    public function test_admin_artifact_is_blog_and_post_free(): void
     {
         $t = $this->generate('Generic2', 'Admin', 'acme', 'Role');
 
@@ -122,7 +122,7 @@ class GenericTemplateTest extends BaseTestCase
         $this->assertSame([], $l['entity'], 'residual entity post tokens in: '.implode(', ', $l['entity']));
     }
 
-    public function test_generated_non_blog_provider_boots()
+    public function test_generated_non_blog_provider_boots(): void
     {
         if (! class_exists(PackageServiceProvider::class)) {
             $this->markTestSkipped('laranail/package-tools not installed.');

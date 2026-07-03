@@ -27,7 +27,7 @@ trait ModuleMigrationPaths
         // This is what the core migrator already knows about and supports
         // modules that register migrations from more than one directory.
         $registered = collect(app('migrator')->paths())
-            ->filter(fn (string $path) => str_starts_with($path, $modulePath));
+            ->filter(fn (string $path): bool => str_starts_with($path, $modulePath));
 
         // The module's own migration directory. Disabled modules don't have a
         // booted provider, so their paths are never registered; including this
@@ -75,7 +75,7 @@ trait ModuleMigrationPaths
     private function normalizeMigrationPaths(Collection $paths): array
     {
         return $paths
-            ->filter(fn (string $path) => is_dir($path))
+            ->filter(fn (string $path): bool => is_dir($path))
             ->unique()
             ->values()
             ->all();

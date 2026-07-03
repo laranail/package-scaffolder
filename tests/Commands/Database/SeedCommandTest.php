@@ -38,7 +38,7 @@ class SeedCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_reports_failure_when_a_seeder_throws()
+    public function test_it_reports_failure_when_a_seeder_throws(): void
     {
         // Point the module's seeds at a seeder that throws.
         $path = base_path('modules/Blog/module.json');
@@ -58,7 +58,7 @@ class SeedCommandTest extends BaseTestCase
         $this->assertStringNotContainsString('DONE', $output);
     }
 
-    public function test_it_seeds_a_module_in_a_scan_path_with_a_non_default_namespace()
+    public function test_it_seeds_a_module_in_a_scan_path_with_a_non_default_namespace(): void
     {
         // Register the Recipe fixture (namespace Modules\Recipe) as a scanned
         // module and make the default-namespace guess miss, so the seeder can

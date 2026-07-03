@@ -93,7 +93,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->app->booted(function () {
+        $this->app->booted(function (): void {
             $schedule = $this->app->make(Schedule::class);
             $this->configureSchedules($schedule);
         });

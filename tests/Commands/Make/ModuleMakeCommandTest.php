@@ -16,25 +16,13 @@ class ModuleMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
-    /**
-     * @var ActivatorInterface
-     */
-    private $activator;
+    private ActivatorInterface $activator;
 
-    /**
-     * @var RepositoryInterface
-     */
-    private $repository;
+    private RepositoryInterface $repository;
 
     protected function setUp(): void
     {
@@ -53,7 +41,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_module()
+    public function test_it_generates_module(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -61,7 +49,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_module_folders()
+    public function test_it_generates_module_folders(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -71,7 +59,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_does_not_generate_assets_when_disabled()
+    public function test_it_does_not_generate_assets_when_disabled(): void
     {
         config(['modules.paths.generator.assets' => ['path' => 'resources/assets', 'generate' => false]]);
 
@@ -83,7 +71,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_does_not_generate_view_files_when_views_disabled()
+    public function test_it_does_not_generate_view_files_when_views_disabled(): void
     {
         config(['modules.paths.generator.views' => ['path' => 'resources/views', 'generate' => false]]);
 
@@ -93,7 +81,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_module_files()
+    public function test_it_generates_module_files(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -107,7 +95,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_web_route_file()
+    public function test_it_generates_web_route_file(): void
     {
         $files = $this->app['modules']->config('stubs.files');
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
@@ -118,7 +106,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_web_route_file_with_multi_segment_default_namespace()
+    public function test_it_generates_web_route_file_with_multi_segment_default_namespace(): void
     {
         $this->app['config']->set('modules.namespace', 'Custom\Modules');
         $files = $this->app['modules']->config('stubs.files');
@@ -130,7 +118,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_api_route_file()
+    public function test_it_generates_api_route_file(): void
     {
         $files = $this->app['modules']->config('stubs.files');
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
@@ -141,7 +129,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_api_route_file_with_multi_segment_default_namespace()
+    public function test_it_generates_api_route_file_with_multi_segment_default_namespace(): void
     {
         $this->app['config']->set('modules.namespace', 'Custom\Modules');
         $files = $this->app['modules']->config('stubs.files');
@@ -154,7 +142,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_vite_file()
+    public function test_it_generates_vite_file(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -164,7 +152,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_module_resources()
+    public function test_it_generates_module_resources(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -191,7 +179,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_composerjson_file()
+    public function test_it_generates_correct_composerjson_file(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -201,7 +189,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_module_folder_using_studly_case()
+    public function test_it_generates_module_folder_using_studly_case(): void
     {
         $code = $this->artisan('module:make', ['name' => ['ModuleName']]);
 
@@ -209,7 +197,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_module_namespace_using_studly_case()
+    public function test_it_generates_module_namespace_using_studly_case(): void
     {
         $code = $this->artisan('module:make', ['name' => ['ModuleName']]);
 
@@ -219,7 +207,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_plain_module_with_no_resources()
+    public function test_it_generates_a_plain_module_with_no_resources(): void
     {
         $code = $this->artisan('module:make', ['name' => ['ModuleName'], '--plain' => true]);
 
@@ -235,7 +223,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_plain_module_with_no_files()
+    public function test_it_generates_a_plain_module_with_no_files(): void
     {
         $code = $this->artisan('module:make', ['name' => ['ModuleName'], '--plain' => true]);
 
@@ -248,7 +236,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_plain_module_with_no_service_provider_in_modulejson_file()
+    public function test_it_generates_plain_module_with_no_service_provider_in_modulejson_file(): void
     {
         $code = $this->artisan('module:make', ['name' => ['ModuleName'], '--plain' => true]);
 
@@ -259,7 +247,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_outputs_error_when_module_exists()
+    public function test_it_outputs_error_when_module_exists(): void
     {
         $this->artisan('module:make', ['name' => ['Blog']]);
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
@@ -272,7 +260,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(E_ERROR, $code);
     }
 
-    public function test_it_still_generates_module_if_it_exists_using_force_flag()
+    public function test_it_still_generates_module_if_it_exists_using_force_flag(): void
     {
         Event::fake();
 
@@ -285,7 +273,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::CREATED, strtolower('Blog')));
     }
 
-    public function test_it_can_generate_module_with_old_config_format()
+    public function test_it_can_generate_module_with_old_config_format(): void
     {
         $this->app['config']->set('modules.paths.generator', [
             'assets' => 'Assets',
@@ -322,7 +310,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_ignore_some_folders_to_generate_with_old_format()
+    public function test_it_can_ignore_some_folders_to_generate_with_old_format(): void
     {
         $this->app['config']->set('modules.paths.generator.assets', false);
         $this->app['config']->set('modules.paths.generator.emails', false);
@@ -334,7 +322,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_ignore_some_folders_to_generate_with_new_format()
+    public function test_it_can_ignore_some_folders_to_generate_with_new_format(): void
     {
         $this->app['config']->set('modules.paths.generator.assets', ['path' => 'Assets', 'generate' => false]);
         $this->app['config']->set('modules.paths.generator.emails', ['path' => 'Emails', 'generate' => false]);
@@ -346,7 +334,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_ignore_resource_folders_to_generate()
+    public function test_it_can_ignore_resource_folders_to_generate(): void
     {
         $this->app['config']->set('modules.paths.generator.seeder', ['path' => 'Database/Seeders', 'generate' => false]
         );
@@ -366,7 +354,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_enabled_module()
+    public function test_it_generates_enabled_module(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -374,7 +362,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_disabled_module_with_disabled_flag()
+    public function test_it_generates_disabled_module_with_disabled_flag(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog'], '--disabled' => true]);
 
@@ -382,7 +370,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generes_module_with_new_provider_location()
+    public function test_it_generes_module_with_new_provider_location(): void
     {
         $this->app['config']->set('modules.paths.generator.provider', ['path' => 'Base/Providers', 'generate' => true]);
 
@@ -396,7 +384,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_web_module_with_resources()
+    public function test_it_generates_web_module_with_resources(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog'], '--web' => true]);
 
@@ -419,7 +407,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_api_module_with_resources()
+    public function test_it_generates_api_module_with_resources(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog'], '--api' => true]);
 
@@ -442,7 +430,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_web_module_with_resources_when_adding_more_than_one_option()
+    public function test_it_generates_web_module_with_resources_when_adding_more_than_one_option(): void
     {
         $code = $this->artisan('module:make', ['name' => ['Blog'], '--api' => true, '--plain' => true]);
 
@@ -465,7 +453,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generate_module_when_provider_is_enable_and_route_provider_is_enable()
+    public function test_it_generate_module_when_provider_is_enable_and_route_provider_is_enable(): void
     {
         $this->app['config']->set('modules.paths.generator.provider.generate', true);
         $this->app['config']->set('modules.paths.generator.route-provider.generate', true);
@@ -485,7 +473,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertStringContainsString('RouteServiceProvider::class', $content);
     }
 
-    public function test_it_generate_module_when_provider_is_enable_and_route_provider_is_disable()
+    public function test_it_generate_module_when_provider_is_enable_and_route_provider_is_disable(): void
     {
         $this->app['config']->set('modules.paths.generator.provider.generate', true);
         $this->app['config']->set('modules.paths.generator.route-provider.generate', false);
@@ -504,7 +492,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertStringContainsString('RouteServiceProvider::class', $content);
     }
 
-    public function test_it_generate_module_when_provider_is_disable_and_route_provider_is_disable()
+    public function test_it_generate_module_when_provider_is_disable_and_route_provider_is_disable(): void
     {
         $this->app['config']->set('modules.paths.generator.provider.generate', false);
         $this->app['config']->set('modules.paths.generator.route-provider.generate', false);
@@ -522,7 +510,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertStringNotContainsString('Modules\Blog\Providers\BlogServiceProvider', $content);
     }
 
-    public function test_it_can_set_author_details()
+    public function test_it_can_set_author_details(): void
     {
         $code = $this->artisan(
             'module:make',
@@ -543,7 +531,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_fires_events_when_module_created()
+    public function test_it_fires_events_when_module_created(): void
     {
         $module_name = 'Blog';
         Event::fake();
@@ -556,7 +544,7 @@ class ModuleMakeCommandTest extends BaseTestCase
         Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::CREATED, strtolower($module_name)));
     }
 
-    public function test_it_fires_events_when_multi_module_created()
+    public function test_it_fires_events_when_multi_module_created(): void
     {
         Event::fake();
 

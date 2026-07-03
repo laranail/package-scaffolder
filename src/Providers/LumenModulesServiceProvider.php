@@ -13,7 +13,7 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
     /**
      * Booting the package.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->setupStubPath();
     }
@@ -22,7 +22,7 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
      * Register all modules.
      */
     #[Override]
-    public function register()
+    public function register(): void
     {
         $this->registerNamespaces();
         $this->registerServices();
@@ -33,7 +33,7 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
     /**
      * Setup stub path.
      */
-    public function setupStubPath()
+    public function setupStubPath(): void
     {
         Stub::setBasePath(dirname(__DIR__, 2).'/stubs');
 
@@ -47,12 +47,12 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
      */
     protected function registerServices()
     {
-        $this->app->singleton(RepositoryInterface::class, function ($app) {
+        $this->app->singleton(RepositoryInterface::class, function ($app): LumenFileRepository {
             $path = $app['config']->get('modules.paths.modules');
 
             return new LumenFileRepository($app, $path);
         });
-        $this->app->singleton(ActivatorInterface::class, function ($app) {
+        $this->app->singleton(ActivatorInterface::class, function ($app): object {
             $activator = $app['config']->get('modules.activator');
             $class = $app['config']->get('modules.activators.'.$activator)['class'];
 

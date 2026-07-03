@@ -40,7 +40,7 @@ class FileGenerator extends Generator
     /**
      * Get contents.
      */
-    public function getContents()
+    public function getContents(): string
     {
         return $this->contents;
     }
@@ -58,7 +58,7 @@ class FileGenerator extends Generator
     /**
      * Get filesystem.
      */
-    public function getFilesystem()
+    public function getFilesystem(): ?Filesystem
     {
         return $this->filesystem;
     }
@@ -76,7 +76,7 @@ class FileGenerator extends Generator
     /**
      * Get path.
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }

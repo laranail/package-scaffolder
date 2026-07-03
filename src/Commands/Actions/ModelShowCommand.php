@@ -71,7 +71,7 @@ class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInpu
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
-            'model' => fn () => search(
+            'model' => fn (): int|string => search(
                 label: 'Select Model',
                 options: fn (string $search_value) => $this->findModels(
                     Str::of($search_value)->wrap('', '*')

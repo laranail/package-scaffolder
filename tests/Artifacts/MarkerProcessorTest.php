@@ -23,7 +23,7 @@ class MarkerProcessorTest extends TestCase
         tail line
         PHP;
 
-    public function test_enabled_feature_keeps_inner_code_drops_markers()
+    public function test_enabled_feature_keeps_inner_code_drops_markers(): void
     {
         $out = MarkerProcessor::process($this->sample, ['caching', 'web-ui', 'livewire']);
 
@@ -33,7 +33,7 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringNotContainsString('@artifact:', $out);
     }
 
-    public function test_disabled_feature_removes_the_whole_block()
+    public function test_disabled_feature_removes_the_whole_block(): void
     {
         $out = MarkerProcessor::process($this->sample, ['web-ui', 'livewire']);
 
@@ -42,7 +42,7 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringContainsString('web line', $out);
     }
 
-    public function test_disabled_outer_block_removes_nested_inner_regardless()
+    public function test_disabled_outer_block_removes_nested_inner_regardless(): void
     {
         $out = MarkerProcessor::process($this->sample, ['caching', 'livewire']); // web-ui OFF
 
@@ -52,7 +52,7 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringContainsString('tail line', $out);
     }
 
-    public function test_nested_sub_toggle_off_while_parent_on()
+    public function test_nested_sub_toggle_off_while_parent_on(): void
     {
         $out = MarkerProcessor::process($this->sample, ['caching', 'web-ui']); // livewire OFF
 
@@ -61,7 +61,7 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringNotContainsString('@artifact:', $out);
     }
 
-    public function test_inline_markers_strip_a_mid_sentence_clause()
+    public function test_inline_markers_strip_a_mid_sentence_clause(): void
     {
         $line = ' * every writer (facade, [[plugins]]Filament, Nova, [[/plugins]]raw Eloquent) goes through it.';
 
@@ -74,7 +74,7 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringNotContainsString('[[', $stripped);
     }
 
-    public function test_docblock_continuation_markers()
+    public function test_docblock_continuation_markers(): void
     {
         $php = <<<'PHP'
             /**
@@ -98,7 +98,7 @@ class MarkerProcessorTest extends TestCase
         $this->assertStringContainsString('*/', $stripped);
     }
 
-    public function test_html_comment_markers_for_markdown()
+    public function test_html_comment_markers_for_markdown(): void
     {
         $md = <<<'MD'
             Intro line.

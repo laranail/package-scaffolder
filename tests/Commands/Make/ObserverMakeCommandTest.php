@@ -11,15 +11,9 @@ class ObserverMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class ObserverMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_makes_observer()
+    public function test_it_makes_observer(): void
     {
         $code = $this->artisan('module:make-observer', ['name' => 'Post', 'module' => 'Blog']);
 

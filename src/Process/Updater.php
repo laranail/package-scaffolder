@@ -10,7 +10,7 @@ class Updater extends Runner
     /**
      * Update the dependencies for the specified module by given the module name.
      */
-    public function update(string $module)
+    public function update(string $module): void
     {
         $module = $this->module->findOrFail($module);
 
@@ -29,7 +29,7 @@ class Updater extends Runner
         return config('modules.composer.composer-output') === false ? ' --quiet' : '';
     }
 
-    private function installRequires(Module $module)
+    private function installRequires(Module $module): void
     {
         $concatenatedPackages = $this->concatPackages($module->getComposerAttr('require', []));
 
@@ -38,7 +38,7 @@ class Updater extends Runner
         }
     }
 
-    private function installDevRequires(Module $module)
+    private function installDevRequires(Module $module): void
     {
         $concatenatedPackages = $this->concatPackages($module->getComposerAttr('require-dev', []));
 
@@ -64,7 +64,7 @@ class Updater extends Runner
         return trim($out) === '' ? '' : $out;
     }
 
-    private function copyScriptsToMainComposerJson(Module $module)
+    private function copyScriptsToMainComposerJson(Module $module): void
     {
         $scripts = $module->getComposerAttr('scripts', []);
 

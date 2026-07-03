@@ -63,24 +63,20 @@ class MigrationMakeCommand extends GeneratorCommand
 
     /**
      * Get schema parser.
-     *
-     * @return SchemaParser
      */
-    public function getSchemaParser()
+    public function getSchemaParser(): SchemaParser
     {
         return new SchemaParser($this->option('fields'));
     }
 
     /**
-     * @return mixed
-     *
      * @throws InvalidArgumentException
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $parser = new NameParser($this->argument('name'));
         if ($parser->isCreate()) {
-            return Stub::create('/migration/create.stub', [
+            return (string) Stub::create('/migration/create.stub', [
                 'class' => $this->getClass(),
                 'table' => $parser->getTableName(),
                 'fields' => $this->getSchemaParser()->render(),
@@ -89,7 +85,7 @@ class MigrationMakeCommand extends GeneratorCommand
             ]);
         }
         if ($parser->isAdd()) {
-            return Stub::create('/migration/add.stub', [
+            return (string) Stub::create('/migration/add.stub', [
                 'class' => $this->getClass(),
                 'table' => $parser->getTableName(),
                 'fields_up' => $this->getSchemaParser()->up(),
@@ -99,7 +95,7 @@ class MigrationMakeCommand extends GeneratorCommand
             ]);
         }
         if ($parser->isDelete()) {
-            return Stub::create('/migration/delete.stub', [
+            return (string) Stub::create('/migration/delete.stub', [
                 'class' => $this->getClass(),
                 'table' => $parser->getTableName(),
                 'fields_down' => $this->getSchemaParser()->up(),
@@ -110,7 +106,7 @@ class MigrationMakeCommand extends GeneratorCommand
         }
 
         if ($parser->isDrop()) {
-            return Stub::create('/migration/drop.stub', [
+            return (string) Stub::create('/migration/drop.stub', [
                 'class' => $this->getClass(),
                 'table' => $parser->getTableName(),
                 'fields' => $this->getSchemaParser()->render(),
@@ -119,15 +115,12 @@ class MigrationMakeCommand extends GeneratorCommand
             ]);
         }
 
-        return Stub::create('/migration/plain.stub', [
+        return (string) Stub::create('/migration/plain.stub', [
             'class' => $this->getClass(),
         ]);
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
@@ -136,10 +129,7 @@ class MigrationMakeCommand extends GeneratorCommand
         return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
 
-    /**
-     * @return string
-     */
-    private function getFileName()
+    private function getFileName(): string
     {
         return date('Y_m_d_His_').$this->getSchemaName();
     }

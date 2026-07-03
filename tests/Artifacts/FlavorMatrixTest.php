@@ -53,7 +53,7 @@ class FlavorMatrixTest extends BaseTestCase
         return $target;
     }
 
-    public function test_vanilla_is_composer_only_and_illuminate_free()
+    public function test_vanilla_is_composer_only_and_illuminate_free(): void
     {
         $t = $this->generate('vanilla', 'Widget');
 
@@ -71,7 +71,7 @@ class FlavorMatrixTest extends BaseTestCase
         $this->assertSame([], $leaks, 'vanilla must be Illuminate-free: '.implode(', ', $leaks));
     }
 
-    public function test_lumen_carries_all_manifests_and_a_provider()
+    public function test_lumen_carries_all_manifests_and_a_provider(): void
     {
         $t = $this->generate('lumen', 'Gadget');
 
@@ -82,7 +82,7 @@ class FlavorMatrixTest extends BaseTestCase
         $this->assertIsArray(json_decode($this->fs->get($t.'/plugin.json'), true));
     }
 
-    public function test_laravel_carries_all_manifests()
+    public function test_laravel_carries_all_manifests(): void
     {
         $t = $this->generate('laravel', 'Shop');
 
@@ -93,7 +93,7 @@ class FlavorMatrixTest extends BaseTestCase
         $this->assertSame('acme/shop', $pj['id']);
     }
 
-    public function test_symfony_carries_all_manifests_and_a_provider()
+    public function test_symfony_carries_all_manifests_and_a_provider(): void
     {
         $t = $this->generate('symfony', 'Portal');
 

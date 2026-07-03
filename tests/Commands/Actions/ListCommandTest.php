@@ -19,7 +19,7 @@ class ListCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_can_list_modules()
+    public function test_it_can_list_modules(): void
     {
         $code = $this->artisan('module:list');
 

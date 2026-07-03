@@ -13,17 +13,13 @@ class Migrator
 {
     /**
      * Module instance.
-     *
-     * @var Module
      */
-    protected $module;
+    protected Module $module;
 
     /**
      * Laravel Application instance.
-     *
-     * @var Application
      */
-    protected $laravel;
+    protected Application $laravel;
 
     /**
      * Optional subpath for specific migration file.
@@ -59,7 +55,7 @@ class Migrator
      *
      * @return $this
      */
-    public function setDatabase($database)
+    public function setDatabase($database): static
     {
         if (is_string($database) && $database) {
             $this->database = $database;
@@ -68,20 +64,15 @@ class Migrator
         return $this;
     }
 
-    /**
-     * @return Module
-     */
-    public function getModule()
+    public function getModule(): Module
     {
         return $this->module;
     }
 
     /**
      * Get migration path.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         $config = $this->module->get('migration');
 
@@ -95,9 +86,8 @@ class Migrator
      * Get migration files.
      *
      * @param  bool  $reverse
-     * @return array
      */
-    public function getMigrations($reverse = false)
+    public function getMigrations($reverse = false): array
     {
         if (! empty($this->subpath)) {
             $files = $this->laravel['files']->glob($this->getPath().'/'.$this->subpath);
@@ -112,7 +102,7 @@ class Migrator
             return [];
         }
 
-        $files = array_map(fn ($file) => str_replace('.php', '', basename($file)), $files);
+        $files = array_map(fn ($file): string => str_replace('.php', '', basename($file)), $files);
 
         // Once we have all of the formatted file names we will sort them and since
         // they all start with a timestamp this should give us the migrations in
@@ -128,10 +118,8 @@ class Migrator
 
     /**
      * Rollback migration.
-     *
-     * @return array
      */
-    public function rollback()
+    public function rollback(): array
     {
         $migrations = $this->getLast($this->getMigrations(true));
 
@@ -156,10 +144,8 @@ class Migrator
 
     /**
      * Reset migration.
-     *
-     * @return array
      */
-    public function reset()
+    public function reset(): array
     {
         $migrations = $this->getMigrations(true);
 
@@ -184,20 +170,16 @@ class Migrator
 
     /**
      * Run down schema from the given migration name.
-     *
-     * @param  string  $migration
      */
-    public function down($migration)
+    public function down(string $migration): void
     {
         $this->resolve($migration)->down();
     }
 
     /**
      * Run up schema from the given migration name.
-     *
-     * @param  string  $migration
      */
-    public function up($migration)
+    public function up(string $migration): void
     {
         $this->resolve($migration)->up();
     }
@@ -205,10 +187,9 @@ class Migrator
     /**
      * Resolve a migration instance from a file.
      *
-     * @param  string  $file
      * @return object
      */
-    public function resolve($file)
+    public function resolve(string $file)
     {
         $name = implode('_', array_slice(explode('_', $file), 4));
 
@@ -224,7 +205,7 @@ class Migrator
     /**
      * Require in all the migration files in a given path.
      */
-    public function requireFiles(array $files)
+    public function requireFiles(array $files): void
     {
         $path = $this->getPath();
         foreach ($files as $file) {
@@ -257,7 +238,6 @@ class Migrator
      * Save new migration to database.
      *
      * @param  string  $migration
-     * @return mixed
      */
     public function log($migration)
     {
@@ -272,7 +252,7 @@ class Migrator
      *
      * @return int
      */
-    public function getNextBatchNumber()
+    public function getNextBatchNumber(): int|float
     {
         return $this->getLastBatchNumber() + 1;
     }
@@ -308,7 +288,7 @@ class Migrator
 
         $result = $query->orderBy('migration', 'desc')->get();
 
-        return collect($result)->map(fn ($item) => (array) $item)->pluck('migration');
+        return collect($result)->map(fn ($item): array => (array) $item)->pluck('migration');
     }
 
     /**

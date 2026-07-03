@@ -14,15 +14,9 @@ use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 
 class LaravelModuleTest extends BaseTestCase
 {
-    /**
-     * @var TestingModule
-     */
-    private $module;
+    private TestingModule $module;
 
-    /**
-     * @var ActivatorInterface
-     */
-    private $activator;
+    private ActivatorInterface $activator;
 
     protected function setUp(): void
     {
@@ -51,37 +45,37 @@ class LaravelModuleTest extends BaseTestCase
         unlink(__DIR__.'/stubs/valid_symlink');
     }
 
-    public function test_it_gets_module_name()
+    public function test_it_gets_module_name(): void
     {
         $this->assertEquals('Recipe Name', $this->module->getName());
     }
 
-    public function test_it_gets_lowercase_module_name()
+    public function test_it_gets_lowercase_module_name(): void
     {
         $this->assertEquals('recipe name', $this->module->getLowerName());
     }
 
-    public function test_it_gets_studly_name()
+    public function test_it_gets_studly_name(): void
     {
         $this->assertEquals('RecipeName', $this->module->getStudlyName());
     }
 
-    public function test_it_gets_snake_name()
+    public function test_it_gets_snake_name(): void
     {
         $this->assertEquals('recipe_name', $this->module->getSnakeName());
     }
 
-    public function test_it_gets_module_description()
+    public function test_it_gets_module_description(): void
     {
         $this->assertEquals('recipe module', $this->module->getDescription());
     }
 
-    public function test_it_gets_module_path()
+    public function test_it_gets_module_path(): void
     {
         $this->assertEquals(__DIR__.'/stubs/valid/Recipe', $this->module->getPath());
     }
 
-    public function test_it_gets_module_path_with_symlink()
+    public function test_it_gets_module_path_with_symlink(): void
     {
         // symlink created in setUpBeforeClass
 
@@ -92,13 +86,13 @@ class LaravelModuleTest extends BaseTestCase
         // symlink deleted in tearDownAfterClass
     }
 
-    public function test_it_loads_module_translations()
+    public function test_it_loads_module_translations(): void
     {
         (new TestingModule($this->app, 'Recipe', __DIR__.'/stubs/valid/Recipe'))->boot();
         $this->assertEquals('Recipe', trans('recipe::recipes.title.recipes'));
     }
 
-    public function test_it_reads_module_json_files()
+    public function test_it_reads_module_json_files(): void
     {
         $jsonModule = $this->module->json();
         $composerJson = $this->module->json('composer.json');
@@ -109,7 +103,7 @@ class LaravelModuleTest extends BaseTestCase
         $this->assertEquals('asgard-module', $composerJson->get('type'));
     }
 
-    public function test_it_reads_key_from_module_json_file_via_helper_method()
+    public function test_it_reads_key_from_module_json_file_via_helper_method(): void
     {
         $this->assertEquals('Recipe', $this->module->get('name'));
         $this->assertEquals('0.1', $this->module->get('version'));
@@ -117,23 +111,23 @@ class LaravelModuleTest extends BaseTestCase
         $this->assertEquals(['required_module'], $this->module->get('requires'));
     }
 
-    public function test_it_reads_key_from_composer_json_file_via_helper_method()
+    public function test_it_reads_key_from_composer_json_file_via_helper_method(): void
     {
         $this->assertEquals('simtabi/recipe', $this->module->getComposerAttr('name'));
     }
 
-    public function test_it_casts_module_to_string()
+    public function test_it_casts_module_to_string(): void
     {
         $this->assertEquals('RecipeName', (string) $this->module);
     }
 
-    public function test_it_module_status_check()
+    public function test_it_module_status_check(): void
     {
         $this->assertFalse($this->module->isStatus(true));
         $this->assertTrue($this->module->isStatus(false));
     }
 
-    public function test_it_checks_module_enabled_status()
+    public function test_it_checks_module_enabled_status(): void
     {
         $this->assertFalse($this->module->isEnabled());
         $this->assertTrue($this->module->isDisabled());
@@ -147,7 +141,7 @@ class LaravelModuleTest extends BaseTestCase
         $this->assertFalse($this->module->isEnabled());
     }
 
-    public function test_it_fires_events_when_module_is_enabled()
+    public function test_it_fires_events_when_module_is_enabled(): void
     {
         Event::fake();
 
@@ -157,7 +151,7 @@ class LaravelModuleTest extends BaseTestCase
         Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::ENABLED, $this->module->getLowerName()));
     }
 
-    public function test_it_fires_events_when_module_is_disabled()
+    public function test_it_fires_events_when_module_is_disabled(): void
     {
         Event::fake();
 
@@ -167,7 +161,7 @@ class LaravelModuleTest extends BaseTestCase
         Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::DISABLED, $this->module->getLowerName()));
     }
 
-    public function test_it_has_a_good_providers_manifest_path()
+    public function test_it_has_a_good_providers_manifest_path(): void
     {
         $this->assertEquals(
             $this->app->bootstrapPath("cache/{$this->module->getSnakeName()}_module.php"),
@@ -175,7 +169,7 @@ class LaravelModuleTest extends BaseTestCase
         );
     }
 
-    public function test_it_makes_a_manifest_file_when_providers_are_loaded()
+    public function test_it_makes_a_manifest_file_when_providers_are_loaded(): void
     {
         $cachedServicesPath = $this->module->getCachedServicesPath();
 
@@ -198,7 +192,7 @@ class LaravelModuleTest extends BaseTestCase
         ], $manifest);
     }
 
-    public function test_it_can_load_a_deferred_provider()
+    public function test_it_can_load_a_deferred_provider(): void
     {
         @unlink($this->module->getCachedServicesPath());
 
@@ -216,7 +210,7 @@ class LaravelModuleTest extends BaseTestCase
         $this->assertEquals('bar', app('foo'));
     }
 
-    public function test_it_can_load_assets_is_empty_when_no_manifest_exists()
+    public function test_it_can_load_assets_is_empty_when_no_manifest_exists(): void
     {
         $this->assertEquals([], $this->module->getAssets());
     }

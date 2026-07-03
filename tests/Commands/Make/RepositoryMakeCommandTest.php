@@ -11,15 +11,9 @@ class RepositoryMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -36,7 +30,7 @@ class RepositoryMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_a_new_repository_class()
+    public function test_it_generates_a_new_repository_class(): void
     {
         $code = $this->artisan('module:make-repository', ['name' => 'MyRepository', 'module' => 'Blog']);
 
@@ -44,7 +38,7 @@ class RepositoryMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_new_repository_class_can_override_with_force_option()
+    public function test_it_generates_a_new_repository_class_can_override_with_force_option(): void
     {
         $this->artisan('module:make-repository', ['name' => 'MyRepository', 'module' => 'Blog']);
         $code = $this->artisan('module:make-repository', ['name' => 'MyRepository', 'module' => 'Blog', '--force' => true]);
@@ -53,7 +47,7 @@ class RepositoryMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_a_new_repository_class_can_use_invoke_option()
+    public function test_it_generates_a_new_repository_class_can_use_invoke_option(): void
     {
         $code = $this->artisan('module:make-repository', ['name' => 'MyRepository', 'module' => 'Blog', '--invokable' => true]);
 
@@ -61,7 +55,7 @@ class RepositoryMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_file_with_content()
+    public function test_it_generated_correct_file_with_content(): void
     {
         $code = $this->artisan('module:make-repository', ['name' => 'MyRepository', 'module' => 'Blog']);
 
@@ -71,7 +65,7 @@ class RepositoryMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_generate_a_repository_in_sub_namespace_in_correct_folder()
+    public function test_it_can_generate_a_repository_in_sub_namespace_in_correct_folder(): void
     {
         $code = $this->artisan('module:make-repository', ['name' => 'Api\\MyRepository', 'module' => 'Blog']);
 
@@ -79,7 +73,7 @@ class RepositoryMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_generate_a_repository_in_sub_namespace_with_correct_generated_file()
+    public function test_it_can_generate_a_repository_in_sub_namespace_with_correct_generated_file(): void
     {
         $code = $this->artisan('module:make-repository', ['name' => 'Api\\MyRepository', 'module' => 'Blog']);
 

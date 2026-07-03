@@ -10,7 +10,7 @@ use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class RepositoryInterfaceTest extends BaseTestCase
 {
-    public function test_it_binds_repository_interface_with_implementation()
+    public function test_it_binds_repository_interface_with_implementation(): void
     {
         $this->assertInstanceOf(LaravelFileRepository::class, app(RepositoryInterface::class));
     }

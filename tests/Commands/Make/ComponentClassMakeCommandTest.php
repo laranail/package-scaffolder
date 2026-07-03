@@ -11,15 +11,9 @@ class ComponentClassMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,14 +29,14 @@ class ComponentClassMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_the_component_class()
+    public function test_it_generates_the_component_class(): void
     {
         $code = $this->artisan('module:make-component', ['name' => 'Blog', 'module' => 'Blog']);
         $this->assertTrue(is_file($this->modulePath.'/View/Components/Blog.php'));
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_the_component_view_from_component_class_command()
+    public function test_it_generates_the_component_view_from_component_class_command(): void
     {
         $code = $this->artisan('module:make-component', ['name' => 'Blog', 'module' => 'Blog']);
         $file = $this->finder->get($this->getModuleBasePath().'/resources/views/components/blog.blade.php');
@@ -50,7 +44,7 @@ class ComponentClassMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_file_with_content()
+    public function test_it_generated_correct_file_with_content(): void
     {
         $code = $this->artisan('module:make-component', ['name' => 'Blog', 'module' => 'Blog']);
         $file = $this->finder->get($this->modulePath.'/View/Components/Blog.php');
@@ -58,7 +52,7 @@ class ComponentClassMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.component-class.path', 'View/Components/newDirectory');
 

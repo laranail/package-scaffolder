@@ -21,14 +21,14 @@ class UpdatePhpunitCoverageTest extends BaseTestCase
         }
     }
 
-    public function test_no_phpunit_file()
+    public function test_no_phpunit_file(): void
     {
         $code = $this->artisan('module:update-phpunit-coverage');
 
         $this->assertSame(100, $code);
     }
 
-    public function test_no_modules_statuses_file()
+    public function test_no_modules_statuses_file(): void
     {
         $this->makePhpunit();
 
@@ -37,7 +37,7 @@ class UpdatePhpunitCoverageTest extends BaseTestCase
         $this->assertSame(99, $code);
     }
 
-    private function MakePhpunit()
+    private function MakePhpunit(): void
     {
         $phpunit = <<<'XML_WRAP'
         <?xml version="1.0" encoding="UTF-8"?>

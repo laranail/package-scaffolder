@@ -13,20 +13,11 @@ class FileActivatorTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var TestModule
-     */
-    private $module;
+    private TestModule $module;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var FileActivator
-     */
-    private $activator;
+    private FileActivator $activator;
 
     protected function setUp(): void
     {
@@ -42,7 +33,7 @@ class FileActivatorTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_creates_valid_json_file_after_enabling()
+    public function test_it_creates_valid_json_file_after_enabling(): void
     {
         $this->activator->enable($this->module);
         $this->assertMatchesSnapshot($this->finder->get($this->activator->getStatusesFilePath()));
@@ -51,7 +42,7 @@ class FileActivatorTest extends BaseTestCase
         $this->assertMatchesSnapshot($this->finder->get($this->activator->getStatusesFilePath()));
     }
 
-    public function test_it_creates_valid_json_file_after_disabling()
+    public function test_it_creates_valid_json_file_after_disabling(): void
     {
         $this->activator->disable($this->module);
         $this->assertMatchesSnapshot($this->finder->get($this->activator->getStatusesFilePath()));
@@ -60,7 +51,7 @@ class FileActivatorTest extends BaseTestCase
         $this->assertMatchesSnapshot($this->finder->get($this->activator->getStatusesFilePath()));
     }
 
-    public function test_it_can_check_module_enabled_status()
+    public function test_it_can_check_module_enabled_status(): void
     {
         $this->activator->enable($this->module);
         $this->assertTrue($this->activator->hasStatus($this->module, true));
@@ -69,7 +60,7 @@ class FileActivatorTest extends BaseTestCase
         $this->assertTrue($this->activator->hasStatus($this->module, true));
     }
 
-    public function test_it_can_check_module_disabled_status()
+    public function test_it_can_check_module_disabled_status(): void
     {
         $this->activator->disable($this->module);
         $this->assertTrue($this->activator->hasStatus($this->module, false));
@@ -78,7 +69,7 @@ class FileActivatorTest extends BaseTestCase
         $this->assertTrue($this->activator->hasStatus($this->module, false));
     }
 
-    public function test_it_can_check_status_of_module_that_hasnt_been_enabled_or_disabled()
+    public function test_it_can_check_status_of_module_that_hasnt_been_enabled_or_disabled(): void
     {
         $this->assertTrue($this->activator->hasStatus($this->module, false));
     }

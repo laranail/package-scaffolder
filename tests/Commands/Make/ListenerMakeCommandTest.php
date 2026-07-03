@@ -11,15 +11,9 @@ class ListenerMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_a_new_event_class()
+    public function test_it_generates_a_new_event_class(): void
     {
         $code = $this->artisan(
             'module:make-listener',
@@ -46,7 +40,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_sync_event_with_content()
+    public function test_it_generated_correct_sync_event_with_content(): void
     {
         $code = $this->artisan(
             'module:make-listener',
@@ -59,7 +53,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_sync_event_in_a_subdirectory_with_content()
+    public function test_it_generated_correct_sync_event_in_a_subdirectory_with_content(): void
     {
         $code = $this->artisan(
             'module:make-listener',
@@ -72,7 +66,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_sync_duck_event_with_content()
+    public function test_it_generated_correct_sync_duck_event_with_content(): void
     {
         $code = $this->artisan(
             'module:make-listener',
@@ -85,7 +79,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_queued_event_with_content()
+    public function test_it_generated_correct_queued_event_with_content(): void
     {
         $code = $this->artisan(
             'module:make-listener',
@@ -98,7 +92,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_queued_event_in_a_subdirectory_with_content()
+    public function test_it_generated_correct_queued_event_in_a_subdirectory_with_content(): void
     {
         $code = $this->artisan(
             'module:make-listener',
@@ -111,7 +105,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_queued_duck_event_with_content()
+    public function test_it_generated_correct_queued_duck_event_with_content(): void
     {
         $code = $this->artisan(
             'module:make-listener',
@@ -124,7 +118,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.listener.path', 'Events/Handlers');
 
@@ -139,7 +133,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace_specific()
+    public function test_it_can_change_the_default_namespace_specific(): void
     {
         $this->app['config']->set('modules.paths.generator.listener.namespace', 'Events\\Handlers');
 

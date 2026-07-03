@@ -51,7 +51,7 @@ final class HostComposerWriter
         $repositories = $composer['repositories'] ?? [];
         foreach (self::CONTAINERS as $container) {
             $url = "./platform/{$container}/*";
-            $present = array_any((array) $repositories, fn ($repo) => ($repo['type'] ?? null) === 'path' && ($repo['url'] ?? null) === $url);
+            $present = array_any((array) $repositories, fn ($repo): bool => ($repo['type'] ?? null) === 'path' && ($repo['url'] ?? null) === $url);
             if (! $present) {
                 $repositories[] = ['type' => 'path', 'url' => $url];
             }

@@ -22,7 +22,7 @@ class EventDiscoveryTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_resolves_module_listener_class_names_for_event_discovery()
+    public function test_it_resolves_module_listener_class_names_for_event_discovery(): void
     {
         $listenerDir = base_path('modules/Blog/app/Listeners');
         $this->app['files']->ensureDirectoryExists($listenerDir);
@@ -39,7 +39,7 @@ class EventDiscoveryTest extends BaseTestCase
         $this->assertSame('Modules\\Blog\\Listeners\\SendWelcomeNotification', $class);
     }
 
-    public function test_it_can_be_disabled_via_config()
+    public function test_it_can_be_disabled_via_config(): void
     {
         DiscoverEvents::$guessClassNamesUsingCallback = null;
 

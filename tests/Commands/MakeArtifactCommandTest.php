@@ -34,7 +34,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         return $dir;
     }
 
-    public function test_non_interactive_generates_a_package_with_flags()
+    public function test_non_interactive_generates_a_package_with_flags(): void
     {
         $dir = $this->tmp();
 
@@ -56,7 +56,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertFileDoesNotExist($dir.'/Demo/src/Repositories/CachingPostRepository.php');
     }
 
-    public function test_default_entity_is_distinct_from_the_artifact_name()
+    public function test_default_entity_is_distinct_from_the_artifact_name(): void
     {
         // `make:artifact Admin` with no --entity must NOT make entity == artifact
         // (that collides the manager {Artifact} with the model {Entity}); it defaults
@@ -73,7 +73,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertFileDoesNotExist($dir.'/Admin/src/Models/Admin.php'); // never entity == artifact
     }
 
-    public function test_entity_equal_to_artifact_is_rejected()
+    public function test_entity_equal_to_artifact_is_rejected(): void
     {
         $code = Artisan::call('make:artifact', [
             'name' => 'Admin', '--type' => 'package', '--entity' => 'Admin',
@@ -84,7 +84,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('must differ from the artifact name', Artisan::output());
     }
 
-    public function test_default_flavor_emits_all_manifests_from_the_laravel_blueprint()
+    public function test_default_flavor_emits_all_manifests_from_the_laravel_blueprint(): void
     {
         $dir = $this->tmp();
         $code = Artisan::call('make:artifact', [
@@ -103,7 +103,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('Acme\\Demo\\Providers\\DemoServiceProvider', $pj['provider']);
     }
 
-    public function test_unknown_flavor_is_rejected()
+    public function test_unknown_flavor_is_rejected(): void
     {
         $code = Artisan::call('make:artifact', [
             'name' => 'Demo', '--type' => 'package', '--flavor' => 'django',
@@ -114,7 +114,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('--flavor must be one of', Artisan::output());
     }
 
-    public function test_panel_incompatible_with_flavor_is_rejected()
+    public function test_panel_incompatible_with_flavor_is_rejected(): void
     {
         // vanilla has no admin panels
         $code = Artisan::call('make:artifact', [
@@ -126,7 +126,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('not available for the [vanilla] flavor', Artisan::output());
     }
 
-    public function test_feature_incompatible_with_flavor_is_rejected()
+    public function test_feature_incompatible_with_flavor_is_rejected(): void
     {
         // web-ui is not part of the vanilla flavor's feature set
         $code = Artisan::call('make:artifact', [
@@ -138,7 +138,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('not available for the [vanilla] flavor', Artisan::output());
     }
 
-    public function test_missing_required_type_fails_loudly()
+    public function test_missing_required_type_fails_loudly(): void
     {
         $code = Artisan::call('make:artifact', [
             'name' => 'Demo',
@@ -151,7 +151,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('--type is required', Artisan::output());
     }
 
-    public function test_unknown_feature_errors()
+    public function test_unknown_feature_errors(): void
     {
         $code = Artisan::call('make:artifact', [
             'name' => 'Demo',
@@ -166,7 +166,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('Unknown feature', Artisan::output());
     }
 
-    public function test_artifact_name_must_be_unique_across_containers()
+    public function test_artifact_name_must_be_unique_across_containers(): void
     {
         // pre-existing artifact in the modules container
         $this->fs->ensureDirectoryExists(base_path('platform/modules/Collision'));
@@ -184,7 +184,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertStringContainsString('unique across all containers', Artisan::output());
     }
 
-    public function test_selecting_livewire_pulls_in_its_required_web_ui()
+    public function test_selecting_livewire_pulls_in_its_required_web_ui(): void
     {
         $dir = $this->tmp();
         $code = Artisan::call('make:artifact', [
@@ -203,7 +203,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertDirectoryExists($dir.'/Demo/resources/views/components');
     }
 
-    public function test_selecting_feeds_pulls_in_its_required_web_ui()
+    public function test_selecting_feeds_pulls_in_its_required_web_ui(): void
     {
         // feeds (RSS/sitemap) are web routes + a web controller, so choosing feeds
         // must transitively pull in web-ui (else the generated feed 500s at runtime).
@@ -222,7 +222,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertDirectoryExists($dir.'/Demo/resources/views/components');
     }
 
-    public function test_selecting_asset_pipeline_pulls_in_its_required_web_ui()
+    public function test_selecting_asset_pipeline_pulls_in_its_required_web_ui(): void
     {
         // the Assets component is a Blade/view concern, so asset-pipeline requires web-ui.
         $dir = $this->tmp();
@@ -239,7 +239,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertDirectoryExists($dir.'/Demo/resources/views/components');
     }
 
-    public function test_panel_defaults_to_none_and_is_zero_footprint()
+    public function test_panel_defaults_to_none_and_is_zero_footprint(): void
     {
         $dir = $this->tmp();
         $code = Artisan::call('make:artifact', [
@@ -257,7 +257,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->assertDirectoryDoesNotExist($dir.'/Demo/src/Nova');
     }
 
-    public function test_invalid_panel_value_is_rejected()
+    public function test_invalid_panel_value_is_rejected(): void
     {
         $code = Artisan::call('make:artifact', [
             'name' => 'Demo',

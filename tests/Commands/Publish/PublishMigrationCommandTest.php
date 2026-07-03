@@ -8,10 +8,7 @@ use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class PublishMigrationCommandTest extends BaseTestCase
 {
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
     protected function setUp(): void
     {
@@ -28,7 +25,7 @@ class PublishMigrationCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_publishes_module_migrations()
+    public function test_it_publishes_module_migrations(): void
     {
         $code = $this->artisan('module:publish-migration', ['module' => 'Blog']);
 

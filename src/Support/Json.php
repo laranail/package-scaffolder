@@ -154,7 +154,7 @@ class Json implements Stringable
     /**
      * Handle magic method __get.
      */
-    public function __get(string $key)
+    public function __get(string $key): mixed
     {
         return $this->get($key);
     }

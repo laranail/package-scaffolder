@@ -49,7 +49,7 @@ abstract class GeneratorCommand extends Command
         $contents = $this->getTemplateContents();
 
         try {
-            $this->components->task("Generating file {$path}", function () use ($path, $contents) {
+            $this->components->task("Generating file {$path}", function () use ($path, $contents): void {
                 $overwriteFile = $this->hasOption('force') ? $this->option('force') : false;
                 (new FileGenerator($path, $contents))->withFileOverwrite($overwriteFile)->generate();
             });

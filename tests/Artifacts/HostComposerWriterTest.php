@@ -48,7 +48,7 @@ class HostComposerWriterTest extends TestCase
         $this->assertContains('./platform/modules/*/composer.json', $c['extra']['merge-plugin']['include']);
         $this->assertContains('./platform/packages/*/composer.json', $c['extra']['merge-plugin']['include']);
         $this->assertTrue(collect($c['repositories'])->contains(
-            fn ($r) => $r['type'] === 'path' && $r['url'] === './platform/plugins/*',
+            fn ($r): bool => $r['type'] === 'path' && $r['url'] === './platform/plugins/*',
         ));
     }
 

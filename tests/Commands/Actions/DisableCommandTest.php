@@ -25,7 +25,7 @@ class DisableCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_disables_a_module()
+    public function test_it_disables_a_module(): void
     {
         /** @var Module $blogModule */
         $blogModule = $this->repository->find('Blog');
@@ -37,7 +37,7 @@ class DisableCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_disables_array_of_modules()
+    public function test_it_disables_array_of_modules(): void
     {
         /** @var Module $blogModule */
         $blogModule = $this->repository->find('Blog');
@@ -53,7 +53,7 @@ class DisableCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_disables_all_modules()
+    public function test_it_disables_all_modules(): void
     {
         /** @var Module $blogModule */
         $blogModule = $this->repository->find('Blog');

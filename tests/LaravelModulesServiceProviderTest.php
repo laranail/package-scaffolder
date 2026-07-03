@@ -8,18 +8,18 @@ use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidActivatorClass;
 
 class LaravelModulesServiceProviderTest extends BaseTestCase
 {
-    public function test_it_binds_modules_key_to_repository_class()
+    public function test_it_binds_modules_key_to_repository_class(): void
     {
         $this->assertInstanceOf(RepositoryInterface::class, app(RepositoryInterface::class));
         $this->assertInstanceOf(RepositoryInterface::class, app('modules'));
     }
 
-    public function test_it_binds_activator_to_activator_class()
+    public function test_it_binds_activator_to_activator_class(): void
     {
         $this->assertInstanceOf(ActivatorInterface::class, app(ActivatorInterface::class));
     }
 
-    public function test_it_throws_exception_if_config_is_invalid()
+    public function test_it_throws_exception_if_config_is_invalid(): void
     {
         $this->expectException(InvalidActivatorClass::class);
 

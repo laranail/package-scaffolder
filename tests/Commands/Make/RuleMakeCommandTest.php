@@ -11,15 +11,9 @@ class RuleMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class RuleMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_makes_rule()
+    public function test_it_makes_rule(): void
     {
         $code = $this->artisan('module:make-rule', ['name' => 'UniqueRule', 'module' => 'Blog']);
 
@@ -46,7 +40,7 @@ class RuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_makes_implicit_rule()
+    public function test_it_makes_implicit_rule(): void
     {
         $code = $this->artisan('module:make-rule', ['name' => 'ImplicitUniqueRule', 'module' => 'Blog', '--implicit' => true]);
 
@@ -57,7 +51,7 @@ class RuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.rules.path', 'SuperRules');
 
@@ -69,7 +63,7 @@ class RuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace_specific()
+    public function test_it_can_change_the_default_namespace_specific(): void
     {
         $this->app['config']->set('modules.paths.generator.rules.namespace', 'SuperRules');
 

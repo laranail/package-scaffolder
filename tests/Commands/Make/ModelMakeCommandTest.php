@@ -12,15 +12,9 @@ class ModelMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -36,7 +30,7 @@ class ModelMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_a_new_model_class()
+    public function test_it_generates_a_new_model_class(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
 
@@ -44,7 +38,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_file_with_content()
+    public function test_it_generated_correct_file_with_content(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
 
@@ -54,7 +48,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_fillable_fields()
+    public function test_it_generates_correct_fillable_fields(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog', '--fillable' => 'title,slug']);
 
@@ -64,7 +58,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_migration_file_with_model()
+    public function test_it_generates_migration_file_with_model(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog', '--migration' => true]);
 
@@ -76,7 +70,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_migration_file_with_model_using_shortcut_option()
+    public function test_it_generates_migration_file_with_model_using_shortcut_option(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog', '-m' => true]);
 
@@ -88,7 +82,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_controller_file_with_model()
+    public function test_it_generates_controller_file_with_model(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog', '--controller' => true]);
         $controllers = $this->finder->allFiles($this->modulePath.'/Http/Controllers');
@@ -99,7 +93,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_controller_file_with_model_using_shortcut_option()
+    public function test_it_generates_controller_file_with_model_using_shortcut_option(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog', '-c' => true]);
 
@@ -111,7 +105,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_controller_and_migration_when_both_flags_are_present()
+    public function test_it_generates_controller_and_migration_when_both_flags_are_present(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog', '-c' => true, '-m' => true]);
 
@@ -130,7 +124,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_migration_file_name_with_multiple_words_model()
+    public function test_it_generates_correct_migration_file_name_with_multiple_words_model(): void
     {
         $code = $this->artisan('module:make-model', ['model' => 'ProductDetail', 'module' => 'Blog', '-m' => true]);
 
@@ -143,7 +137,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_displays_error_if_model_already_exists()
+    public function test_it_displays_error_if_model_already_exists(): void
     {
         $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
@@ -152,7 +146,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(E_ERROR, $code);
     }
 
-    public function test_it_can_change_the_default_namespace()
+    public function test_it_can_change_the_default_namespace(): void
     {
         $this->app['config']->set('modules.paths.generator.model.path', 'Models');
 
@@ -164,7 +158,7 @@ class ModelMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_can_change_the_default_namespace_specific()
+    public function test_it_can_change_the_default_namespace_specific(): void
     {
         $this->app['config']->set('modules.paths.generator.model.namespace', 'Models');
 

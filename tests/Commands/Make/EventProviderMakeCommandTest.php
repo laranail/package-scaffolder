@@ -11,15 +11,9 @@ class EventProviderMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -36,7 +30,7 @@ class EventProviderMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_a_new_event_provider_class()
+    public function test_it_generates_a_new_event_provider_class(): void
     {
         $code = $this->artisan('module:make-event-provider', ['module' => 'Blog']);
 
@@ -44,7 +38,7 @@ class EventProviderMakeCommandTest extends BaseTestCase
         $this->assertSame(1, $code);
     }
 
-    public function test_it_generates_a_new_event_provider_class_can_override_with_force_option()
+    public function test_it_generates_a_new_event_provider_class_can_override_with_force_option(): void
     {
         $this->artisan('module:make-event-provider', ['module' => 'Blog']);
         $code = $this->artisan('module:make-event-provider', ['module' => 'Blog', '--force' => true]);
@@ -53,7 +47,7 @@ class EventProviderMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generated_correct_file_with_content()
+    public function test_it_generated_correct_file_with_content(): void
     {
         $code = $this->artisan('module:make-event-provider', ['module' => 'Blog', '--force' => true]);
 

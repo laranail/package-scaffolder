@@ -112,7 +112,7 @@ class Installer
         $process->setTimeout($this->timeout);
 
         if ($this->console instanceof Command) {
-            $process->run(function ($type, $line) {
+            $process->run(function ($type, $line): void {
                 $this->console->line($line);
             });
         }

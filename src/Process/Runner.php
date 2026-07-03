@@ -22,7 +22,7 @@ class Runner implements RunableInterface
      * the command with escapeshellarg so untrusted names/versions cannot inject
      * shell syntax (see Installer/Updater).
      */
-    public function run(string $command)
+    public function run(string $command): int
     {
         passthru($command, $exitCode);
 

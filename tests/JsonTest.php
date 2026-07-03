@@ -7,10 +7,7 @@ use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 
 class JsonTest extends BaseTestCase
 {
-    /**
-     * @var Json
-     */
-    private $json;
+    private Json $json;
 
     protected function setUp(): void
     {
@@ -19,14 +16,14 @@ class JsonTest extends BaseTestCase
         $this->json = new Json($path, $this->app['files']);
     }
 
-    public function test_it_gets_the_file_path()
+    public function test_it_gets_the_file_path(): void
     {
         $path = __DIR__.'/stubs/valid/module.json';
 
         $this->assertEquals($path, $this->json->getPath());
     }
 
-    public function test_it_throws_an_exception_with_invalid_json()
+    public function test_it_throws_an_exception_with_invalid_json(): void
     {
         $path = __DIR__.'/stubs/InvalidJsonModule/module.json';
 
@@ -36,7 +33,7 @@ class JsonTest extends BaseTestCase
         new Json($path, $this->app['files']);
     }
 
-    public function test_it_gets_attributes_from_json_file()
+    public function test_it_gets_attributes_from_json_file(): void
     {
         $this->assertEquals('Order', $this->json->get('name'));
         $this->assertEquals('order', $this->json->get('alias'));
@@ -47,7 +44,7 @@ class JsonTest extends BaseTestCase
         $this->assertEquals(1, $this->json->get('order'));
     }
 
-    public function test_it_reads_attributes_from_magic_get_method()
+    public function test_it_reads_attributes_from_magic_get_method(): void
     {
         $this->assertEquals('Order', $this->json->name);
         $this->assertEquals('order', $this->json->alias);
@@ -58,7 +55,7 @@ class JsonTest extends BaseTestCase
         $this->assertEquals(1, $this->json->order);
     }
 
-    public function test_it_makes_json_class()
+    public function test_it_makes_json_class(): void
     {
         $path = __DIR__.'/stubs/valid/module.json';
         $json = Json::make($path, $this->app['files']);
@@ -66,7 +63,7 @@ class JsonTest extends BaseTestCase
         $this->assertInstanceOf(Json::class, $json);
     }
 
-    public function test_it_sets_a_path()
+    public function test_it_sets_a_path(): void
     {
         $path = __DIR__.'/stubs/valid/module.json';
         $this->assertEquals($path, $this->json->getPath());
@@ -75,7 +72,7 @@ class JsonTest extends BaseTestCase
         $this->assertEquals('some/path.json', $this->json->getPath());
     }
 
-    public function test_it_decodes_json()
+    public function test_it_decodes_json(): void
     {
         $expected = '{
     "name": "Order",
@@ -100,14 +97,14 @@ class JsonTest extends BaseTestCase
         $this->assertEquals($expected, $this->json->toJsonPretty());
     }
 
-    public function test_it_sets_a_key_value()
+    public function test_it_sets_a_key_value(): void
     {
         $this->json->set('key', 'value');
 
         $this->assertEquals('value', $this->json->get('key'));
     }
 
-    public function test_it_can_be_casted_to_string()
+    public function test_it_can_be_casted_to_string(): void
     {
         $expected = '{
     "name": "Order",

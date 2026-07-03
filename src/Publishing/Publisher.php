@@ -134,7 +134,7 @@ abstract class Publisher implements PublisherInterface
     /**
      * Publish something.
      */
-    public function publish()
+    public function publish(): void
     {
         if (! $this->console instanceof Command) {
             $message = "The 'console' property must instance of \\Illuminate\\Console\\Command.";
@@ -152,10 +152,10 @@ abstract class Publisher implements PublisherInterface
 
         if ($this->getFilesystem()->copyDirectory($sourcePath, $destinationPath)) {
             if ($this->showMessage) {
-                $this->console->components->task($this->module->getStudlyName(), fn () => true);
+                $this->console->components->task($this->module->getStudlyName(), fn (): true => true);
             }
         } else {
-            $this->console->components->task($this->module->getStudlyName(), fn () => false);
+            $this->console->components->task($this->module->getStudlyName(), fn (): false => false);
             $this->console->components->error($this->error);
         }
     }

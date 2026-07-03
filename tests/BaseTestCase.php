@@ -45,7 +45,7 @@ abstract class BaseTestCase extends OrchestraTestCase
         }
     }
 
-    private function resetDatabase()
+    private function resetDatabase(): void
     {
         $this->artisan('migrate:reset', [
             '--database' => 'sqlite',
@@ -72,7 +72,7 @@ abstract class BaseTestCase extends OrchestraTestCase
         $module_config = require __DIR__.'/../config/config.php';
 
         // enable all generators
-        array_walk($module_config['paths']['generator'], function (&$item) {
+        array_walk($module_config['paths']['generator'], function (array &$item): void {
             $item['generate'] = true;
         });
 

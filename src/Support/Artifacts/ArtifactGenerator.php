@@ -174,7 +174,7 @@ final class ArtifactGenerator
     {
         $set = array_values(array_filter(
             $request->features,
-            fn (string $f) => $f !== 'livewire',
+            fn (string $f): bool => $f !== 'livewire',
         ));
 
         if (in_array('web-ui', $set, true) && in_array('livewire', $request->features, true)) {
@@ -318,6 +318,6 @@ final class ArtifactGenerator
      */
     private static function matchesAny(string $haystack, array $needles): bool
     {
-        return array_any($needles, fn ($needle) => str_contains($haystack, $needle));
+        return array_any($needles, fn (string $needle): bool => str_contains($haystack, $needle));
     }
 }

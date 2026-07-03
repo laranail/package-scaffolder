@@ -11,15 +11,9 @@ class FactoryMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class FactoryMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_makes_factory()
+    public function test_it_makes_factory(): void
     {
         $code = $this->artisan('module:make-factory', ['name' => 'Post', 'module' => 'Blog']);
 

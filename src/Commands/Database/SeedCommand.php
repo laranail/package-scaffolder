@@ -85,11 +85,9 @@ class SeedCommand extends BaseCommand
     }
 
     /**
-     * @return Module
-     *
      * @throws RuntimeException
      */
-    public function getModuleByName($name)
+    public function getModuleByName($name): ?Module
     {
         $modules = $this->getModuleRepository();
         if ($modules->has($name) === false) {
@@ -99,10 +97,7 @@ class SeedCommand extends BaseCommand
         return $modules->find($name);
     }
 
-    /**
-     * @return void
-     */
-    public function moduleSeed(Module $module)
+    public function moduleSeed(Module $module): void
     {
         $seeders = [];
         $name = $module->getName();
@@ -176,9 +171,8 @@ class SeedCommand extends BaseCommand
      * Get master database seeder name for the specified module.
      *
      * @param  string  $name
-     * @return string
      */
-    public function getSeederName($name)
+    public function getSeederName($name): string
     {
         $name = Str::studly($name);
 
@@ -212,7 +206,7 @@ class SeedCommand extends BaseCommand
      * @param  string  $name
      * @return array $foundModules array containing namespace paths
      */
-    public function getSeederNames($name)
+    public function getSeederNames($name): array
     {
         $name = Str::studly($name);
 

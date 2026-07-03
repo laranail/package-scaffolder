@@ -11,15 +11,9 @@ class MigrationMakeCommandTest extends BaseTestCase
 {
     use MatchesSnapshots;
 
-    /**
-     * @var Filesystem
-     */
-    private $finder;
+    private Filesystem $finder;
 
-    /**
-     * @var string
-     */
-    private $modulePath;
+    private string $modulePath;
 
     protected function setUp(): void
     {
@@ -35,7 +29,7 @@ class MigrationMakeCommandTest extends BaseTestCase
         parent::tearDown();
     }
 
-    public function test_it_generates_a_new_migration_class()
+    public function test_it_generates_a_new_migration_class(): void
     {
         $code = $this->artisan('module:make-migration', ['name' => 'create_posts_table', 'module' => 'Blog']);
 
@@ -45,7 +39,7 @@ class MigrationMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_create_migration_file_content()
+    public function test_it_generates_correct_create_migration_file_content(): void
     {
         $code = $this->artisan('module:make-migration', ['name' => 'create_posts_table', 'module' => 'Blog']);
 
@@ -57,7 +51,7 @@ class MigrationMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_add_migration_file_content()
+    public function test_it_generates_correct_add_migration_file_content(): void
     {
         $code = $this->artisan('module:make-migration', ['name' => 'add_something_to_posts_table', 'module' => 'Blog']);
 
@@ -69,7 +63,7 @@ class MigrationMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_delete_migration_file_content()
+    public function test_it_generates_correct_delete_migration_file_content(): void
     {
         $code = $this->artisan('module:make-migration', ['name' => 'delete_something_from_posts_table', 'module' => 'Blog']);
 
@@ -81,7 +75,7 @@ class MigrationMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_drop_migration_file_content()
+    public function test_it_generates_correct_drop_migration_file_content(): void
     {
         $code = $this->artisan('module:make-migration', ['name' => 'drop_posts_table', 'module' => 'Blog']);
 
@@ -93,7 +87,7 @@ class MigrationMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_correct_default_migration_file_content()
+    public function test_it_generates_correct_default_migration_file_content(): void
     {
         $code = $this->artisan('module:make-migration', ['name' => 'something_random_name', 'module' => 'Blog']);
 
@@ -105,7 +99,7 @@ class MigrationMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
     }
 
-    public function test_it_generates_foreign_key_constraints()
+    public function test_it_generates_foreign_key_constraints(): void
     {
         $code = $this->artisan('module:make-migration', ['name' => 'create_posts_table', 'module' => 'Blog', '--fields' => 'belongsTo:user:id:users']);
 

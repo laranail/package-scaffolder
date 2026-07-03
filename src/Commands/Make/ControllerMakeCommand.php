@@ -39,10 +39,8 @@ class ControllerMakeCommand extends GeneratorCommand
 
     /**
      * Get controller name.
-     *
-     * @return string
      */
-    public function getDestinationFilePath()
+    public function getDestinationFilePath(): string
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
@@ -51,10 +49,7 @@ class ControllerMakeCommand extends GeneratorCommand
         return $path.$controllerPath->getPath().'/'.$this->getControllerName().'.php';
     }
 
-    /**
-     * @return string
-     */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
@@ -114,10 +109,7 @@ class ControllerMakeCommand extends GeneratorCommand
         return $controller;
     }
 
-    /**
-     * @return array|string
-     */
-    private function getControllerNameWithoutNamespace()
+    private function getControllerNameWithoutNamespace(): string
     {
         return class_basename($this->getControllerName());
     }
@@ -131,10 +123,8 @@ class ControllerMakeCommand extends GeneratorCommand
 
     /**
      * Get the stub file name based on the options
-     *
-     * @return string
      */
-    protected function getStubName()
+    protected function getStubName(): string
     {
         if ($this->option('plain') === true) {
             $stub = '/controller-plain.stub';
