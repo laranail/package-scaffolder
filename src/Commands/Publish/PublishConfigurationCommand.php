@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,6 +52,7 @@ class PublishConfigurationCommand extends BaseCommand
         return "$namespace\\$moduleName\\$provider\\{$moduleName}ServiceProvider";
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

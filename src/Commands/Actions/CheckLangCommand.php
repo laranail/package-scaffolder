@@ -73,16 +73,12 @@ class CheckLangCommand extends BaseCommand
         $directories = [];
         if (is_dir($path)) {
             $directories = $this->laravel['files']->directories($path);
-            $directories = array_map(function ($directory) use ($moduleName) {
-                return [
-                    'name' => basename($directory),
-                    'module' => $moduleName,
-                    'path' => $directory,
-                    'files' => array_map(function ($file) {
-                        return basename($file);
-                    }, File::glob($directory.DIRECTORY_SEPARATOR.'*')),
-                ];
-            }, $directories);
+            $directories = array_map(fn ($directory) => [
+                'name' => basename($directory),
+                'module' => $moduleName,
+                'path' => $directory,
+                'files' => array_map(basename(...), File::glob($directory.DIRECTORY_SEPARATOR.'*')),
+            ], $directories);
         }
 
         if (count($directories) === 0) {

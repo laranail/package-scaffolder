@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleMigrationPaths;
@@ -58,6 +59,7 @@ class MigrateResetCommand extends BaseCommand implements ConfirmableCommand
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [

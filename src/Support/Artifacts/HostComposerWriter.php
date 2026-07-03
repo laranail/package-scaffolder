@@ -17,7 +17,7 @@ use RuntimeException;
  */
 final class HostComposerWriter
 {
-    private const CONTAINERS = ['modules', 'packages', 'plugins'];
+    private const array CONTAINERS = ['modules', 'packages', 'plugins'];
 
     public function __construct(private readonly Filesystem $files) {}
 
@@ -51,13 +51,7 @@ final class HostComposerWriter
         $repositories = $composer['repositories'] ?? [];
         foreach (self::CONTAINERS as $container) {
             $url = "./platform/{$container}/*";
-            $present = false;
-            foreach ((array) $repositories as $repo) {
-                if (($repo['type'] ?? null) === 'path' && ($repo['url'] ?? null) === $url) {
-                    $present = true;
-                    break;
-                }
-            }
+            $present = array_any((array) $repositories, fn ($repo) => ($repo['type'] ?? null) === 'path' && ($repo['url'] ?? null) === $url);
             if (! $present) {
                 $repositories[] = ['type' => 'path', 'url' => $url];
             }

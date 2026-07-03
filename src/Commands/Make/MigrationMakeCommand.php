@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\NameParser;
 use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\SchemaParser;
@@ -37,6 +38,7 @@ class MigrationMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -50,6 +52,7 @@ class MigrationMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [
@@ -157,6 +160,7 @@ class MigrationMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
+    #[Override]
     public function getClass()
     {
         return $this->getClassName();
@@ -165,6 +169,7 @@ class MigrationMakeCommand extends GeneratorCommand
     /**
      * Run the command.
      */
+    #[Override]
     public function handle(): int
     {
 

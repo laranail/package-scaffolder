@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -40,6 +41,7 @@ class ObserverMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -119,6 +121,7 @@ class ObserverMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name')).'Observer.php';
     }
 
+    #[Override]
     public function handle(): int
     {
         $this->components->info('Creating observer...');
@@ -131,6 +134,7 @@ class ObserverMakeCommand extends GeneratorCommand
     /**
      * Get default namespace.
      */
+    #[Override]
     public function getDefaultNamespace(): string
     {
 

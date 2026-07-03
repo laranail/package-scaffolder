@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Activators;
 
 use Illuminate\Filesystem\Filesystem;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
 use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
@@ -85,6 +86,7 @@ class FileActivatorTest extends BaseTestCase
 
 class TestModule extends Module
 {
+    #[Override]
     public function registerProviders(): void
     {
         parent::registerProviders();

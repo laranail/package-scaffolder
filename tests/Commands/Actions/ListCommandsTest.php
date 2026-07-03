@@ -196,7 +196,7 @@ EOT;
         $namespace = str_replace('/', '\\', $directory);
 
         // Remove 'app\' from the beginning if it exists
-        if (strpos($namespace, 'app\\') === 0) {
+        if (str_starts_with($namespace, 'app\\')) {
             return substr($namespace, 4);
         }
 

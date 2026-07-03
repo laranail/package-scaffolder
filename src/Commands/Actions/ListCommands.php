@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -148,7 +149,7 @@ class ListCommands extends BaseCommand
 
             // Skip if not a command class
             if (! $reflection->isSubclassOf(SymfonyCommand::class) &&
-                ! $reflection->isSubclassOf('Illuminate\Console\Command')) {
+                ! $reflection->isSubclassOf(Command::class)) {
                 return null;
             }
 
@@ -176,7 +177,7 @@ class ListCommands extends BaseCommand
                 'name' => $name ?? $shortClassName,
                 'namespace' => $reflection->getNamespaceName(),
             ];
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             // If we can't instantiate the class, just return basic info with the class name
             return [
                 'class' => $className,

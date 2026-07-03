@@ -102,12 +102,10 @@ class ModuleManifest
                 }
 
                 return collect($manifests)
-                    ->map(function ($manifest) {
-                        return [
-                            'module_directory' => dirname($manifest),
-                            ...$this->files->json($manifest),
-                        ];
-                    });
+                    ->map(fn ($manifest) => [
+                        'module_directory' => dirname($manifest),
+                        ...$this->files->json($manifest),
+                    ]);
             })
             ->filter(fn ($module) => $this->activator->hasStatus($module['name'], true))
             ->sortBy(fn ($module) => $module['priority'] ?? 0);

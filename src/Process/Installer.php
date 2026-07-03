@@ -186,7 +186,7 @@ class Installer
      */
     public function getBranch(): string
     {
-        return is_null($this->version) ? 'master' : $this->version;
+        return $this->version ?? 'master';
     }
 
     /**

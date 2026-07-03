@@ -33,15 +33,15 @@ namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
  */
 final class TokenReplacer
 {
-    public const PLACEHOLDER_NAMESPACE = 'Some\\NamespacePath\\Blog';
+    public const string PLACEHOLDER_NAMESPACE = 'Some\\NamespacePath\\Blog';
 
-    public const PLACEHOLDER_STUDLY = 'Blog';
+    public const string PLACEHOLDER_STUDLY = 'Blog';
 
-    public const PLACEHOLDER_LOWER = 'blog';
+    public const string PLACEHOLDER_LOWER = 'blog';
 
-    public const PLACEHOLDER_UPPER = 'BLOG';
+    public const string PLACEHOLDER_UPPER = 'BLOG';
 
-    public const PLACEHOLDER_VENDOR = 'modules';
+    public const string PLACEHOLDER_VENDOR = 'modules';
 
     /**
      * @param  array{namespaceBase:string, studly:string, lower:string, vendor:string, upper?:string, entityStudly?:string, entityStudlyPlural?:string, entityLower?:string, entityPlural?:string}  $target

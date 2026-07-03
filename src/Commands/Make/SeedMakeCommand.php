@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\CanClearModulesCache;
@@ -32,6 +33,7 @@ class SeedMakeCommand extends GeneratorCommand
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -43,6 +45,7 @@ class SeedMakeCommand extends GeneratorCommand
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [
@@ -66,6 +69,7 @@ class SeedMakeCommand extends GeneratorCommand
      * specific seeder, so newly created seeders always have a base to be
      * called from (#2147).
      */
+    #[Override]
     public function handle(): int
     {
         $autoBase = ! $this->option('master') && ! $this->option('without-base');
@@ -135,7 +139,7 @@ class SeedMakeCommand extends GeneratorCommand
         $string .= $this->option('master') ? 'Database' : '';
         $suffix = 'Seeder';
 
-        if (strpos($string, $suffix) === false) {
+        if (! str_contains($string, $suffix)) {
             $string .= $suffix;
         }
 
@@ -145,6 +149,7 @@ class SeedMakeCommand extends GeneratorCommand
     /**
      * Get default namespace.
      */
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.seeder.namespace')

@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -21,6 +22,7 @@ class ResourceMakeCommand extends GeneratorCommand
 
     protected $description = 'Create a new resource class for the specified module.';
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.resource.namespace')
@@ -32,6 +34,7 @@ class ResourceMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -40,6 +43,7 @@ class ResourceMakeCommand extends GeneratorCommand
         ];
     }
 
+    #[Override]
     protected function getOptions()
     {
         return [

@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -40,6 +41,7 @@ class ActionMakeCommand extends GeneratorCommand
         ]))->render();
     }
 
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -48,6 +50,7 @@ class ActionMakeCommand extends GeneratorCommand
         ];
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [
@@ -66,6 +69,7 @@ class ActionMakeCommand extends GeneratorCommand
         return class_basename($this->getActionName());
     }
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.actions.namespace', 'Actions');

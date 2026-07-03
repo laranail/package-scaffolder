@@ -7,6 +7,7 @@ use Illuminate\Database\Console\ShowModelCommand;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -66,16 +67,15 @@ class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInpu
             ->map($this->formatModuleNamespace(...));
     }
 
+    #[Override]
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
             'model' => fn () => search(
                 label: 'Select Model',
-                options: function (string $search_value) {
-                    return $this->findModels(
-                        Str::of($search_value)->wrap('', '*')
-                    )->toArray();
-                },
+                options: fn (string $search_value) => $this->findModels(
+                    Str::of($search_value)->wrap('', '*')
+                )->toArray(),
                 placeholder: 'type some thing',
                 required: 'You must select one Model',
             ),

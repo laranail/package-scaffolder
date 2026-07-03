@@ -7,6 +7,7 @@ use Illuminate\Database\Console\PruneCommand;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -47,6 +48,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
      */
     protected $description = 'Prune models by module that are no longer needed';
 
+    #[Override]
     protected function promptForMissingArguments(InputInterface $input, OutputInterface $output): void
     {
         if ($this->option('all')) {
@@ -80,12 +82,11 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
     /**
      * Determine the models that should be pruned.
      */
+    #[Override]
     protected function models(): Collection
     {
         if (! empty($models = $this->option('model'))) {
-            return collect($models)->filter(function ($model) {
-                return class_exists($model);
-            })->values();
+            return collect($models)->filter(fn ($model) => class_exists($model))->values();
         }
 
         $except = $this->option('except');
@@ -125,14 +126,6 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
                 );
             })
             ->values()
-            ->when(! empty($except), function ($models) use ($except) {
-                return $models->reject(function ($model) use ($except) {
-                    return in_array($model, $except);
-                });
-            })->filter(function ($model) {
-                return class_exists($model);
-            })->filter(function ($model) {
-                return $this->isPrunable($model);
-            })->values();
+            ->when(! empty($except), fn ($models) => $models->reject(fn ($model) => in_array($model, $except)))->filter(fn ($model) => class_exists($model))->filter(fn ($model) => $this->isPrunable($model))->values();
     }
 }

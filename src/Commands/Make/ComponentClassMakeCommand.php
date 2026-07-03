@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -35,6 +36,7 @@ class ComponentClassMakeCommand extends GeneratorCommand
      */
     protected $description = 'Create a new component-class for the specified module.';
 
+    #[Override]
     public function handle(): int
     {
         if (parent::handle() === E_ERROR) {
@@ -55,6 +57,7 @@ class ComponentClassMakeCommand extends GeneratorCommand
         $this->call('module:make-component-view', ['name' => $this->argument('name'), 'module' => $this->argument('module')]);
     }
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.component-class.namespace')
@@ -66,6 +69,7 @@ class ComponentClassMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [

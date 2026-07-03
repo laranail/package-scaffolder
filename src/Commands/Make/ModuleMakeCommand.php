@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Generators\ModuleGenerator;
@@ -72,6 +73,7 @@ class ModuleMakeCommand extends Command
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -79,6 +81,7 @@ class ModuleMakeCommand extends Command
         ];
     }
 
+    #[Override]
     protected function getOptions()
     {
         return [

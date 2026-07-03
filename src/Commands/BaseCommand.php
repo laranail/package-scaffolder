@@ -8,6 +8,7 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Prohibitable;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Collection;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
@@ -93,6 +94,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
         return null;
     }
 
+    #[Override]
     protected function promptForMissingArguments(InputInterface $input, OutputInterface $output): void
     {
         $modules = $this->hasOption('direction')
@@ -111,14 +113,10 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
 
         $selected_item = multisearch(
             label: 'Select Modules',
-            options: function (string $search_value) use ($modules) {
-                return collect([
-                    self::ALL,
-                    ...$modules,
-                ])->when($search_value !== '', function (Collection &$modules) use ($search_value) {
-                    return $modules->filter(fn ($item) => str_contains(strtolower($item), strtolower($search_value)));
-                })->values()->toArray();
-            },
+            options: fn (string $search_value) => collect([
+                self::ALL,
+                ...$modules,
+            ])->when($search_value !== '', fn (Collection $modules) => $modules->filter(fn ($item) => str_contains(strtolower($item), strtolower($search_value))))->values()->toArray(),
             required: 'You must select at least one module',
         );
 

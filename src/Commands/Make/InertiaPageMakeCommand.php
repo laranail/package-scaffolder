@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -34,6 +35,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -45,6 +47,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [
@@ -145,6 +148,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
     /**
      * Get default namespace.
      */
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.inertia.namespace')

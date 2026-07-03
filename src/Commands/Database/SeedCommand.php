@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Console\View\TaskResult;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Str;
+use Override;
 use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
@@ -116,14 +117,14 @@ class SeedCommand extends BaseCommand
         } else {
             $class = $this->getSeederName($name); // legacy support
 
-            $class = implode('\\', array_map('ucwords', explode('\\', $class)));
+            $class = implode('\\', array_map(ucwords(...), explode('\\', $class)));
 
             // Derive the seeder from the module's real namespace (its own
             // composer.json psr-4), so modules in custom scan paths whose
             // namespace differs from the default are still discovered (#1861).
             $moduleClass = $this->getModuleSeederName($module);
             $moduleClass = $moduleClass !== null
-                ? implode('\\', array_map('ucwords', explode('\\', $moduleClass)))
+                ? implode('\\', array_map(ucwords(...), explode('\\', $moduleClass)))
                 : null;
 
             if (class_exists($class)) {
@@ -142,7 +143,7 @@ class SeedCommand extends BaseCommand
         }
 
         if (count($seeders) > 0) {
-            array_walk($seeders, [$this, 'dbSeed']);
+            array_walk($seeders, $this->dbSeed(...));
             $this->info("Module [$name] seeded.");
         }
     }
@@ -255,6 +256,7 @@ class SeedCommand extends BaseCommand
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [

@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Lumen\LumenFileRepository;
@@ -20,6 +21,7 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
     /**
      * Register all modules.
      */
+    #[Override]
     public function register()
     {
         $this->registerNamespaces();

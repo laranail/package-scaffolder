@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Actions\CheckLangCommand;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Actions\DisableCommand;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Actions\DumpCommand;
@@ -77,11 +78,13 @@ use Simtabi\Laranail\Package\Scaffolder\Commands\UpdatePhpunitCoverage;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->commands(config('modules.commands', self::defaultCommands()->toArray()));
     }
 
+    #[Override]
     public function provides(): array
     {
         return self::defaultCommands()->toArray();

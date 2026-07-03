@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
 
@@ -19,6 +20,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
     /**
      * Register all modules.
      */
+    #[Override]
     public function register() {}
 
     /**
@@ -64,6 +66,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
     /**
      * Get the services provided by the provider.
      */
+    #[Override]
     public function provides(): array
     {
         return [RepositoryInterface::class, 'modules'];

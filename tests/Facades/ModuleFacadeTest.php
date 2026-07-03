@@ -16,18 +16,14 @@ class ModuleFacadeTest extends BaseTestCase
 
     public function test_it_creates_macros_via_facade()
     {
-        Module::macro('testMacro', function () {
-            return true;
-        });
+        Module::macro('testMacro', fn () => true);
 
         $this->assertTrue(Module::hasMacro('testMacro'));
     }
 
     public function test_it_calls_macros_via_facade()
     {
-        Module::macro('testMacro', function () {
-            return 'a value';
-        });
+        Module::macro('testMacro', fn () => 'a value');
 
         $this->assertEquals('a value', Module::testMacro());
     }

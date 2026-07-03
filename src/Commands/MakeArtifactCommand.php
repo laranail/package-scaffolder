@@ -7,6 +7,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
@@ -289,7 +290,7 @@ class MakeArtifactCommand extends Command
         $repeated = (array) $this->option('feature');
 
         if ($csv !== '') {
-            $list = array_map('trim', explode(',', $csv));
+            $list = array_map(trim(...), explode(',', $csv));
         } elseif ($repeated !== []) {
             $list = $repeated;
         } elseif ($nonInteractive) {
@@ -357,6 +358,7 @@ class MakeArtifactCommand extends Command
     /**
      * @return array<int, array<int, mixed>>
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -367,6 +369,7 @@ class MakeArtifactCommand extends Command
     /**
      * @return array<int, array<int, mixed>>
      */
+    #[Override]
     protected function getOptions()
     {
         return [

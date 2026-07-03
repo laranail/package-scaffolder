@@ -3,8 +3,9 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
 use RuntimeException;
+use Stringable;
 
-class Stub
+class Stub implements Stringable
 {
     /**
      * The stub path.

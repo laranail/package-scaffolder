@@ -24,7 +24,7 @@ use Symfony\Component\Process\Process;
 final class ArtifactGenerator
 {
     /** Extensions copied verbatim (never token-/marker-processed). */
-    private const BINARY = ['png', 'jpg', 'jpeg', 'gif', 'ico', 'webp', 'woff', 'woff2', 'ttf', 'eot', 'lock'];
+    private const array BINARY = ['png', 'jpg', 'jpeg', 'gif', 'ico', 'webp', 'woff', 'woff2', 'ttf', 'eot', 'lock'];
 
     public function __construct(
         private readonly Filesystem $files,
@@ -318,12 +318,6 @@ final class ArtifactGenerator
      */
     private static function matchesAny(string $haystack, array $needles): bool
     {
-        foreach ($needles as $needle) {
-            if (str_contains($haystack, $needle)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($needles, fn ($needle) => str_contains($haystack, $needle));
     }
 }

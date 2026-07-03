@@ -217,9 +217,7 @@ class LaravelFileRepositoryTest extends BaseTestCase
 
     public function test_it_calls_macros_on_modules()
     {
-        Module::macro('getReverseName', function () {
-            return strrev($this->getLowerName());
-        });
+        Module::macro('getReverseName', fn () => strrev($this->getLowerName()));
 
         $this->repository->addLocation(__DIR__.'/stubs/valid');
         $module = $this->repository->find('recipe');

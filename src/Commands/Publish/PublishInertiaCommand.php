@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
 use Illuminate\Console\Command;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Symfony\Component\Console\Input\InputOption;
@@ -58,6 +59,7 @@ class PublishInertiaCommand extends Command
         return config('modules.inertia.frontend', 'vue');
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [

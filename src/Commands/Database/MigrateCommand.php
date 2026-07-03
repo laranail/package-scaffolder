@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleMigrationPaths;
 use Symfony\Component\Console\Input\InputOption;
@@ -58,6 +59,7 @@ class MigrateCommand extends BaseCommand
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [

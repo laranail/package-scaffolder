@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -21,6 +22,7 @@ class ViewMakeCommand extends GeneratorCommand
 
     protected $description = 'Create a new view for the specified module.';
 
+    #[Override]
     protected function getArguments(): array
     {
         return [

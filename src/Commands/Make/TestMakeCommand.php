@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -21,6 +22,7 @@ class TestMakeCommand extends GeneratorCommand
 
     protected $description = 'Create a new test class for the specified module.';
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         if ($this->option('feature')) {
@@ -37,6 +39,7 @@ class TestMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -50,6 +53,7 @@ class TestMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [

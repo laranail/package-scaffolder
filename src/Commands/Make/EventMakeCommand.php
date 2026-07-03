@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -57,6 +58,7 @@ class EventMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.event.namespace')
@@ -68,6 +70,7 @@ class EventMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [

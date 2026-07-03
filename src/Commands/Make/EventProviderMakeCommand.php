@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -40,6 +41,7 @@ class EventProviderMakeCommand extends GeneratorCommand
         ]))->render();
     }
 
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -47,6 +49,7 @@ class EventProviderMakeCommand extends GeneratorCommand
         ];
     }
 
+    #[Override]
     protected function getOptions(): array
     {
         return [
@@ -64,6 +67,7 @@ class EventProviderMakeCommand extends GeneratorCommand
         return class_basename($this->getEventServiceProviderName());
     }
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.provider.namespace')

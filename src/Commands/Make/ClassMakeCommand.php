@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -85,6 +86,7 @@ class ClassMakeCommand extends GeneratorCommand
         return Str::of($this->getFileName())->basename()->studly();
     }
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         $type = $this->type();

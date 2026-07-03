@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Collection;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,6 +42,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
         $this->migration_paths = collect($this->migrator->paths());
     }
 
+    #[Override]
     public function handle(): void
     {
         // drop tables
@@ -91,6 +93,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

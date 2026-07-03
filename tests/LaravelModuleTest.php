@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\Event;
 use Modules\Recipe\Providers\DeferredServiceProvider;
 use Modules\Recipe\Providers\RecipeServiceProvider;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
@@ -36,12 +37,14 @@ class LaravelModuleTest extends BaseTestCase
         parent::tearDown();
     }
 
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         symlink(__DIR__.'/stubs/valid', __DIR__.'/stubs/valid_symlink');
     }
 
+    #[Override]
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
@@ -221,6 +224,7 @@ class LaravelModuleTest extends BaseTestCase
 
 class TestingModule extends Module
 {
+    #[Override]
     public function registerProviders(): void
     {
         parent::registerProviders();

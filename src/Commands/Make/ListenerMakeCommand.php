@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
@@ -37,6 +38,7 @@ class ListenerMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -50,6 +52,7 @@ class ListenerMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [
@@ -70,6 +73,7 @@ class ListenerMakeCommand extends GeneratorCommand
         ]))->render();
     }
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.listener.namespace')

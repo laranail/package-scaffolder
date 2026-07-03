@@ -11,6 +11,7 @@ use Illuminate\Foundation\Events\DiscoverEvents;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\Translation\Translator;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidActivatorClass;
@@ -41,9 +42,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         ]);
 
         // Create @module() blade directive.
-        Blade::if('module', function (string $name) {
-            return module($name);
-        });
+        Blade::if('module', fn (string $name) => module($name));
     }
 
     /**
@@ -57,10 +56,8 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
             return;
         }
 
-        DiscoverEvents::guessClassNamesUsing(function (SplFileInfo $file, string $basePath): string {
-            return $this->moduleClassFromFile($file)
-                ?? $this->defaultClassFromFile($file, $basePath);
-        });
+        DiscoverEvents::guessClassNamesUsing(fn (SplFileInfo $file, string $basePath): string => $this->moduleClassFromFile($file)
+            ?? $this->defaultClassFromFile($file, $basePath));
     }
 
     /**
@@ -118,6 +115,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register()
     {
         $this->registerServices();

@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use LogicException;
+use Override;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
@@ -67,6 +68,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
     /**
      * Register the service providers.
      */
+    #[Override]
     public function register(): void
     {
         foreach ($this->providers as $provider) {

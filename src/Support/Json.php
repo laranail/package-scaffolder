@@ -6,8 +6,9 @@ use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
+use Stringable;
 
-class Json
+class Json implements Stringable
 {
     /**
      * The file path.

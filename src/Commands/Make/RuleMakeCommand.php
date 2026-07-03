@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -36,6 +37,7 @@ class RuleMakeCommand extends GeneratorCommand
      */
     protected $description = 'Create a new validation rule for the specified module.';
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.rules.namespace')
@@ -47,6 +49,7 @@ class RuleMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -60,6 +63,7 @@ class RuleMakeCommand extends GeneratorCommand
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [

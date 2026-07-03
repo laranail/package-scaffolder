@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Console\Command;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
 use Simtabi\Laranail\Package\Scaffolder\Support\Json;
@@ -119,6 +120,7 @@ class InstallCommand extends Command
      *
      * @return array
      */
+    #[Override]
     protected function getArguments()
     {
         return [
@@ -132,6 +134,7 @@ class InstallCommand extends Command
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [

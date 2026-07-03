@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Migrations\Migrator;
 
 class MigrationPublisher extends AssetPublisher
@@ -23,6 +24,7 @@ class MigrationPublisher extends AssetPublisher
     /**
      * Get destination path.
      */
+    #[Override]
     public function getDestinationPath(): string
     {
         return $this->repository->config('paths.migration');
@@ -31,6 +33,7 @@ class MigrationPublisher extends AssetPublisher
     /**
      * Get source path.
      */
+    #[Override]
     public function getSourcePath(): string
     {
         return $this->migrator->getPath();

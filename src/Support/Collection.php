@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection as BaseCollection;
+use Override;
 
 class Collection extends BaseCollection
 {
@@ -18,6 +19,7 @@ class Collection extends BaseCollection
     /**
      * Get the collection of items as a plain array.
      */
+    #[Override]
     public function toArray(): array
     {
         return array_map(function ($value) {

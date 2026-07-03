@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Illuminate\Console\Command;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Symfony\Component\Console\Input\InputOption;
@@ -65,19 +66,12 @@ class ListCommand extends Command
 
     public function getModules()
     {
-        switch ($this->option('only')) {
-            case 'enabled':
-                return $this->laravel['modules']->getByStatus(1);
-
-            case 'disabled':
-                return $this->laravel['modules']->getByStatus(0);
-
-            case 'priority':
-                return $this->laravel['modules']->getPriority($this->option('direction'));
-
-            default:
-                return $this->laravel['modules']->all();
-        }
+        return match ($this->option('only')) {
+            'enabled' => $this->laravel['modules']->getByStatus(1),
+            'disabled' => $this->laravel['modules']->getByStatus(0),
+            'priority' => $this->laravel['modules']->getPriority($this->option('direction')),
+            default => $this->laravel['modules']->all(),
+        };
     }
 
     /**
@@ -85,6 +79,7 @@ class ListCommand extends Command
      *
      * @return array
      */
+    #[Override]
     protected function getOptions()
     {
         return [

@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
@@ -36,6 +37,7 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected $description = 'Create a new model for the specified module.';
 
+    #[Override]
     public function handle(): int
     {
         if (parent::handle() === E_ERROR) {
@@ -86,6 +88,7 @@ class ModelMakeCommand extends GeneratorCommand
     /**
      * Get the console command arguments.
      */
+    #[Override]
     protected function getArguments(): array
     {
         return [
@@ -97,6 +100,7 @@ class ModelMakeCommand extends GeneratorCommand
     /**
      * Get the console command options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [
@@ -242,6 +246,7 @@ class ModelMakeCommand extends GeneratorCommand
     /**
      * Get default namespace.
      */
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.model.namespace')

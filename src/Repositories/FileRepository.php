@@ -107,9 +107,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
             $paths = array_merge($paths, $this->config('scan.paths'));
         }
 
-        return array_map(function ($path) {
-            return Str::endsWith($path, '/*') ? $path : Str::finish($path, '/*');
-        }, $paths);
+        return array_map(fn ($path) => Str::endsWith($path, '/*') ? $path : Str::finish($path, '/*'), $paths);
     }
 
     /**
@@ -300,7 +298,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     {
         try {
             return $this->findOrFail($module)->getPath().'/';
-        } catch (ModuleNotFoundException $e) {
+        } catch (ModuleNotFoundException) {
             return $this->getPath().'/'.Str::studly($module).'/';
         }
     }
