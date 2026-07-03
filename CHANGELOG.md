@@ -59,6 +59,19 @@ namespace/path move only. See `docs/ARCHITECTURE.md`.
 - [@omerbaflah](https://github.com/omerbaflah) Fixes Invokable Controller Stub
 - [@solomon-ochepa](https://github.com/solomon-ochepa) Added create module:make-class command
 
+### Tooling & conventions
+
+- Aligned the repo with the laranail conventions: `# laranail/package-scaffolder` README with the 4-badge
+  set + standard section spine; a bare `LICENSE`; `UPGRADING.md`; `.github/` dependabot + PR template +
+  `tests` / `static-analysis` / `security` / `release` workflows; `docs/` renamed/expanded
+  (`architecture.md`, new `installation.md` / `configuration.md` / `release.md`).
+- Added **Rector** to the gate (`composer lint` = Pint + PHPStan + Rector; CI dry-run) and cleaned the
+  codebase across the code-quality, dead-code, early-return, mechanical PHP-8.x **and TYPE_DECLARATION**
+  sets. A few rules are skipped in `rector.php` with inline reasons (notably `StrictArrayParamDimFetchRector`,
+  which mistyped Laravel container closures' `$app` as `array`). PHPStan baseline trimmed as issues were fixed.
+- composer scripts brought to convention (`setup`, `test-dirty`, `pint`/`pint-fix`, `phpstan`, `rector`/
+  `rector-fix`, `composer-audit`); `config.sort-packages`; keywords lead with `laravel`.
+
 
 ---
 
