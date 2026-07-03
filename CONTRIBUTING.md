@@ -39,3 +39,14 @@ Check coverage:
 ```bash
 composer test-coverage
 ```
+
+## laranail conventions
+
+This package follows the [laranail conventions](https://github.com/laranail) with two recorded
+deviations:
+
+- **Test framework: PHPUnit** (not Pest). Deliberate — the suite is large and the value of a rewrite is
+  low. `composer test` / `composer lint` (Pint + PHPStan) are the gate.
+- **Rector** is configured (`rector.php`, `composer rector` / `rector-fix`) but a full pass is a **pending
+  remediation** (~200 files) and is **not yet in the CI gate**. Run `composer rector` to preview it.
+  Prefer `composer pint-fix` for day-to-day style; a Rector cleanup will be its own change.

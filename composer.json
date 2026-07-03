@@ -2,12 +2,13 @@
     "name": "laranail/package-scaffolder",
     "description": "Modular (HMVC) application scaffolding for Laravel — generate, manage and migrate self-contained modules.",
     "keywords": [
-        "modules",
         "laravel",
         "laranail",
-        "module",
+        "package-scaffolder",
+        "modules",
         "hmvc",
         "scaffolding",
+        "generator",
         "rad"
     ],
     "homepage": "https://opensource.simtabi.com/package-scaffolder/",
@@ -47,7 +48,8 @@
         "laravel/pint": "^1.16",
         "spatie/phpunit-snapshot-assertions": "^5.0",
         "phpstan/phpstan": "^2.0",
-        "laranail/package-tools": "^1.3"
+        "laranail/package-tools": "^1.3",
+        "rector/rector": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -82,14 +84,27 @@
     "config": {
         "allow-plugins": {
             "wikimedia/composer-merge-plugin": true
-        }
+        },
+        "sort-packages": true
     },
     "scripts": {
-        "update-snapshots": "phpunit --no-coverage -d --update-snapshots",
-        "lint": "pint",
-        "analyse": "phpstan analyse",
-        "test": "phpunit",
+        "setup": "@composer install",
+        "test": "phpunit --no-coverage",
         "test-coverage": "phpunit --coverage-html coverage",
+        "test-dirty": "phpunit --no-coverage --order-by=defects --stop-on-defect",
+        "update-snapshots": "phpunit --no-coverage -d --update-snapshots",
+        "lint": [
+            "@pint",
+            "@phpstan"
+        ],
+        "pint": "vendor/bin/pint --test",
+        "pint-fix": "vendor/bin/pint",
+        "phpstan": "vendor/bin/phpstan analyse --no-progress",
+        "analyse": "vendor/bin/phpstan analyse --no-progress",
+        "rector": "vendor/bin/rector process --dry-run",
+        "rector-fix": "vendor/bin/rector process",
+        "audit": "@composer audit",
+        "composer-audit": "@composer audit --no-interaction",
         "pcf": "vendor/bin/php-cs-fixer fix --verbose"
     },
     "minimum-stability": "dev",

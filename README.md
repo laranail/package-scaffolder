@@ -1,104 +1,89 @@
-# Package Scaffolder
+# laranail/package-scaffolder
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/laranail/package-scaffolder.svg?style=flat-square)](https://packagist.org/packages/laranail/package-scaffolder)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Total Downloads](https://img.shields.io/packagist/dt/laranail/package-scaffolder.svg?style=flat-square)](https://packagist.org/packages/laranail/package-scaffolder)
+[![Latest version on Packagist](https://img.shields.io/packagist/v/laranail/package-scaffolder.svg)](https://packagist.org/packages/laranail/package-scaffolder)
+[![Tests](https://github.com/laranail/package-scaffolder/actions/workflows/tests.yml/badge.svg)](https://github.com/laranail/package-scaffolder/actions/workflows/tests.yml)
+[![Static analysis](https://github.com/laranail/package-scaffolder/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/laranail/package-scaffolder/actions/workflows/static-analysis.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-| **Laravel** | **package-scaffolder** |
-|-------------|---------------------|
-| 5.4         | ^1.0                |
-| 5.5         | ^2.0                |
-| 5.6         | ^3.0                |
-| 5.7         | ^4.0                |
-| 5.8         | ^5.0                |
-| 6.0         | ^6.0                |
-| 7.0         | ^7.0                |
-| 8.0         | ^8.0                |
-| 9.0         | ^9.0                |
-| 10.0        | ^10.0               |
-| 11.0        | ^11.0               |
-| 12.0        | ^12.0               |
-| 13.0        | ^13.0               |
+> Author-time generator for the laranail ecosystem — scaffold self-contained Laravel **packages, modules,
+> and plugins** (HMVC) from one Artisan command.
 
-`laranail/package-scaffolder` is a Laravel package for managing a large Laravel app
-as a set of modules (HMVC). A module is like a mini Laravel package — it has its own
-views, controllers, models, migrations and service providers.
+`laranail/package-scaffolder` generates a ready-to-run artifact (its own views, controllers, models,
+migrations, service providers, tests and CI) that a large Laravel app can consume as a **package**
+(`composer.json`), a **module** (`module.json`), or a **plugin** (`plugin.json`). Its runtime counterpart
+is [`laranail/package-management`](https://github.com/laranail/package-management), which discovers,
+activates and wires the generated artifacts into a host app.
 
-`laranail/package-scaffolder` is developed and maintained by Simtabi LLC.
+## Requirements
 
-## Install
+- PHP `^8.4.1 || ^8.5`
+- Laravel `^13.0`
 
-To install via Composer, run:
+Older Laravel releases (5.4 – 12) are served by earlier major lines of this package; see the
+[CHANGELOG](CHANGELOG.md).
 
-``` bash
+## Installation
+
+```bash
 composer require laranail/package-scaffolder
 ```
 
-The package will automatically register a service provider and alias.
+The service provider and `Module` facade are auto-discovered. Optionally publish the config:
 
-Optionally, publish the package's configuration file by running:
-
-``` bash
+```bash
 php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider"
 ```
 
-### Autoloading
+### Autoloading generated modules
 
-> from v11.0 autoloading `"Modules\\": "modules/",` is no longer required, and should be removed from your composer.json if present.
-
-By default, the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
+Generated modules are autoloaded via `wikimedia/composer-merge-plugin`. Add the merge entry (and allow the
+plugin) in your app's `composer.json`, then `composer dump-autoload`:
 
 ```json
 "extra": {
-    "laravel": {
-        "dont-discover": []
-    },
-    "merge-plugin": {
-        "include": [
-            "Modules/*/composer.json"
-        ]
-    }
+    "merge-plugin": { "include": ["Modules/*/composer.json"] }
 },
+"config": {
+    "allow-plugins": { "wikimedia/composer-merge-plugin": true }
+}
 ```
 
-**Important**
+> A `Class "Modules\…\…ServiceProvider" not found` error almost always means the plugin isn't allowed or
+> `composer dump-autoload` wasn't re-run.
 
-on the first installation you will be asked:
+## Quick start
 
 ```bash
-Do you trust "wikimedia/composer-merge-plugin" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?]
+php artisan make:artifact Blog                     # scaffold an artifact (package/module/plugin roles)
+php artisan make:artifact Blog --type=module       # primary role
+php artisan make:artifact Blog --flavor=lumen      # framework flavor (vanilla | laravel | lumen | symfony)
 ```
-
-Answer `y` to allow the plugin to be executed. Otherwise, you will need to manually enable the following to your composer.json:
-
-```json
-"config": {
-    "allow-plugins": {
-        "wikimedia/composer-merge-plugin": true
-    }
-```
-
-> if `"wikimedia/composer-merge-plugin": false` modules will not be autoloaded.
-
-> If you hit a `Class "Modules\…\…ServiceProvider" not found` error after following the
-> setup, the merge-plugin step above is almost always the cause: the plugin must be
-> allowed (the `allow-plugins` entry) and `composer dump-autoload` re-run so each
-> `Modules/*/composer.json` is merged.
-
-**Tip: don't forget to run `composer dump-autoload` afterwards**
 
 ## Documentation
 
-You'll find documentation on [https://opensource.simtabi.com/package-scaffolder/docs/](https://opensource.simtabi.com/package-scaffolder/docs/).
+Hosted at [`opensource.simtabi.com/package-scaffolder/docs/`](https://opensource.simtabi.com/package-scaffolder/docs/)
+(product page: [`opensource.simtabi.com/package-scaffolder/`](https://opensource.simtabi.com/package-scaffolder/)).
+The same pages live under [`docs/`](docs/):
 
-- [Generating artifacts (`make:artifact`)](docs/make-artifact.md) — types, plugins, features, portability, composer wiring.
-- [Architecture](docs/ARCHITECTURE.md) — the generated-artifact structure (package/module/plugin) and the scaffolder's own layout.
+- [Installation](docs/installation.md) — requirements, install, module autoloading
+- [Configuration](docs/configuration.md) — flavors, artifact types, manifest files
+- [Generating artifacts (`make:artifact`)](docs/make-artifact.md) — types, plugins, features, portability, composer wiring
+- [Architecture](docs/architecture.md) — the generated-artifact structure (package/module/plugin) + the scaffolder's own layout
+- [Release](docs/release.md) — how releases are cut
 
-## Credits
+## Sister packages
 
-- [Simtabi LLC](https://github.com/simtabi)
-- [Imani Manyara](https://github.com/imanimanyara)
+- [`laranail/package-management`](https://github.com/laranail/package-management) — runtime loader/manager for the artifacts this package generates.
+- [`laranail/package-tools`](https://github.com/laranail/package-tools) — the `PackageServiceProvider` base + fluent `Package` builder.
+- [`laranail/console`](https://github.com/laranail/console) — the command base enabling `laranail::` namespaced Artisan commands.
+
+## Contributing & security
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — workflow, coding standards, command naming.
+- [SECURITY.md](SECURITY.md) — how to report a vulnerability.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — community expectations.
+- [CHANGELOG.md](CHANGELOG.md) — release history.
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+MIT. See [LICENSE](LICENSE). © Simtabi LLC.
