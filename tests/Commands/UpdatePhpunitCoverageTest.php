@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Commands;
 
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
@@ -67,11 +69,5 @@ class UpdatePhpunitCoverageTest extends BaseTestCase
 XML;
 
         file_put_contents(base_path('phpunit.xml'), $phpunit);
-    }
-
-    private function MakeModulesStatuses($value)
-    {
-        $modulesStatusPath = base_path('modules_statuses.json');
-        file_put_contents($modulesStatusPath, $value);
     }
 }

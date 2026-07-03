@@ -6,6 +6,8 @@ use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class PathNamespaceTest extends BaseTestCase
 {
+    public $class;
+
     protected function setUp(): void
     {
         parent::setUp();

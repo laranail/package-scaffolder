@@ -2,28 +2,15 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class HelpersTest extends BaseTestCase
 {
-    /**
-     * @var Filesystem
-     */
-    private $finder;
-
-    /**
-     * @var string
-     */
-    private $modulePath;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->finder = $this->app['files'];
         $this->createModule();
-        $this->modulePath = $this->getModuleAppPath();
     }
 
     protected function tearDown(): void

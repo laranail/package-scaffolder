@@ -405,7 +405,7 @@ class ModuleGenerator extends Generator
      */
     public function generateResources()
     {
-        if (GenerateConfigReader::read('seeder')->generate() === true) {
+        if (GenerateConfigReader::read('seeder')->generate()) {
             $this->console->call('module:make-seed', [
                 'name' => $this->getName(),
                 'module' => $this->getName(),
@@ -414,7 +414,7 @@ class ModuleGenerator extends Generator
         }
 
         $providerGenerator = GenerateConfigReader::read('provider');
-        if ($providerGenerator->generate() === true) {
+        if ($providerGenerator->generate()) {
             $this->console->call('module:make-provider', [
                 'name' => $this->getName().'ServiceProvider',
                 'module' => $this->getName(),
@@ -437,45 +437,37 @@ class ModuleGenerator extends Generator
         }
 
         $eventGeneratorConfig = GenerateConfigReader::read('event-provider');
-        if (
-            (is_null($eventGeneratorConfig->getPath()) && $providerGenerator->generate())
-            || (! is_null($eventGeneratorConfig->getPath()) && $eventGeneratorConfig->generate())
-        ) {
+        if ((is_null($eventGeneratorConfig->getPath()) && $providerGenerator->generate())
+        || (! is_null($eventGeneratorConfig->getPath()) && $eventGeneratorConfig->generate())) {
             $this->console->call('module:make-event-provider', [
                 'module' => $this->getName(),
             ]);
-        } else {
-            if ($providerGenerator->generate()) {
-                // comment register EventServiceProvider
-                $this->filesystem->replaceInFile(
-                    '$this->app->register(Event',
-                    '// $this->app->register(Event',
-                    $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.$providerGenerator->getPath().DIRECTORY_SEPARATOR.sprintf('%sServiceProvider.php', $this->getName())
-                );
-            }
+        } elseif ($providerGenerator->generate()) {
+            // comment register EventServiceProvider
+            $this->filesystem->replaceInFile(
+                '$this->app->register(Event',
+                '// $this->app->register(Event',
+                $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.$providerGenerator->getPath().DIRECTORY_SEPARATOR.sprintf('%sServiceProvider.php', $this->getName())
+            );
         }
 
         $routeGeneratorConfig = GenerateConfigReader::read('route-provider');
-        if (
-            (is_null($routeGeneratorConfig->getPath()) && $providerGenerator->generate())
-            || (! is_null($routeGeneratorConfig->getPath()) && $routeGeneratorConfig->generate())
-        ) {
+        if ((is_null($routeGeneratorConfig->getPath()) && $providerGenerator->generate())
+        || (! is_null($routeGeneratorConfig->getPath()) && $routeGeneratorConfig->generate())) {
             $this->console->call('module:route-provider', [
                 'module' => $this->getName(),
             ]);
-        } else {
-            if ($providerGenerator->generate()) {
-                // comment register RouteServiceProvider
-                $this->filesystem->replaceInFile(
-                    '$this->app->register(Route',
-                    '// $this->app->register(Route',
-                    $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.$providerGenerator->getPath().DIRECTORY_SEPARATOR.sprintf('%sServiceProvider.php', $this->getName())
-                );
-            }
+        } elseif ($providerGenerator->generate()) {
+            // comment register RouteServiceProvider
+            $this->filesystem->replaceInFile(
+                '$this->app->register(Route',
+                '// $this->app->register(Route',
+                $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.$providerGenerator->getPath().DIRECTORY_SEPARATOR.sprintf('%sServiceProvider.php', $this->getName())
+            );
         }
 
-        if (GenerateConfigReader::read('controller')->generate() === true) {
-            $options = $this->type == 'api' ? ['--api' => true] : [];
+        if (GenerateConfigReader::read('controller')->generate()) {
+            $options = $this->type === 'api' ? ['--api' => true] : [];
             if ($this->inertia) {
                 $options = ['--inertia' => true];
             }
@@ -541,10 +533,8 @@ class ModuleGenerator extends Generator
 
         $replaces = [];
 
-        if ($stub === 'json' || $stub === 'composer') {
-            if (in_array('PROVIDER_NAMESPACE', $keys, true) === false) {
-                $keys[] = 'PROVIDER_NAMESPACE';
-            }
+        if (($stub === 'json' || $stub === 'composer') && in_array('PROVIDER_NAMESPACE', $keys, true) === false) {
+            $keys[] = 'PROVIDER_NAMESPACE';
         }
 
         foreach ($keys as $key => $value) {
@@ -669,9 +659,9 @@ class ModuleGenerator extends Generator
     {
         if ($this->module->config('paths.generator.controller.namespace')) {
             return $this->module->config('paths.generator.controller.namespace');
-        } else {
-            return $this->path_namespace($this->strip_app_folder($this->module->config('paths.generator.controller.path', 'app/Http/Controllers')));
         }
+
+        return $this->path_namespace($this->strip_app_folder($this->module->config('paths.generator.controller.path', 'app/Http/Controllers')));
     }
 
     /**

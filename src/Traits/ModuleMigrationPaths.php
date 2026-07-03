@@ -46,7 +46,7 @@ trait ModuleMigrationPaths
      */
     protected function getModuleMigrationTarget(Module $module, ?string $subpath): array
     {
-        if (empty($subpath)) {
+        if (in_array($subpath, [null, '', '0'], true)) {
             return $this->getModuleMigrationPaths($module);
         }
 

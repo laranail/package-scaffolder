@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\PublisherInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
@@ -138,7 +139,7 @@ abstract class Publisher implements PublisherInterface
         if (! $this->console instanceof Command) {
             $message = "The 'console' property must instance of \\Illuminate\\Console\\Command.";
 
-            throw new \RuntimeException($message);
+            throw new RuntimeException($message);
         }
 
         if (! $this->getFilesystem()->isDirectory($sourcePath = $this->getSourcePath())) {
@@ -150,7 +151,7 @@ abstract class Publisher implements PublisherInterface
         }
 
         if ($this->getFilesystem()->copyDirectory($sourcePath, $destinationPath)) {
-            if ($this->showMessage === true) {
+            if ($this->showMessage) {
                 $this->console->components->task($this->module->getStudlyName(), fn () => true);
             }
         } else {

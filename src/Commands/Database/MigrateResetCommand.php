@@ -33,7 +33,7 @@ class MigrateResetCommand extends BaseCommand implements ConfirmableCommand
 
         $paths = $this->getModuleMigrationPaths($module);
 
-        if (empty($paths)) {
+        if ($paths === []) {
             $this->components->warn("No migrations found for module <fg=cyan;options=bold>{$module->getName()}</>");
 
             return;

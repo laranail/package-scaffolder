@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Contracts;
 
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;

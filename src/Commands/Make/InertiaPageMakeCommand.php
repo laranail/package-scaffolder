@@ -76,7 +76,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
         $pagesPath = GenerateConfigReader::read('inertia')->getPath() ?? 'resources/js/Pages';
         $subDirectory = $this->getSubDirectory();
 
-        return $path.$pagesPath.'/'.($subDirectory ? $subDirectory.'/' : '').$this->getFileName();
+        return $path.$pagesPath.'/'.($subDirectory !== '' && $subDirectory !== '0' ? $subDirectory.'/' : '').$this->getFileName();
     }
 
     /**

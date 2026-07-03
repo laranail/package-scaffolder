@@ -77,8 +77,10 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
 
         foreach (Module::all() as $module) {
             $modulePath = realpath($module->getPath());
-
-            if ($modulePath === false || ! str_starts_with($realPath, $modulePath.DIRECTORY_SEPARATOR)) {
+            if ($modulePath === false) {
+                continue;
+            }
+            if (! str_starts_with($realPath, $modulePath.DIRECTORY_SEPARATOR)) {
                 continue;
             }
 

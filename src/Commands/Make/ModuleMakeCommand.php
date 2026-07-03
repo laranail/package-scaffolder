@@ -109,10 +109,11 @@ class ModuleMakeCommand extends Command
         }
         if ($isPlain) {
             return 'plain';
-        } elseif ($isApi) {
-            return 'api';
-        } else {
-            return 'web';
         }
+        if ($isApi) {
+            return 'api';
+        }
+
+        return 'web';
     }
 }

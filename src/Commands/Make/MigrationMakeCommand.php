@@ -3,6 +3,7 @@
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\NameParser;
 use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\SchemaParser;
@@ -70,12 +71,11 @@ class MigrationMakeCommand extends GeneratorCommand
     /**
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function getTemplateContents()
     {
         $parser = new NameParser($this->argument('name'));
-
         if ($parser->isCreate()) {
             return Stub::create('/migration/create.stub', [
                 'class' => $this->getClass(),
@@ -84,7 +84,8 @@ class MigrationMakeCommand extends GeneratorCommand
                 'module' => $this->getModuleName(),
                 'module_namespace' => $this->laravel['modules']->config('namespace'),
             ]);
-        } elseif ($parser->isAdd()) {
+        }
+        if ($parser->isAdd()) {
             return Stub::create('/migration/add.stub', [
                 'class' => $this->getClass(),
                 'table' => $parser->getTableName(),
@@ -93,7 +94,8 @@ class MigrationMakeCommand extends GeneratorCommand
                 'module' => $this->getModuleName(),
                 'module_namespace' => $this->laravel['modules']->config('namespace'),
             ]);
-        } elseif ($parser->isDelete()) {
+        }
+        if ($parser->isDelete()) {
             return Stub::create('/migration/delete.stub', [
                 'class' => $this->getClass(),
                 'table' => $parser->getTableName(),
@@ -102,7 +104,9 @@ class MigrationMakeCommand extends GeneratorCommand
                 'module' => $this->getModuleName(),
                 'module_namespace' => $this->laravel['modules']->config('namespace'),
             ]);
-        } elseif ($parser->isDrop()) {
+        }
+
+        if ($parser->isDrop()) {
             return Stub::create('/migration/drop.stub', [
                 'class' => $this->getClass(),
                 'table' => $parser->getTableName(),

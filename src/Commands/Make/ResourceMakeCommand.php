@@ -85,8 +85,11 @@ class ResourceMakeCommand extends GeneratorCommand
      */
     protected function collection(): bool
     {
-        return $this->option('collection') ||
-            Str::endsWith($this->argument('name'), 'Collection');
+        if ($this->option('collection')) {
+            return true;
+        }
+
+        return Str::endsWith($this->argument('name'), 'Collection');
     }
 
     protected function getStubName(): string

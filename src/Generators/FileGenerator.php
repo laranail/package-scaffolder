@@ -107,7 +107,7 @@ class FileGenerator extends Generator
         if (! $this->filesystem->exists($path)) {
             return $this->filesystem->put($path, $this->getContents());
         }
-        if ($this->overwriteFile === true) {
+        if ($this->overwriteFile) {
             return $this->filesystem->put($path, $this->getContents());
         }
 

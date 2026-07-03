@@ -2,7 +2,6 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
@@ -10,22 +9,10 @@ use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 class ModuleHelperTest extends BaseTestCase
 {
-    /**
-     * @var Filesystem
-     */
-    private $finder;
-
-    /**
-     * @var string
-     */
-    private $modulePath;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->finder = $this->app['files'];
         $this->createModule();
-        $this->modulePath = $this->getModuleAppPath();
     }
 
     protected function tearDown(): void

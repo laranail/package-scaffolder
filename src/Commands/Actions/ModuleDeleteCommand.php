@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
+use Closure;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 
@@ -31,7 +32,7 @@ class ModuleDeleteCommand extends BaseCommand implements ConfirmableCommand
         return 'Warning: Do you want to remove the module?';
     }
 
-    public function getConfirmableCallback(): \Closure|bool|null
+    public function getConfirmableCallback(): Closure|bool|null
     {
         return true;
     }

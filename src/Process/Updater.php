@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Process;
 
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 class Updater extends Runner
@@ -74,12 +75,12 @@ class Updater extends Runner
         $path = base_path('composer.json');
         $raw = @file_get_contents($path);
         if ($raw === false) {
-            throw new \RuntimeException("Unable to read host composer.json at [{$path}].");
+            throw new RuntimeException("Unable to read host composer.json at [{$path}].");
         }
 
         $composer = json_decode($raw, true);
         if (! is_array($composer)) {
-            throw new \RuntimeException("Host composer.json at [{$path}] is not valid JSON; refusing to modify it.");
+            throw new RuntimeException("Host composer.json at [{$path}] is not valid JSON; refusing to modify it.");
         }
 
         $composer['scripts'] ??= [];
@@ -98,7 +99,7 @@ class Updater extends Runner
 
         $encoded = json_encode($composer, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         if ($encoded === false) {
-            throw new \RuntimeException("Failed to encode host composer.json at [{$path}].");
+            throw new RuntimeException("Failed to encode host composer.json at [{$path}].");
         }
 
         // Atomic write: temp file + rename, so an interrupted write can't corrupt

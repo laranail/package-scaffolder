@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
+use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
@@ -106,11 +107,11 @@ class Json
      * Get file contents as array, either from the cache or from
      * the json content file if the cache is disabled.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAttributes(): array
     {
-        return $this->attributes ? $this->attributes->toArray() : $this->decodeContents();
+        return $this->attributes instanceof Collection ? $this->attributes->toArray() : $this->decodeContents();
     }
 
     /**

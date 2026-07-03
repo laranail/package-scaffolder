@@ -30,7 +30,7 @@ class InstallerTest extends BaseTestCase
 
     public function test_composer_install_escapes_a_malicious_package_name(): void
     {
-        $installer = new Installer('acme/mod; rm -rf /tmp/x', null, null);
+        $installer = new Installer('acme/mod; rm -rf /tmp/x');
 
         $cmd = $installer->getProcess()->getCommandLine();
 

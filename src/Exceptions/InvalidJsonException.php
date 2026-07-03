@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Exceptions;
 
-class InvalidJsonException extends \Exception {}
+use Exception;
+
+class InvalidJsonException extends Exception {}

@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Process;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Symfony\Component\Process\Process;
 
@@ -140,7 +141,7 @@ class Installer
      */
     public function getDestinationPath(): string
     {
-        if ($this->path) {
+        if ($this->path !== '' && $this->path !== '0') {
             return $this->path;
         }
 
@@ -262,7 +263,7 @@ class Installer
         $url = $this->getRepoUrl();
 
         if ($url === null) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Cannot resolve a git URL for module [{$this->name}] with type [{$this->type}].",
             );
         }

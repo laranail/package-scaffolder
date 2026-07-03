@@ -2,6 +2,8 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
+use Arr;
+use File;
 use Illuminate\Support\Collection;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 
@@ -58,7 +60,7 @@ class CheckLangCommand extends BaseCommand
         $files = [];
         $path = $module->getPath().$this->langPath;
         if (is_dir($path)) {
-            $files = array_merge($files, $this->laravel['files']->all($path));
+            return array_merge($files, $this->laravel['files']->all($path));
         }
 
         return $files;
@@ -78,18 +80,18 @@ class CheckLangCommand extends BaseCommand
                     'path' => $directory,
                     'files' => array_map(function ($file) {
                         return basename($file);
-                    }, \File::glob($directory.DIRECTORY_SEPARATOR.'*')),
+                    }, File::glob($directory.DIRECTORY_SEPARATOR.'*')),
                 ];
             }, $directories);
         }
 
-        if (count($directories) == 0) {
+        if (count($directories) === 0) {
             $this->components->info("No language files found in module $moduleName");
 
             return false;
         }
 
-        if (count($directories) == 1) {
+        if (count($directories) === 1) {
             $this->components->warn("Only one language file found in module $moduleName");
 
             return false;
@@ -193,12 +195,12 @@ class CheckLangCommand extends BaseCommand
 
     private function getLangKeys($file)
     {
-        if (\File::exists($file)) {
-            $lang = \File::getRequire($file);
+        if (File::exists($file)) {
+            $lang = File::getRequire($file);
 
-            return collect(\Arr::dot($lang))->keys();
-        } else {
-            return false;
+            return collect(Arr::dot($lang))->keys();
         }
+
+        return false;
     }
 }

@@ -197,7 +197,7 @@ EOT;
 
         // Remove 'app\' from the beginning if it exists
         if (strpos($namespace, 'app\\') === 0) {
-            $namespace = substr($namespace, 4);
+            return substr($namespace, 4);
         }
 
         return $namespace;

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 
 class StubTest extends BaseTestCase
@@ -130,7 +133,7 @@ class StubTest extends BaseTestCase
         Stub::setBasePath(sys_get_temp_dir());
         $stub = new Stub('/laranail-definitely-missing-'.getmypid().'.stub');
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $stub->getContents();
     }
 }

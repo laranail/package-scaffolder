@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
 
+use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 
@@ -142,9 +145,9 @@ final class ArtifactGenerator
             TokenReplacer::PLACEHOLDER_LOWER => $request->lower(),    // blog
         ];
 
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($targetPath, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST,
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($targetPath, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST,
         );
 
         foreach ($iterator as $item) {
@@ -278,10 +281,12 @@ final class ArtifactGenerator
         }
 
         foreach (['require', 'require-dev', 'suggest'] as $section) {
-            if (! isset($composer[$section]) || ! is_array($composer[$section])) {
+            if (! isset($composer[$section])) {
                 continue;
             }
-
+            if (! is_array($composer[$section])) {
+                continue;
+            }
             $composer[$section] = array_filter(
                 $composer[$section],
                 static fn (string $pkg): bool => ! self::matchesAny($pkg, $depNeedles),

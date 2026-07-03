@@ -34,7 +34,7 @@ class MigrateCommand extends BaseCommand
 
         $paths = $this->getModuleMigrationTarget($module, $this->option('subpath'));
 
-        if (empty($paths)) {
+        if ($paths === []) {
             $this->components->warn("No migrations found for module <fg=cyan;options=bold>{$module->getName()}</>");
 
             return;

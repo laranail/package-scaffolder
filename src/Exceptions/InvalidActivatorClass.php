@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Exceptions;
 
-class InvalidActivatorClass extends \Exception
+use Exception;
+
+class InvalidActivatorClass extends Exception
 {
     public static function missingConfig()
     {

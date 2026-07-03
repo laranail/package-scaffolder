@@ -4,6 +4,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Database;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
@@ -12,7 +13,7 @@ class ThrowingSeeder extends Seeder
 {
     public function run(): void
     {
-        throw new \RuntimeException('seeder blew up');
+        throw new RuntimeException('seeder blew up');
     }
 }
 

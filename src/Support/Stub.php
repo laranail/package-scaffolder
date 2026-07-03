@@ -2,6 +2,8 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
+use RuntimeException;
+
 class Stub
 {
     /**
@@ -87,7 +89,7 @@ class Stub
         $contents = @file_get_contents($path);
 
         if ($contents === false) {
-            throw new \RuntimeException("Unable to read stub at [{$path}].");
+            throw new RuntimeException("Unable to read stub at [{$path}].");
         }
 
         foreach ($this->replaces as $search => $replace) {

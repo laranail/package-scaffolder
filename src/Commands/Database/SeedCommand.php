@@ -2,7 +2,9 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
+use Error;
 use ErrorException;
+use Exception;
 use Illuminate\Console\View\TaskResult;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Str;
@@ -15,6 +17,7 @@ use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ResolvesModuleNamespace;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class SeedCommand extends BaseCommand
 {
@@ -44,7 +47,7 @@ class SeedCommand extends BaseCommand
         $this->components->task("Seeding <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module) {
             try {
                 $this->moduleSeed($module);
-            } catch (\Error $e) {
+            } catch (Error $e) {
                 $e = new ErrorException($e->getMessage(), $e->getCode(), 1, $e->getFile(), $e->getLine(), $e);
                 $this->reportException($e);
                 $this->renderException($this->getOutput(), $e);
@@ -53,7 +56,7 @@ class SeedCommand extends BaseCommand
                 // TaskResult::*->value, so a bare `false` rendered as DONE and
                 // hid the failure (#2151).
                 return TaskResult::Failure->value;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->reportException($e);
                 $this->renderException($this->getOutput(), $e);
 
@@ -228,10 +231,10 @@ class SeedCommand extends BaseCommand
      * Report the exception to the exception handler.
      *
      * @param  OutputInterface  $output
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @return void
      */
-    protected function renderException($output, \Exception $e)
+    protected function renderException($output, Exception $e)
     {
         $this->laravel[ExceptionHandler::class]->renderForConsole($output, $e);
     }
@@ -239,10 +242,10 @@ class SeedCommand extends BaseCommand
     /**
      * Report the exception to the exception handler.
      *
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @return void
      */
-    protected function reportException(\Exception $e)
+    protected function reportException(Exception $e)
     {
         $this->laravel[ExceptionHandler::class]->report($e);
     }

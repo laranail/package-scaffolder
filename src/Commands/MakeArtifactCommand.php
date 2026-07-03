@@ -6,6 +6,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Simtabi\Laranail\Console\Tools\Commands\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
@@ -124,7 +125,7 @@ class MakeArtifactCommand extends Command
         }
 
         if (! in_array($value, $flavors, true)) {
-            throw new \InvalidArgumentException('--flavor must be one of: '.implode(', ', $flavors).'.');
+            throw new InvalidArgumentException('--flavor must be one of: '.implode(', ', $flavors).'.');
         }
 
         return $value;
@@ -142,7 +143,7 @@ class MakeArtifactCommand extends Command
 
         $panels = (array) ($caps['panels'] ?? ['none']);
         if (! in_array($plugin, $panels, true)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Panel [{$plugin}] is not available for the [{$flavor}] flavor (allowed: ".implode(', ', $panels).').',
             );
         }
@@ -150,7 +151,7 @@ class MakeArtifactCommand extends Command
         $allowed = (array) ($caps['features'] ?? []);
         $unsupported = array_values(array_diff($features, $allowed));
         if ($unsupported !== []) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Feature(s) ['.implode(', ', $unsupported)."] are not available for the [{$flavor}] flavor.",
             );
         }
@@ -162,14 +163,14 @@ class MakeArtifactCommand extends Command
 
         if ($value !== null && $value !== '') {
             if (! in_array($value, $options, true)) {
-                throw new \InvalidArgumentException("--{$option} must be one of: ".implode(', ', $options).'.');
+                throw new InvalidArgumentException("--{$option} must be one of: ".implode(', ', $options).'.');
             }
 
             return (string) $value;
         }
 
         if ($nonInteractive) {
-            throw new \InvalidArgumentException("--{$option} is required in non-interactive mode (one of: ".implode(', ', $options).').');
+            throw new InvalidArgumentException("--{$option} is required in non-interactive mode (one of: ".implode(', ', $options).').');
         }
 
         return $io->askSelect($label, $options, 0);
@@ -187,7 +188,7 @@ class MakeArtifactCommand extends Command
 
         if ($value !== null && $value !== '') {
             if (! in_array($value, $types, true)) {
-                throw new \InvalidArgumentException('--plugin must be one of: '.implode(', ', $types).'.');
+                throw new InvalidArgumentException('--plugin must be one of: '.implode(', ', $types).'.');
             }
 
             return (string) $value;
@@ -208,14 +209,14 @@ class MakeArtifactCommand extends Command
 
         if ($name === '') {
             if ($nonInteractive) {
-                throw new \InvalidArgumentException('The "name" argument is required in non-interactive mode.');
+                throw new InvalidArgumentException('The "name" argument is required in non-interactive mode.');
             }
 
             $name = $io->askText('Artifact name (StudlyCase)', 'Blog', '', true);
         }
 
         if (Str::studly($name) === '') {
-            throw new \InvalidArgumentException('The artifact name is invalid.');
+            throw new InvalidArgumentException('The artifact name is invalid.');
         }
 
         return $name;
@@ -241,11 +242,11 @@ class MakeArtifactCommand extends Command
         $entity = Str::studly($entity !== '' ? $entity : $default);
 
         if ($entity === '') {
-            throw new \InvalidArgumentException('The entity name is invalid.');
+            throw new InvalidArgumentException('The entity name is invalid.');
         }
 
         if (Str::lower($entity) === Str::lower(Str::studly($name))) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "The primary entity must differ from the artifact name [{$entity}]: the manager is named after the "
                 .'artifact and the model after the entity, so identical names collide. Pass a distinct --entity (e.g. --entity=Account).'
             );
@@ -265,8 +266,8 @@ class MakeArtifactCommand extends Command
 
         $ns = trim($ns !== '' ? $ns : $default, '\\');
 
-        if (! preg_match('/^[A-Za-z_][A-Za-z0-9_]*(\\\\[A-Za-z_][A-Za-z0-9_]*)*$/', $ns)) {
-            throw new \InvalidArgumentException("Invalid root namespace [{$ns}].");
+        if (! preg_match('/^[A-Za-z_]\w*(\\\\[A-Za-z_]\w*)*$/', $ns)) {
+            throw new InvalidArgumentException("Invalid root namespace [{$ns}].");
         }
 
         return $ns;
@@ -301,7 +302,7 @@ class MakeArtifactCommand extends Command
         $unknown = array_diff($list, $selectable);
 
         if ($unknown !== []) {
-            throw new \InvalidArgumentException('Unknown feature(s): '.implode(', ', $unknown).'. Valid: '.implode(', ', $selectable).'.');
+            throw new InvalidArgumentException('Unknown feature(s): '.implode(', ', $unknown).'. Valid: '.implode(', ', $selectable).'.');
         }
 
         return $this->resolveRequires(array_values(array_unique($list)));

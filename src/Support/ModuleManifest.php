@@ -54,7 +54,7 @@ class ModuleManifest
      */
     public function getProviders(): array
     {
-        if (! empty($this->manifest)) {
+        if ($this->manifest !== []) {
             return $this->manifest;
         }
 
@@ -90,14 +90,16 @@ class ModuleManifest
 
     public function getModulesData(): Collection
     {
-        if (! empty(self::$manifestData) && ! app()->runningUnitTests()) {
+        if (isset(self::$manifestData) && self::$manifestData instanceof Collection && ! app()->runningUnitTests()) {
             return self::$manifestData;
         }
 
         self::$manifestData = $this->paths
             ->flatMap(function ($path) {
                 $manifests = $this->files->glob("{$path}/module.json");
-                is_array($manifests) || $manifests = [];
+                if (! is_array($manifests)) {
+                    $manifests = [];
+                }
 
                 return collect($manifests)
                     ->map(function ($manifest) {

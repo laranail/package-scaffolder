@@ -17,11 +17,9 @@ return RectorConfig::configure()
         __DIR__.'/tests/stubs',
         __DIR__.'/tests/snapshots',
     ])
-    ->withPhpSets(php83: true)
     ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
-        SetList::TYPE_DECLARATION,
         SetList::EARLY_RETURN,
     ])
     // Keep the codebase parseable on the 8.3 syntax floor: wrap PHP 8.4

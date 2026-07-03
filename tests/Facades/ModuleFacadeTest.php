@@ -16,7 +16,7 @@ class ModuleFacadeTest extends BaseTestCase
 
     public function test_it_creates_macros_via_facade()
     {
-        $modules = Module::macro('testMacro', function () {
+        Module::macro('testMacro', function () {
             return true;
         });
 
@@ -25,7 +25,7 @@ class ModuleFacadeTest extends BaseTestCase
 
     public function test_it_calls_macros_via_facade()
     {
-        $modules = Module::macro('testMacro', function () {
+        Module::macro('testMacro', function () {
             return 'a value';
         });
 

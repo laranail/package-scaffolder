@@ -6,6 +6,7 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
@@ -124,7 +125,7 @@ class FileActivator implements ActivatorInterface
     {
         $encoded = json_encode($this->modulesStatuses, JSON_PRETTY_PRINT);
         if ($encoded === false) {
-            throw new \RuntimeException("Failed to encode module statuses for [{$this->statusesFile}].");
+            throw new RuntimeException("Failed to encode module statuses for [{$this->statusesFile}].");
         }
 
         // Atomic write (temp + rename) so an interrupted write can't corrupt the

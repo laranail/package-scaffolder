@@ -36,7 +36,7 @@ trait PathNamespace
     public function module_namespace(string $module, ?string $path = null): string
     {
         $module_namespace = config('modules.namespace', $this->path_namespace(config('modules.paths.modules'))).'\\'.($module);
-        $module_namespace .= strlen($path) ? '\\'.$this->path_namespace($path) : '';
+        $module_namespace .= strlen($path) !== 0 ? '\\'.$this->path_namespace($path) : '';
 
         return $this->studly_namespace($module_namespace);
     }
@@ -46,7 +46,7 @@ trait PathNamespace
      */
     public function clean_path(string $path, $ds = '/'): string
     {
-        return Str::of($path)->explode($ds)->reject(empty($path))->implode($ds);
+        return Str::of($path)->explode($ds)->reject($path === '' || $path === '0')->implode($ds);
     }
 
     /**
@@ -89,7 +89,7 @@ trait PathNamespace
         $config_path = (string) config('modules.paths.app_folder');
 
         // Get modules config app path or use Laravel default app path.
-        $app_path = $this->clean_path(strlen($config_path) ? $config_path : 'app/');
+        $app_path = $this->clean_path(strlen($config_path) !== 0 ? $config_path : 'app/');
 
         if (! $path) {
             return $app_path;

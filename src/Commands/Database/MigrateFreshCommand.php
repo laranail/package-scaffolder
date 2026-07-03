@@ -54,7 +54,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
         // create migration table
         $this->call('migrate:install', array_filter([
             '--database' => $this->option('database'),
-        ])) == 0;
+        ]));
 
         // run migration of root
         $root_paths = $this->migration_paths

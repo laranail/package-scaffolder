@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use ReflectionClass;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Throwable;
 
 class ListCommands extends BaseCommand
 {
@@ -21,7 +22,7 @@ class ListCommands extends BaseCommand
         $module = $this->getModuleModel($name);
         $commands = $this->findCommands($module);
 
-        if (empty($commands)) {
+        if ($commands === []) {
             $this->components->info("No commands found in module <fg=cyan;options=bold>{$module->getName()}</>");
 
             return;
@@ -120,12 +121,10 @@ class ListCommands extends BaseCommand
 
         // If the path starts with app/, remove it and prepend the module namespace
         if (Str::startsWith($path, 'app\\')) {
-            $path = $moduleNamespace.'\\'.Str::after($path, 'app\\');
-        } else {
-            $path = $moduleNamespace.'\\'.$path;
+            return $moduleNamespace.'\\'.Str::after($path, 'app\\');
         }
 
-        return $path;
+        return $moduleNamespace.'\\'.$path;
     }
 
     /**
@@ -177,7 +176,7 @@ class ListCommands extends BaseCommand
                 'name' => $name ?? $shortClassName,
                 'namespace' => $reflection->getNamespaceName(),
             ];
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // If we can't instantiate the class, just return basic info with the class name
             return [
                 'class' => $className,

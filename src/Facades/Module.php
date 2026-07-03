@@ -1,17 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Facades;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Facade;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateFreshCommand;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateRefreshCommand;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateResetCommand;
+use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
 
 /**
  * @method static array all()
  * @method static array getCached()
  * @method static array scan()
- * @method static \Simtabi\Laranail\Package\Scaffolder\Support\Collection toCollection()
+ * @method static Collection toCollection()
  * @method static array getScanPaths()
  * @method static array allEnabled()
  * @method static array allDisabled()
@@ -21,7 +25,7 @@ use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateResetCommand;
  * @method static \Simtabi\Laranail\Package\Scaffolder\Support\Module find(string $name)
  * @method static \Simtabi\Laranail\Package\Scaffolder\Support\Module findOrFail(string $name)
  * @method static string getModulePath($moduleName)
- * @method static \Illuminate\Filesystem\Filesystem getFiles()
+ * @method static Filesystem getFiles()
  * @method static mixed config(string $key, $default = null)
  * @method static string getPath()
  * @method static void boot()

@@ -59,7 +59,7 @@ class EventProviderMakeCommand extends GeneratorCommand
         return Str::studly('EventServiceProvider');
     }
 
-    private function getClassNameWithoutNamespace(): array|string
+    private function getClassNameWithoutNamespace(): string
     {
         return class_basename($this->getEventServiceProviderName());
     }

@@ -2,6 +2,7 @@
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
+use Closure;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Prohibitable;
@@ -27,8 +28,6 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
 
     /**
      * Create a new console command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -67,7 +66,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
         return 'Application In Production';
     }
 
-    public function getConfirmableCallback(): \Closure|bool|null
+    public function getConfirmableCallback(): Closure|bool|null
     {
         return null;
     }
@@ -77,11 +76,8 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
      */
     public function handle()
     {
-        if ($this instanceof ConfirmableCommand) {
-            if ($this->isProhibited() ||
-                ! $this->confirmToProceed($this->getConfirmableLabel(), $this->getConfirmableCallback())) {
-                return Command::FAILURE;
-            }
+        if ($this instanceof ConfirmableCommand && ($this->isProhibited() || ! $this->confirmToProceed($this->getConfirmableLabel(), $this->getConfirmableCallback()))) {
+            return Command::FAILURE;
         }
 
         if (! is_null($info = $this->getInfo())) {
@@ -93,6 +89,8 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
         foreach ($modules as $module) {
             $this->executeAction($module);
         }
+
+        return null;
     }
 
     protected function promptForMissingArguments(InputInterface $input, OutputInterface $output): void
@@ -117,7 +115,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
                 return collect([
                     self::ALL,
                     ...$modules,
-                ])->when(strlen($search_value) > 0, function (Collection &$modules) use ($search_value) {
+                ])->when($search_value !== '', function (Collection &$modules) use ($search_value) {
                     return $modules->filter(fn ($item) => str_contains(strtolower($item), strtolower($search_value)));
                 })->values()->toArray();
             },
@@ -145,7 +143,6 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
             ->addOption(
                 option: new InputOption(
                     name: 'force',
-                    shortcut: null,
                     mode: InputOption::VALUE_NONE,
                     description: 'Force the operation to run without confirmation.',
                 )

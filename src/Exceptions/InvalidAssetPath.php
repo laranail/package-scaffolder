@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Exceptions;
 
-class InvalidAssetPath extends \Exception
+use Exception;
+
+class InvalidAssetPath extends Exception
 {
     public static function missingModuleName($asset)
     {

@@ -107,11 +107,9 @@ abstract class FileRepository implements Countable, RepositoryInterface
             $paths = array_merge($paths, $this->config('scan.paths'));
         }
 
-        $paths = array_map(function ($path) {
+        return array_map(function ($path) {
             return Str::endsWith($path, '/*') ? $path : Str::finish($path, '/*');
         }, $paths);
-
-        return $paths;
     }
 
     /**
@@ -132,7 +130,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
 
         $modules = [];
 
-        foreach ($paths as $key => $path) {
+        foreach ($paths as $path) {
             $manifests = (array) $this->getFiles()->glob("{$path}/module.json");
 
             foreach ($manifests as $manifest) {
@@ -280,7 +278,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     {
         $module = $this->find($name);
 
-        if ($module !== null) {
+        if ($module instanceof Module) {
             return $module;
         }
 

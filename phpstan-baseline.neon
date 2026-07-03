@@ -31,12 +31,6 @@ parameters:
 			path: src/Commands/Actions/CheckLangCommand.php
 
 		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 4
-			path: src/Commands/Actions/ListCommand.php
-
-		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Actions\\ListCommands\:\:findCommands\(\) should return array\<string, array\<string, string\|null\>\> but returns list\<array\>\.$#'
 			identifier: return.type
 			count: 1
@@ -67,52 +61,16 @@ parameters:
 			path: src/Commands/Database/SeedCommand.php
 
 		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ActionMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/ActionMakeCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\CastMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/CastMakeCommand.php
-
-		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ControllerMakeCommand\:\:getControllerNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/Commands/Make/ControllerMakeCommand.php
 
 		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\EnumMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/EnumMakeCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\EventProviderMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/EventProviderMakeCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ExceptionMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/ExceptionMakeCommand.php
-
-		-
 			message: '#^Call to an undefined method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\GeneratorCommand\:\:getModuleName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: src/Commands/Make/GeneratorCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\HelperMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/HelperMakeCommand.php
 
 		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\InertiaComponentMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Create a Vue…''\}, array\{''react'', null, 1, ''Create a React…''\}, array\{''svelte'', null, 1, ''Create a Svelte…''\}\}\.$#'
@@ -125,12 +83,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/InertiaPageMakeCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\InterfaceMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/InterfaceMakeCommand.php
 
 		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ModelMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''all'', ''a'', 1, ''Flag to create all…'', null\}, array\{''controller'', ''c'', 1, ''Flag to create…'', null\}, array\{''fillable'', null, 4, ''The fillable…'', null\}, array\{''factory'', ''f'', 1, ''Create a new…'', null\}, array\{''migration'', ''m'', 1, ''Flag to create…'', null\}, array\{''request'', ''r'', 1, ''Create a new…'', null\}, array\{''resource'', ''R'', 1, ''Create a new…'', null\}, array\{''policy'', ''p'', 1, ''Create a new policy…'', null\}, \.\.\.\}\.$#'
@@ -151,46 +103,16 @@ parameters:
 			path: src/Commands/Make/ObserverMakeCommand.php
 
 		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ReplacementMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/ReplacementMakeCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\RepositoryMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/RepositoryMakeCommand.php
-
-		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\RouteProviderMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/RouteProviderMakeCommand.php
 
 		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ScopeMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/ScopeMakeCommand.php
-
-		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\SeedMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''master'', null, 1, ''Indicates the…''\}, array\{''without\-base'', null, 1, ''Do not auto…''\}\}\.$#'
 			identifier: return.type
 			count: 1
 			path: src/Commands/Make/SeedMakeCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ServiceMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/ServiceMakeCommand.php
-
-		-
-			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\TraitMakeCommand\:\:getClassNameWithoutNamespace\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Commands/Make/TraitMakeCommand.php
 
 		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Publish\\PublishInertiaCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Publish the Vue…''\}, array\{''react'', null, 1, ''Publish the React…''\}, array\{''svelte'', null, 1, ''Publish the Svelte…''\}, array\{''force'', ''f'', 1, ''Overwrite existing…''\}\}\.$#'
@@ -289,12 +211,6 @@ parameters:
 			path: src/Support/Json.php
 
 		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 3
-			path: src/Support/Migrations/NameParser.php
-
-		-
 			message: '#^Access to offset ''events'' on an unknown class Laravel\\Lumen\\Application\.$#'
 			identifier: class.notFound
 			count: 1
@@ -317,6 +233,12 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: src/Support/Module.php
+
+		-
+			message: '#^Instanceof between Illuminate\\Support\\Collection and Illuminate\\Support\\Collection will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Support/ModuleManifest.php
 
 		-
 			message: '#^Static property Simtabi\\Laranail\\Package\\Scaffolder\\Support\\ModuleManifest\:\:\$manifestData \(Illuminate\\Support\\Collection\|null\) is never assigned null so it can be removed from the property type\.$#'

@@ -118,7 +118,7 @@ class SchemaParser implements Arrayable
      */
     public function createField(string $column, array $attributes, string $type = 'add'): string
     {
-        $results = "\t\t\t".'$table';
+        $results = '			$table';
 
         foreach ($attributes as $key => $field) {
             if (in_array($column, $this->relationshipKeys)) {
@@ -163,7 +163,7 @@ class SchemaParser implements Arrayable
             return '->'.$field;
         }
 
-        if ($key == 0) {
+        if ($key === 0) {
             return '->'.$field."('".$column."')";
         }
 
@@ -183,7 +183,7 @@ class SchemaParser implements Arrayable
             return '->'.$field;
         }
 
-        return '->dropColumn('."'".$column."')";
+        return '->dropColumn(\''.$column."')";
     }
 
     /**

@@ -69,8 +69,8 @@ class RouteProviderMakeCommand extends GeneratorCommand
             'LOWER_NAME' => $module->getLowerName(),
             'KEBAB_NAME' => $module->getKebabName(),
         ]))->setRemovalTags(array_filter([
-            ! $this->shouldGenerateWebRoutes() ? 'WEB_ROUTES' : null,
-            ! $this->shouldGenerateApiRoutes() ? 'API_ROUTES' : null,
+            $this->shouldGenerateWebRoutes() ? null : 'WEB_ROUTES',
+            $this->shouldGenerateApiRoutes() ? null : 'API_ROUTES',
         ]))->render();
     }
 

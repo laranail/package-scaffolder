@@ -76,7 +76,7 @@ class InertiaComponentMakeCommand extends GeneratorCommand
         $componentsPath = GenerateConfigReader::read('inertia-components')->getPath() ?? 'resources/js/Components';
         $subDirectory = $this->getSubDirectory();
 
-        return $path.$componentsPath.'/'.($subDirectory ? $subDirectory.'/' : '').$this->getFileName();
+        return $path.$componentsPath.'/'.($subDirectory !== '' && $subDirectory !== '0' ? $subDirectory.'/' : '').$this->getFileName();
     }
 
     /**

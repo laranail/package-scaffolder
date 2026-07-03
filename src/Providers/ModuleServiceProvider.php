@@ -5,6 +5,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use LogicException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
@@ -43,7 +44,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
     public function __construct($app)
     {
         if (! isset($this->name, $this->nameLower)) {
-            throw new \LogicException('Module service provider must define both $name and $nameLower properties.');
+            throw new LogicException('Module service provider must define both $name and $nameLower properties.');
         }
 
         parent::__construct($app);
