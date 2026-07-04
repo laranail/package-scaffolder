@@ -59,17 +59,27 @@ php artisan make:artifact Blog --type=module       # primary role
 php artisan make:artifact Blog --flavor=lumen      # framework flavor (vanilla | laravel | lumen | symfony)
 ```
 
-## Documentation
+## <a name="documentation"></a>Documentation
 
 Hosted at [`opensource.simtabi.com/package-scaffolder/docs/`](https://opensource.simtabi.com/package-scaffolder/docs/)
 (product page: [`opensource.simtabi.com/package-scaffolder/`](https://opensource.simtabi.com/package-scaffolder/)).
 The same pages live under [`docs/`](docs/):
 
+### Guides
+
 - [Installation](docs/installation.md) — requirements, install, module autoloading
+- [Getting started](docs/getting-started.md) — scaffold + run your first artifact
 - [Configuration](docs/configuration.md) — flavors, artifact types, manifest files
-- [Generating artifacts (`make:artifact`)](docs/make-artifact.md) — types, plugins, features, portability, composer wiring
 - [Architecture](docs/architecture.md) — the generated-artifact structure (package/module/plugin) + the scaffolder's own layout
 - [Release](docs/release.md) — how releases are cut
+
+### Reference
+
+- [Generating artifacts (`make:artifact`)](docs/tools/make-artifact.md) — types, plugins, features, portability, composer wiring
+
+### Project
+
+- [Changelog](CHANGELOG.md) — release history.
 
 ## Sister packages
 

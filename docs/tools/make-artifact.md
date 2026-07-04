@@ -141,4 +141,4 @@ result, unrelated keys preserved): `wikimedia/composer-merge-plugin` includes fo
 
 ---
 
-[← Docs index](../README.md#documentation)
+[← Docs index](../../README.md#documentation)
