@@ -88,3 +88,7 @@ consumer. The type-purity gain is real but modest (the package is already ~94% g
 
 **Stopping here for your decision** on: (1) proceed at all vs keep upstream layout; (2) Group C —
 `Module` placement; (3) framework-variant dirs (keep vs split-with-renames).
+
+---
+
+[← Docs index](../../README.md#documentation)

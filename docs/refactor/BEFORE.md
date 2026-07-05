@@ -95,3 +95,7 @@ The root classes (`Module`, `FileRepository`,
 `Collection`, `Json`, the service providers) match upstream's layout. Relocating them **diverges
 from upstream**, making future upstream merges harder. This is a real trade-off to weigh in the
 plan/approval, independent of the consumer-breaking-change concern.
+
+---
+
+[← Docs index](../../README.md#documentation)

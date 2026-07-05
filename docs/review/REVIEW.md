@@ -119,3 +119,7 @@ A full re-audit of the session against the plan surfaced one real miss + confirm
 _Note: the Testbench skeleton (`vendor/orchestra/.../laravel/modules/`) is a shared generation target;
 an interrupted run can leave a `modules/Blog` + `bootstrap/cache/modules.php` that fails subsequent
 boots — delete both if the suite mass-errors with "…\Providers\BlogServiceProvider not found"._
+
+---
+
+[← Docs index](../../README.md#documentation)
