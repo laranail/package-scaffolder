@@ -25,7 +25,7 @@ php artisan make:artifact Blog --flavor=lumen
 ```
 
 Each flavor declares which features and blueprint set it supports; `make:artifact` resolves the feature
-set from the chosen flavor (see [make-artifact.md](make-artifact.md)).
+set from the chosen flavor (see [make:artifact](tools/make-artifact.md)).
 
 ## Artifact roles + manifest files
 

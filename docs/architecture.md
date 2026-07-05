@@ -32,7 +32,7 @@ dimensions (all from the `flavors`/`kinds`/`plugin_types`/`features` registries 
 - **Artifact vs entity.** The **artifact** is the package/module/plugin (`Blog` → `{Artifact}`, the
   manager/facade/config/slug). The **primary entity** is the main record (`Post` → `{Entity}`, via
   `--entity`, default `Item`, must differ from the artifact). `Comment`/`Category`/`Tag` stay as the
-  generic supporting layer. See [make-artifact.md](make-artifact.md).
+  generic supporting layer. See [make:artifact](tools/make-artifact.md).
 
 ### Canonical tree
 
