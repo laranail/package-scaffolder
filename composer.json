@@ -11,7 +11,7 @@
         "generator",
         "rad"
     ],
-    "homepage": "https://opensource.simtabi.com/package-scaffolder/",
+    "homepage": "https://opensource.simtabi.com/documentation/laranail/package-scaffolder/",
     "license": "MIT",
     "authors": [
         {
@@ -29,7 +29,7 @@
     "support": {
         "issues": "https://github.com/laranail/package-scaffolder/issues",
         "source": "https://github.com/laranail/package-scaffolder",
-        "docs": "https://opensource.simtabi.com/package-scaffolder/docs/"
+        "docs": "https://opensource.simtabi.com/documentation/laranail/package-scaffolder/"
     },
     "require": {
         "php": "^8.4.1 || ^8.5",
