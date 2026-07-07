@@ -113,7 +113,6 @@ its namespace segment. PSR-4 base `Simtabi\Laranail\Package\Scaffolder\` → `sr
 `helpers/helpers.php` (composer `files` autoload — not namespaced).
 
 **Invariant.** Every `src/**/*.php` class's declared namespace equals its directory path under the
-PSR-4 base; there are no root-level `src/*.php` classes (verified in
-[refactor/AFTER.md](refactor/AFTER.md)).
+PSR-4 base; there are no root-level `src/*.php` classes.
 
 [← Docs index](../README.md#documentation)
