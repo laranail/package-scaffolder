@@ -91,12 +91,6 @@ parameters:
 			path: src/Commands/Make/ModuleMakeCommand.php
 
 		-
-			message: '#^PHPDoc tag @return with type mixed is not subtype of native type string\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: src/Commands/Make/ObserverMakeCommand.php
-
-		-
 			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\RouteProviderMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
 			identifier: return.type
 			count: 1
