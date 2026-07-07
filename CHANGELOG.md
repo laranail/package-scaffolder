@@ -2,7 +2,11 @@
 
 All notable changes to `laranail/package-scaffolder` will be documented in this file.
 
-## Next
+## [Unreleased]
+
+## [0.1.0] - 2026-07-07
+
+First laranail release of the package scaffolder.
 
 ### Class reorganisation into type folders (breaking)
 
