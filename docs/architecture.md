@@ -86,7 +86,7 @@ stripped, its config keys and tests dropped:
 `--plugin` is `nova` \| `filament` \| `none` (mutually exclusive). `none` produces a **literal-zero**
 Nova/Filament footprint (no panel code, deps, providers, docs, or prose). The **core substrate** —
 the Macroable manager/DSL, `Search` manager, `Processing` pipeline, lifecycle `Events`, and the
-`{Artifact}::spy()` test seam — is always present. See [FEATURE_CATALOG.md](../FEATURE_CATALOG.md).
+`{Artifact}::spy()` test seam — is always present. See the [feature catalog](feature-catalog.md).
 
 ---
 

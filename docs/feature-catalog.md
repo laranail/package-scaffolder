@@ -1,9 +1,8 @@
 # Feature catalog
 
-Authoritative catalog of the capabilities the scaffolder can generate, derived by
-reading the gold-standard blueprint on disk at `/Users/imanimanyara/Downloads/Modules/Blog/`
-(service provider, `PostService`/`PostObserver`, models, policies, `config/blog.php`, routes,
-migrations, the `Blog` manager/DSL, every feature class, tests, `composer.json`, docs).
+Authoritative catalog of the capabilities the scaffolder can generate, derived from a
+gold-standard blueprint package (service provider, service/observer pair, models, policies,
+package config, routes, migrations, a manager/DSL, feature classes, tests, `composer.json`, docs).
 
 The catalog is **data**, not hard-coded in the command: it lives in `config/artifacts.php`
 (`core`, `features` with `default`/`requires`/`description`/`sub`, `feature_files`, `feature_deps`,
