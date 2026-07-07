@@ -90,9 +90,6 @@ class ObserverMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
-    /**
-     * @return mixed|string
-     */
     private function getModelVariable(): string
     {
         return '$'.Str::lower($this->argument('name'));

@@ -51,9 +51,6 @@ class Migrator
 
     /**
      * Set the database connection to be used
-     *
-     *
-     * @return $this
      */
     public function setDatabase($database): static
     {
