@@ -2,6 +2,15 @@
 
 All notable changes to `laranail/package-scaffolder` will be documented in this file.
 
+## [0.2.0] - 2026-07-08
+
+### Changed
+
+- Requires `laranail/package-tools ^3.0` and `laranail/console ^1.1`
+  (redesigned seeder subsystem with opt-in autorun; per-package
+  `$package->log()` logging). Full test suite green on the new surface.
+- The Laravel blueprint stub now scaffolds new packages against the 3.0 surface.
+
 ## [Unreleased]
 
 ## [0.1.0] - 2026-07-07
