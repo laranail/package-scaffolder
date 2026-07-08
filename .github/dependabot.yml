@@ -3,6 +3,10 @@ version: 2
 updates:
   - package-ecosystem: composer
     directory: /
+    # Test stubs are scaffolding fixtures, not resolvable projects —
+    # Dependabot security jobs fail on their lockfile-less manifests.
+    exclude-paths:
+      - tests/stubs
     schedule:
       interval: weekly
       day: monday
