@@ -1,0 +1,159 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Activators;
+
+use Illuminate\Config\Repository as Config;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+
+class FileActivator implements ActivatorInterface
+{
+    /**
+     * Laravel Filesystem instance
+     */
+    private Filesystem $files;
+
+    /**
+     * Laravel config instance
+     */
+    private Config $config;
+
+    /**
+     * Array of modules activation statuses
+     */
+    private array $modulesStatuses;
+
+    /**
+     * File used to store activation statuses
+     */
+    private string $statusesFile;
+
+    public function __construct(Container $app)
+    {
+        $this->files = $app['files'];
+        $this->config = $app['config'];
+        $this->statusesFile = $this->config('statuses-file');
+        $this->modulesStatuses = $this->readJson();
+    }
+
+    /**
+     * Get the path of the file where statuses are stored
+     */
+    public function getStatusesFilePath(): string
+    {
+        return $this->statusesFile;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function reset(): void
+    {
+        if ($this->files->exists($this->statusesFile)) {
+            $this->files->delete($this->statusesFile);
+        }
+        $this->modulesStatuses = [];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function enable(Module $module): void
+    {
+        $this->setActiveByName($module->getName(), true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function disable(Module $module): void
+    {
+        $this->setActiveByName($module->getName(), false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasStatus(Module|string $module, bool $status): bool
+    {
+        $name = $module instanceof Module ? $module->getName() : $module;
+
+        if (! isset($this->modulesStatuses[$name])) {
+            return $status === false;
+        }
+
+        return $this->modulesStatuses[$name] === $status;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setActive(Module $module, bool $active): void
+    {
+        $this->setActiveByName($module->getName(), $active);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setActiveByName(string $name, bool $status): void
+    {
+        $this->modulesStatuses[$name] = $status;
+        $this->writeJson();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(Module $module): void
+    {
+        if (! isset($this->modulesStatuses[$module->getName()])) {
+            return;
+        }
+        unset($this->modulesStatuses[$module->getName()]);
+        $this->writeJson();
+    }
+
+    /**
+     * Writes the activation statuses in a file, as json
+     */
+    private function writeJson(): void
+    {
+        $encoded = json_encode($this->modulesStatuses, JSON_PRETTY_PRINT);
+        if ($encoded === false) {
+            throw new RuntimeException("Failed to encode module statuses for [{$this->statusesFile}].");
+        }
+
+        // Atomic write (temp + rename) so an interrupted write can't corrupt the
+        // module enable/disable state file and break module discovery.
+        $tmp = $this->statusesFile.'.tmp'.getmypid();
+        $this->files->put($tmp, $encoded);
+        $this->files->move($tmp, $this->statusesFile);
+    }
+
+    /**
+     * Reads the json file that contains the activation statuses.
+     *
+     * @throws FileNotFoundException
+     */
+    private function readJson(): array
+    {
+        if (! $this->files->exists($this->statusesFile)) {
+            return [];
+        }
+
+        return $this->files->json($this->statusesFile);
+    }
+
+    /**
+     * Reads a config parameter under the 'activators.file' key
+     */
+    private function config(string $key, $default = null)
+    {
+        return $this->config->get('modules.activators.file.'.$key, $default);
+    }
+}

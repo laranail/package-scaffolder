@@ -1,0 +1,38 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
+
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+
+class UnUseCommand extends BaseCommand
+{
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'laranail::package-scaffolder.unuse';
+
+    protected $aliases = ['module:unuse'];
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Forget the used module with module:use';
+
+    public function executeAction($name): void
+    {
+        $module = $this->getModuleModel($name);
+
+        $this->components->task("Forget Using <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
+            $this->laravel['modules']->forgetUsed($module);
+        });
+    }
+
+    public function getInfo(): ?string
+    {
+        return 'Forget Using Module ...';
+    }
+}

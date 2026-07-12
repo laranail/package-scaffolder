@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Simtabi\Laranail\Package\Scaffolder\Laravel;
+
+use Illuminate\Container\Container;
+use Simtabi\Laranail\Package\Scaffolder\Repositories\FileRepository;
+
+class LaravelFileRepository extends FileRepository
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function createModule(Container $app, string $name, string $path): Module
+    {
+        return new Module($app, $name, $path);
+    }
+}

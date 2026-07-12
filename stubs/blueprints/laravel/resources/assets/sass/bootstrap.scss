@@ -1,0 +1,17 @@
+// Blog package — Bootstrap 5 bundle.
+//
+// Default theme tokens live in `_variables.scss` and are fed to Bootstrap via the
+// modern `@use … with (…)` override mechanism (a partial "imported before
+// bootstrap" does NOT override under @use). Edit `_variables.scss` to retheme.
+
+@use "variables" as theme;
+
+@use "bootstrap/scss/bootstrap" with (
+    $primary: theme.$primary,
+    $border-radius: theme.$border-radius,
+    $enable-shadows: theme.$enable-shadows,
+    $enable-negative-margins: theme.$enable-negative-margins,
+);
+
+// The package's own framework-agnostic base styles (shared with the vanilla bundle).
+@use "blog";

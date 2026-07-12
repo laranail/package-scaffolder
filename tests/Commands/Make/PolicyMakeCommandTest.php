@@ -1,0 +1,66 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
+
+use Illuminate\Filesystem\Filesystem;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Spatie\Snapshots\MatchesSnapshots;
+
+class PolicyMakeCommandTest extends BaseTestCase
+{
+    use MatchesSnapshots;
+
+    private Filesystem $finder;
+
+    private string $modulePath;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->finder = $this->app['files'];
+        $this->createModule();
+        $this->modulePath = $this->getModuleAppPath();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->app[RepositoryInterface::class]->delete('Blog');
+        parent::tearDown();
+    }
+
+    public function test_it_makes_policy(): void
+    {
+        $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
+
+        $policyFile = $this->modulePath.'/Policies/PostPolicy.php';
+
+        $this->assertTrue(is_file($policyFile), 'Policy file was not created.');
+        $this->assertMatchesSnapshot($this->finder->get($policyFile));
+        $this->assertSame(0, $code);
+    }
+
+    public function test_it_can_change_the_default_namespace(): void
+    {
+        $this->app['config']->set('modules.paths.generator.policies.path', 'SuperPolicies');
+
+        $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
+
+        $file = $this->finder->get($this->getModuleBasePath().'/SuperPolicies/PostPolicy.php');
+
+        $this->assertMatchesSnapshot($file);
+        $this->assertSame(0, $code);
+    }
+
+    public function test_it_can_change_the_default_namespace_specific(): void
+    {
+        $this->app['config']->set('modules.paths.generator.policies.namespace', 'SuperPolicies');
+
+        $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
+
+        $file = $this->finder->get($this->modulePath.'/Policies/PostPolicy.php');
+
+        $this->assertMatchesSnapshot($file);
+        $this->assertSame(0, $code);
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "id": "modules/blog",
+    "name": "Blog",
+    "namespace": "Some\\NamespacePath\\Blog\\",
+    "provider": "Some\\NamespacePath\\Blog\\Providers\\BlogServiceProvider",
+    "version": "1.0.0",
+    "description": "A Symfony Blog package.",
+    "author": "Simtabi LLC",
+    "url": "https://opensource.simtabi.com",
+    "require": [],
+    "minimum_core_version": "1.0.0",
+    "type": "plugin",
+    "hook": "Some\\NamespacePath\\Blog\\Hooks\\BlogHook",
+    "settings": {
+        "per_page": 15,
+        "cache_ttl": 3600
+    }
+}

@@ -1,0 +1,15 @@
+<?php
+
+declare(strict_types=1);
+
+namespace $NAMESPACE$;
+
+use Simtabi\Laranail\Package\Scaffolder\Support\ReplacementKeyCommand;
+
+class $CLASS$ extends ReplacementKeyCommand
+{
+    public function handle(): string
+    {
+        return $this->generator->getModule()->getLowerName();
+    }
+}

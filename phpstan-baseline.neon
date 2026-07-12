@@ -1,0 +1,247 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to static method dot\(\) on an unknown class Arr\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Commands/Actions/CheckLangCommand.php
+
+		-
+			message: '#^Call to static method exists\(\) on an unknown class File\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Commands/Actions/CheckLangCommand.php
+
+		-
+			message: '#^Call to static method getRequire\(\) on an unknown class File\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Commands/Actions/CheckLangCommand.php
+
+		-
+			message: '#^Call to static method glob\(\) on an unknown class File\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Commands/Actions/CheckLangCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Actions\\CheckLangCommand\:\:getLangFiles\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Commands/Actions/CheckLangCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Actions\\ListCommands\:\:findCommands\(\) should return array\<string, array\<string, string\|null\>\> but returns list\<array\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Actions/ListCommands.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Database\\MigrateFreshCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''direction'', ''d'', 4, ''The direction of…'', ''asc''\}, array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''seed'', null, 1, ''Indicates if the…''\}, array\{''pretend'', null, 1, ''Dump the SQL…''\}, array\{''drop\-views'', null, 1, ''Drop all tables and…''\}, array\{''drop\-types'', null, 1, ''Drop all tables and…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Database/MigrateFreshCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Database\\MigrateRefreshCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''database'', null, 4, ''The database…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''seed'', null, 1, ''Indicates if the…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Database/MigrateRefreshCommand.php
+
+		-
+			message: '#^Call to an undefined method Simtabi\\Laranail\\Package\\Scaffolder\\Contracts\\RepositoryInterface\:\:has\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Commands/Database/SeedCommand.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$e with type Throwable is not subtype of native type Exception\.$#'
+			identifier: parameter.phpDocType
+			count: 2
+			path: src/Commands/Database/SeedCommand.php
+
+		-
+			message: '#^Call to an undefined method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\GeneratorCommand\:\:getModuleName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Commands/Make/GeneratorCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\InertiaComponentMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Create a Vue…''\}, array\{''react'', null, 1, ''Create a React…''\}, array\{''svelte'', null, 1, ''Create a Svelte…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Make/InertiaComponentMakeCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\InertiaPageMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Create a Vue…''\}, array\{''react'', null, 1, ''Create a React…''\}, array\{''svelte'', null, 1, ''Create a Svelte…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Make/InertiaPageMakeCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ModelMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''all'', ''a'', 1, ''Flag to create all…'', null\}, array\{''controller'', ''c'', 1, ''Flag to create…'', null\}, array\{''fillable'', null, 4, ''The fillable…'', null\}, array\{''factory'', ''f'', 1, ''Create a new…'', null\}, array\{''migration'', ''m'', 1, ''Flag to create…'', null\}, array\{''request'', ''r'', 1, ''Create a new…'', null\}, array\{''resource'', ''R'', 1, ''Create a new…'', null\}, array\{''policy'', ''p'', 1, ''Create a new policy…'', null\}, \.\.\.\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Make/ModelMakeCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\ModuleMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''plain'', ''p'', 1, ''Generate a plain…''\}, array\{''api'', null, 1, ''Generate an api…''\}, array\{''web'', null, 1, ''Generate a web…''\}, array\{''inertia'', null, 1, ''Generate an Inertia…''\}, array\{''disabled'', ''d'', 1, ''Do not enable the…''\}, array\{''force'', null, 1, ''Force the operation…''\}, array\{''author\-name'', null, 4, ''Author name\.''\}, array\{''author\-email'', null, 4, ''Author email\.''\}, \.\.\.\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Make/ModuleMakeCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\RouteProviderMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''force'', null, 1, ''Force the operation…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Make/RouteProviderMakeCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Make\\SeedMakeCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''master'', null, 1, ''Indicates the…''\}, array\{''without\-base'', null, 1, ''Do not auto…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Make/SeedMakeCommand.php
+
+		-
+			message: '#^Method Simtabi\\Laranail\\Package\\Scaffolder\\Commands\\Publish\\PublishInertiaCommand\:\:getOptions\(\) should return array\<array\{0\: non\-empty\-string, 1\?\: non\-empty\-array\<string\>\|string, 2\?\: int\<0, 31\>, 3\?\: string, 4\?\: mixed, 5\?\: \(Closure\(Symfony\\Component\\Console\\Completion\\CompletionInput, Symfony\\Component\\Console\\Completion\\CompletionSuggestions\)\: list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\)\|list\<string\|Symfony\\Component\\Console\\Completion\\Suggestion\>\}\|Symfony\\Component\\Console\\Input\\InputOption\> but returns array\{array\{''vue'', null, 1, ''Publish the Vue…''\}, array\{''react'', null, 1, ''Publish the React…''\}, array\{''svelte'', null, 1, ''Publish the Svelte…''\}, array\{''force'', ''f'', 1, ''Overwrite existing…''\}\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Commands/Publish/PublishInertiaCommand.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Exceptions/InvalidActivatorClass.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Exceptions/InvalidAssetPath.php
+
+		-
+			message: '#^Call to method getCachedConfigPath\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Laravel/Module.php
+
+		-
+			message: '#^Call to method getCachedServicesPath\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Laravel/Module.php
+
+		-
+			message: '#^Call to method basePath\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Lumen/Module.php
+
+		-
+			message: '#^Call to method register\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Lumen/Module.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:whereMigration\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Migrations/Migrator.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(Simtabi\\Laranail\\Package\\Scaffolder\\Providers\\ModuleServiceProvider\) and ''configureSchedules'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Providers/ModuleServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Foundation\\Application\:\:getCachedServicesPath\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Providers/ModulesServiceProvider.php
+
+		-
+			message: '#^Access to protected property Illuminate\\Console\\Command\:\:\$components\.$#'
+			identifier: property.protected
+			count: 3
+			path: src/Publishing/Publisher.php
+
+		-
+			message: '#^Call to method runningUnitTests\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Parameter \#1 \$app of method Simtabi\\Laranail\\Package\\Scaffolder\\Repositories\\FileRepository\:\:createModule\(\) expects Illuminate\\Container\\Container, Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Repositories\\FileRepository\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Repositories\\FileRepository\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Repositories/FileRepository.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Support/Json.php
+
+		-
+			message: '#^Access to offset ''events'' on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Call to method afterResolving\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Support\\Module\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Property Simtabi\\Laranail\\Package\\Scaffolder\\Support\\Module\:\:\$app has unknown class Laravel\\Lumen\\Application as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/Module.php
+
+		-
+			message: '#^Instanceof between Illuminate\\Support\\Collection and Illuminate\\Support\\Collection will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Support/ModuleManifest.php
+
+		-
+			message: '#^Static property Simtabi\\Laranail\\Package\\Scaffolder\\Support\\ModuleManifest\:\:\$manifestData \(Illuminate\\Support\\Collection\|null\) is never assigned null so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Support/ModuleManifest.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Support/Stub.php
+
+		-
+			message: '#^Trait Simtabi\\Laranail\\Package\\Scaffolder\\Traits\\MigrationLoaderTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Traits/MigrationLoaderTrait.php

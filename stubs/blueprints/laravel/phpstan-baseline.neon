@@ -1,0 +1,151 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method Some\\NamespacePath\\Blog\\Blog\:\:archive\(\) should return Illuminate\\Support\\Collection\<int, object\> but returns Illuminate\\Support\\Collection\<int, object\{period\: string, total\: int\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Blog.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/Api/CommentController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Http/Controllers/Api/CommentController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Http/Controllers/BlogController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/CommentController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Http/Controllers/CommentController.php
+
+		-
+			message: '#^Access to an undefined property Some\\NamespacePath\\Blog\\Http\\Resources\\CommentResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property Some\\NamespacePath\\Blog\\Http\\Resources\\PostResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property Some\\NamespacePath\\Blog\\Http\\Resources\\PostResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/PostResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Listeners/SendPostPublishedNotification.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Livewire/CommentForm.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Livewire/PostList.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\MorphMany\:\:approved\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Services/CommentService.php
+
+		-
+			message: '#^Method Some\\NamespacePath\\Blog\\Services\\CommentService\:\:create\(\) should return Some\\NamespacePath\\Blog\\Models\\Comment but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Services/CommentService.php
+
+		-
+			message: '#^Method Some\\NamespacePath\\Blog\\Services\\PostService\:\:archive\(\) should return Illuminate\\Support\\Collection\<int, object\{period\: string, total\: int\}\> but returns Illuminate\\Support\\Collection\<int, object\{period\: string, total\: int\<0, max\>\}&stdClass\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Services/PostService.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/Alert.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/Assets.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/AuthLinks.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/CommentForm.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/Comments.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/Meta.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/Post.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/PostCard.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/Posts.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Components/StatusBadge.php

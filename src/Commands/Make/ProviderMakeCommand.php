@@ -1,0 +1,111 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
+
+use Illuminate\Support\Str;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+
+class ProviderMakeCommand extends GeneratorCommand
+{
+    use ModuleCommandTrait;
+
+    /**
+     * The name of argument name.
+     *
+     * @var string
+     */
+    protected $argumentName = 'name';
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'laranail::package-scaffolder.make-provider';
+
+    protected $aliases = ['module:make-provider'];
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new service provider class for the specified module.';
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('modules.paths.generator.provider.namespace')
+            ?? $this->strip_app_folder(config('modules.paths.generator.provider.path', 'Providers'));
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getArguments()
+    {
+        return [
+            ['name', InputArgument::REQUIRED, 'The service provider name.'],
+            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getOptions()
+    {
+        return [
+            ['master', null, InputOption::VALUE_NONE, 'Indicates the master service provider', null],
+        ];
+    }
+
+    protected function getTemplateContents(): string
+    {
+        $stub = $this->option('master') ? 'scaffold/provider' : 'provider';
+
+        /** @var Module $module */
+        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+
+        return (new Stub('/'.$stub.'.stub', [
+            'NAMESPACE' => $this->getClassNamespace($module),
+            'CLASS' => $this->getClass(),
+            'LOWER_NAME' => $module->getLowerName(),
+            'MODULE' => $this->getModuleName(),
+            'NAME' => $this->getFileName(),
+            'STUDLY_NAME' => $module->getStudlyName(),
+            'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
+            'PATH_CONFIG' => GenerateConfigReader::read('config')->getPath(),
+            'FACTORIES_PATH' => GenerateConfigReader::read('factory')->getPath(),
+        ]))->render();
+    }
+
+    protected function getDestinationFilePath(): string
+    {
+        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+
+        $generatorPath = GenerateConfigReader::read('provider');
+
+        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
+    }
+
+    /**
+     * @return string
+     */
+    private function getFileName()
+    {
+        return Str::studly($this->argument('name'));
+    }
+}

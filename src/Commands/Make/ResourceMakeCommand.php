@@ -1,0 +1,101 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
+
+use Illuminate\Support\Str;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+
+class ResourceMakeCommand extends GeneratorCommand
+{
+    use ModuleCommandTrait;
+
+    protected $argumentName = 'name';
+
+    protected $name = 'laranail::package-scaffolder.make-resource';
+
+    protected $aliases = ['module:make-resource'];
+
+    protected $description = 'Create a new resource class for the specified module.';
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('modules.paths.generator.resource.namespace')
+            ?? $this->strip_app_folder(config('modules.paths.generator.resource.path', 'Transformers'));
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getArguments()
+    {
+        return [
+            ['name', InputArgument::REQUIRED, 'The name of the resource class.'],
+            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+        ];
+    }
+
+    #[Override]
+    protected function getOptions()
+    {
+        return [
+            ['collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection.'],
+        ];
+    }
+
+    protected function getTemplateContents(): string
+    {
+        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+
+        return (new Stub($this->getStubName(), [
+            'NAMESPACE' => $this->getClassNamespace($module),
+            'CLASS' => $this->getClass(),
+        ]))->render();
+    }
+
+    protected function getDestinationFilePath(): string
+    {
+        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+
+        $resourcePath = GenerateConfigReader::read('resource');
+
+        return $path.$resourcePath->getPath().'/'.$this->getFileName().'.php';
+    }
+
+    /**
+     * @return string
+     */
+    private function getFileName()
+    {
+        return Str::studly($this->argument('name'));
+    }
+
+    /**
+     * Determine if the command is generating a resource collection.
+     */
+    protected function collection(): bool
+    {
+        if ($this->option('collection')) {
+            return true;
+        }
+
+        return Str::endsWith($this->argument('name'), 'Collection');
+    }
+
+    protected function getStubName(): string
+    {
+        if ($this->collection()) {
+            return '/resource-collection.stub';
+        }
+
+        return '/resource.stub';
+    }
+}

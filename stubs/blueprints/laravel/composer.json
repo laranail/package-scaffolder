@@ -1,0 +1,80 @@
+{
+    "name": "modules/blog",
+    "description": "A self-contained, security-first Laravel blogging package — posts, categories and comments with actions, services, repositories, observers, policies, events, a REST API, CLI, Blade components and optional Livewire. Built on laranail/package-tools.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "blog",
+        "cms",
+        "rest-api",
+        "package",
+        "template"
+    ],
+    "require": {
+        "php": "^8.4.1 || ^8.5",
+        "illuminate/console": "^13.0",
+        "illuminate/contracts": "^13.0",
+        "illuminate/database": "^13.0",
+        "illuminate/support": "^13.0",
+        "laranail/console": "^1.1",
+        "laranail/package-tools": "^3.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.18",
+        "league/commonmark": "^2.4",
+        "livewire/livewire": "^4.0",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.0",
+        "rector/rector": "^2.0"
+    },
+    "suggest": {
+        "laranail/package-management": "Load this artifact as a runtime module/plugin (activation, lifecycle hooks, settings) via its module.json / plugin.json.",
+        "livewire/livewire": "To use the optional Livewire 4 components (post list, comment form).",
+        "laravel/sanctum": "To protect the write REST API routes with token auth (the default api middleware).",
+        "league/commonmark": "(^2.4) Render Markdown post bodies to HTML on display (enable blog.processing.markdown).",
+        "laravel/scout": "(^10.0) Full-text post search via the 'scout' blog search driver.",
+        "filament/filament": "(^4.0) Admin panel resources for posts, categories, tags and comments via BlogPlugin.",
+        "laravel/nova": "(^5.0) Nova admin resources for posts, categories, tags and comments."
+    },
+    "autoload": {
+        "psr-4": {
+            "Some\\NamespacePath\\Blog\\": "src/",
+            "Some\\NamespacePath\\Blog\\Database\\Factories\\": "database/factories/",
+            "Some\\NamespacePath\\Blog\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Some\\NamespacePath\\Blog\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "refactor": "vendor/bin/rector"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Some\\NamespacePath\\Blog\\Providers\\BlogServiceProvider",
+                "Some\\NamespacePath\\Blog\\Providers\\Integrations\\FilamentBlogServiceProvider",
+                "Some\\NamespacePath\\Blog\\Providers\\Integrations\\NovaBlogServiceProvider"
+            ],
+            "aliases": {
+                "Blog": "Some\\NamespacePath\\Blog\\Facades\\Blog"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

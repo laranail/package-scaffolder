@@ -1,0 +1,72 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
+
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleMigrationPaths;
+use Symfony\Component\Console\Input\InputOption;
+
+class MigrateRollbackCommand extends BaseCommand
+{
+    use ModuleMigrationPaths;
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'laranail::package-scaffolder.migrate-rollback';
+
+    protected $aliases = ['module:migrate-rollback'];
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Rollback the modules migrations.';
+
+    public function executeAction($name): void
+    {
+        $module = $this->getModuleModel($name);
+
+        $paths = $this->getModuleMigrationTarget($module, $this->option('subpath'));
+
+        if ($paths === []) {
+            $this->components->warn("No migrations found for module <fg=cyan;options=bold>{$module->getName()}</>");
+
+            return;
+        }
+
+        $this->call('migrate:rollback', array_filter([
+            '--path' => $paths,
+            '--database' => $this->option('database'),
+            '--pretend' => $this->option('pretend'),
+            '--force' => $this->option('force'),
+            '--realpath' => true,
+        ]));
+    }
+
+    public function getInfo(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getOptions()
+    {
+        return [
+            ['direction', 'd', InputOption::VALUE_OPTIONAL, 'The direction of ordering.', 'desc'],
+            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+            ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
+            ['subpath', null, InputOption::VALUE_OPTIONAL, 'Indicate a subpath for modules specific migration file'],
+        ];
+    }
+}

@@ -1,0 +1,390 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Simtabi\Laranail\Package\Scaffolder\Commands;
+
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
+use Override;
+use Simtabi\Laranail\Console\Tools\Commands\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Console\Tools\Commands\Services\CommandInteractionService;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\HostComposerWriter;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Throwable;
+
+/**
+ * Generate a module / package / plugin from the blueprint template. Runs
+ * interactively (a guided TUI) or unattended (flags); both share one
+ * validation + generation path via the laranail/console interaction service, so
+ * a flag and its prompt can never drift. Missing required input in
+ * non-interactive mode fails loudly; a non-TTY defaults to non-interactive.
+ */
+class MakeArtifactCommand extends Command
+{
+    use SupportsNamespacedNames;
+
+    protected $name = 'laranail::package-scaffolder.new';
+
+    /** @var list<string> */
+    protected $aliases = ['make:artifact'];
+
+    protected $description = 'Generate a module, package or plugin from the blueprint.';
+
+    public function handle(): int
+    {
+        $nonInteractive = ! $this->input->isInteractive() || (bool) $this->option('no-interaction');
+        $io = $this->services->interaction()->setNonInteractive($nonInteractive);
+
+        try {
+            $type = $this->resolveChoice($io, 'type', 'Artifact type', array_keys((array) config('artifacts.kinds')), $nonInteractive);
+            $flavor = $this->resolveFlavor($io, $nonInteractive);
+            $plugin = $this->resolvePlugin($io, $nonInteractive);
+            $name = $this->resolveName($io, $nonInteractive);
+            $entity = $this->resolveEntity($io, $name, $nonInteractive);
+            $namespace = $this->resolveNamespace($io, $nonInteractive);
+            $features = $this->resolveFeatures($io, $nonInteractive, $flavor);
+            $this->assertFlavorCompatible($flavor, $plugin, $features);
+        } catch (Throwable $e) {
+            $this->components->error($e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        $vendor = Str::lower((string) ($this->option('vendor') ?: config('modules.composer.vendor') ?: 'laranail'));
+
+        $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'), $entity, $flavor);
+
+        $base = $this->option('path') ?: base_path((string) config("artifacts.kinds.{$type}"));
+        $target = rtrim($base, '/').'/'.$request->studly();
+        $blueprint = (string) config("artifacts.flavors.{$flavor}.blueprint", $flavor);
+        $source = dirname(__DIR__, 2).'/stubs/blueprints/'.$blueprint;
+
+        // Artifact identity is keyed by name across ALL containers (module.json
+        // name + activator), so a name must be globally unique. Skipped for an
+        // explicit --path (caller owns the location) or --force.
+        if (! $this->option('force') && ! $this->option('path')) {
+            $files = new Filesystem;
+            foreach ((array) config('artifacts.kinds') as $containerPath) {
+                $existing = base_path((string) $containerPath).'/'.$request->studly();
+                if ($files->isDirectory($existing)) {
+                    $this->components->error(sprintf(
+                        'An artifact named [%s] already exists at [%s]. Names must be unique across all containers.',
+                        $request->studly(),
+                        $existing,
+                    ));
+
+                    return self::FAILURE;
+                }
+            }
+        }
+
+        try {
+            (new ArtifactGenerator(new Filesystem, (array) config('artifacts'), $this->pintBinary()))
+                ->generate($request, $source, $target);
+        } catch (Throwable $e) {
+            $this->components->error($e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        if (! $this->option('no-repo')) {
+            (new HostComposerWriter(new Filesystem))->wire(base_path('composer.json'));
+        }
+
+        $this->components->info(sprintf('Generated %s [%s] (%s\\%s) at %s', $type, $request->studly(), $namespace, $request->studly(), $target));
+
+        return self::SUCCESS;
+    }
+
+    /** The Pint binary to format generated output with (scaffolder's, else host's). */
+    private function pintBinary(): ?string
+    {
+        foreach ([dirname(__DIR__, 2).'/vendor/bin/pint', base_path('vendor/bin/pint')] as $candidate) {
+            if (is_file($candidate)) {
+                return $candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private function resolveFlavor(CommandInteractionService $io, bool $nonInteractive): string
+    {
+        $flavors = array_keys((array) config('artifacts.flavors'));
+        $default = (string) config('artifacts.default_flavor', 'laravel');
+        $value = (string) ($this->option('flavor') ?? '');
+
+        if ($value === '') {
+            $value = $nonInteractive
+                ? $default
+                : $io->askSelect('Framework flavor', $flavors, (int) (array_search($default, $flavors, true) ?: 0));
+        }
+
+        if (! in_array($value, $flavors, true)) {
+            throw new InvalidArgumentException('--flavor must be one of: '.implode(', ', $flavors).'.');
+        }
+
+        return $value;
+    }
+
+    /**
+     * A flavor gates which panels + features are available (e.g. vanilla has no
+     * Nova/Filament and no Laravel-only features). Fail loudly on a mismatch.
+     *
+     * @param  list<string>  $features
+     */
+    private function assertFlavorCompatible(string $flavor, string $plugin, array $features): void
+    {
+        $caps = (array) config("artifacts.flavors.{$flavor}", []);
+
+        $panels = (array) ($caps['panels'] ?? ['none']);
+        if (! in_array($plugin, $panels, true)) {
+            throw new InvalidArgumentException(
+                "Panel [{$plugin}] is not available for the [{$flavor}] flavor (allowed: ".implode(', ', $panels).').',
+            );
+        }
+
+        $allowed = (array) ($caps['features'] ?? []);
+        $unsupported = array_values(array_diff($features, $allowed));
+        if ($unsupported !== []) {
+            throw new InvalidArgumentException(
+                'Feature(s) ['.implode(', ', $unsupported)."] are not available for the [{$flavor}] flavor.",
+            );
+        }
+    }
+
+    private function resolveChoice(CommandInteractionService $io, string $option, string $label, array $options, bool $nonInteractive): string
+    {
+        $value = $this->option($option);
+
+        if ($value !== null && $value !== '') {
+            if (! in_array($value, $options, true)) {
+                throw new InvalidArgumentException("--{$option} must be one of: ".implode(', ', $options).'.');
+            }
+
+            return (string) $value;
+        }
+
+        if ($nonInteractive) {
+            throw new InvalidArgumentException("--{$option} is required in non-interactive mode (one of: ".implode(', ', $options).').');
+        }
+
+        return $io->askSelect($label, $options, 0);
+    }
+
+    /**
+     * Panel is an independent, mutually-exclusive choice for ANY artifact shape:
+     * nova, filament, or none. A single flag value can never select both; an
+     * invalid value is rejected. Defaults to `none` (a panel-free artifact).
+     */
+    private function resolvePlugin(CommandInteractionService $io, bool $nonInteractive): string
+    {
+        $types = (array) config('artifacts.plugin_types'); // nova | filament | none
+        $value = $this->option('plugin');
+
+        if ($value !== null && $value !== '') {
+            if (! in_array($value, $types, true)) {
+                throw new InvalidArgumentException('--plugin must be one of: '.implode(', ', $types).'.');
+            }
+
+            return (string) $value;
+        }
+
+        if ($nonInteractive) {
+            return 'none';
+        }
+
+        $default = array_search('none', array_values($types), true);
+
+        return $io->askSelect('Admin panel', $types, $default === false ? 0 : $default);
+    }
+
+    private function resolveName(CommandInteractionService $io, bool $nonInteractive): string
+    {
+        $name = (string) ($this->argument('name') ?? '');
+
+        if ($name === '') {
+            if ($nonInteractive) {
+                throw new InvalidArgumentException('The "name" argument is required in non-interactive mode.');
+            }
+
+            $name = $io->askText('Artifact name (StudlyCase)', 'Blog', '', true);
+        }
+
+        if (Str::studly($name) === '') {
+            throw new InvalidArgumentException('The artifact name is invalid.');
+        }
+
+        return $name;
+    }
+
+    /**
+     * The primary entity (Post → {entity}). The blueprint decouples it from the
+     * artifact name (Blog ≠ Post): the manager/facade is named after the artifact and
+     * the model after the entity, so the two MUST differ or their imports collide
+     * (`use {Artifact}` vs `use {Artifact}\Models\{Entity}`). The default is a generic,
+     * distinct name (config `artifacts.default_entity`); we never silently set
+     * entity == artifact.
+     */
+    private function resolveEntity(CommandInteractionService $io, string $name, bool $nonInteractive): string
+    {
+        $default = (string) config('artifacts.default_entity', 'Item');
+        $entity = (string) ($this->option('entity') ?? '');
+
+        if ($entity === '') {
+            $entity = $nonInteractive ? $default : $io->askText('Primary entity (StudlyCase, distinct from the artifact)', $default, $default, false);
+        }
+
+        $entity = Str::studly($entity !== '' ? $entity : $default);
+
+        if ($entity === '') {
+            throw new InvalidArgumentException('The entity name is invalid.');
+        }
+
+        if (Str::lower($entity) === Str::lower(Str::studly($name))) {
+            throw new InvalidArgumentException(
+                "The primary entity must differ from the artifact name [{$entity}]: the manager is named after the "
+                .'artifact and the model after the entity, so identical names collide. Pass a distinct --entity (e.g. --entity=Account).'
+            );
+        }
+
+        return $entity;
+    }
+
+    private function resolveNamespace(CommandInteractionService $io, bool $nonInteractive): string
+    {
+        $ns = (string) ($this->option('namespace') ?? '');
+        $default = (string) config('artifacts.default_namespace', 'Modules');
+
+        if ($ns === '') {
+            $ns = $nonInteractive ? $default : $io->askText('Root namespace', $default, $default, false);
+        }
+
+        $ns = trim($ns !== '' ? $ns : $default, '\\');
+
+        if (! preg_match('/^[A-Za-z_]\w*(\\\\[A-Za-z_]\w*)*$/', $ns)) {
+            throw new InvalidArgumentException("Invalid root namespace [{$ns}].");
+        }
+
+        return $ns;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function resolveFeatures(CommandInteractionService $io, bool $nonInteractive, string $flavor): array
+    {
+        $selectable = array_keys((array) config('artifacts.features'));
+        $selectable[] = 'livewire'; // sub-toggle, independently selectable
+
+        // The default feature set is the flavor's own (laravel = full; vanilla = none),
+        // so a plain `make:artifact --flavor=vanilla` doesn't request Laravel-only features.
+        $default = (array) config("artifacts.flavors.{$flavor}.features", $selectable);
+
+        $csv = (string) ($this->option('features') ?? '');
+        $repeated = (array) $this->option('feature');
+
+        if ($csv !== '') {
+            $list = array_map(trim(...), explode(',', $csv));
+        } elseif ($repeated !== []) {
+            $list = $repeated;
+        } elseif ($nonInteractive) {
+            return $this->resolveRequires(array_values($default)); // default = the flavor's features
+        } else {
+            $list = $io->askMultiSelect('Features', $selectable, array_values($default));
+        }
+
+        $list = array_values(array_filter($list, static fn ($f): bool => $f !== ''));
+        $unknown = array_diff($list, $selectable);
+
+        if ($unknown !== []) {
+            throw new InvalidArgumentException('Unknown feature(s): '.implode(', ', $unknown).'. Valid: '.implode(', ', $selectable).'.');
+        }
+
+        return $this->resolveRequires(array_values(array_unique($list)));
+    }
+
+    /**
+     * Pull in each selected feature's `requires` (transitively), so a dependency
+     * can never be silently missing (e.g. selecting `livewire` pulls in `web-ui`).
+     *
+     * @param  list<string>  $list
+     * @return list<string>
+     */
+    private function resolveRequires(array $list): array
+    {
+        $requires = $this->requiresMap();
+        $resolved = $list;
+
+        do {
+            $added = false;
+            foreach ($resolved as $feature) {
+                foreach ($requires[$feature] ?? [] as $dep) {
+                    if (! in_array($dep, $resolved, true)) {
+                        $resolved[] = $dep;
+                        $added = true;
+                    }
+                }
+            }
+        } while ($added);
+
+        return array_values(array_unique($resolved));
+    }
+
+    /**
+     * Feature → its required features, read from the config catalog (top-level
+     * features and their sub-toggles).
+     *
+     * @return array<string, list<string>>
+     */
+    private function requiresMap(): array
+    {
+        $map = [];
+        foreach ((array) config('artifacts.features') as $key => $def) {
+            $map[$key] = array_values((array) ($def['requires'] ?? []));
+            foreach ((array) ($def['sub'] ?? []) as $subKey => $subDef) {
+                $map[$subKey] = array_values((array) ($subDef['requires'] ?? []));
+            }
+        }
+
+        return $map;
+    }
+
+    /**
+     * @return array<int, array<int, mixed>>
+     */
+    #[Override]
+    protected function getArguments()
+    {
+        return [
+            ['name', InputArgument::OPTIONAL, 'The artifact name (StudlyCase).'],
+        ];
+    }
+
+    /**
+     * @return array<int, array<int, mixed>>
+     */
+    #[Override]
+    protected function getOptions()
+    {
+        return [
+            ['type', null, InputOption::VALUE_REQUIRED, 'package | module | plugin'],
+            ['flavor', null, InputOption::VALUE_REQUIRED, 'Framework flavor: vanilla | laravel | lumen (default from config).'],
+            ['plugin', null, InputOption::VALUE_REQUIRED, 'Admin panel: nova | filament | none (mutually exclusive; default none)'],
+            ['features', null, InputOption::VALUE_REQUIRED, 'Comma-separated feature list (default: all).'],
+            ['feature', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Repeatable feature flag.'],
+            ['entity', null, InputOption::VALUE_REQUIRED, 'Primary entity name (default: singular of the artifact name).'],
+            ['namespace', null, InputOption::VALUE_REQUIRED, 'Root PHP namespace (default from config).'],
+            ['vendor', null, InputOption::VALUE_REQUIRED, 'Composer vendor (default from config).'],
+            ['path', null, InputOption::VALUE_REQUIRED, 'Override the container base path.'],
+            ['force', null, InputOption::VALUE_NONE, 'Overwrite an existing target.'],
+            ['no-repo', null, InputOption::VALUE_NONE, 'Skip wiring the host composer.json (merge-plugin + path repositories).'],
+        ];
+    }
+}

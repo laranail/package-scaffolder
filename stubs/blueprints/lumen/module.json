@@ -1,0 +1,12 @@
+{
+    "name": "Blog",
+    "alias": "blog",
+    "description": "A Lumen Blog package.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Some\\NamespacePath\\Blog\\Providers\\BlogServiceProvider"
+    ],
+    "hook": "Some\\NamespacePath\\Blog\\Hooks\\BlogHook",
+    "files": []
+}

@@ -1,0 +1,37 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Publish;
+
+use Illuminate\Filesystem\Filesystem;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+
+class PublishMigrationCommandTest extends BaseTestCase
+{
+    private Filesystem $finder;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->finder = $this->app['files'];
+        $this->createModule();
+        $this->artisan('module:make-migration', ['name' => 'create_posts_table', 'module' => 'Blog']);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->app[RepositoryInterface::class]->delete('Blog');
+        $this->finder->delete($this->finder->allFiles(base_path('database/migrations')));
+        parent::tearDown();
+    }
+
+    public function test_it_publishes_module_migrations(): void
+    {
+        $code = $this->artisan('module:publish-migration', ['module' => 'Blog']);
+
+        $files = $this->finder->allFiles(base_path('database/migrations'));
+
+        $this->assertCount(1, $files);
+        $this->assertSame(0, $code);
+    }
+}

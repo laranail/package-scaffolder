@@ -1,0 +1,128 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
+
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+
+class RouteProviderMakeCommand extends GeneratorCommand
+{
+    use ModuleCommandTrait;
+
+    protected $argumentName = 'module';
+
+    /**
+     * The command name.
+     *
+     * @var string
+     */
+    protected $name = 'laranail::package-scaffolder.route-provider';
+
+    protected $aliases = ['module:route-provider'];
+
+    /**
+     * The command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new route service provider for the specified module.';
+
+    /**
+     * The command arguments.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getArguments()
+    {
+        return [
+            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+        ];
+    }
+
+    #[Override]
+    protected function getOptions()
+    {
+        return [
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when the file already exists.'],
+        ];
+    }
+
+    /**
+     * Get template contents.
+     */
+    protected function getTemplateContents(): string
+    {
+        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+
+        return (new Stub('/route-provider.stub', [
+            'NAMESPACE' => $this->getClassNamespace($module),
+            'CLASS' => $this->getFileName(),
+            'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
+            'MODULE' => $this->getModuleName(),
+            'CONTROLLER_NAMESPACE' => $this->getControllerNameSpace(),
+            'WEB_ROUTES_PATH' => $this->getWebRoutesPath(),
+            'API_ROUTES_PATH' => $this->getApiRoutesPath(),
+            'LOWER_NAME' => $module->getLowerName(),
+            'KEBAB_NAME' => $module->getKebabName(),
+        ]))->setRemovalTags(array_filter([
+            $this->shouldGenerateWebRoutes() ? null : 'WEB_ROUTES',
+            $this->shouldGenerateApiRoutes() ? null : 'API_ROUTES',
+        ]))->render();
+    }
+
+    private function getFileName(): string
+    {
+        return 'RouteServiceProvider';
+    }
+
+    /**
+     * Get the destination file path.
+     */
+    protected function getDestinationFilePath(): string
+    {
+        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+
+        $generatorPath = GenerateConfigReader::read('provider');
+
+        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
+    }
+
+    protected function shouldGenerateWebRoutes(): bool
+    {
+        return config('modules.paths.generator.routes.web', true);
+    }
+
+    protected function shouldGenerateApiRoutes(): bool
+    {
+        return config('modules.paths.generator.routes.api', true);
+    }
+
+    protected function getWebRoutesPath(): string
+    {
+        return '/'.$this->laravel['modules']->config('stubs.files.routes/web', 'Routes/web.php');
+    }
+
+    protected function getApiRoutesPath(): string
+    {
+        return '/'.$this->laravel['modules']->config('stubs.files.routes/api', 'Routes/api.php');
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('modules.paths.generator.provider.namespace')
+            ?? $this->strip_app_folder(config('modules.paths.generator.provider.path', 'Providers'));
+    }
+
+    private function getControllerNameSpace(): string
+    {
+        $module = $this->laravel['modules'];
+
+        return str_replace('/', '\\', $module->config('paths.generator.controller.namespace') ?: $module->config('paths.generator.controller.path', 'Controller'));
+    }
+}

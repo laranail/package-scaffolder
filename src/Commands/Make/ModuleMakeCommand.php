@@ -1,0 +1,120 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Process;
+use Override;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Generators\ModuleGenerator;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+
+class ModuleMakeCommand extends Command
+{
+    use SupportsNamespacedNames;
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'laranail::package-scaffolder.make';
+
+    protected $aliases = ['module:make'];
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new module.';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle(): int
+    {
+        $names = $this->argument('name');
+        $success = true;
+
+        foreach ($names as $name) {
+            $code = with(new ModuleGenerator($name))
+                ->setFilesystem($this->laravel['files'])
+                ->setModule($this->laravel['modules'])
+                ->setConfig($this->laravel['config'])
+                ->setActivator($this->laravel[ActivatorInterface::class])
+                ->setConsole($this)
+                ->setComponent($this->components)
+                ->setForce($this->option('force'))
+                ->setType($this->getModuleType())
+                ->setInertia((bool) $this->option('inertia'))
+                ->setActive(! $this->option('disabled'))
+                ->setVendor($this->option('author-vendor'))
+                ->setAuthor($this->option('author-name'), $this->option('author-email'))
+                ->generate();
+
+            if ($code === E_ERROR) {
+                $success = false;
+            }
+        }
+
+        // to discover new service providers
+        Process::path(base_path())
+            ->command('composer dump-autoload')
+            ->run()->output();
+
+        return $success ? 0 : E_ERROR;
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getArguments()
+    {
+        return [
+            ['name', InputArgument::IS_ARRAY, 'The names of modules will be created.'],
+        ];
+    }
+
+    #[Override]
+    protected function getOptions()
+    {
+        return [
+            ['plain', 'p', InputOption::VALUE_NONE, 'Generate a plain module (without some resources).'],
+            ['api', null, InputOption::VALUE_NONE, 'Generate an api module.'],
+            ['web', null, InputOption::VALUE_NONE, 'Generate a web module.'],
+            ['inertia', null, InputOption::VALUE_NONE, 'Generate an Inertia module (Inertia controller + JS pages, no Blade views).'],
+            ['disabled', 'd', InputOption::VALUE_NONE, 'Do not enable the module at creation.'],
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when the module already exists.'],
+            ['author-name', null, InputOption::VALUE_OPTIONAL, 'Author name.'],
+            ['author-email', null, InputOption::VALUE_OPTIONAL, 'Author email.'],
+            ['author-vendor', null, InputOption::VALUE_OPTIONAL, 'Author vendor.'],
+        ];
+    }
+
+    /**
+     * Get module type .
+     */
+    private function getModuleType(): string
+    {
+        $isPlain = $this->option('plain');
+        $isApi = $this->option('api');
+
+        if ($isPlain && $isApi) {
+            return 'web';
+        }
+        if ($isPlain) {
+            return 'plain';
+        }
+        if ($isApi) {
+            return 'api';
+        }
+
+        return 'web';
+    }
+}

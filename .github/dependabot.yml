@@ -1,0 +1,34 @@
+version: 2
+
+updates:
+  - package-ecosystem: composer
+    directory: /
+    # Test stubs are scaffolding fixtures, not resolvable projects —
+    # Dependabot security jobs fail on their lockfile-less manifests.
+    exclude-paths:
+      - tests/stubs
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: UTC
+    groups:
+      composer-minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: 'chore(deps)'
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: UTC
+    groups:
+      actions-minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: 'chore(actions)'
+      include: scope

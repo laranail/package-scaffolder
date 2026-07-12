@@ -1,0 +1,300 @@
+<?php
+
+namespace Simtabi\Laranail\Package\Scaffolder\Migrations;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+
+class Migrator
+{
+    /**
+     * Module instance.
+     */
+    protected Module $module;
+
+    /**
+     * Laravel Application instance.
+     */
+    protected Application $laravel;
+
+    /**
+     * Optional subpath for specific migration file.
+     *
+     * @var string|null
+     *
+     * @example subpath 2000_01_01_000000_create_example_table.php
+     */
+    protected $subpath = '';
+
+    /**
+     * The database connection to be used
+     *
+     * @var string
+     */
+    protected $database = '';
+
+    /**
+     * Create new instance.
+     *
+     * @param  string|null  $subpath
+     */
+    public function __construct(Module $module, Application $application, $subpath = null)
+    {
+        $this->module = $module;
+        $this->laravel = $application;
+        $this->subpath = $subpath;
+    }
+
+    /**
+     * Set the database connection to be used
+     */
+    public function setDatabase($database): static
+    {
+        if (is_string($database) && $database) {
+            $this->database = $database;
+        }
+
+        return $this;
+    }
+
+    public function getModule(): Module
+    {
+        return $this->module;
+    }
+
+    /**
+     * Get migration path.
+     */
+    public function getPath(): string
+    {
+        $config = $this->module->get('migration');
+
+        $migrationPath = GenerateConfigReader::read('migration');
+        $path = (is_array($config) && array_key_exists('path', $config)) ? $config['path'] : $migrationPath->getPath();
+
+        return $this->module->getExtraPath($path);
+    }
+
+    /**
+     * Get migration files.
+     *
+     * @param  bool  $reverse
+     */
+    public function getMigrations($reverse = false): array
+    {
+        if (! empty($this->subpath)) {
+            $files = $this->laravel['files']->glob($this->getPath().'/'.$this->subpath);
+        } else {
+            $files = $this->laravel['files']->glob($this->getPath().'/*_*.php');
+        }
+
+        // Once we have the array of files in the directory we will just remove the
+        // extension and take the basename of the file which is all we need when
+        // finding the migrations that haven't been run against the databases.
+        if ($files === false) {
+            return [];
+        }
+
+        $files = array_map(fn ($file): string => str_replace('.php', '', basename($file)), $files);
+
+        // Once we have all of the formatted file names we will sort them and since
+        // they all start with a timestamp this should give us the migrations in
+        // the order they were actually created by the application developers.
+        sort($files);
+
+        if ($reverse) {
+            return array_reverse($files);
+        }
+
+        return $files;
+    }
+
+    /**
+     * Rollback migration.
+     */
+    public function rollback(): array
+    {
+        $migrations = $this->getLast($this->getMigrations(true));
+
+        $this->requireFiles($migrations->toArray());
+
+        $migrated = [];
+
+        foreach ($migrations as $migration) {
+            $data = $this->find($migration);
+
+            if ($data->count()) {
+                $migrated[] = $migration;
+
+                $this->down($migration);
+
+                $data->delete();
+            }
+        }
+
+        return $migrated;
+    }
+
+    /**
+     * Reset migration.
+     */
+    public function reset(): array
+    {
+        $migrations = $this->getMigrations(true);
+
+        $this->requireFiles($migrations);
+
+        $migrated = [];
+
+        foreach ($migrations as $migration) {
+            $data = $this->find($migration);
+
+            if ($data->count()) {
+                $migrated[] = $migration;
+
+                $this->down($migration);
+
+                $data->delete();
+            }
+        }
+
+        return $migrated;
+    }
+
+    /**
+     * Run down schema from the given migration name.
+     */
+    public function down(string $migration): void
+    {
+        $this->resolve($migration)->down();
+    }
+
+    /**
+     * Run up schema from the given migration name.
+     */
+    public function up(string $migration): void
+    {
+        $this->resolve($migration)->up();
+    }
+
+    /**
+     * Resolve a migration instance from a file.
+     *
+     * @return object
+     */
+    public function resolve(string $file)
+    {
+        $name = implode('_', array_slice(explode('_', $file), 4));
+
+        $class = Str::studly($name);
+
+        if (! class_exists($class) && file_exists($this->getPath().'/'.$file.'.php')) {
+            return include $this->getPath().'/'.$file.'.php';
+        }
+
+        return new $class;
+    }
+
+    /**
+     * Require in all the migration files in a given path.
+     */
+    public function requireFiles(array $files): void
+    {
+        $path = $this->getPath();
+        foreach ($files as $file) {
+            $this->laravel['files']->requireOnce($path.'/'.$file.'.php');
+        }
+    }
+
+    /**
+     * Get table instance.
+     *
+     * @return Builder
+     */
+    public function table()
+    {
+        return $this->laravel['db']->connection($this->database ?: null)->table(config('database.migrations.table', 'migrations'));
+    }
+
+    /**
+     * Find migration data from database by given migration name.
+     *
+     * @param  string  $migration
+     * @return object
+     */
+    public function find($migration)
+    {
+        return $this->table()->whereMigration($migration);
+    }
+
+    /**
+     * Save new migration to database.
+     *
+     * @param  string  $migration
+     */
+    public function log($migration)
+    {
+        return $this->table()->insert([
+            'migration' => $migration,
+            'batch' => $this->getNextBatchNumber(),
+        ]);
+    }
+
+    /**
+     * Get the next migration batch number.
+     *
+     * @return int
+     */
+    public function getNextBatchNumber(): int|float
+    {
+        return $this->getLastBatchNumber() + 1;
+    }
+
+    /**
+     * Get the last migration batch number.
+     *
+     * @param  array|null  $migrations
+     * @return int
+     */
+    public function getLastBatchNumber($migrations = null)
+    {
+        $table = $this->table();
+
+        if (is_array($migrations)) {
+            $table = $table->whereIn('migration', $migrations);
+        }
+
+        return $table->max('batch');
+    }
+
+    /**
+     * Get the last migration batch.
+     *
+     * @param  array  $migrations
+     * @return Collection
+     */
+    public function getLast($migrations)
+    {
+        $query = $this->table()
+            ->where('batch', $this->getLastBatchNumber($migrations))
+            ->whereIn('migration', $migrations);
+
+        $result = $query->orderBy('migration', 'desc')->get();
+
+        return collect($result)->map(fn ($item): array => (array) $item)->pluck('migration');
+    }
+
+    /**
+     * Get the ran migrations.
+     *
+     * @return Collection
+     */
+    public function getRan()
+    {
+        return $this->table()->pluck('migration');
+    }
+}
