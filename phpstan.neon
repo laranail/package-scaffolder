@@ -17,3 +17,11 @@ parameters:
     # new code must be clean at the level above. Regenerate the baseline with:
     #   vendor/bin/phpstan analyse --generate-baseline
     treatPhpDocTypesAsCertain: false
+
+    # A baseline entry that stops matching is not a regression, and failing the
+    # build for one turns every upstream PHPStan/Larastan release into a red
+    # main. CI resolves dev tools with `composer update`, so each run can infer
+    # types slightly differently from the run that generated the baseline —
+    # nine getOptions() entries went stale exactly this way. Genuine errors
+    # still fail the gate; only "this ignore matched nothing" is silenced.
+    reportUnmatchedIgnoredErrors: false
