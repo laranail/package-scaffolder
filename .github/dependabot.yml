@@ -3,10 +3,16 @@ version: 2
 updates:
   - package-ecosystem: composer
     directory: /
-    # Test stubs are scaffolding fixtures, not resolvable projects —
-    # Dependabot security jobs fail on their lockfile-less manifests.
-    exclude-paths:
-      - tests/stubs
+    # `directory: /` already keeps version updates off tests/stubs. There was an
+    # `exclude-paths:` key here trying to do the same thing; it is not a
+    # Dependabot option, so it was silently ignored and never excluded anything.
+    #
+    # It would not have helped regardless: security updates scan every manifest
+    # in the repository whatever `directory` says. tests/stubs/valid/Recipe is a
+    # scaffolding fixture — an asgard-module frozen at php >=5.4 to exercise the
+    # reader — and its phpunit ~4.0 is what raises the alert. Nothing installs
+    # it, so the alert is dismissed as not-used rather than "fixed" by bumping
+    # one line of a fixture whose whole point is being old.
     schedule:
       interval: weekly
       day: monday
