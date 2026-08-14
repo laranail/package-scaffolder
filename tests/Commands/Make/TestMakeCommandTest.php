@@ -72,7 +72,7 @@ class TestMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_unit_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.test-unit.path', 'SuperTests/Unit');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.test-unit.path', 'SuperTests/Unit');
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog']);
 
@@ -84,7 +84,7 @@ class TestMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_unit_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.test.namespace', 'SuperTests\\Unit');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.test.namespace', 'SuperTests\\Unit');
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog']);
 
@@ -96,7 +96,7 @@ class TestMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_feature_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.test-feature.path', 'SuperTests/Feature');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.test-feature.path', 'SuperTests/Feature');
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog', '--feature' => true]);
 
@@ -108,7 +108,7 @@ class TestMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_feature_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.test-feature.namespace', 'SuperTests\\Feature');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.test-feature.namespace', 'SuperTests\\Feature');
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog', '--feature' => true]);
 

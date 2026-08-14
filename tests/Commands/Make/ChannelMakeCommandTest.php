@@ -49,7 +49,7 @@ class ChannelMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.channels.path', 'SuperChannel');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.channels.path', 'SuperChannel');
 
         $code = $this->artisan('module:make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
 
@@ -61,7 +61,7 @@ class ChannelMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.channels.namespace', 'SuperChannel');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.channels.namespace', 'SuperChannel');
 
         $code = $this->artisan('module:make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
 

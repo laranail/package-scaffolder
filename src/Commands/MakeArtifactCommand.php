@@ -42,7 +42,7 @@ class MakeArtifactCommand extends Command
         $io = $this->services->interaction()->setNonInteractive($nonInteractive);
 
         try {
-            $type = $this->resolveChoice($io, 'type', 'Artifact type', array_keys((array) config('artifacts.kinds')), $nonInteractive);
+            $type = $this->resolveChoice($io, 'type', 'Artifact type', array_keys((array) config('laranail.package-scaffolder.artifacts.kinds')), $nonInteractive);
             $flavor = $this->resolveFlavor($io, $nonInteractive);
             $plugin = $this->resolvePlugin($io, $nonInteractive);
             $name = $this->resolveName($io, $nonInteractive);
@@ -56,7 +56,7 @@ class MakeArtifactCommand extends Command
             return self::FAILURE;
         }
 
-        $vendor = Str::lower((string) ($this->option('vendor') ?: config('modules.composer.vendor') ?: 'laranail'));
+        $vendor = Str::lower((string) ($this->option('vendor') ?: config('laranail.package-scaffolder.modules.composer.vendor') ?: 'laranail'));
 
         $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'), $entity, $flavor);
 
@@ -70,7 +70,7 @@ class MakeArtifactCommand extends Command
         // explicit --path (caller owns the location) or --force.
         if (! $this->option('force') && ! $this->option('path')) {
             $files = new Filesystem;
-            foreach ((array) config('artifacts.kinds') as $containerPath) {
+            foreach ((array) config('laranail.package-scaffolder.artifacts.kinds') as $containerPath) {
                 $existing = base_path((string) $containerPath).'/'.$request->studly();
                 if ($files->isDirectory($existing)) {
                     $this->components->error(sprintf(
@@ -85,7 +85,7 @@ class MakeArtifactCommand extends Command
         }
 
         try {
-            (new ArtifactGenerator(new Filesystem, (array) config('artifacts'), $this->pintBinary()))
+            (new ArtifactGenerator(new Filesystem, (array) config('laranail.package-scaffolder.artifacts'), $this->pintBinary()))
                 ->generate($request, $source, $target);
         } catch (Throwable $e) {
             $this->components->error($e->getMessage());
@@ -116,8 +116,8 @@ class MakeArtifactCommand extends Command
 
     private function resolveFlavor(CommandInteractionService $io, bool $nonInteractive): string
     {
-        $flavors = array_keys((array) config('artifacts.flavors'));
-        $default = (string) config('artifacts.default_flavor', 'laravel');
+        $flavors = array_keys((array) config('laranail.package-scaffolder.artifacts.flavors'));
+        $default = (string) config('laranail.package-scaffolder.artifacts.default_flavor', 'laravel');
         $value = (string) ($this->option('flavor') ?? '');
 
         if ($value === '') {
@@ -185,7 +185,7 @@ class MakeArtifactCommand extends Command
      */
     private function resolvePlugin(CommandInteractionService $io, bool $nonInteractive): string
     {
-        $types = (array) config('artifacts.plugin_types'); // nova | filament | none
+        $types = (array) config('laranail.package-scaffolder.artifacts.plugin_types'); // nova | filament | none
         $value = $this->option('plugin');
 
         if ($value !== null && $value !== '') {
@@ -234,7 +234,7 @@ class MakeArtifactCommand extends Command
      */
     private function resolveEntity(CommandInteractionService $io, string $name, bool $nonInteractive): string
     {
-        $default = (string) config('artifacts.default_entity', 'Item');
+        $default = (string) config('laranail.package-scaffolder.artifacts.default_entity', 'Item');
         $entity = (string) ($this->option('entity') ?? '');
 
         if ($entity === '') {
@@ -260,7 +260,7 @@ class MakeArtifactCommand extends Command
     private function resolveNamespace(CommandInteractionService $io, bool $nonInteractive): string
     {
         $ns = (string) ($this->option('namespace') ?? '');
-        $default = (string) config('artifacts.default_namespace', 'Modules');
+        $default = (string) config('laranail.package-scaffolder.artifacts.default_namespace', 'Modules');
 
         if ($ns === '') {
             $ns = $nonInteractive ? $default : $io->askText('Root namespace', $default, $default, false);
@@ -280,7 +280,7 @@ class MakeArtifactCommand extends Command
      */
     private function resolveFeatures(CommandInteractionService $io, bool $nonInteractive, string $flavor): array
     {
-        $selectable = array_keys((array) config('artifacts.features'));
+        $selectable = array_keys((array) config('laranail.package-scaffolder.artifacts.features'));
         $selectable[] = 'livewire'; // sub-toggle, independently selectable
 
         // The default feature set is the flavor's own (laravel = full; vanilla = none),
@@ -346,7 +346,7 @@ class MakeArtifactCommand extends Command
     private function requiresMap(): array
     {
         $map = [];
-        foreach ((array) config('artifacts.features') as $key => $def) {
+        foreach ((array) config('laranail.package-scaffolder.artifacts.features') as $key => $def) {
             $map[$key] = array_values((array) ($def['requires'] ?? []));
             foreach ((array) ($def['sub'] ?? []) as $subKey => $subDef) {
                 $map[$subKey] = array_values((array) ($subDef['requires'] ?? []));

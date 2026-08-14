@@ -26,7 +26,7 @@ class RepositoryMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('repository')->getPath() ?? config('modules.paths.app_folder').'Repositories';
+        $filePath = GenerateConfigReader::read('repository')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Repositories';
 
         return $path.$filePath.'/'.$this->getRepositoryName().'.php';
     }
@@ -72,7 +72,7 @@ class RepositoryMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.repository.namespace', 'Repositories');
+        return config('laranail.package-scaffolder.modules.paths.generator.repository.namespace', 'Repositories');
     }
 
     protected function getStubName(): string

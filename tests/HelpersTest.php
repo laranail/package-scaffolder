@@ -31,7 +31,7 @@ class HelpersTest extends BaseTestCase
 
     public function test_module_path_falls_back_to_configured_path_when_module_not_found(): void
     {
-        $base = config('modules.paths.modules');
+        $base = config('laranail.package-scaffolder.modules.paths.modules');
 
         $this->assertSame($base.DIRECTORY_SEPARATOR.'Unknown', module_path('Unknown'));
         $this->assertSame(

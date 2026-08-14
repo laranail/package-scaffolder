@@ -110,8 +110,8 @@ class LumenModuleTest extends BaseTestCase
 
         $this->module->enable();
 
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::ENABLING, $this->module->getLowerName()));
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::ENABLED, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::ENABLING, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::ENABLED, $this->module->getLowerName()));
     }
 
     public function test_it_fires_events_when_module_is_disabled(): void
@@ -120,8 +120,8 @@ class LumenModuleTest extends BaseTestCase
 
         $this->module->disable();
 
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::DISABLING, $this->module->getLowerName()));
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::DISABLED, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DISABLING, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DISABLED, $this->module->getLowerName()));
     }
 
     public function test_it_has_a_good_providers_manifest_path(): void

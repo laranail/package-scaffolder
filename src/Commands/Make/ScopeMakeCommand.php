@@ -26,7 +26,7 @@ class ScopeMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('scopes')->getPath() ?? config('modules.paths.generator.model.path').'/Scopes';
+        $filePath = GenerateConfigReader::read('scopes')->getPath() ?? config('laranail.package-scaffolder.modules.paths.generator.model.path').'/Scopes';
 
         return $path.$filePath.'/'.$this->getScopeName().'.php';
     }
@@ -71,7 +71,7 @@ class ScopeMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        $namespace = config('modules.paths.generator.model.path');
+        $namespace = config('laranail.package-scaffolder.modules.paths.generator.model.path');
 
         $parts = explode('/', $namespace);
         $models = end($parts);

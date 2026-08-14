@@ -18,7 +18,7 @@ trait ResolvesModuleNamespace
     public function getModuleNamespace(Module $module): ?string
     {
         $psr4 = (array) data_get($module->getComposerAttr('autoload', []), 'psr-4', []);
-        $appFolder = trim((string) config('modules.paths.app_folder', ''), '/');
+        $appFolder = trim((string) config('laranail.package-scaffolder.modules.paths.app_folder', ''), '/');
 
         foreach ($psr4 as $namespace => $path) {
             // The module root maps to the app folder ('app/') or the module

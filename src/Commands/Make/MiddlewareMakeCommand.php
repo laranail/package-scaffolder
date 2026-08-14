@@ -40,8 +40,8 @@ class MiddlewareMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.filter.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.filter.path', 'Http/Middleware'));
+        return config('laranail.package-scaffolder.modules.paths.generator.filter.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.filter.path', 'Http/Middleware'));
     }
 
     /**

@@ -45,17 +45,24 @@ abstract class ModulesServiceProvider extends ServiceProvider
         $configPath = __DIR__.'/../../config/config.php';
         $stubsPath = dirname(__DIR__, 2).'/stubs';
 
+        // A path, not a dotted key: the config key is
+        // `laranail.package-scaffolder.modules`, which Laravel reads from
+        // config/laranail/package-scaffolder/modules.php.
+        //
+        // The tags were `config`, `stubs` and `vite` — about as generic as a
+        // publish tag can be. `vendor:publish --tag=config` would fire every
+        // package that claimed it, in registration order.
         $this->publishes([
-            $configPath => config_path('modules.php'),
-        ], 'config');
+            $configPath => config_path('laranail/package-scaffolder/modules.php'),
+        ], 'laranail::package-scaffolder-config');
 
         $this->publishes([
             $stubsPath => base_path('stubs/laranail-package-scaffolder'),
-        ], 'stubs');
+        ], 'laranail::package-scaffolder-stubs');
 
         $this->publishes([
             __DIR__.'/../../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
-        ], 'vite');
+        ], 'laranail::package-scaffolder-vite');
     }
 
     /**

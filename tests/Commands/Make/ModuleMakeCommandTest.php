@@ -53,7 +53,7 @@ class ModuleMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
-        foreach (config('modules.paths.generator') as $directory) {
+        foreach (config('laranail.package-scaffolder.modules.paths.generator') as $directory) {
             $this->assertDirectoryExists($this->modulePath.'/'.$directory['path']);
         }
         $this->assertSame(0, $code);
@@ -61,7 +61,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_does_not_generate_assets_when_disabled(): void
     {
-        config(['modules.paths.generator.assets' => ['path' => 'resources/assets', 'generate' => false]]);
+        config(['laranail.package-scaffolder.modules.paths.generator.assets' => ['path' => 'resources/assets', 'generate' => false]]);
 
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -73,7 +73,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_does_not_generate_view_files_when_views_disabled(): void
     {
-        config(['modules.paths.generator.views' => ['path' => 'resources/views', 'generate' => false]]);
+        config(['laranail.package-scaffolder.modules.paths.generator.views' => ['path' => 'resources/views', 'generate' => false]]);
 
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -85,7 +85,7 @@ class ModuleMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
-        foreach (config('modules.stubs.files') as $file) {
+        foreach (config('laranail.package-scaffolder.modules.stubs.files') as $file) {
             $path = base_path('modules/Blog').'/'.$file;
             $this->assertTrue($this->finder->exists($path), "[$file] does not exists");
         }
@@ -108,7 +108,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_web_route_file_with_multi_segment_default_namespace(): void
     {
-        $this->app['config']->set('modules.namespace', 'Custom\Modules');
+        $this->app['config']->set('laranail.package-scaffolder.modules.namespace', 'Custom\Modules');
         $files = $this->app['modules']->config('stubs.files');
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -131,7 +131,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_api_route_file_with_multi_segment_default_namespace(): void
     {
-        $this->app['config']->set('modules.namespace', 'Custom\Modules');
+        $this->app['config']->set('laranail.package-scaffolder.modules.namespace', 'Custom\Modules');
         $files = $this->app['modules']->config('stubs.files');
 
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
@@ -227,7 +227,7 @@ class ModuleMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make', ['name' => ['ModuleName'], '--plain' => true]);
 
-        foreach (config('modules.stubs.files') as $file) {
+        foreach (config('laranail.package-scaffolder.modules.stubs.files') as $file) {
             $path = base_path('modules/ModuleName').'/'.$file;
             $this->assertFalse($this->finder->exists($path), "[$file] exists");
         }
@@ -268,14 +268,14 @@ class ModuleMakeCommandTest extends BaseTestCase
         $code = $this->artisan('module:make', ['name' => ['Blog'], '--force' => true]);
         $this->assertSame(0, $code);
 
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::DELETING, strtolower('Blog')));
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::DELETED, strtolower('Blog')));
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::CREATED, strtolower('Blog')));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DELETING, strtolower('Blog')));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DELETED, strtolower('Blog')));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::CREATED, strtolower('Blog')));
     }
 
     public function test_it_can_generate_module_with_old_config_format(): void
     {
-        $this->app['config']->set('modules.paths.generator', [
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator', [
             'assets' => 'Assets',
             'config' => 'Config',
             'command' => 'Console',
@@ -312,8 +312,8 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_can_ignore_some_folders_to_generate_with_old_format(): void
     {
-        $this->app['config']->set('modules.paths.generator.assets', false);
-        $this->app['config']->set('modules.paths.generator.emails', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.assets', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.emails', false);
 
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -324,8 +324,8 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_can_ignore_some_folders_to_generate_with_new_format(): void
     {
-        $this->app['config']->set('modules.paths.generator.assets', ['path' => 'Assets', 'generate' => false]);
-        $this->app['config']->set('modules.paths.generator.emails', ['path' => 'Emails', 'generate' => false]);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.assets', ['path' => 'Assets', 'generate' => false]);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.emails', ['path' => 'Emails', 'generate' => false]);
 
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -336,13 +336,13 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_can_ignore_resource_folders_to_generate(): void
     {
-        $this->app['config']->set('modules.paths.generator.seeder', ['path' => 'Database/Seeders', 'generate' => false]
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.seeder', ['path' => 'Database/Seeders', 'generate' => false]
         );
-        $this->app['config']->set('modules.paths.generator.provider', ['path' => 'Providers', 'generate' => false]);
-        $this->app['config']->set('modules.paths.generator.route-provider', ['path' => 'Providers', 'generate' => false]
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider', ['path' => 'Providers', 'generate' => false]);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.route-provider', ['path' => 'Providers', 'generate' => false]
         );
         $this->app['config']->set(
-            'modules.paths.generator.controller',
+            'laranail.package-scaffolder.modules.paths.generator.controller',
             ['path' => 'Http/Controllers', 'generate' => false]
         );
 
@@ -372,7 +372,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generes_module_with_new_provider_location(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider', ['path' => 'Base/Providers', 'generate' => true]);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider', ['path' => 'Base/Providers', 'generate' => true]);
 
         $code = $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -455,8 +455,8 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generate_module_when_provider_is_enable_and_route_provider_is_enable(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider.generate', true);
-        $this->app['config']->set('modules.paths.generator.route-provider.generate', true);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.generate', true);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.route-provider.generate', true);
 
         $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -475,8 +475,8 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generate_module_when_provider_is_enable_and_route_provider_is_disable(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider.generate', true);
-        $this->app['config']->set('modules.paths.generator.route-provider.generate', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.generate', true);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.route-provider.generate', false);
 
         $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -494,8 +494,8 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generate_module_when_provider_is_disable_and_route_provider_is_disable(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider.generate', false);
-        $this->app['config']->set('modules.paths.generator.route-provider.generate', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.generate', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.route-provider.generate', false);
 
         $this->artisan('module:make', ['name' => ['Blog']]);
 
@@ -540,8 +540,8 @@ class ModuleMakeCommandTest extends BaseTestCase
 
         $this->assertSame(0, $code);
 
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::CREATING, strtolower($module_name)));
-        Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::CREATED, strtolower($module_name)));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::CREATING, strtolower($module_name)));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::CREATED, strtolower($module_name)));
     }
 
     public function test_it_fires_events_when_multi_module_created(): void
@@ -559,8 +559,8 @@ class ModuleMakeCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
 
         foreach ($modules as $module) {
-            Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::CREATING, strtolower($module)));
-            Event::assertDispatched(sprintf('modules.%s.'.ModuleEvent::CREATED, strtolower($module)));
+            Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::CREATING, strtolower($module)));
+            Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::CREATED, strtolower($module)));
         }
     }
 }

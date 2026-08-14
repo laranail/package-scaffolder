@@ -49,7 +49,7 @@ class MailMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.emails.path', 'SuperEmails');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.emails.path', 'SuperEmails');
 
         $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 
@@ -61,7 +61,7 @@ class MailMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.emails.namespace', 'SuperEmails');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.emails.namespace', 'SuperEmails');
 
         $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 

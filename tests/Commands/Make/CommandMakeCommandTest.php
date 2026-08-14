@@ -62,7 +62,7 @@ class CommandMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.command.path', 'app/CustomCommands');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.command.path', 'app/CustomCommands');
 
         $code = $this->artisan('module:make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
 
@@ -74,7 +74,7 @@ class CommandMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.command.namespace', 'Commands');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.command.namespace', 'Commands');
 
         $code = $this->artisan('module:make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
 

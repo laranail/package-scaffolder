@@ -25,8 +25,8 @@ class ResourceMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.resource.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.resource.path', 'Transformers'));
+        return config('laranail.package-scaffolder.modules.paths.generator.resource.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.resource.path', 'Transformers'));
     }
 
     /**

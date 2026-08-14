@@ -49,7 +49,7 @@ class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInpu
             Str::of($path)
                 ->after(base_path().DIRECTORY_SEPARATOR)
                 ->replace(
-                    [config('modules.paths.app_folder'), '/', '.php'],
+                    [config('laranail.package-scaffolder.modules.paths.app_folder'), '/', '.php'],
                     ['', '\\', ''],
                 )->toString();
     }
@@ -58,8 +58,8 @@ class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInpu
     {
         $pattern = sprintf(
             '%s/*/%s/%s.php',
-            config('modules.paths.modules'),
-            config('modules.paths.generator.model.path'),
+            config('laranail.package-scaffolder.modules.paths.modules'),
+            config('laranail.package-scaffolder.modules.paths.generator.model.path'),
             $model
         );
 

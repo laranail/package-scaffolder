@@ -160,7 +160,7 @@ class LaravelFileRepositoryTest extends BaseTestCase
 
     public function test_it_gets_the_configured_stubs_path_if_enabled(): void
     {
-        $this->app['config']->set('modules.stubs.enabled', true);
+        $this->app['config']->set('laranail.package-scaffolder.modules.stubs.enabled', true);
 
         $this->assertEquals(base_path('vendor/laranail/package-scaffolder/stubs'), $this->repository->getStubPath());
     }

@@ -26,7 +26,7 @@ class CastMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('casts')->getPath() ?? config('modules.paths.app_folder').'Casts';
+        $filePath = GenerateConfigReader::read('casts')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Casts';
 
         return $path.$filePath.'/'.$this->getCastName().'.php';
     }
@@ -71,7 +71,7 @@ class CastMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.casts.namespace', 'Casts');
+        return config('laranail.package-scaffolder.modules.paths.generator.casts.namespace', 'Casts');
     }
 
     protected function getStubName(): string

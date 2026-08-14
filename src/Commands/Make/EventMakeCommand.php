@@ -61,8 +61,8 @@ class EventMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.event.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.event.path', 'Events'));
+        return config('laranail.package-scaffolder.modules.paths.generator.event.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.event.path', 'Events'));
     }
 
     /**

@@ -126,8 +126,8 @@ class ObserverMakeCommand extends GeneratorCommand
     public function getDefaultNamespace(): string
     {
 
-        $path = config('modules.paths.generator.observer.path', 'Observers'); // 'app/Observers'
-        $appFolder = config('modules.paths.app_folder', 'app/');
+        $path = config('laranail.package-scaffolder.modules.paths.generator.observer.path', 'Observers'); // 'app/Observers'
+        $appFolder = config('laranail.package-scaffolder.modules.paths.app_folder', 'app/');
 
         if (str_starts_with($path, $appFolder)) {
             $path = substr($path, strlen($appFolder)); // 'Observers'

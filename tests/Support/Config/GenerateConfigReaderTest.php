@@ -19,7 +19,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
 
     public function test_it_can_read_a_configuration_value_with_new_format_set_to_false(): void
     {
-        $this->app['config']->set('modules.paths.generator.seeder', ['path' => 'Database/Seeders', 'generate' => false]);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.seeder', ['path' => 'Database/Seeders', 'generate' => false]);
 
         $seedConfig = GenerateConfigReader::read('seeder');
 
@@ -30,7 +30,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
 
     public function test_it_can_read_a_configuration_value_with_old_format(): void
     {
-        $this->app['config']->set('modules.paths.generator.seeder', 'Database/Seeders');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.seeder', 'Database/Seeders');
 
         $seedConfig = GenerateConfigReader::read('seeder');
 
@@ -41,7 +41,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
 
     public function test_it_can_read_a_configuration_value_with_old_format_set_to_false(): void
     {
-        $this->app['config']->set('modules.paths.generator.seeder', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.seeder', false);
 
         $seedConfig = GenerateConfigReader::read('seeder');
 
@@ -52,7 +52,7 @@ final class GenerateConfigReaderTest extends BaseTestCase
 
     public function test_it_can_guess_namespace_from_path(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider', ['path' => 'Base/Providers', 'generate' => true]);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider', ['path' => 'Base/Providers', 'generate' => true]);
 
         $config = GenerateConfigReader::read('provider');
 

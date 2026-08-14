@@ -48,13 +48,13 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
     protected function registerServices()
     {
         $this->app->singleton(RepositoryInterface::class, function ($app): LumenFileRepository {
-            $path = $app['config']->get('modules.paths.modules');
+            $path = $app['config']->get('laranail.package-scaffolder.modules.paths.modules');
 
             return new LumenFileRepository($app, $path);
         });
         $this->app->singleton(ActivatorInterface::class, function ($app): object {
-            $activator = $app['config']->get('modules.activator');
-            $class = $app['config']->get('modules.activators.'.$activator)['class'];
+            $activator = $app['config']->get('laranail.package-scaffolder.modules.activator');
+            $class = $app['config']->get('laranail.package-scaffolder.modules.activators.'.$activator)['class'];
 
             return new $class($app);
         });

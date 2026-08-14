@@ -94,12 +94,12 @@ class RouteProviderMakeCommand extends GeneratorCommand
 
     protected function shouldGenerateWebRoutes(): bool
     {
-        return config('modules.paths.generator.routes.web', true);
+        return config('laranail.package-scaffolder.modules.paths.generator.routes.web', true);
     }
 
     protected function shouldGenerateApiRoutes(): bool
     {
-        return config('modules.paths.generator.routes.api', true);
+        return config('laranail.package-scaffolder.modules.paths.generator.routes.api', true);
     }
 
     protected function getWebRoutesPath(): string
@@ -115,8 +115,8 @@ class RouteProviderMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.provider.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.provider.path', 'Providers'));
+        return config('laranail.package-scaffolder.modules.paths.generator.provider.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Providers'));
     }
 
     private function getControllerNameSpace(): string

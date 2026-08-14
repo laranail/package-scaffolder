@@ -35,7 +35,7 @@ trait PathNamespace
      */
     public function module_namespace(string $module, ?string $path = null): string
     {
-        $module_namespace = config('modules.namespace', $this->path_namespace(config('modules.paths.modules'))).'\\'.($module);
+        $module_namespace = config('laranail.package-scaffolder.modules.namespace', $this->path_namespace(config('laranail.package-scaffolder.modules.paths.modules'))).'\\'.($module);
         $module_namespace .= strlen($path) !== 0 ? '\\'.$this->path_namespace($path) : '';
 
         return $this->studly_namespace($module_namespace);
@@ -52,7 +52,7 @@ trait PathNamespace
     /**
      * Strip the configured app folder prefix from a generator path.
      *
-     * `config('modules.paths.app_folder')` is a path prefix (e.g. "app/"), not
+     * `config('laranail.package-scaffolder.modules.paths.app_folder')` is a path prefix (e.g. "app/"), not
      * a character set. Removing it with `ltrim($path, $appFolder)` treats it as
      * a character mask, which corrupts any path whose next segment starts with
      * one of those characters (e.g. "app/api" -> "pi"). This removes it as a
@@ -62,7 +62,7 @@ trait PathNamespace
     {
         $path = (string) $path;
 
-        $appFolder = trim((string) config('modules.paths.app_folder', ''), '/');
+        $appFolder = trim((string) config('laranail.package-scaffolder.modules.paths.app_folder', ''), '/');
 
         if ($appFolder === '') {
             return $path;
@@ -86,7 +86,7 @@ trait PathNamespace
      */
     public function app_path(?string $path = null): string
     {
-        $config_path = (string) config('modules.paths.app_folder');
+        $config_path = (string) config('laranail.package-scaffolder.modules.paths.app_folder');
 
         // Get modules config app path or use Laravel default app path.
         $app_path = $this->clean_path(strlen($config_path) !== 0 ? $config_path : 'app/');

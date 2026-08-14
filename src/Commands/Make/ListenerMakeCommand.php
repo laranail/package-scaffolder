@@ -76,8 +76,8 @@ class ListenerMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.listener.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.listener.path', 'Listeners'));
+        return config('laranail.package-scaffolder.modules.paths.generator.listener.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.listener.path', 'Listeners'));
     }
 
     protected function getEventName(Module $module): string|array

@@ -64,9 +64,9 @@ class SeedCommandTest extends BaseTestCase
         // module and make the default-namespace guess miss, so the seeder can
         // only be resolved via the module's own composer.json psr-4 (#1861).
         config([
-            'modules.namespace' => 'SomethingElse',
-            'modules.scan.enabled' => true,
-            'modules.scan.paths' => [dirname(__DIR__, 2).'/stubs/valid'],
+            'laranail.package-scaffolder.modules.namespace' => 'SomethingElse',
+            'laranail.package-scaffolder.modules.scan.enabled' => true,
+            'laranail.package-scaffolder.modules.scan.paths' => [dirname(__DIR__, 2).'/stubs/valid'],
         ]);
 
         $this->app[RepositoryInterface::class]->scan();

@@ -81,7 +81,7 @@ class ConsoleServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->commands(config('modules.commands', self::defaultCommands()->toArray()));
+        $this->commands(config('laranail.package-scaffolder.modules.commands', self::defaultCommands()->toArray()));
     }
 
     #[Override]

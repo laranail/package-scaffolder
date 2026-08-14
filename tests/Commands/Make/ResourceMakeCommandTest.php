@@ -59,7 +59,7 @@ class ResourceMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.resource.path', 'app/Http/Resources');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.resource.path', 'app/Http/Resources');
 
         $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 
@@ -71,7 +71,7 @@ class ResourceMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.resource.namespace', 'Http\\Resources');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.resource.namespace', 'Http\\Resources');
 
         $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 

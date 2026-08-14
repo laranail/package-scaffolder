@@ -43,10 +43,10 @@ class PublishConfigurationCommand extends BaseCommand
     {
         $moduleModel = Module::find($module);
 
-        $namespace = $this->laravel['config']->get('modules.namespace');
+        $namespace = $this->laravel['config']->get('laranail.package-scaffolder.modules.namespace');
         $moduleName = $moduleModel->getName();
-        $provider = $this->laravel['config']->get('modules.paths.generator.provider.path');
-        $provider = str_replace($this->laravel['config']->get('modules.paths.app_folder'), '', $provider);
+        $provider = $this->laravel['config']->get('laranail.package-scaffolder.modules.paths.generator.provider.path');
+        $provider = str_replace($this->laravel['config']->get('laranail.package-scaffolder.modules.paths.app_folder'), '', $provider);
         $provider = str_replace('/', '\\', $provider);
 
         return "$namespace\\$moduleName\\$provider\\{$moduleName}ServiceProvider";

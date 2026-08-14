@@ -39,8 +39,8 @@ class PolicyMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.policies.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.policies.path', 'Policies'));
+        return config('laranail.package-scaffolder.modules.paths.generator.policies.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.policies.path', 'Policies'));
     }
 
     /**

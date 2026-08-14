@@ -61,7 +61,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
         // run migration of root
         $root_paths = $this->migration_paths
             ->push($this->laravel->databasePath().DIRECTORY_SEPARATOR.'migrations')
-            ->reject(fn (string $path): bool => str_starts_with($path, config('modules.paths.modules')));
+            ->reject(fn (string $path): bool => str_starts_with($path, config('laranail.package-scaffolder.modules.paths.modules')));
 
         if ($root_paths->count() > 0) {
             $this->components->twoColumnDetail('Running Migration of <fg=cyan;options=bold>Root</>');

@@ -57,7 +57,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
      */
     protected function registerEventDiscovery(): void
     {
-        if (! $this->app['config']->get('modules.auto-discover.events', true)) {
+        if (! $this->app['config']->get('laranail.package-scaffolder.modules.auto-discover.events', true)) {
             return;
         }
 
@@ -130,8 +130,8 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $this->registerMigrations();
         $this->registerTranslations();
 
-        $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'modules');
-        $this->mergeConfigFrom(__DIR__.'/../../config/artifacts.php', 'artifacts');
+        $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'laranail.package-scaffolder.modules');
+        $this->mergeConfigFrom(__DIR__.'/../../config/artifacts.php', 'laranail.package-scaffolder.artifacts');
 
         $this->registerModules();
     }
@@ -141,7 +141,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
      */
     public function setupStubPath(): void
     {
-        $path = $this->app['config']->get('modules.stubs.path') ?? dirname(__DIR__, 2).'/stubs';
+        $path = $this->app['config']->get('laranail.package-scaffolder.modules.stubs.path') ?? dirname(__DIR__, 2).'/stubs';
         Stub::setBasePath($path);
 
         $this->app->booted(function ($app): void {
@@ -159,13 +159,13 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
     protected function registerServices()
     {
         $this->app->singleton(RepositoryInterface::class, function ($app): LaravelFileRepository {
-            $path = $app['config']->get('modules.paths.modules');
+            $path = $app['config']->get('laranail.package-scaffolder.modules.paths.modules');
 
             return new LaravelFileRepository($app, $path);
         });
         $this->app->singleton(ActivatorInterface::class, function ($app): object {
-            $activator = $app['config']->get('modules.activator');
-            $class = $app['config']->get('modules.activators.'.$activator)['class'];
+            $activator = $app['config']->get('laranail.package-scaffolder.modules.activator');
+            $class = $app['config']->get('laranail.package-scaffolder.modules.activators.'.$activator)['class'];
 
             if ($class === null) {
                 throw InvalidActivatorClass::missingConfig();
@@ -189,12 +189,12 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
 
     protected function registerMigrations(): void
     {
-        if (! $this->app['config']->get('modules.auto-discover.migrations', true)) {
+        if (! $this->app['config']->get('laranail.package-scaffolder.modules.auto-discover.migrations', true)) {
             return;
         }
 
         $this->app->resolving(Migrator::class, function (Migrator $migrator): void {
-            $migration_path = $this->app['config']->get('modules.paths.generator.migration.path');
+            $migration_path = $this->app['config']->get('laranail.package-scaffolder.modules.paths.generator.migration.path');
             collect(Module::allEnabled())
                 ->each(function (LaravelModule $module) use ($migration_path, $migrator): void {
                     $migrator->path($module->getExtraPath($migration_path));
@@ -204,7 +204,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
 
     protected function registerTranslations(): void
     {
-        if (! $this->app['config']->get('modules.auto-discover.translations', true)) {
+        if (! $this->app['config']->get('laranail.package-scaffolder.modules.auto-discover.translations', true)) {
             return;
         }
         $this->callAfterResolving('translator', function (TranslatorContract $translator): void {
@@ -214,7 +214,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
 
             collect(Module::allEnabled())
                 ->each(function (LaravelModule $module) use ($translator): void {
-                    $path = $module->getExtraPath($this->app['config']->get('modules.paths.generator.lang.path'));
+                    $path = $module->getExtraPath($this->app['config']->get('laranail.package-scaffolder.modules.paths.generator.lang.path'));
                     $translator->addNamespace($module->getLowerName(), $path);
                     $translator->addJsonPath($path);
                 });

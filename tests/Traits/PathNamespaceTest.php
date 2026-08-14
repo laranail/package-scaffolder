@@ -43,7 +43,7 @@ class PathNamespaceTest extends BaseTestCase
 
     public function test_app_path(): void
     {
-        $configPath = config('modules.paths.app_folder');
+        $configPath = config('laranail.package-scaffolder.modules.paths.app_folder');
         $configPath = rtrim($configPath, '/');
 
         $this->assertSame($configPath, $this->class->app_path());
@@ -64,7 +64,7 @@ class PathNamespaceTest extends BaseTestCase
 
     public function test_app_path_with_custom_app_folder(): void
     {
-        config(['modules.paths.app_folder' => 'src/']);
+        config(['laranail.package-scaffolder.modules.paths.app_folder' => 'src/']);
 
         // the bug: 'app' (no slash) used to yield 'src/app' instead of 'src'.
         $this->assertSame('src', $this->class->app_path('app'));
@@ -94,7 +94,7 @@ class PathNamespaceTest extends BaseTestCase
 
     public function test_strip_app_folder_respects_a_custom_app_folder(): void
     {
-        config(['modules.paths.app_folder' => 'src/']);
+        config(['laranail.package-scaffolder.modules.paths.app_folder' => 'src/']);
 
         $this->assertSame('Providers', $this->class->strip_app_folder('src/Providers'));
 
@@ -102,7 +102,7 @@ class PathNamespaceTest extends BaseTestCase
         $this->assertSame('app/Providers', $this->class->strip_app_folder('app/Providers'));
 
         // an empty app_folder leaves everything intact.
-        config(['modules.paths.app_folder' => '']);
+        config(['laranail.package-scaffolder.modules.paths.app_folder' => '']);
         $this->assertSame('app/Providers', $this->class->strip_app_folder('app/Providers'));
     }
 }

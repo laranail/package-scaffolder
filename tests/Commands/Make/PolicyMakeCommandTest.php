@@ -42,7 +42,7 @@ class PolicyMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.policies.path', 'SuperPolicies');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.policies.path', 'SuperPolicies');
 
         $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
@@ -54,7 +54,7 @@ class PolicyMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.policies.namespace', 'SuperPolicies');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.policies.namespace', 'SuperPolicies');
 
         $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 

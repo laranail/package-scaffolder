@@ -89,8 +89,8 @@ class FactoryMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.factory.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.factory.path', 'Database/Factories'));
+        return config('laranail.package-scaffolder.modules.paths.generator.factory.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.factory.path', 'Database/Factories'));
     }
 
     /**
@@ -98,7 +98,7 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     public function getModelNamespace(): string
     {
-        $path = $this->strip_app_folder(config('modules.paths.generator.model.path', 'Entities'));
+        $path = $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.model.path', 'Entities'));
 
         $path = str_replace('/', '\\', $path);
 

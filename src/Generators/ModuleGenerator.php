@@ -303,7 +303,7 @@ class ModuleGenerator extends Generator
             }
         }
 
-        Event::dispatch(sprintf('modules.%s.%s', strtolower($name), ModuleEvent::CREATING));
+        Event::dispatch(sprintf('laranail.package-scaffolder.modules.%s.%s', strtolower($name), ModuleEvent::CREATING));
 
         $this->component->info("Creating module: [$name]");
 
@@ -348,7 +348,7 @@ class ModuleGenerator extends Generator
             $path = $this->module->getModulePath($this->getName()).'/'.$folder->getPath();
 
             $this->filesystem->ensureDirectoryExists($path, 0755, true);
-            if (config('modules.stubs.gitkeep')) {
+            if (config('laranail.package-scaffolder.modules.stubs.gitkeep')) {
                 $this->generateGitKeep($path);
             }
         }

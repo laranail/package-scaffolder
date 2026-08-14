@@ -23,7 +23,7 @@ class LaravelModulesServiceProviderTest extends BaseTestCase
     {
         $this->expectException(InvalidActivatorClass::class);
 
-        $this->app['config']->set('modules.activators.file', ['class' => null]);
+        $this->app['config']->set('laranail.package-scaffolder.modules.activators.file', ['class' => null]);
 
         app()->forgetInstance(ActivatorInterface::class);
 

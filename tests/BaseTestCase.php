@@ -83,8 +83,8 @@ abstract class BaseTestCase extends OrchestraTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
-        $app['config']->set('modules.paths.modules', base_path('modules'));
-        $app['config']->set('modules.paths', [
+        $app['config']->set('laranail.package-scaffolder.modules.paths.modules', base_path('modules'));
+        $app['config']->set('laranail.package-scaffolder.modules.paths', [
             'modules' => base_path('modules'),
             'assets' => public_path('modules'),
             'migration' => base_path('database/migrations'),
@@ -92,9 +92,9 @@ abstract class BaseTestCase extends OrchestraTestCase
             'generator' => $module_config['paths']['generator'],
         ]);
 
-        $app['config']->set('modules.composer-output', true);
+        $app['config']->set('laranail.package-scaffolder.modules.composer-output', true);
 
-        $app['config']->set('modules.commands', ConsoleServiceProvider::defaultCommands()->toArray());
+        $app['config']->set('laranail.package-scaffolder.modules.commands', ConsoleServiceProvider::defaultCommands()->toArray());
     }
 
     protected function setUpDatabase()
@@ -109,7 +109,7 @@ abstract class BaseTestCase extends OrchestraTestCase
 
     protected function getModuleAppPath(string $moduleName = 'Blog'): string
     {
-        return base_path("modules/$moduleName/").rtrim(config('modules.paths.app_folder'), '/');
+        return base_path("modules/$moduleName/").rtrim(config('laranail.package-scaffolder.modules.paths.app_folder'), '/');
     }
 
     protected function getModuleBasePath(string $moduleName = 'Blog'): string

@@ -26,12 +26,12 @@ class TestMakeCommand extends GeneratorCommand
     public function getDefaultNamespace(): string
     {
         if ($this->option('feature')) {
-            return config('modules.paths.generator.test-feature.namespace')
-                ?? config('modules.paths.generator.test-feature.path', 'tests/Feature');
+            return config('laranail.package-scaffolder.modules.paths.generator.test-feature.namespace')
+                ?? config('laranail.package-scaffolder.modules.paths.generator.test-feature.path', 'tests/Feature');
         }
 
-        return config('modules.paths.generator.test-unit.namespace')
-            ?? config('modules.paths.generator.test-unit.path', 'tests/Unit');
+        return config('laranail.package-scaffolder.modules.paths.generator.test-unit.namespace')
+            ?? config('laranail.package-scaffolder.modules.paths.generator.test-unit.path', 'tests/Unit');
     }
 
     /**

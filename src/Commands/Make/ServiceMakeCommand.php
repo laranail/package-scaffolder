@@ -26,7 +26,7 @@ class ServiceMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('services')->getPath() ?? config('modules.paths.app_folder').'Services';
+        $filePath = GenerateConfigReader::read('services')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Services';
 
         return $path.$filePath.'/'.$this->getServiceName().'.php';
     }
@@ -72,7 +72,7 @@ class ServiceMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.services.namespace', 'Services');
+        return config('laranail.package-scaffolder.modules.paths.generator.services.namespace', 'Services');
     }
 
     protected function getStubName(): string

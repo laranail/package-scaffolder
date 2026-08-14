@@ -49,7 +49,7 @@ class ViewMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.views.path', 'resources/views');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.views.path', 'resources/views');
 
         $code = $this->artisan('module:make-view', ['name' => 'Blog', 'module' => 'Blog']);
 

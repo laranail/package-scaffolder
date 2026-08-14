@@ -97,7 +97,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
             return 'vue';
         }
 
-        return config('modules.inertia.frontend', 'vue');
+        return config('laranail.package-scaffolder.modules.inertia.frontend', 'vue');
     }
 
     /**
@@ -151,7 +151,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.inertia.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.inertia.path', 'resources/js/Pages'));
+        return config('laranail.package-scaffolder.modules.paths.generator.inertia.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.inertia.path', 'resources/js/Pages'));
     }
 }

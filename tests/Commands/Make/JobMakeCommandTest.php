@@ -59,7 +59,7 @@ class JobMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.jobs.path', 'SuperJobs');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.jobs.path', 'SuperJobs');
 
         $code = $this->artisan('module:make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
 
@@ -71,7 +71,7 @@ class JobMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.jobs.namespace', 'SuperJobs');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.jobs.namespace', 'SuperJobs');
 
         $code = $this->artisan('module:make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
 

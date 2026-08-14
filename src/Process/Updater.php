@@ -26,7 +26,7 @@ class Updater extends Runner
      */
     private function isComposerSilenced(): string
     {
-        return config('modules.composer.composer-output') === false ? ' --quiet' : '';
+        return config('laranail.package-scaffolder.modules.composer.composer-output') === false ? ' --quiet' : '';
     }
 
     private function installRequires(Module $module): void

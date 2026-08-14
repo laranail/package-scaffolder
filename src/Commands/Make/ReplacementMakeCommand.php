@@ -32,7 +32,7 @@ class ReplacementMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('command_replacements')->getPath() ?? config('modules.paths.app_folder').'Console/Replacements';
+        $filePath = GenerateConfigReader::read('command_replacements')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Console/Replacements';
 
         return $path.$filePath.'/'.$this->getFileName().'.php';
     }
@@ -77,8 +77,8 @@ class ReplacementMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.command_replacements.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.command_replacements.path', 'Console/Replacements'));
+        return config('laranail.package-scaffolder.modules.paths.generator.command_replacements.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.command_replacements.path', 'Console/Replacements'));
     }
 
     protected function getStubName(): string

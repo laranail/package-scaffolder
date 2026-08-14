@@ -120,7 +120,7 @@ class ListenerMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.listener.path', 'Events/Handlers');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.listener.path', 'Events/Handlers');
 
         $code = $this->artisan(
             'module:make-listener',
@@ -135,7 +135,7 @@ class ListenerMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.listener.namespace', 'Events\\Handlers');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.listener.namespace', 'Events\\Handlers');
 
         $code = $this->artisan(
             'module:make-listener',

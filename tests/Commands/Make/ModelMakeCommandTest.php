@@ -148,7 +148,7 @@ class ModelMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.model.path', 'Models');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.model.path', 'Models');
 
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
 
@@ -160,7 +160,7 @@ class ModelMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.model.namespace', 'Models');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.model.namespace', 'Models');
 
         $code = $this->artisan('module:make-model', ['model' => 'Post', 'module' => 'Blog']);
 

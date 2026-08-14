@@ -49,7 +49,7 @@ class NotificationMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.notifications.path', 'SuperNotifications');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.notifications.path', 'SuperNotifications');
 
         $code = $this->artisan('module:make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
 
@@ -61,7 +61,7 @@ class NotificationMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.notifications.namespace', 'SuperNotifications');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.notifications.namespace', 'SuperNotifications');
 
         $code = $this->artisan('module:make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
 

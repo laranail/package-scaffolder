@@ -59,7 +59,7 @@ class ProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_have_custom_migration_resources_location_paths(): void
     {
-        $this->app['config']->set('modules.paths.generator.migration', 'migrations');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.migration', 'migrations');
         $code = $this->artisan('module:make-provider', ['name' => 'BlogServiceProvider', 'module' => 'Blog', '--master' => true]);
 
         $file = $this->finder->get($this->modulePath.'/Providers/BlogServiceProvider.php');
@@ -70,7 +70,7 @@ class ProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider.path', 'SuperProviders');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.path', 'SuperProviders');
 
         $code = $this->artisan('module:make-provider', ['name' => 'BlogServiceProvider', 'module' => 'Blog', '--master' => true]);
 
@@ -82,7 +82,7 @@ class ProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider.namespace', 'SuperProviders');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.namespace', 'SuperProviders');
 
         $code = $this->artisan('module:make-provider', ['name' => 'BlogServiceProvider', 'module' => 'Blog', '--master' => true]);
 

@@ -56,7 +56,7 @@ class PublishInertiaCommand extends Command
             return 'vue';
         }
 
-        return config('modules.inertia.frontend', 'vue');
+        return config('laranail.package-scaffolder.modules.inertia.frontend', 'vue');
     }
 
     #[Override]

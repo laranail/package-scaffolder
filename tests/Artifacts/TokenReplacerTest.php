@@ -37,7 +37,7 @@ class TokenReplacerTest extends TestCase
     {
         $this->assertSame('acme/invoicing', TokenReplacer::replace('modules/blog', $this->target()));
         $this->assertSame('acme-invoicing', TokenReplacer::replace('modules-blog', $this->target()));
-        $this->assertSame("config('acme.invoicing.cache.enabled')", TokenReplacer::replace("config('modules.blog.cache.enabled')", $this->target()));
+        $this->assertSame("config('acme.invoicing.cache.enabled')", TokenReplacer::replace("config('laranail.package-scaffolder.modules.blog.cache.enabled')", $this->target()));
         // view/translation namespace rides on the composer-name token
         $this->assertSame("view('acme/invoicing::layouts.master')", TokenReplacer::replace("view('modules/blog::layouts.master')", $this->target()));
     }

@@ -53,7 +53,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider.path', 'SuperProviders');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.path', 'SuperProviders');
 
         $code = $this->artisan('module:route-provider', ['module' => 'Blog']);
 
@@ -65,7 +65,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.provider.namespace', 'SuperProviders');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.namespace', 'SuperProviders');
 
         $path = $this->modulePath.'/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
@@ -79,8 +79,8 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_overwrite_route_file_names(): void
     {
-        $this->app['config']->set('modules.stubs.files.routes/web', 'SuperRoutes/web.php');
-        $this->app['config']->set('modules.stubs.files.routes/api', 'SuperRoutes/api.php');
+        $this->app['config']->set('laranail.package-scaffolder.modules.stubs.files.routes/web', 'SuperRoutes/web.php');
+        $this->app['config']->set('laranail.package-scaffolder.modules.stubs.files.routes/api', 'SuperRoutes/api.php');
 
         $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
 
@@ -93,7 +93,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
     public function test_it_can_overwrite_file(): void
     {
         $this->artisan('module:route-provider', ['module' => 'Blog']);
-        $this->app['config']->set('modules.stubs.files.routes/web', 'SuperRoutes/web.php');
+        $this->app['config']->set('laranail.package-scaffolder.modules.stubs.files.routes/web', 'SuperRoutes/web.php');
 
         $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
         $file = $this->finder->get($this->modulePath.'/Providers/RouteServiceProvider.php');
@@ -104,8 +104,8 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_custom_controller_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.controller.path', 'Base/Http/Controllers');
-        $this->app['config']->set('modules.paths.generator.provider.path', 'Base/Providers');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.controller.path', 'Base/Http/Controllers');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Base/Providers');
 
         $code = $this->artisan('module:route-provider', ['module' => 'Blog']);
         $file = $this->finder->get($this->getModuleBasePath().'/Base/Providers/RouteServiceProvider.php');
@@ -116,7 +116,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_omits_web_routes_when_disabled(): void
     {
-        $this->app['config']->set('modules.paths.generator.routes.web', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.routes.web', false);
 
         $path = $this->modulePath.'/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
@@ -133,7 +133,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_omits_api_routes_when_disabled(): void
     {
-        $this->app['config']->set('modules.paths.generator.routes.api', false);
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.routes.api', false);
 
         $path = $this->modulePath.'/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);

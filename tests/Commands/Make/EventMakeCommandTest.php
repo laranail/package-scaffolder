@@ -49,7 +49,7 @@ class EventMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.event.path', 'SuperEvents');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.event.path', 'SuperEvents');
 
         $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
@@ -61,7 +61,7 @@ class EventMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.event.namespace', 'SuperEvents');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.event.namespace', 'SuperEvents');
 
         $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 

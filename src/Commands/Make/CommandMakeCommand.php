@@ -40,8 +40,8 @@ class CommandMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.command.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.command.path', 'Console'));
+        return config('laranail.package-scaffolder.modules.paths.generator.command.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.command.path', 'Console'));
     }
 
     /**

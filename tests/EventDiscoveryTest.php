@@ -43,7 +43,7 @@ class EventDiscoveryTest extends BaseTestCase
     {
         DiscoverEvents::$guessClassNamesUsingCallback = null;
 
-        config(['modules.auto-discover.events' => false]);
+        config(['laranail.package-scaffolder.modules.auto-discover.events' => false]);
 
         // Re-run the provider's boot-time registration with discovery disabled.
         (new LaravelModulesServiceProvider($this->app))->boot();

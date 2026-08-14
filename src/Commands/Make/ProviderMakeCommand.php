@@ -41,8 +41,8 @@ class ProviderMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.provider.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.provider.path', 'Providers'));
+        return config('laranail.package-scaffolder.modules.paths.generator.provider.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Providers'));
     }
 
     /**

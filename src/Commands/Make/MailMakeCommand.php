@@ -34,8 +34,8 @@ class MailMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.emails.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.emails.path', 'Emails'));
+        return config('laranail.package-scaffolder.modules.paths.generator.emails.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.emails.path', 'Emails'));
     }
 
     /**

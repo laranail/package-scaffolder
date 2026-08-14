@@ -130,7 +130,7 @@ class InertiaComponentMakeCommand extends GeneratorCommand
             return 'vue';
         }
 
-        return config('modules.inertia.frontend', 'vue');
+        return config('laranail.package-scaffolder.modules.inertia.frontend', 'vue');
     }
 
     /**
@@ -151,7 +151,7 @@ class InertiaComponentMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.inertia-components.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.inertia-components.path', 'resources/js/Components'));
+        return config('laranail.package-scaffolder.modules.paths.generator.inertia-components.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.inertia-components.path', 'resources/js/Components'));
     }
 }

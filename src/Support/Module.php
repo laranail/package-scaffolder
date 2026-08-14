@@ -158,7 +158,7 @@ abstract class Module implements Stringable
      */
     public function getAppPath(): string
     {
-        $app_path = rtrim($this->getExtraPath(config('modules.paths.app_folder', '')), '/');
+        $app_path = rtrim($this->getExtraPath(config('laranail.package-scaffolder.modules.paths.app_folder', '')), '/');
 
         return is_dir($app_path) ? $app_path : $this->getPath();
     }
@@ -178,7 +178,7 @@ abstract class Module implements Stringable
      */
     public function boot(): void
     {
-        if (config('modules.register.translations', true) === true) {
+        if (config('laranail.package-scaffolder.modules.register.translations', true) === true) {
             $this->registerTranslation();
         }
 
@@ -252,7 +252,7 @@ abstract class Module implements Stringable
      */
     public function fireEvent(string $event): void
     {
-        $this->app['events']->dispatch(sprintf('modules.%s.%s', $this->getLowerName(), $event), [$this]);
+        $this->app['events']->dispatch(sprintf('laranail.package-scaffolder.modules.%s.%s', $this->getLowerName(), $event), [$this]);
     }
 
     /**
@@ -373,7 +373,7 @@ abstract class Module implements Stringable
      */
     protected function isLoadFilesOnBoot(): bool
     {
-        return config('modules.register.files', 'register') === 'boot' &&
+        return config('laranail.package-scaffolder.modules.register.files', 'register') === 'boot' &&
             // force register method if option == boot && app is AsgardCms
             ! class_exists('\Modules\Core\Foundation\AsgardCms');
     }

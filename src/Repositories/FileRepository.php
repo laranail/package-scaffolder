@@ -316,7 +316,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      */
     public function config(string $key, $default = null)
     {
-        return $this->config->get('modules.'.$key, $default);
+        return $this->config->get('laranail.package-scaffolder.modules.'.$key, $default);
     }
 
     /**

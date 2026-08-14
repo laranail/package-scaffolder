@@ -100,15 +100,15 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
         if ($modules->contains(self::ALL)) {
             $path = sprintf(
                 '%s/*/%s',
-                config('modules.paths.modules'),
-                config('modules.paths.generator.model.path')
+                config('laranail.package-scaffolder.modules.paths.modules'),
+                config('laranail.package-scaffolder.modules.paths.generator.model.path')
             );
         } else {
             $path = collect($modules)->map(fn ($module): string => sprintf(
                 '%s/%s/%s',
-                config('modules.paths.modules'),
+                config('laranail.package-scaffolder.modules.paths.modules'),
                 $module,
-                config('modules.paths.generator.model.path')
+                config('laranail.package-scaffolder.modules.paths.generator.model.path')
             ))
                 ->filter(fn ($path): bool => is_dir($path))
                 ->toArray();
@@ -117,12 +117,12 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
         return collect(Finder::create()->in($path)->files()->name('*.php'))
             ->map(function ($model) {
 
-                $namespace = config('modules.namespace');
+                $namespace = config('laranail.package-scaffolder.modules.namespace');
 
                 return $namespace.str_replace(
                     ['/', '.php'],
                     ['\\', ''],
-                    Str::after($model->getRealPath(), realpath(config('modules.paths.modules')))
+                    Str::after($model->getRealPath(), realpath(config('laranail.package-scaffolder.modules.paths.modules')))
                 );
             })
             ->values()

@@ -5,6 +5,30 @@ All notable changes to `laranail/package-scaffolder` are documented in this file
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Config keys are vendor-scoped.** `config('modules.*')` → `config('laranail.package-scaffolder.modules.*')`
+  and `config('artifacts.*')` → `config('laranail.package-scaffolder.artifacts.*')`, published to
+  `config/laranail/package-scaffolder/modules.php`. Laravel's config repository is a flat map, and
+  `modules` and `artifacts` are names an application would very plausibly use for its own files.
+
+- **Publish tags are vendor-scoped:** `config`, `stubs` and `vite` → `laranail::package-scaffolder-config`,
+  `-stubs`, `-vite`. A tag of `config` is about as generic as one can get — `vendor:publish --tag=config`
+  fired every package that claimed it, in registration order.
+
+- **A generated module's own config publishes under `<module>-config`,** not the bare `config` every
+  module used to share, so `vendor:publish --tag=config` no longer fires all of them at once. The
+  module's name and not `laranail-`: `ModuleServiceProvider` is the base class a *consuming
+  application's* modules extend, so that name belongs to the application. Its Blade component
+  prefix is left alone for the same reason — it is the application's module namespace, not this
+  package's.
+
+> **This package's test suite executes zero tests** (`phpunit` reports "No tests executed"), so
+> these renames are verified by exhaustive grep and `php -l` only, not by running anything. Treat
+> the change as unproven until the suite is wired up.
+
 ## [0.1.0] - 2026-07-11
 
 Initial public release.

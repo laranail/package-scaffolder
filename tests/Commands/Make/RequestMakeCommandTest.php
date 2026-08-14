@@ -49,7 +49,7 @@ class RequestMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace(): void
     {
-        $this->app['config']->set('modules.paths.generator.request.path', 'SuperRequests');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.request.path', 'SuperRequests');
 
         $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
@@ -61,7 +61,7 @@ class RequestMakeCommandTest extends BaseTestCase
 
     public function test_it_can_change_the_default_namespace_specific(): void
     {
-        $this->app['config']->set('modules.paths.generator.request.namespace', 'SuperRequests');
+        $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.request.namespace', 'SuperRequests');
 
         $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 

@@ -61,7 +61,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $generatorMigrationPath = config('modules.paths.generator.migration.path') ?? 'database/migrations';
+        $generatorMigrationPath = config('laranail.package-scaffolder.modules.paths.generator.migration.path') ?? 'database/migrations';
         $this->loadMigrationsFrom(module_path($this->name, $generatorMigrationPath));
     }
 
@@ -118,7 +118,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, $this->nameLower);
             $this->loadJsonTranslationsFrom($langPath);
         } else {
-            $moduleLangPath = module_path($this->name, config('modules.paths.generator.lang.path'));
+            $moduleLangPath = module_path($this->name, config('laranail.package-scaffolder.modules.paths.generator.lang.path'));
             $this->loadTranslationsFrom($moduleLangPath, $this->nameLower);
             $this->loadJsonTranslationsFrom($moduleLangPath);
         }
@@ -129,7 +129,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
      */
     protected function registerConfig(): void
     {
-        $configPath = module_path($this->name, config('modules.paths.generator.config.path'));
+        $configPath = module_path($this->name, config('laranail.package-scaffolder.modules.paths.generator.config.path'));
 
         if (is_dir($configPath)) {
             $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($configPath));
@@ -152,7 +152,16 @@ abstract class ModuleServiceProvider extends ServiceProvider
 
                     $key = ($config === 'config.php') ? $this->nameLower : implode('.', $normalized);
                     $publishPath = ($config === 'config.php') ? config_path($this->nameLower.'.php') : config_path($config);
-                    $this->publishes([$file->getPathname() => $publishPath], 'config');
+                    // Scoped to the module, not the bare `config` this used to
+                    // claim. Publish tags are a global registry, and every
+                    // module in the application registering `config` means
+                    // `vendor:publish --tag=config` fires all of them at once —
+                    // and any package that claims it too.
+                    //
+                    // The module's own name and not `laranail-`: this provider
+                    // is the base class a *consuming application's* generated
+                    // modules extend, so the name belongs to that application.
+                    $this->publishes([$file->getPathname() => $publishPath], $this->nameLower.'-config');
 
                     $this->merge_config_from($file->getPathname(), $key);
                 }
@@ -181,13 +190,13 @@ abstract class ModuleServiceProvider extends ServiceProvider
     protected function registerViews(): void
     {
         $viewPath = resource_path('views/modules/'.$this->nameLower);
-        $sourcePath = module_path($this->name, config('modules.paths.generator.views.path'));
+        $sourcePath = module_path($this->name, config('laranail.package-scaffolder.modules.paths.generator.views.path'));
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->nameLower.'-module-views']);
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->nameLower);
 
-        Blade::componentNamespace(config('modules.namespace').'\\'.$this->name.'\\View\\Components', $this->nameLower);
+        Blade::componentNamespace(config('laranail.package-scaffolder.modules.namespace').'\\'.$this->name.'\\View\\Components', $this->nameLower);
     }
 
     /**

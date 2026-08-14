@@ -117,8 +117,8 @@ class ControllerMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.controller.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.controller.path', 'Http/Controllers'));
+        return config('laranail.package-scaffolder.modules.paths.generator.controller.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.controller.path', 'Http/Controllers'));
     }
 
     /**

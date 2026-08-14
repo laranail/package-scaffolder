@@ -26,7 +26,7 @@ class ActionMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('actions')->getPath() ?? config('modules.paths.app_folder').'Actions';
+        $filePath = GenerateConfigReader::read('actions')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Actions';
 
         return $path.$filePath.'/'.$this->getActionName().'.php';
     }
@@ -72,7 +72,7 @@ class ActionMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.actions.namespace', 'Actions');
+        return config('laranail.package-scaffolder.modules.paths.generator.actions.namespace', 'Actions');
     }
 
     protected function getStubName(): string

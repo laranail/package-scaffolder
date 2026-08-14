@@ -40,8 +40,8 @@ class RuleMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.rules.namespace')
-            ?? $this->strip_app_folder(config('modules.paths.generator.rules.path', 'Rules'));
+        return config('laranail.package-scaffolder.modules.paths.generator.rules.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.rules.path', 'Rules'));
     }
 
     /**

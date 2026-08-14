@@ -31,7 +31,7 @@ class CheckLangCommand extends BaseCommand
     {
         parent::__construct();
 
-        $this->langPath = DIRECTORY_SEPARATOR.config('modules.paths.generator.lang.path', 'Resources/lang');
+        $this->langPath = DIRECTORY_SEPARATOR.config('laranail.package-scaffolder.modules.paths.generator.lang.path', 'Resources/lang');
     }
 
     public function executeAction($name): void

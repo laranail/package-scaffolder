@@ -106,7 +106,7 @@ class ListCommands extends BaseCommand
      */
     protected function getModuleNamespace(string $moduleName): string
     {
-        return config('modules.namespace', 'Modules').'\\'.$moduleName;
+        return config('laranail.package-scaffolder.modules.namespace', 'Modules').'\\'.$moduleName;
     }
 
     /**

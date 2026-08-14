@@ -26,7 +26,7 @@ class HelperMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('helpers')->getPath() ?? config('modules.paths.app_folder').'Helpers';
+        $filePath = GenerateConfigReader::read('helpers')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Helpers';
 
         return $path.$filePath.'/'.$this->getHelperName().'.php';
     }
@@ -72,7 +72,7 @@ class HelperMakeCommand extends GeneratorCommand
     #[Override]
     public function getDefaultNamespace(): string
     {
-        return config('modules.paths.generator.helpers.namespace', 'Helpers');
+        return config('laranail.package-scaffolder.modules.paths.generator.helpers.namespace', 'Helpers');
     }
 
     protected function getStubName(): string
