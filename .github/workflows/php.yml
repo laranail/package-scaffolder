@@ -34,9 +34,17 @@ jobs:
 
     - name: Run test suite
       run: composer run-script test
+  # Checks the style, does not rewrite it. Every other package in the family
+  # runs `pint --test` and fails; this one auto-committed the fix back to main,
+  # which had two costs. A push arrived on main that nobody wrote, so a local
+  # branch was silently behind and the next push was rejected. And pre-1.0 the
+  # tag is supposed to track main, so an unattended commit left the tag one
+  # behind and consumers on `^0.1` never received it.
+  #
+  # Run `composer pint-fix` (or `vendor/bin/pint`) before pushing.
   phplint:
       permissions:
-          contents: write
+          contents: read
       runs-on: ubuntu-latest
       steps:
           - uses: actions/checkout@v7.0.1
@@ -44,9 +52,4 @@ jobs:
             uses: aglipanci/laravel-pint-action@latest
             with:
                 configPath: './pint.json'
-
-          - name: Commit changes
-            uses: stefanzweifel/git-auto-commit-action@v7
-            with:
-                commit_message: PHP Linting (Pint)
-                skip_fetch: true
+                testMode: true
