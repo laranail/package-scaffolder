@@ -39,7 +39,7 @@ if (! function_exists('module_path')) {
             // or constrained runtimes like NativePHP). Fall back to the
             // configured modules path so callers get a sane path instead of a
             // fatal "getPath() on null".
-            $base = config('modules.paths.modules', base_path('Modules')).DIRECTORY_SEPARATOR.$name;
+            $base = config('laranail.package-scaffolder.modules.paths.modules', base_path('Modules')).DIRECTORY_SEPARATOR.$name;
 
             return $base.($path ? DIRECTORY_SEPARATOR.$path : $path);
         }

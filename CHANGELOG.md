@@ -25,8 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   prefix is left alone for the same reason — it is the application's module namespace, not this
   package's.
 
-> **This package's test suite executes zero tests** (`phpunit` reports "No tests executed"), so
-> these renames are verified by exhaustive grep and `php -l` only, not by running anything. Treat
-> the change as unproven until the suite is wired up.
+The suite runs and passes: 483 tests, 1289 assertions. An earlier note here claimed it executed
+zero tests — that was a stale autoloader, not an empty suite, and it hid 161 broken tests that the
+rename had caused. Those are fixed.
 
 Initial public release.

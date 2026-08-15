@@ -91,6 +91,6 @@ class ClassMakeCommand extends GeneratorCommand
     {
         $type = $this->type();
 
-        return config("modules.paths.generator.{$type}.namespace", 'Classes');
+        return config("laranail.package-scaffolder.modules.paths.generator.{$type}.namespace", 'Classes');
     }
 }

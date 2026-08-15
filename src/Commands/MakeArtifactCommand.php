@@ -60,9 +60,9 @@ class MakeArtifactCommand extends Command
 
         $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'), $entity, $flavor);
 
-        $base = $this->option('path') ?: base_path((string) config("artifacts.kinds.{$type}"));
+        $base = $this->option('path') ?: base_path((string) config("laranail.package-scaffolder.artifacts.kinds.{$type}"));
         $target = rtrim($base, '/').'/'.$request->studly();
-        $blueprint = (string) config("artifacts.flavors.{$flavor}.blueprint", $flavor);
+        $blueprint = (string) config("laranail.package-scaffolder.artifacts.flavors.{$flavor}.blueprint", $flavor);
         $source = dirname(__DIR__, 2).'/stubs/blueprints/'.$blueprint;
 
         // Artifact identity is keyed by name across ALL containers (module.json
@@ -141,7 +141,7 @@ class MakeArtifactCommand extends Command
      */
     private function assertFlavorCompatible(string $flavor, string $plugin, array $features): void
     {
-        $caps = (array) config("artifacts.flavors.{$flavor}", []);
+        $caps = (array) config("laranail.package-scaffolder.artifacts.flavors.{$flavor}", []);
 
         $panels = (array) ($caps['panels'] ?? ['none']);
         if (! in_array($plugin, $panels, true)) {
@@ -285,7 +285,7 @@ class MakeArtifactCommand extends Command
 
         // The default feature set is the flavor's own (laravel = full; vanilla = none),
         // so a plain `make:artifact --flavor=vanilla` doesn't request Laravel-only features.
-        $default = (array) config("artifacts.flavors.{$flavor}.features", $selectable);
+        $default = (array) config("laranail.package-scaffolder.artifacts.flavors.{$flavor}.features", $selectable);
 
         $csv = (string) ($this->option('features') ?? '');
         $repeated = (array) $this->option('feature');
