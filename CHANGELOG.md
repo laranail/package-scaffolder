@@ -5,7 +5,7 @@ All notable changes to `laranail/package-scaffolder` are documented in this file
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.0] - 2026-08-15
 
 ### Changed
 
@@ -28,7 +28,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > **This package's test suite executes zero tests** (`phpunit` reports "No tests executed"), so
 > these renames are verified by exhaustive grep and `php -l` only, not by running anything. Treat
 > the change as unproven until the suite is wired up.
-
-## [0.1.0] - 2026-07-11
 
 Initial public release.
