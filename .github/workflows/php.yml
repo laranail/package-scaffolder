@@ -1,11 +1,16 @@
 name: PHP Pipeline
 
-on: [push, pull_request]
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     strategy:
       max-parallel: 2
@@ -46,6 +51,7 @@ jobs:
       permissions:
           contents: read
       runs-on: ubuntu-latest
+      timeout-minutes: 15
       steps:
           - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
           - name: "laravel-pint"
