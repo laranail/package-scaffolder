@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ClassMakeCommand extends GeneratorCommand
 {
@@ -37,7 +39,7 @@ class ClassMakeCommand extends GeneratorCommand
     {
         return (new Stub($this->stub(), [
             'NAMESPACE' => $this->getClassNamespace($this->module()),
-            'CLASS' => $this->typeClass(),
+            'CLASS'     => $this->typeClass(),
         ]))->render();
     }
 
@@ -50,9 +52,22 @@ class ClassMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('class')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Classes';
+        $filePath = GenerateConfigReader::read('class')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Classes';
 
-        return $this->typePath($path.$filePath.'/'.$this->getFileName().'.php');
+        return $this->typePath($path . $filePath . '/' . $this->getFileName() . '.php');
+    }
+
+    public function typeClass(): string
+    {
+        return Str::of($this->getFileName())->basename()->studly();
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        $type = $this->type();
+
+        return config("laranail.package-scaffolder.modules.paths.generator.{$type}.namespace", 'Classes');
     }
 
     protected function getFileName(): string
@@ -79,18 +94,5 @@ class ClassMakeCommand extends GeneratorCommand
     protected function typePath(string $path): string
     {
         return ($this->type() === 'class') ? $path : Str::of($path)->replaceLast('Classes', Str::of($this->type())->plural()->studly());
-    }
-
-    public function typeClass(): string
-    {
-        return Str::of($this->getFileName())->basename()->studly();
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        $type = $this->type();
-
-        return config("laranail.package-scaffolder.modules.paths.generator.{$type}.namespace", 'Classes');
     }
 }

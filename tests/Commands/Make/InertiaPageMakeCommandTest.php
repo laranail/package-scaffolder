@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class InertiaPageMakeCommandTest extends BaseTestCase
 {
@@ -33,7 +35,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'Index', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/Index.vue'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/Index.vue'));
         $this->assertSame(0, $code);
     }
 
@@ -41,7 +43,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'Index', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/resources/js/Pages/Index.vue');
+        $file = $this->finder->get($this->modulePath . '/resources/js/Pages/Index.vue');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -50,36 +52,36 @@ class InertiaPageMakeCommandTest extends BaseTestCase
     public function test_it_generates_a_vue_inertia_page_with_vue_flag(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
-            'name' => 'Index',
+            'name'   => 'Index',
             'module' => 'Blog',
-            '--vue' => true,
+            '--vue'  => true,
         ]);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/Index.vue'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/Index.vue'));
         $this->assertSame(0, $code);
     }
 
     public function test_it_generates_a_react_inertia_page(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
-            'name' => 'Index',
-            'module' => 'Blog',
+            'name'    => 'Index',
+            'module'  => 'Blog',
             '--react' => true,
         ]);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/Index.jsx'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/Index.jsx'));
         $this->assertSame(0, $code);
     }
 
     public function test_it_generates_a_react_inertia_page_with_correct_content(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
-            'name' => 'Index',
-            'module' => 'Blog',
+            'name'    => 'Index',
+            'module'  => 'Blog',
             '--react' => true,
         ]);
 
-        $file = $this->finder->get($this->modulePath.'/resources/js/Pages/Index.jsx');
+        $file = $this->finder->get($this->modulePath . '/resources/js/Pages/Index.jsx');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -89,7 +91,7 @@ class InertiaPageMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'my-page', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/MyPage.vue'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/MyPage.vue'));
         $this->assertSame(0, $code);
     }
 
@@ -97,43 +99,43 @@ class InertiaPageMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-inertia-page', ['name' => 'Contacts/Index', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/Contacts/Index.vue'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/Contacts/Index.vue'));
         $this->assertSame(0, $code);
     }
 
     public function test_it_generates_a_react_page_in_a_subdirectory(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
-            'name' => 'Contacts/Index',
-            'module' => 'Blog',
+            'name'    => 'Contacts/Index',
+            'module'  => 'Blog',
             '--react' => true,
         ]);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/Contacts/Index.jsx'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/Contacts/Index.jsx'));
         $this->assertSame(0, $code);
     }
 
     public function test_it_generates_a_svelte_inertia_page(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
-            'name' => 'Index',
-            'module' => 'Blog',
+            'name'     => 'Index',
+            'module'   => 'Blog',
             '--svelte' => true,
         ]);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/Index.svelte'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/Index.svelte'));
         $this->assertSame(0, $code);
     }
 
     public function test_it_generates_a_svelte_inertia_page_with_correct_content(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
-            'name' => 'Index',
-            'module' => 'Blog',
+            'name'     => 'Index',
+            'module'   => 'Blog',
             '--svelte' => true,
         ]);
 
-        $file = $this->finder->get($this->modulePath.'/resources/js/Pages/Index.svelte');
+        $file = $this->finder->get($this->modulePath . '/resources/js/Pages/Index.svelte');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -142,12 +144,12 @@ class InertiaPageMakeCommandTest extends BaseTestCase
     public function test_it_generates_a_svelte_page_in_a_subdirectory(): void
     {
         $code = $this->artisan('module:make-inertia-page', [
-            'name' => 'Contacts/Index',
-            'module' => 'Blog',
+            'name'     => 'Contacts/Index',
+            'module'   => 'Blog',
             '--svelte' => true,
         ]);
 
-        $this->assertTrue(is_file($this->modulePath.'/resources/js/Pages/Contacts/Index.svelte'));
+        $this->assertTrue(is_file($this->modulePath . '/resources/js/Pages/Contacts/Index.svelte'));
         $this->assertSame(0, $code);
     }
 }

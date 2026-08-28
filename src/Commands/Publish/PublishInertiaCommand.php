@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
-use Illuminate\Console\Command;
 use Override;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 
 class PublishInertiaCommand extends Command
 {
@@ -21,9 +23,9 @@ class PublishInertiaCommand extends Command
     public function handle(): int
     {
         $stub = match ($this->getInertiaFrontend()) {
-            'react' => '/inertia/app-react.stub',
+            'react'  => '/inertia/app-react.stub',
             'svelte' => '/inertia/app-svelte.stub',
-            default => '/inertia/app-vue.stub',
+            default  => '/inertia/app-vue.stub',
         };
         $destination = resource_path('js/app.js');
 
@@ -44,6 +46,17 @@ class PublishInertiaCommand extends Command
         return 0;
     }
 
+    #[Override]
+    protected function getOptions(): array
+    {
+        return [
+            ['vue', null, InputOption::VALUE_NONE, 'Publish the Vue version of the Inertia app.js.'],
+            ['react', null, InputOption::VALUE_NONE, 'Publish the React version of the Inertia app.js.'],
+            ['svelte', null, InputOption::VALUE_NONE, 'Publish the Svelte version of the Inertia app.js.'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Overwrite existing app.js.'],
+        ];
+    }
+
     private function getInertiaFrontend(): string
     {
         if ($this->option('react')) {
@@ -57,16 +70,5 @@ class PublishInertiaCommand extends Command
         }
 
         return config('laranail.package-scaffolder.modules.inertia.frontend', 'vue');
-    }
-
-    #[Override]
-    protected function getOptions(): array
-    {
-        return [
-            ['vue', null, InputOption::VALUE_NONE, 'Publish the Vue version of the Inertia app.js.'],
-            ['react', null, InputOption::VALUE_NONE, 'Publish the React version of the Inertia app.js.'],
-            ['svelte', null, InputOption::VALUE_NONE, 'Publish the Svelte version of the Inertia app.js.'],
-            ['force', 'f', InputOption::VALUE_NONE, 'Overwrite existing app.js.'],
-        ];
     }
 }

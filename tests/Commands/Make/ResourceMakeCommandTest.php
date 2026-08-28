@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class ResourceMakeCommandTest extends BaseTestCase
 {
@@ -33,7 +35,7 @@ class ResourceMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Transformers/PostsTransformer.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Transformers/PostsTransformer.php'));
         $this->assertSame(0, $code);
     }
 
@@ -41,7 +43,7 @@ class ResourceMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Transformers/PostsTransformer.php');
+        $file = $this->finder->get($this->modulePath . '/Transformers/PostsTransformer.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -51,7 +53,7 @@ class ResourceMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 
-        $file = $this->finder->get($this->modulePath.'/Transformers/PostsTransformer.php');
+        $file = $this->finder->get($this->modulePath . '/Transformers/PostsTransformer.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -63,7 +65,7 @@ class ResourceMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 
-        $file = $this->finder->get($this->modulePath.'/Http/Resources/PostsTransformer.php');
+        $file = $this->finder->get($this->modulePath . '/Http/Resources/PostsTransformer.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -75,7 +77,7 @@ class ResourceMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 
-        $file = $this->finder->get($this->modulePath.'/Transformers/PostsTransformer.php');
+        $file = $this->finder->get($this->modulePath . '/Transformers/PostsTransformer.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

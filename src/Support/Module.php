@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
-use Illuminate\Container\Container;
-use Illuminate\Filesystem\Filesystem;
+use Stringable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
 use Laravel\Lumen\Application;
+use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Traits\Macroable;
 use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
-use Stringable;
 
 abstract class Module implements Stringable
 {
@@ -58,6 +60,14 @@ abstract class Module implements Stringable
         $this->files = $app['files'];
         $this->activator = $app[ActivatorInterface::class];
         $this->app = $app;
+    }
+
+    /**
+     * Handle call __toString.
+     */
+    public function __toString(): string
+    {
+        return $this->getStudlyName();
     }
 
     /**
@@ -190,20 +200,6 @@ abstract class Module implements Stringable
     }
 
     /**
-     * Register module's translation.
-     */
-    protected function registerTranslation(): void
-    {
-        $lowerName = $this->getLowerName();
-
-        $langPath = $this->getPath().'/Resources/lang';
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, $lowerName);
-        }
-    }
-
-    /**
      * Get json contents from the cache, setting as needed.
      */
     public function json(?string $file = null): Json
@@ -212,7 +208,7 @@ abstract class Module implements Stringable
             $file = 'module.json';
         }
 
-        return Arr::get($this->moduleJson, $file, fn (): Json => $this->moduleJson[$file] = new Json($this->getPath().'/'.$file, $this->files));
+        return Arr::get($this->moduleJson, $file, fn (): Json => $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->files));
     }
 
     /**
@@ -269,24 +265,6 @@ abstract class Module implements Stringable
      * Get the path to the cached *_module.php file.
      */
     abstract public function getCachedServicesPath(): string;
-
-    /**
-     * Register the files from this module.
-     */
-    protected function registerFiles(): void
-    {
-        foreach ($this->get('files', []) as $file) {
-            include $this->path.'/'.$file;
-        }
-    }
-
-    /**
-     * Handle call __toString.
-     */
-    public function __toString(): string
-    {
-        return $this->getStudlyName();
-    }
 
     /**
      * Determine whether the given status same with the current module status.
@@ -365,7 +343,31 @@ abstract class Module implements Stringable
      */
     public function getExtraPath(?string $path): string
     {
-        return $this->getPath().($path ? '/'.$path : '');
+        return $this->getPath() . ($path ? '/' . $path : '');
+    }
+
+    /**
+     * Register module's translation.
+     */
+    protected function registerTranslation(): void
+    {
+        $lowerName = $this->getLowerName();
+
+        $langPath = $this->getPath() . '/Resources/lang';
+
+        if (is_dir($langPath)) {
+            $this->loadTranslationsFrom($langPath, $lowerName);
+        }
+    }
+
+    /**
+     * Register the files from this module.
+     */
+    protected function registerFiles(): void
+    {
+        foreach ($this->get('files', []) as $file) {
+            include $this->path . '/' . $file;
+        }
     }
 
     /**

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Process;
 
 use PHPUnit\Framework\TestCase;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Process\Runner;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class RunnerTest extends TestCase
 {

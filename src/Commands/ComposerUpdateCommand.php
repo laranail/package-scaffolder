@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Support\Facades\File;
@@ -28,7 +30,7 @@ class ComposerUpdateCommand extends BaseCommand
 
         $this->components->task("Updating Composer.json <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
 
-            $composer_path = $module->getPath().DIRECTORY_SEPARATOR.'composer.json';
+            $composer_path = $module->getPath() . DIRECTORY_SEPARATOR . 'composer.json';
 
             $composer = json_decode(File::get($composer_path), true);
 
@@ -60,7 +62,7 @@ class ComposerUpdateCommand extends BaseCommand
             }
 
             // Atomic write so an interrupted write can't corrupt the module's composer.json.
-            $tmp = $composer_path.'.tmp'.getmypid();
+            $tmp = $composer_path . '.tmp' . getmypid();
             file_put_contents($tmp, $encoded);
             rename($tmp, $composer_path);
 

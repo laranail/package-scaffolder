@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
+use Throwable;
+use ReflectionClass;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
-use ReflectionClass;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Throwable;
 
 class ListCommands extends BaseCommand
 {
@@ -52,6 +54,11 @@ class ListCommands extends BaseCommand
         }
     }
 
+    public function getInfo(): ?string
+    {
+        return 'Listing commands...';
+    }
+
     /**
      * Find all commands in a module
      *
@@ -67,9 +74,9 @@ class ListCommands extends BaseCommand
         $possiblePaths = [
             $module->getExtraPath('Commands'),
             $module->getExtraPath('Console/Commands'),
-            $module->getAppPath().'/Commands',
-            $module->getAppPath().'/Console',
-            $module->getAppPath().'/Console/Commands',
+            $module->getAppPath() . '/Commands',
+            $module->getAppPath() . '/Console',
+            $module->getAppPath() . '/Console/Commands',
         ];
 
         foreach ($possiblePaths as $path) {
@@ -86,7 +93,7 @@ class ListCommands extends BaseCommand
                 }
 
                 // Get the class name from the file path
-                $relativePath = str_replace($module->getPath().'/', '', $file->getPathname());
+                $relativePath = str_replace($module->getPath() . '/', '', $file->getPathname());
                 $className = $this->getClassNameFromPath($relativePath, $moduleNamespace);
 
                 // Try to get command information
@@ -106,7 +113,7 @@ class ListCommands extends BaseCommand
      */
     protected function getModuleNamespace(string $moduleName): string
     {
-        return config('laranail.package-scaffolder.modules.namespace', 'Modules').'\\'.$moduleName;
+        return config('laranail.package-scaffolder.modules.namespace', 'Modules') . '\\' . $moduleName;
     }
 
     /**
@@ -122,10 +129,10 @@ class ListCommands extends BaseCommand
 
         // If the path starts with app/, remove it and prepend the module namespace
         if (Str::startsWith($path, 'app\\')) {
-            return $moduleNamespace.'\\'.Str::after($path, 'app\\');
+            return $moduleNamespace . '\\' . Str::after($path, 'app\\');
         }
 
-        return $moduleNamespace.'\\'.$path;
+        return $moduleNamespace . '\\' . $path;
     }
 
     /**
@@ -139,8 +146,8 @@ class ListCommands extends BaseCommand
 
             if (! class_exists($className)) {
                 return [
-                    'class' => $className,
-                    'name' => $shortClassName,
+                    'class'     => $className,
+                    'name'      => $shortClassName,
                     'namespace' => $this->getNamespaceFromClass($className),
                 ];
             }
@@ -156,8 +163,8 @@ class ListCommands extends BaseCommand
             // Skip if the class is not instantiable or has required constructor parameters
             if (! $reflection->isInstantiable() || $reflection->getConstructor()?->getNumberOfRequiredParameters() > 0) {
                 return [
-                    'class' => $className,
-                    'name' => $shortClassName,
+                    'class'     => $className,
+                    'name'      => $shortClassName,
                     'namespace' => $reflection->getNamespaceName(),
                 ];
             }
@@ -173,15 +180,15 @@ class ListCommands extends BaseCommand
             }
 
             return [
-                'class' => $className,
-                'name' => $name ?? $shortClassName,
+                'class'     => $className,
+                'name'      => $name ?? $shortClassName,
                 'namespace' => $reflection->getNamespaceName(),
             ];
         } catch (Throwable) {
             // If we can't instantiate the class, just return basic info with the class name
             return [
-                'class' => $className,
-                'name' => $this->getShortClassName($className),
+                'class'     => $className,
+                'name'      => $this->getShortClassName($className),
                 'namespace' => $this->getNamespaceFromClass($className),
             ];
         }
@@ -228,10 +235,5 @@ class ListCommands extends BaseCommand
 
         // Default to the last two parts of the namespace
         return implode('/', array_slice($parts, -2, 2));
-    }
-
-    public function getInfo(): ?string
-    {
-        return 'Listing commands...';
     }
 }

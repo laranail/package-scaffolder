@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ObserverMakeCommand extends GeneratorCommand
 {
@@ -37,32 +39,6 @@ class ObserverMakeCommand extends GeneratorCommand
     protected $description = 'Create a new observer for the specified module.';
 
     /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    #[Override]
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'The observer name will be created.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be created.'],
-        ];
-    }
-
-    protected function getTemplateContents(): string
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub('/observer.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'NAME' => $this->getModelName(),
-            'MODEL_NAMESPACE' => $this->getModelNamespace(),
-            'NAME_VARIABLE' => $this->getModelVariable(),
-        ]))->render();
-    }
-
-    /**
      * Get model namespace.
      */
     public function getModelNamespace(): string
@@ -79,34 +55,7 @@ class ObserverMakeCommand extends GeneratorCommand
 
         $nsPart = trim(str_replace('/', '\\', $path), '\\'); // 'Models'
 
-        return $moduleNamespace.'\\'.$moduleName.'\\'.$nsPart; // Modules\Core\Models
-    }
-
-    /**
-     * @return mixed|string
-     */
-    private function getModelName()
-    {
-        return Str::studly($this->argument('name'));
-    }
-
-    private function getModelVariable(): string
-    {
-        return '$'.Str::lower($this->argument('name'));
-    }
-
-    protected function getDestinationFilePath(): string
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $observerPath = GenerateConfigReader::read('observer');
-
-        return $path.$observerPath->getPath().'/'.$this->getFileName();
-    }
-
-    private function getFileName(): string
-    {
-        return Str::studly($this->argument('name')).'Observer.php';
+        return $moduleNamespace . '\\' . $moduleName . '\\' . $nsPart; // Modules\Core\Models
     }
 
     #[Override]
@@ -134,5 +83,58 @@ class ObserverMakeCommand extends GeneratorCommand
         }
 
         return trim(str_replace('/', '\\', $path), '\\'); // 'Observers'
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getArguments()
+    {
+        return [
+            ['name', InputArgument::REQUIRED, 'The observer name will be created.'],
+            ['module', InputArgument::OPTIONAL, 'The name of module will be created.'],
+        ];
+    }
+
+    protected function getTemplateContents(): string
+    {
+        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+
+        return (new Stub('/observer.stub', [
+            'NAMESPACE'       => $this->getClassNamespace($module),
+            'NAME'            => $this->getModelName(),
+            'MODEL_NAMESPACE' => $this->getModelNamespace(),
+            'NAME_VARIABLE'   => $this->getModelVariable(),
+        ]))->render();
+    }
+
+    protected function getDestinationFilePath(): string
+    {
+        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+
+        $observerPath = GenerateConfigReader::read('observer');
+
+        return $path . $observerPath->getPath() . '/' . $this->getFileName();
+    }
+
+    /**
+     * @return mixed|string
+     */
+    private function getModelName()
+    {
+        return Str::studly($this->argument('name'));
+    }
+
+    private function getModelVariable(): string
+    {
+        return '$' . Str::lower($this->argument('name'));
+    }
+
+    private function getFileName(): string
+    {
+        return Str::studly($this->argument('name')) . 'Observer.php';
     }
 }

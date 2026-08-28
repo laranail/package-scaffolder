@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Generators;
 
-use Illuminate\Config\Repository as Config;
-use Illuminate\Console\Command as Console;
-use Illuminate\Console\View\Components\Factory;
+use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
-use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
-use Simtabi\Laranail\Package\Scaffolder\Repositories\FileRepository;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
-use Simtabi\Laranail\Package\Scaffolder\Support\ReplacementKeyCommand;
+use Illuminate\Console\Command as Console;
+use Illuminate\Config\Repository as Config;
+use Illuminate\Console\View\Components\Factory;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
+use Simtabi\Laranail\Package\Scaffolder\Repositories\FileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\ReplacementKeyCommand;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ModuleGenerator extends Generator
 {
@@ -97,7 +99,7 @@ class ModuleGenerator extends Generator
         ?Config $config = null,
         ?Filesystem $filesystem = null,
         ?Console $console = null,
-        ?ActivatorInterface $activator = null
+        ?ActivatorInterface $activator = null,
     ) {
         $this->name = $name;
         $this->config = $config;
@@ -345,7 +347,7 @@ class ModuleGenerator extends Generator
                 continue;
             }
 
-            $path = $this->module->getModulePath($this->getName()).'/'.$folder->getPath();
+            $path = $this->module->getModulePath($this->getName()) . '/' . $folder->getPath();
 
             $this->filesystem->ensureDirectoryExists($path, 0755, true);
             if (config('laranail.package-scaffolder.modules.stubs.gitkeep')) {
@@ -359,7 +361,7 @@ class ModuleGenerator extends Generator
      */
     public function generateGitKeep(string $path): void
     {
-        $this->filesystem->put($path.'/.gitkeep', '');
+        $this->filesystem->put($path . '/.gitkeep', '');
     }
 
     /**
@@ -373,10 +375,10 @@ class ModuleGenerator extends Generator
         // flag. Without this, disabling a group (e.g. assets) skipped the folder
         // but the stub still recreated it (#2148).
         $gatedStubs = [
-            'assets/js/app' => 'assets',
+            'assets/js/app'   => 'assets',
             'assets/sass/app' => 'assets',
-            'views/index' => 'views',
-            'views/master' => 'views',
+            'views/index'     => 'views',
+            'views/master'    => 'views',
         ];
 
         foreach ($this->getFiles() as $stub => $file) {
@@ -388,7 +390,7 @@ class ModuleGenerator extends Generator
                 continue;
             }
 
-            $path = $this->module->getModulePath($this->getName()).$file;
+            $path = $this->module->getModulePath($this->getName()) . $file;
 
             $this->component->task("Generating file {$path}", function () use ($stub, $path): void {
                 if (! $this->filesystem->isDirectory($dir = dirname($path))) {
@@ -407,8 +409,8 @@ class ModuleGenerator extends Generator
     {
         if (GenerateConfigReader::read('seeder')->generate()) {
             $this->console->call('module:make-seed', [
-                'name' => $this->getName(),
-                'module' => $this->getName(),
+                'name'     => $this->getName(),
+                'module'   => $this->getName(),
                 '--master' => true,
             ]);
         }
@@ -416,22 +418,22 @@ class ModuleGenerator extends Generator
         $providerGenerator = GenerateConfigReader::read('provider');
         if ($providerGenerator->generate()) {
             $this->console->call('module:make-provider', [
-                'name' => $this->getName().'ServiceProvider',
-                'module' => $this->getName(),
+                'name'     => $this->getName() . 'ServiceProvider',
+                'module'   => $this->getName(),
                 '--master' => true,
             ]);
         } else {
             // Provider generation disabled — clear the registered providers in
             // module.json. Decode/encode (not regex surgery) so the file stays valid
             // JSON regardless of formatting.
-            $path = $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.'module.json';
+            $path = $this->module->getModulePath($this->getName()) . DIRECTORY_SEPARATOR . 'module.json';
             $manifest = json_decode($this->filesystem->get($path), true);
 
             if (is_array($manifest)) {
                 $manifest['providers'] = [];
                 $this->filesystem->put(
                     $path,
-                    json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL,
+                    json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL,
                 );
             }
         }
@@ -447,7 +449,7 @@ class ModuleGenerator extends Generator
             $this->filesystem->replaceInFile(
                 '$this->app->register(Event',
                 '// $this->app->register(Event',
-                $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.$providerGenerator->getPath().DIRECTORY_SEPARATOR.sprintf('%sServiceProvider.php', $this->getName())
+                $this->module->getModulePath($this->getName()) . DIRECTORY_SEPARATOR . $providerGenerator->getPath() . DIRECTORY_SEPARATOR . sprintf('%sServiceProvider.php', $this->getName()),
             );
         }
 
@@ -462,7 +464,7 @@ class ModuleGenerator extends Generator
             $this->filesystem->replaceInFile(
                 '$this->app->register(Route',
                 '// $this->app->register(Route',
-                $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.$providerGenerator->getPath().DIRECTORY_SEPARATOR.sprintf('%sServiceProvider.php', $this->getName())
+                $this->module->getModulePath($this->getName()) . DIRECTORY_SEPARATOR . $providerGenerator->getPath() . DIRECTORY_SEPARATOR . sprintf('%sServiceProvider.php', $this->getName()),
             );
         }
 
@@ -472,31 +474,19 @@ class ModuleGenerator extends Generator
                 $options = ['--inertia' => true];
             }
             $this->console->call('module:make-controller', [
-                'controller' => $this->getName().'Controller',
-                'module' => $this->getName(),
+                'controller' => $this->getName() . 'Controller',
+                'module'     => $this->getName(),
             ] + $options);
         }
 
         if ($this->inertia) {
             foreach (['Index', 'Create', 'Show', 'Edit'] as $page) {
                 $this->console->call('module:make-inertia-page', [
-                    'name' => $page,
+                    'name'   => $page,
                     'module' => $this->getName(),
                 ]);
             }
         }
-    }
-
-    /**
-     * Get the contents of the specified stub file by given stub name.
-     */
-    protected function getStubContents(string $stub): string
-    {
-        return (new Stub(
-            '/'.$stub.'.stub',
-            $this->getReplacement($stub)
-        )
-        )->render();
     }
 
     /**
@@ -505,6 +495,18 @@ class ModuleGenerator extends Generator
     public function getReplacements()
     {
         return $this->module->config('stubs.replacements');
+    }
+
+    /**
+     * Get the contents of the specified stub file by given stub name.
+     */
+    protected function getStubContents(string $stub): string
+    {
+        return (new Stub(
+            '/' . $stub . '.stub',
+            $this->getReplacement($stub),
+        )
+        )->render();
     }
 
     /**
@@ -540,7 +542,7 @@ class ModuleGenerator extends Generator
         foreach ($keys as $key => $value) {
             if (class_exists($value) && is_subclass_of($value, ReplacementKeyCommand::class)) {
                 $replaces[strtoupper($key)] = (new $value($this))->handle();
-            } elseif (method_exists($this, $method = 'get'.ucfirst(Str::studly(strtolower($value))).'Replacement')) {
+            } elseif (method_exists($this, $method = 'get' . ucfirst(Str::studly(strtolower($value))) . 'Replacement')) {
                 $replace = $this->$method();
 
                 if ($stub === 'routes/web' || $stub === 'routes/api') {
@@ -554,41 +556,6 @@ class ModuleGenerator extends Generator
         }
 
         return $replaces;
-    }
-
-    /**
-     * Generate the module.json file
-     */
-    private function generateModuleJsonFile(): void
-    {
-        $path = $this->module->getModulePath($this->getName()).'module.json';
-
-        $this->component->task("Generating file $path", function () use ($path): void {
-            if (! $this->filesystem->isDirectory($dir = dirname($path))) {
-                $this->filesystem->makeDirectory($dir, 0775, true);
-            }
-
-            $this->filesystem->put($path, $this->getStubContents('json'));
-        });
-    }
-
-    /**
-     * Remove the default service provider that was added in the module.json file
-     * This is needed when a --plain module was created
-     */
-    private function cleanModuleJsonFile(): void
-    {
-        $path = $this->module->getModulePath($this->getName()).'module.json';
-
-        $content = $this->filesystem->get($path);
-        $namespace = $this->getModuleNamespaceReplacement();
-        $studlyName = $this->getStudlyNameReplacement();
-
-        $provider = '"'.$namespace.'\\\\'.$studlyName.'\\\\Providers\\\\'.$studlyName.'ServiceProvider"';
-
-        $content = str_replace($provider, '', $content);
-
-        $this->filesystem->put($path, $content);
     }
 
     /**
@@ -653,18 +620,6 @@ class ModuleGenerator extends Generator
     }
 
     /**
-     * Get replacement for $CONTROLLER_NAMESPACE$.
-     */
-    private function getControllerNamespaceReplacement(): string
-    {
-        if ($this->module->config('paths.generator.controller.namespace')) {
-            return $this->module->config('paths.generator.controller.namespace');
-        }
-
-        return $this->path_namespace($this->strip_app_folder($this->module->config('paths.generator.controller.path', 'app/Http/Controllers')));
-    }
-
-    /**
      * Get replacement for $AUTHOR_NAME$.
      */
     protected function getAuthorNameReplacement(): string
@@ -701,5 +656,52 @@ class ModuleGenerator extends Generator
         $module = $this->module->find($this->name);
 
         $module->fireEvent($event);
+    }
+
+    /**
+     * Generate the module.json file
+     */
+    private function generateModuleJsonFile(): void
+    {
+        $path = $this->module->getModulePath($this->getName()) . 'module.json';
+
+        $this->component->task("Generating file $path", function () use ($path): void {
+            if (! $this->filesystem->isDirectory($dir = dirname($path))) {
+                $this->filesystem->makeDirectory($dir, 0775, true);
+            }
+
+            $this->filesystem->put($path, $this->getStubContents('json'));
+        });
+    }
+
+    /**
+     * Remove the default service provider that was added in the module.json file
+     * This is needed when a --plain module was created
+     */
+    private function cleanModuleJsonFile(): void
+    {
+        $path = $this->module->getModulePath($this->getName()) . 'module.json';
+
+        $content = $this->filesystem->get($path);
+        $namespace = $this->getModuleNamespaceReplacement();
+        $studlyName = $this->getStudlyNameReplacement();
+
+        $provider = '"' . $namespace . '\\\\' . $studlyName . '\\\\Providers\\\\' . $studlyName . 'ServiceProvider"';
+
+        $content = str_replace($provider, '', $content);
+
+        $this->filesystem->put($path, $content);
+    }
+
+    /**
+     * Get replacement for $CONTROLLER_NAMESPACE$.
+     */
+    private function getControllerNamespaceReplacement(): string
+    {
+        if ($this->module->config('paths.generator.controller.namespace')) {
+            return $this->module->config('paths.generator.controller.namespace');
+        }
+
+        return $this->path_namespace($this->strip_app_folder($this->module->config('paths.generator.controller.path', 'app/Http/Controllers')));
     }
 }

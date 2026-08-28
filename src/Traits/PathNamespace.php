@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Traits;
 
 use Illuminate\Support\Str;
@@ -35,8 +37,8 @@ trait PathNamespace
      */
     public function module_namespace(string $module, ?string $path = null): string
     {
-        $module_namespace = config('laranail.package-scaffolder.modules.namespace', $this->path_namespace(config('laranail.package-scaffolder.modules.paths.modules'))).'\\'.($module);
-        $module_namespace .= strlen($path) !== 0 ? '\\'.$this->path_namespace($path) : '';
+        $module_namespace = config('laranail.package-scaffolder.modules.namespace', $this->path_namespace(config('laranail.package-scaffolder.modules.paths.modules'))) . '\\' . ($module);
+        $module_namespace .= strlen($path) !== 0 ? '\\' . $this->path_namespace($path) : '';
 
         return $this->studly_namespace($module_namespace);
     }
@@ -74,8 +76,8 @@ trait PathNamespace
             return '';
         }
 
-        if (Str::startsWith($normalized, $appFolder.'/')) {
-            return Str::after($normalized, $appFolder.'/');
+        if (Str::startsWith($normalized, $appFolder . '/')) {
+            return Str::after($normalized, $appFolder . '/');
         }
 
         return $path;
@@ -109,6 +111,6 @@ trait PathNamespace
 
         $remainder = implode('/', $segments);
 
-        return $remainder === '' ? $app_path : $app_path.'/'.$remainder;
+        return $remainder === '' ? $app_path : $app_path . '/' . $remainder;
     }
 }

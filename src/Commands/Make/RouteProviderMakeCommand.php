@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class RouteProviderMakeCommand extends GeneratorCommand
 {
@@ -30,6 +32,13 @@ class RouteProviderMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $description = 'Create a new route service provider for the specified module.';
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.provider.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Providers'));
+    }
 
     /**
      * The command arguments.
@@ -60,24 +69,19 @@ class RouteProviderMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/route-provider.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getFileName(),
-            'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
-            'MODULE' => $this->getModuleName(),
+            'NAMESPACE'            => $this->getClassNamespace($module),
+            'CLASS'                => $this->getFileName(),
+            'MODULE_NAMESPACE'     => $this->laravel['modules']->config('namespace'),
+            'MODULE'               => $this->getModuleName(),
             'CONTROLLER_NAMESPACE' => $this->getControllerNameSpace(),
-            'WEB_ROUTES_PATH' => $this->getWebRoutesPath(),
-            'API_ROUTES_PATH' => $this->getApiRoutesPath(),
-            'LOWER_NAME' => $module->getLowerName(),
-            'KEBAB_NAME' => $module->getKebabName(),
+            'WEB_ROUTES_PATH'      => $this->getWebRoutesPath(),
+            'API_ROUTES_PATH'      => $this->getApiRoutesPath(),
+            'LOWER_NAME'           => $module->getLowerName(),
+            'KEBAB_NAME'           => $module->getKebabName(),
         ]))->setRemovalTags(array_filter([
             $this->shouldGenerateWebRoutes() ? null : 'WEB_ROUTES',
             $this->shouldGenerateApiRoutes() ? null : 'API_ROUTES',
         ]))->render();
-    }
-
-    private function getFileName(): string
-    {
-        return 'RouteServiceProvider';
     }
 
     /**
@@ -89,7 +93,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
 
         $generatorPath = GenerateConfigReader::read('provider');
 
-        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     protected function shouldGenerateWebRoutes(): bool
@@ -104,19 +108,17 @@ class RouteProviderMakeCommand extends GeneratorCommand
 
     protected function getWebRoutesPath(): string
     {
-        return '/'.$this->laravel['modules']->config('stubs.files.routes/web', 'Routes/web.php');
+        return '/' . $this->laravel['modules']->config('stubs.files.routes/web', 'Routes/web.php');
     }
 
     protected function getApiRoutesPath(): string
     {
-        return '/'.$this->laravel['modules']->config('stubs.files.routes/api', 'Routes/api.php');
+        return '/' . $this->laravel['modules']->config('stubs.files.routes/api', 'Routes/api.php');
     }
 
-    #[Override]
-    public function getDefaultNamespace(): string
+    private function getFileName(): string
     {
-        return config('laranail.package-scaffolder.modules.paths.generator.provider.namespace')
-            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Providers'));
+        return 'RouteServiceProvider';
     }
 
     private function getControllerNameSpace(): string

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Facades;
 
 use Simtabi\Laranail\Package\Scaffolder\Facades\Module;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Artifacts;
 
 use PHPUnit\Framework\TestCase;
@@ -7,23 +9,17 @@ use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\TokenReplacer;
 
 class TokenReplacerTest extends TestCase
 {
-    /** @return array{namespaceBase:string,studly:string,lower:string,vendor:string} */
-    private function target(): array
-    {
-        return ['namespaceBase' => 'Acme\\Shop', 'studly' => 'Invoicing', 'lower' => 'invoicing', 'vendor' => 'acme'];
-    }
-
     public function test_rewrites_php_namespace_and_manager_class(): void
     {
         $this->assertSame(
             'namespace Acme\\Shop\\Invoicing\\Models;',
-            TokenReplacer::replace('namespace Some\\NamespacePath\\Blog\\Models;', $this->target())
+            TokenReplacer::replace('namespace Some\\NamespacePath\\Blog\\Models;', $this->target()),
         );
 
         // root + the manager class named after the artifact
         $this->assertSame(
             'use Acme\\Shop\\Invoicing\\Invoicing;',
-            TokenReplacer::replace('use Some\\NamespacePath\\Blog\\Blog;', $this->target())
+            TokenReplacer::replace('use Some\\NamespacePath\\Blog\\Blog;', $this->target()),
         );
     }
 
@@ -46,7 +42,7 @@ class TokenReplacerTest extends TestCase
     {
         $this->assertSame(
             '"Acme\\\\Shop\\\\Invoicing\\\\": "src/"',
-            TokenReplacer::replace('"Some\\\\NamespacePath\\\\Blog\\\\": "src/"', $this->target())
+            TokenReplacer::replace('"Some\\\\NamespacePath\\\\Blog\\\\": "src/"', $this->target()),
         );
     }
 
@@ -64,15 +60,6 @@ class TokenReplacerTest extends TestCase
         $this->assertSame('namespace Modules\\Blog\\Providers;', TokenReplacer::replace('namespace Some\\NamespacePath\\Blog\\Providers;', $t));
         $this->assertSame('modules/blog', TokenReplacer::replace('modules/blog', $t));
         $this->assertSame('BlogServiceProvider', TokenReplacer::replace('BlogServiceProvider', $t));
-    }
-
-    /** @return array{namespaceBase:string,studly:string,lower:string,vendor:string,entityStudly:string,entityStudlyPlural:string,entityLower:string,entityPlural:string} */
-    private function entityTarget(): array
-    {
-        return [
-            'namespaceBase' => 'Acme', 'studly' => 'Customer', 'lower' => 'customer', 'vendor' => 'acme',
-            'entityStudly' => 'Order', 'entityStudlyPlural' => 'Orders', 'entityLower' => 'order', 'entityPlural' => 'orders',
-        ];
     }
 
     public function test_entity_tokenization_rewrites_identifiers(): void
@@ -113,8 +100,8 @@ class TokenReplacerTest extends TestCase
     {
         $t = [
             'namespaceBase' => 'Acme', 'studly' => 'Shop', 'lower' => 'shop', 'vendor' => 'acme',
-            'entityStudly' => 'A$1B', 'entityStudlyPlural' => 'A$1Bs',
-            'entityLower' => 'a$1b', 'entityPlural' => 'a$1bs',
+            'entityStudly'  => 'A$1B', 'entityStudlyPlural' => 'A$1Bs',
+            'entityLower'   => 'a$1b', 'entityPlural' => 'a$1bs',
         ];
 
         $this->assertSame('A$1B', TokenReplacer::replace('Post', $t));
@@ -122,5 +109,20 @@ class TokenReplacerTest extends TestCase
         // a literal backslash form must survive too
         $t['entityStudly'] = 'X\\1Y';
         $this->assertSame('X\\1Y', TokenReplacer::replace('Post', $t));
+    }
+
+    /** @return array{namespaceBase:string,studly:string,lower:string,vendor:string} */
+    private function target(): array
+    {
+        return ['namespaceBase' => 'Acme\\Shop', 'studly' => 'Invoicing', 'lower' => 'invoicing', 'vendor' => 'acme'];
+    }
+
+    /** @return array{namespaceBase:string,studly:string,lower:string,vendor:string,entityStudly:string,entityStudlyPlural:string,entityLower:string,entityPlural:string} */
+    private function entityTarget(): array
+    {
+        return [
+            'namespaceBase' => 'Acme', 'studly' => 'Customer', 'lower' => 'customer', 'vendor' => 'acme',
+            'entityStudly'  => 'Order', 'entityStudlyPlural' => 'Orders', 'entityLower' => 'order', 'entityPlural' => 'orders',
+        ];
     }
 }

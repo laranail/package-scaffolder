@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class InertiaComponentMakeCommand extends GeneratorCommand
 {
@@ -31,6 +33,16 @@ class InertiaComponentMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $description = 'Create a new Inertia component for the specified module.';
+
+    /**
+     * Get default namespace.
+     */
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.inertia-components.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.inertia-components.path', 'resources/js/Components'));
+    }
 
     /**
      * Get the console command arguments.
@@ -65,7 +77,7 @@ class InertiaComponentMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
-            'STUDLY_NAME' => $module->getStudlyName(),
+            'STUDLY_NAME'    => $module->getStudlyName(),
             'COMPONENT_NAME' => $this->getComponentName(),
         ]))->render();
     }
@@ -79,7 +91,19 @@ class InertiaComponentMakeCommand extends GeneratorCommand
         $componentsPath = GenerateConfigReader::read('inertia-components')->getPath() ?? 'resources/js/Components';
         $subDirectory = $this->getSubDirectory();
 
-        return $path.$componentsPath.'/'.($subDirectory !== '' && $subDirectory !== '0' ? $subDirectory.'/' : '').$this->getFileName();
+        return $path . $componentsPath . '/' . ($subDirectory !== '' && $subDirectory !== '0' ? $subDirectory . '/' : '') . $this->getFileName();
+    }
+
+    /**
+     * Get the stub file name based on the options.
+     */
+    protected function getStubName(): string
+    {
+        return match ($this->getInertiaFrontend()) {
+            'react'  => '/inertia/component-react.stub',
+            'svelte' => '/inertia/component-svelte.stub',
+            default  => '/inertia/component-vue.stub',
+        };
     }
 
     /**
@@ -88,12 +112,12 @@ class InertiaComponentMakeCommand extends GeneratorCommand
     private function getFileName(): string
     {
         $extension = match ($this->getInertiaFrontend()) {
-            'react' => '.jsx',
+            'react'  => '.jsx',
             'svelte' => '.svelte',
-            default => '.vue',
+            default  => '.vue',
         };
 
-        return Str::studly(basename(str_replace('\\', '/', $this->argument('name')))).$extension;
+        return Str::studly(basename(str_replace('\\', '/', $this->argument('name')))) . $extension;
     }
 
     /**
@@ -131,27 +155,5 @@ class InertiaComponentMakeCommand extends GeneratorCommand
         }
 
         return config('laranail.package-scaffolder.modules.inertia.frontend', 'vue');
-    }
-
-    /**
-     * Get the stub file name based on the options.
-     */
-    protected function getStubName(): string
-    {
-        return match ($this->getInertiaFrontend()) {
-            'react' => '/inertia/component-react.stub',
-            'svelte' => '/inertia/component-svelte.stub',
-            default => '/inertia/component-vue.stub',
-        };
-    }
-
-    /**
-     * Get default namespace.
-     */
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.inertia-components.namespace')
-            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.inertia-components.path', 'resources/js/Components'));
     }
 }

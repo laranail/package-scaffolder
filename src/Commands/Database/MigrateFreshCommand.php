@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
-use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Support\Collection;
 use Override;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Migrations\Migrator;
+use Symfony\Component\Console\Input\InputOption;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
 {
@@ -47,10 +49,10 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
     {
         // drop tables
         $this->components->task('Dropping all tables', fn (): bool => $this->callSilent('db:wipe', array_filter([
-            '--database' => $this->option('database'),
+            '--database'   => $this->option('database'),
             '--drop-views' => $this->option('drop-views'),
             '--drop-types' => $this->option('drop-types'),
-            '--force' => true,
+            '--force'      => true,
         ])) == 0);
 
         // create migration table
@@ -60,17 +62,17 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
 
         // run migration of root
         $root_paths = $this->migration_paths
-            ->push($this->laravel->databasePath().DIRECTORY_SEPARATOR.'migrations')
+            ->push($this->laravel->databasePath() . DIRECTORY_SEPARATOR . 'migrations')
             ->reject(fn (string $path): bool => str_starts_with($path, config('laranail.package-scaffolder.modules.paths.modules')));
 
         if ($root_paths->count() > 0) {
             $this->components->twoColumnDetail('Running Migration of <fg=cyan;options=bold>Root</>');
 
             $this->call('migrate', array_filter([
-                '--path' => $root_paths->toArray(),
+                '--path'     => $root_paths->toArray(),
                 '--database' => $this->option('database'),
-                '--pretend' => $this->option('pretend'),
-                '--force' => $this->option('force'),
+                '--pretend'  => $this->option('pretend'),
+                '--force'    => $this->option('force'),
                 '--realpath' => true,
             ]));
         }
@@ -83,10 +85,10 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
         $module = $this->getModuleModel($name);
 
         $this->call('module:migrate', array_filter([
-            'module' => $module->getStudlyName(),
+            'module'     => $module->getStudlyName(),
             '--database' => $this->option('database'),
-            '--force' => $this->option('force'),
-            '--seed' => $this->option('seed'),
+            '--force'    => $this->option('force'),
+            '--seed'     => $this->option('seed'),
         ]));
     }
 

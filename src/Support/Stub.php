@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
-use RuntimeException;
 use Stringable;
+use RuntimeException;
 
 class Stub implements Stringable
 {
     /**
-     * The stub path.
-     */
-    protected string $path;
-
-    /**
      * The base path of stub file.
      */
     protected static ?string $basePath = null;
+
+    /**
+     * The stub path.
+     */
+    protected string $path;
 
     /**
      * The replacements array.
@@ -38,31 +40,19 @@ class Stub implements Stringable
     }
 
     /**
+     * Handle magic method __toString.
+     */
+    public function __toString(): string
+    {
+        return $this->render();
+    }
+
+    /**
      * Create new self instance.
      */
     public static function create(string $path, array $replaces = []): self
     {
         return new static($path, $replaces);
-    }
-
-    /**
-     * Set stub path.
-     */
-    public function setPath(string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get stub path.
-     */
-    public function getPath(): string
-    {
-        $path = static::getBasePath().$this->path;
-
-        return file_exists($path) ? $path : dirname(__DIR__, 2).'/stubs'.$this->path;
     }
 
     /**
@@ -82,6 +72,26 @@ class Stub implements Stringable
     }
 
     /**
+     * Set stub path.
+     */
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get stub path.
+     */
+    public function getPath(): string
+    {
+        $path = static::getBasePath() . $this->path;
+
+        return file_exists($path) ? $path : dirname(__DIR__, 2) . '/stubs' . $this->path;
+    }
+
+    /**
      * Get stub contents.
      */
     public function getContents(): string
@@ -94,7 +104,7 @@ class Stub implements Stringable
         }
 
         foreach ($this->replaces as $search => $replace) {
-            $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
+            $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
         }
 
         foreach ($this->removalTags as $removalTag) {
@@ -102,24 +112,6 @@ class Stub implements Stringable
         }
 
         return $this->cleanUpTagMarkers($contents);
-    }
-
-    /**
-     * Remove content between %START_TAG% and %END_TAG%
-     */
-    private function removeContentsBetweenTagMarkers(string $tag, string $contents): string
-    {
-        $tag = preg_quote($tag, '/');
-
-        return preg_replace('/%START_'.$tag.'%.*?%END_'.$tag.'%/s', '', $contents);
-    }
-
-    /**
-     * Remove leftover %TAG% markers
-     */
-    private function cleanUpTagMarkers(string $contents): string
-    {
-        return preg_replace('/%[A-Z0-9_]+%/i', '', $contents);
     }
 
     /**
@@ -135,7 +127,7 @@ class Stub implements Stringable
      */
     public function saveTo(string $path, string $filename): bool
     {
-        return file_put_contents($path.'/'.$filename, $this->getContents());
+        return file_put_contents($path . '/' . $filename, $this->getContents());
     }
 
     /**
@@ -167,10 +159,20 @@ class Stub implements Stringable
     }
 
     /**
-     * Handle magic method __toString.
+     * Remove content between %START_TAG% and %END_TAG%
      */
-    public function __toString(): string
+    private function removeContentsBetweenTagMarkers(string $tag, string $contents): string
     {
-        return $this->render();
+        $tag = preg_quote($tag, '/');
+
+        return preg_replace('/%START_' . $tag . '%.*?%END_' . $tag . '%/s', '', $contents);
+    }
+
+    /**
+     * Remove leftover %TAG% markers
+     */
+    private function cleanUpTagMarkers(string $contents): string
+    {
+        return preg_replace('/%[A-Z0-9_]+%/i', '', $contents);
     }
 }

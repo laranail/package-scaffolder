@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
-use Illuminate\Console\Command;
 use Override;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 
 class ListCommand extends Command
 {
@@ -65,10 +67,10 @@ class ListCommand extends Command
     public function getModules()
     {
         return match ($this->option('only')) {
-            'enabled' => $this->laravel['modules']->getByStatus(1),
+            'enabled'  => $this->laravel['modules']->getByStatus(1),
             'disabled' => $this->laravel['modules']->getByStatus(0),
             'priority' => $this->laravel['modules']->getPriority($this->option('direction')),
-            default => $this->laravel['modules']->all(),
+            default    => $this->laravel['modules']->all(),
         };
     }
 

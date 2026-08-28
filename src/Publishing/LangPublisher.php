@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
@@ -27,7 +29,7 @@ class LangPublisher extends Publisher
     public function getSourcePath(): string
     {
         return $this->getModule()->getExtraPath(
-            GenerateConfigReader::read('lang')->getPath()
+            GenerateConfigReader::read('lang')->getPath(),
         );
     }
 }

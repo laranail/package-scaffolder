@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
-use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 
 class PublishConfigurationCommand extends BaseCommand
 {
@@ -29,14 +31,22 @@ class PublishConfigurationCommand extends BaseCommand
     {
         $this->call('vendor:publish', [
             '--provider' => $this->getServiceProviderForModule($name),
-            '--force' => $this->option('force'),
-            '--tag' => ['config'],
+            '--force'    => $this->option('force'),
+            '--tag'      => ['config'],
         ]);
     }
 
     public function getInfo(): ?string
     {
         return 'Publishing module config files ...';
+    }
+
+    #[Override]
+    protected function getOptions(): array
+    {
+        return [
+            ['--force', '-f', InputOption::VALUE_NONE, 'Force the publishing of config files'],
+        ];
     }
 
     private function getServiceProviderForModule(string $module): string
@@ -50,13 +60,5 @@ class PublishConfigurationCommand extends BaseCommand
         $provider = str_replace('/', '\\', $provider);
 
         return "$namespace\\$moduleName\\$provider\\{$moduleName}ServiceProvider";
-    }
-
-    #[Override]
-    protected function getOptions(): array
-    {
-        return [
-            ['--force', '-f', InputOption::VALUE_NONE, 'Force the publishing of config files'],
-        ];
     }
 }

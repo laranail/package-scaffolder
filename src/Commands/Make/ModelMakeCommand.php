@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ModelMakeCommand extends GeneratorCommand
 {
@@ -65,6 +67,16 @@ class ModelMakeCommand extends GeneratorCommand
     }
 
     /**
+     * Get default namespace.
+     */
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.model.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.model.path', 'Models'));
+    }
+
+    /**
      * Create a proper migration name:
      * ProductDetail: product_details
      * Product: products
@@ -76,7 +88,7 @@ class ModelMakeCommand extends GeneratorCommand
         $string = '';
         foreach ($pieces as $i => $piece) {
             if ($i + 1 < count($pieces)) {
-                $string .= strtolower($piece).'_';
+                $string .= strtolower($piece) . '_';
             } else {
                 $string .= Str::plural(strtolower($piece));
             }
@@ -122,7 +134,7 @@ class ModelMakeCommand extends GeneratorCommand
     protected function handleOptionalMigrationOption(): void
     {
         if ($this->option('migration') === true) {
-            $migrationName = 'create_'.$this->createMigrationName().'_table';
+            $migrationName = 'create_' . $this->createMigrationName() . '_table';
             $this->call('module:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
         }
     }
@@ -137,7 +149,7 @@ class ModelMakeCommand extends GeneratorCommand
 
             $this->call('module:make-controller', array_filter([
                 'controller' => $controllerName,
-                'module' => $this->argument('module'),
+                'module'     => $this->argument('module'),
             ]));
         }
     }
@@ -149,7 +161,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         if ($this->option('factory') === true) {
             $this->call('module:make-factory', array_filter([
-                'name' => $this->getModelName(),
+                'name'   => $this->getModelName(),
                 'module' => $this->argument('module'),
             ]));
         }
@@ -164,7 +176,7 @@ class ModelMakeCommand extends GeneratorCommand
             $requestName = "{$this->getModelName()}Request";
 
             $this->call('module:make-request', array_filter([
-                'name' => $requestName,
+                'name'   => $requestName,
                 'module' => $this->argument('module'),
             ]));
         }
@@ -179,7 +191,7 @@ class ModelMakeCommand extends GeneratorCommand
             $resourceName = "{$this->getModelName()}Resource";
 
             $this->call('module:make-resource', array_filter([
-                'name' => $resourceName,
+                'name'   => $resourceName,
                 'module' => $this->argument('module'),
             ]));
         }
@@ -194,7 +206,7 @@ class ModelMakeCommand extends GeneratorCommand
             $seedName = "{$this->getModelName()}Seeder";
 
             $this->call('module:make-seed', array_filter([
-                'name' => $seedName,
+                'name'   => $seedName,
                 'module' => $this->argument('module'),
             ]));
         }
@@ -205,13 +217,13 @@ class ModelMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/model.stub', [
-            'NAME' => $this->getModelName(),
-            'FILLABLE' => $this->getFillable(),
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
-            'LOWER_NAME' => $module->getLowerName(),
-            'MODULE' => $this->getModuleName(),
-            'STUDLY_NAME' => $module->getStudlyName(),
+            'NAME'             => $this->getModelName(),
+            'FILLABLE'         => $this->getFillable(),
+            'NAMESPACE'        => $this->getClassNamespace($module),
+            'CLASS'            => $this->getClass(),
+            'LOWER_NAME'       => $module->getLowerName(),
+            'MODULE'           => $this->getModuleName(),
+            'STUDLY_NAME'      => $module->getStudlyName(),
             'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
         ]))->render();
     }
@@ -222,7 +234,7 @@ class ModelMakeCommand extends GeneratorCommand
 
         $modelPath = GenerateConfigReader::read('model');
 
-        return $path.$modelPath->getPath().'/'.$this->getModelName().'.php';
+        return $path . $modelPath->getPath() . '/' . $this->getModelName() . '.php';
     }
 
     private function getModelName(): string
@@ -241,15 +253,5 @@ class ModelMakeCommand extends GeneratorCommand
         }
 
         return '[]';
-    }
-
-    /**
-     * Get default namespace.
-     */
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.model.namespace')
-            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.model.path', 'Models'));
     }
 }

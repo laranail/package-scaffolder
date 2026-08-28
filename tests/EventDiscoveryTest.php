@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
+use SplFileInfo;
 use Illuminate\Foundation\Events\DiscoverEvents;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider;
-use SplFileInfo;
 
 class EventDiscoveryTest extends BaseTestCase
 {
@@ -26,7 +28,7 @@ class EventDiscoveryTest extends BaseTestCase
     {
         $listenerDir = base_path('modules/Blog/app/Listeners');
         $this->app['files']->ensureDirectoryExists($listenerDir);
-        $file = $listenerDir.'/SendWelcomeNotification.php';
+        $file = $listenerDir . '/SendWelcomeNotification.php';
         $this->app['files']->put($file, "<?php\n");
 
         $callback = DiscoverEvents::$guessClassNamesUsingCallback;

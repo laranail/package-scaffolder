@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
 use Error;
-use ErrorException;
+use Override;
 use Exception;
+use Throwable;
+use ErrorException;
+use RuntimeException;
+use Illuminate\Support\Str;
 use Illuminate\Console\View\TaskResult;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Support\Str;
-use Override;
-use RuntimeException;
-use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
-use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Traits\ResolvesModuleNamespace;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ResolvesModuleNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class SeedCommand extends BaseCommand
 {
@@ -144,33 +146,9 @@ class SeedCommand extends BaseCommand
     }
 
     /**
-     * Seed the specified module.
-     *
-     * @param  string  $className
-     */
-    protected function dbSeed($className)
-    {
-        if ($option = $this->option('class')) {
-            $params['--class'] = Str::finish(substr($className, 0, strrpos($className, '\\')), '\\').$option;
-        } else {
-            $params = ['--class' => $className];
-        }
-
-        if ($option = $this->option('database')) {
-            $params['--database'] = $option;
-        }
-
-        if ($option = $this->option('force')) {
-            $params['--force'] = $option;
-        }
-
-        $this->call('db:seed', $params);
-    }
-
-    /**
      * Get master database seeder name for the specified module.
      *
-     * @param  string  $name
+     * @param string $name
      */
     public function getSeederName($name): string
     {
@@ -180,7 +158,7 @@ class SeedCommand extends BaseCommand
         $config = GenerateConfigReader::read('seeder');
         $seederPath = str_replace('/', '\\', $config->getPath());
 
-        return $namespace.'\\'.$name.'\\'.$seederPath.'\\'.$name.'DatabaseSeeder';
+        return $namespace . '\\' . $name . '\\' . $seederPath . '\\' . $name . 'DatabaseSeeder';
     }
 
     /**
@@ -197,13 +175,14 @@ class SeedCommand extends BaseCommand
 
         $seederPath = str_replace('/', '\\', GenerateConfigReader::read('seeder')->getPath());
 
-        return $namespace.'\\'.$seederPath.'\\'.Str::studly($module->getName()).'DatabaseSeeder';
+        return $namespace . '\\' . $seederPath . '\\' . Str::studly($module->getName()) . 'DatabaseSeeder';
     }
 
     /**
      * Get master database seeder name for the specified module under a different namespace than Modules.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return array $foundModules array containing namespace paths
      */
     public function getSeederNames($name): array
@@ -216,18 +195,41 @@ class SeedCommand extends BaseCommand
         $foundModules = [];
         foreach ($this->laravel['modules']->config('scan.paths') as $path) {
             $namespace = array_slice(explode('/', $path), -1)[0];
-            $foundModules[] = $namespace.'\\'.$name.'\\'.$seederPath.'\\'.$name.'DatabaseSeeder';
+            $foundModules[] = $namespace . '\\' . $name . '\\' . $seederPath . '\\' . $name . 'DatabaseSeeder';
         }
 
         return $foundModules;
     }
 
     /**
+     * Seed the specified module.
+     *
+     * @param string $className
+     */
+    protected function dbSeed($className)
+    {
+        if ($option = $this->option('class')) {
+            $params['--class'] = Str::finish(substr($className, 0, strrpos($className, '\\')), '\\') . $option;
+        } else {
+            $params = ['--class' => $className];
+        }
+
+        if ($option = $this->option('database')) {
+            $params['--database'] = $option;
+        }
+
+        if ($option = $this->option('force')) {
+            $params['--force'] = $option;
+        }
+
+        $this->call('db:seed', $params);
+    }
+
+    /**
      * Report the exception to the exception handler.
      *
-     * @param  OutputInterface  $output
-     * @param  Throwable  $e
-     * @return void
+     * @param OutputInterface $output
+     * @param Throwable $e
      */
     protected function renderException($output, Exception $e)
     {
@@ -237,8 +239,7 @@ class SeedCommand extends BaseCommand
     /**
      * Report the exception to the exception handler.
      *
-     * @param  Throwable  $e
-     * @return void
+     * @param Throwable $e
      */
     protected function reportException(Exception $e)
     {

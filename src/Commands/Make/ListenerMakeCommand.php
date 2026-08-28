@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
-use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
-use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ListenerMakeCommand extends GeneratorCommand
 {
@@ -32,6 +34,13 @@ class ListenerMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $description = 'Create a new event listener class for the specified module';
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.listener.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.listener.path', 'Listeners'));
+    }
 
     /**
      * Get the console command arguments.
@@ -66,26 +75,19 @@ class ListenerMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'EVENTNAME' => $this->getEventName($module),
+            'NAMESPACE'      => $this->getClassNamespace($module),
+            'EVENTNAME'      => $this->getEventName($module),
             'SHORTEVENTNAME' => $this->getShortEventName(),
-            'CLASS' => $this->getClass(),
+            'CLASS'          => $this->getClass(),
         ]))->render();
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.listener.namespace')
-            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.listener.path', 'Listeners'));
     }
 
     protected function getEventName(Module $module): string|array
     {
-        $namespace = $this->laravel['modules']->config('namespace').'\\'.$module->getStudlyName();
+        $namespace = $this->laravel['modules']->config('namespace') . '\\' . $module->getStudlyName();
         $eventPath = GenerateConfigReader::read('event');
 
-        $eventName = $namespace.'\\'.$eventPath->getPath().'\\'.$this->option('event');
+        $eventName = $namespace . '\\' . $eventPath->getPath() . '\\' . $this->option('event');
 
         return str_replace('/', '\\', $eventName);
     }
@@ -101,7 +103,7 @@ class ListenerMakeCommand extends GeneratorCommand
 
         $listenerPath = GenerateConfigReader::read('listener');
 
-        return $path.$listenerPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $listenerPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     /**

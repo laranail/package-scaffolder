@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class CastMakeCommand extends GeneratorCommand
 {
@@ -26,9 +28,15 @@ class CastMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('casts')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Casts';
+        $filePath = GenerateConfigReader::read('casts')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Casts';
 
-        return $path.$filePath.'/'.$this->getCastName().'.php';
+        return $path . $filePath . '/' . $this->getCastName() . '.php';
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.casts.namespace', 'Casts');
     }
 
     protected function getTemplateContents(): string
@@ -37,7 +45,7 @@ class CastMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClassNameWithoutNamespace(),
+            'CLASS'           => $this->getClassNameWithoutNamespace(),
         ]))->render();
     }
 
@@ -63,19 +71,13 @@ class CastMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
-    private function getClassNameWithoutNamespace(): string
-    {
-        return class_basename($this->getCastName());
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.casts.namespace', 'Casts');
-    }
-
     protected function getStubName(): string
     {
         return '/cast.stub';
+    }
+
+    private function getClassNameWithoutNamespace(): string
+    {
+        return class_basename($this->getCastName());
     }
 }

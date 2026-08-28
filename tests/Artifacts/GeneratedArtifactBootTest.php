@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Artifacts;
 
 use Composer\Autoload\ClassLoader;
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
-use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Tools\Providers\PackageServiceProvider;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
+use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
 
 /**
  * Runtime verification: a generated artifact's service provider must actually
@@ -45,22 +47,6 @@ class GeneratedArtifactBootTest extends BaseTestCase
         parent::tearDown();
     }
 
-    private function generateAndAutoload(string $base, string $name, string $vendor, string $plugin, array $features): string
-    {
-        $config = require dirname(__DIR__, 2).'/config/artifacts.php';
-        $target = sys_get_temp_dir().'/laranail-boot-'.uniqid();
-        $this->targets[] = $target;
-
-        (new ArtifactGenerator($this->fs, $config, dirname(__DIR__, 2).'/vendor/bin/pint'))
-            ->generate(new GenerationRequest($plugin === 'none' ? 'package' : 'plugin', $plugin, $features, $name, $base, $vendor), dirname(__DIR__, 2).'/stubs/blueprints/laravel', $target);
-
-        $loader = new ClassLoader;
-        $loader->addPsr4($base.'\\'.$name.'\\', $target.'/src');
-        $loader->register();
-
-        return $target;
-    }
-
     public function test_full_featured_plugin_none_artifact_boots(): void
     {
         $all = ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'];
@@ -90,5 +76,21 @@ class GeneratedArtifactBootTest extends BaseTestCase
 
         $this->assertSame('Gadget', config('bootmin.gadget.name'));
         $this->assertInstanceOf('BootMin\\Gadget\\Gadget', $this->app->make('BootMin\\Gadget\\Gadget'));
+    }
+
+    private function generateAndAutoload(string $base, string $name, string $vendor, string $plugin, array $features): string
+    {
+        $config = require dirname(__DIR__, 2) . '/config/artifacts.php';
+        $target = sys_get_temp_dir() . '/laranail-boot-' . uniqid();
+        $this->targets[] = $target;
+
+        (new ArtifactGenerator($this->fs, $config, dirname(__DIR__, 2) . '/vendor/bin/pint'))
+            ->generate(new GenerationRequest($plugin === 'none' ? 'package' : 'plugin', $plugin, $features, $name, $base, $vendor), dirname(__DIR__, 2) . '/stubs/blueprints/laravel', $target);
+
+        $loader = new ClassLoader;
+        $loader->addPsr4($base . '\\' . $name . '\\', $target . '/src');
+        $loader->register();
+
+        return $target;
     }
 }

@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Filesystem\Filesystem;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 
 class ModuleManifest
 {
     /**
-     * The filesystem instance.
+     * The manifestData
      */
-    private Filesystem $files;
+    private static ?Collection $manifestData;
 
     /**
      * The base path.
@@ -24,9 +26,9 @@ class ModuleManifest
     public ?string $manifestPath;
 
     /**
-     * The manifestData
+     * The filesystem instance.
      */
-    private static ?Collection $manifestData;
+    private Filesystem $files;
 
     /**
      * The loaded manifest array.
@@ -83,7 +85,7 @@ class ModuleManifest
                 }
 
                 foreach ($manifest['files'] as $file) {
-                    include_once $manifest['module_directory'].DIRECTORY_SEPARATOR.$file;
+                    include_once $manifest['module_directory'] . DIRECTORY_SEPARATOR . $file;
                 }
             });
     }

@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class InterfaceMakeCommand extends GeneratorCommand
 {
@@ -26,9 +28,15 @@ class InterfaceMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('interfaces')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Interfaces';
+        $filePath = GenerateConfigReader::read('interfaces')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Interfaces';
 
-        return $path.$filePath.'/'.$this->getInterfaceName().'.php';
+        return $path . $filePath . '/' . $this->getInterfaceName() . '.php';
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.interfaces.namespace', 'Interfaces');
     }
 
     protected function getTemplateContents(): string
@@ -37,7 +45,7 @@ class InterfaceMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClassNameWithoutNamespace(),
+            'CLASS'           => $this->getClassNameWithoutNamespace(),
         ]))->render();
     }
 
@@ -63,19 +71,13 @@ class InterfaceMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
-    private function getClassNameWithoutNamespace(): string
-    {
-        return class_basename($this->getInterfaceName());
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.interfaces.namespace', 'Interfaces');
-    }
-
     protected function getStubName(): string
     {
         return '/interface.stub';
+    }
+
+    private function getClassNameWithoutNamespace(): string
+    {
+        return class_basename($this->getInterfaceName());
     }
 }

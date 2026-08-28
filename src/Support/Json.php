@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
 use Exception;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
-use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
 use Stringable;
+use Illuminate\Support\Collection;
+use Illuminate\Filesystem\Filesystem;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
 
 class Json implements Stringable
 {
@@ -33,6 +35,42 @@ class Json implements Stringable
         $this->path = (string) $path;
         $this->filesystem = $filesystem ?: new Filesystem;
         $this->attributes = Collection::make($this->getAttributes());
+    }
+
+    /**
+     * Handle magic method __get.
+     */
+    public function __get(string $key): mixed
+    {
+        return $this->get($key);
+    }
+
+    /**
+     * Handle call to __call method.
+     */
+    public function __call(string $method, array $arguments = [])
+    {
+        if (method_exists($this, $method)) {
+            return call_user_func_array([$this, $method], $arguments);
+        }
+
+        return call_user_func_array([$this->attributes, $method], $arguments);
+    }
+
+    /**
+     * Handle call to __toString method.
+     */
+    public function __toString(): string
+    {
+        return $this->getContents();
+    }
+
+    /**
+     * Make new instance.
+     */
+    public static function make(string $path, ?Filesystem $filesystem = null): static
+    {
+        return new static($path, $filesystem);
     }
 
     /**
@@ -72,14 +110,6 @@ class Json implements Stringable
     }
 
     /**
-     * Make new instance.
-     */
-    public static function make(string $path, ?Filesystem $filesystem = null): static
-    {
-        return new static($path, $filesystem);
-    }
-
-    /**
      * Get file content.
      */
     public function getContents(): string
@@ -98,7 +128,7 @@ class Json implements Stringable
 
         // any JSON parsing errors should throw an exception
         if (json_last_error() > 0) {
-            throw new InvalidJsonException('Error processing file: '.$this->getPath().'. Error: '.json_last_error_msg());
+            throw new InvalidJsonException('Error processing file: ' . $this->getPath() . '. Error: ' . json_last_error_msg());
         }
 
         return $attributes;
@@ -152,38 +182,10 @@ class Json implements Stringable
     }
 
     /**
-     * Handle magic method __get.
-     */
-    public function __get(string $key): mixed
-    {
-        return $this->get($key);
-    }
-
-    /**
      * Get the specified attribute from json file.
      */
     public function get(string $key, $default = null)
     {
         return $this->attributes->get($key, $default);
-    }
-
-    /**
-     * Handle call to __call method.
-     */
-    public function __call(string $method, array $arguments = [])
-    {
-        if (method_exists($this, $method)) {
-            return call_user_func_array([$this, $method], $arguments);
-        }
-
-        return call_user_func_array([$this->attributes, $method], $arguments);
-    }
-
-    /**
-     * Handle call to __toString method.
-     */
-    public function __toString(): string
-    {
-        return $this->getContents();
     }
 }

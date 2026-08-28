@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ComponentClassMakeCommand extends GeneratorCommand
 {
@@ -47,21 +49,19 @@ class ComponentClassMakeCommand extends GeneratorCommand
         return 0;
     }
 
-    /**
-     * Write the view template for the component.
-     *
-     * @return void
-     */
-    protected function writeComponentViewTemplate()
-    {
-        $this->call('module:make-component-view', ['name' => $this->argument('name'), 'module' => $this->argument('module')]);
-    }
-
     #[Override]
     public function getDefaultNamespace(): string
     {
         return config('laranail.package-scaffolder.modules.paths.generator.component-class.namespace')
             ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.component-class.path', 'View/Component'));
+    }
+
+    /**
+     * Write the view template for the component.
+     */
+    protected function writeComponentViewTemplate()
+    {
+        $this->call('module:make-component-view', ['name' => $this->argument('name'), 'module' => $this->argument('module')]);
     }
 
     /**
@@ -83,10 +83,10 @@ class ComponentClassMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/component-class.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
-            'LOWER_NAME' => $module->getLowerName(),
-            'COMPONENT_NAME' => 'components.'.Str::lower($this->argument('name')),
+            'NAMESPACE'      => $this->getClassNamespace($module),
+            'CLASS'          => $this->getClass(),
+            'LOWER_NAME'     => $module->getLowerName(),
+            'COMPONENT_NAME' => 'components.' . Str::lower($this->argument('name')),
         ]))->render();
     }
 
@@ -95,11 +95,11 @@ class ComponentClassMakeCommand extends GeneratorCommand
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
         $factoryPath = GenerateConfigReader::read('component-class');
 
-        return $path.$factoryPath->getPath().'/'.$this->getFileName();
+        return $path . $factoryPath->getPath() . '/' . $this->getFileName();
     }
 
     private function getFileName(): string
     {
-        return Str::studly($this->argument('name')).'.php';
+        return Str::studly($this->argument('name')) . '.php';
     }
 }

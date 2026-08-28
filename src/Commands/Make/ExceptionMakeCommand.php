@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ExceptionMakeCommand extends GeneratorCommand
 {
@@ -26,9 +28,15 @@ class ExceptionMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('exceptions')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Exceptions';
+        $filePath = GenerateConfigReader::read('exceptions')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Exceptions';
 
-        return $path.$filePath.'/'.$this->getExceptionName().'.php';
+        return $path . $filePath . '/' . $this->getExceptionName() . '.php';
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.exceptions.namespace', 'Exceptions');
     }
 
     protected function getTemplateContents(): string
@@ -37,7 +45,7 @@ class ExceptionMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClassNameWithoutNamespace(),
+            'CLASS'           => $this->getClassNameWithoutNamespace(),
         ]))->render();
     }
 
@@ -65,17 +73,6 @@ class ExceptionMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
-    private function getClassNameWithoutNamespace(): string
-    {
-        return class_basename($this->getExceptionName());
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.exceptions.namespace', 'Exceptions');
-    }
-
     protected function getStubName(): string
     {
         if ($this->option('render')) {
@@ -87,5 +84,10 @@ class ExceptionMakeCommand extends GeneratorCommand
         return $this->option('report')
             ? '/exception-report.stub'
             : '/exception.stub';
+    }
+
+    private function getClassNameWithoutNamespace(): string
+    {
+        return class_basename($this->getExceptionName());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Console\Command;
@@ -43,7 +45,7 @@ class SetupCommand extends Command
         return $this->generateDirectory(
             $this->laravel['modules']->config('paths.modules'),
             'Modules directory created successfully',
-            'Modules directory already exist'
+            'Modules directory already exist',
         );
     }
 
@@ -55,7 +57,7 @@ class SetupCommand extends Command
         return $this->generateDirectory(
             $this->laravel['modules']->config('paths.assets'),
             'Assets directory created successfully',
-            'Assets directory already exist'
+            'Assets directory already exist',
         );
     }
 

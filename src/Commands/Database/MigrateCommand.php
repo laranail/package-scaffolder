@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
 use Override;
+use Symfony\Component\Console\Input\InputOption;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleMigrationPaths;
-use Symfony\Component\Console\Input\InputOption;
 
 class MigrateCommand extends BaseCommand
 {
@@ -42,10 +44,10 @@ class MigrateCommand extends BaseCommand
         }
 
         $this->call('migrate', array_filter([
-            '--path' => $paths,
+            '--path'     => $paths,
             '--database' => $this->option('database'),
-            '--pretend' => $this->option('pretend'),
-            '--force' => $this->option('force'),
+            '--pretend'  => $this->option('pretend'),
+            '--force'    => $this->option('force'),
             '--realpath' => true,
         ]));
 

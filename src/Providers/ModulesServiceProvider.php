@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\ProviderRepository;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Illuminate\Support\Str;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\ProviderRepository;
 use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 abstract class ModulesServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,15 @@ abstract class ModulesServiceProvider extends ServiceProvider
      */
     #[Override]
     public function register() {}
+
+    /**
+     * Get the services provided by the provider.
+     */
+    #[Override]
+    public function provides(): array
+    {
+        return [RepositoryInterface::class, 'modules'];
+    }
 
     /**
      * Register all modules.
@@ -42,8 +53,8 @@ abstract class ModulesServiceProvider extends ServiceProvider
      */
     protected function registerNamespaces()
     {
-        $configPath = __DIR__.'/../../config/config.php';
-        $stubsPath = dirname(__DIR__, 2).'/stubs';
+        $configPath = __DIR__ . '/../../config/config.php';
+        $stubsPath = dirname(__DIR__, 2) . '/stubs';
 
         // A path, not a dotted key: the config key is
         // `laranail.package-scaffolder.modules`, which Laravel reads from
@@ -61,7 +72,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
         ], 'laranail::package-scaffolder-stubs');
 
         $this->publishes([
-            __DIR__.'/../../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
+            __DIR__ . '/../../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
         ], 'laranail::package-scaffolder-vite');
     }
 
@@ -69,15 +80,6 @@ abstract class ModulesServiceProvider extends ServiceProvider
      * Register the service provider.
      */
     abstract protected function registerServices();
-
-    /**
-     * Get the services provided by the provider.
-     */
-    #[Override]
-    public function provides(): array
-    {
-        return [RepositoryInterface::class, 'modules'];
-    }
 
     /**
      * Register providers.

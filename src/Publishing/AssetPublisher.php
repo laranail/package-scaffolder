@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
@@ -25,7 +27,7 @@ class AssetPublisher extends Publisher
     public function getSourcePath(): string
     {
         return $this->getModule()->getExtraPath(
-            GenerateConfigReader::read('assets')->getPath()
+            GenerateConfigReader::read('assets')->getPath(),
         );
     }
 }

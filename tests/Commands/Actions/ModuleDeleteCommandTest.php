@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
-use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
+use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class ModuleDeleteCommandTest extends BaseTestCase
 {
@@ -107,8 +109,8 @@ class ModuleDeleteCommandTest extends BaseTestCase
 
         $this->assertSame(0, $code);
 
-        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DELETING, strtolower($module_name)));
-        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DELETED, strtolower($module_name)));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::DELETING, strtolower($module_name)));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::DELETED, strtolower($module_name)));
     }
 
     public function test_it_fires_events_when_multi_module_deleted(): void
@@ -130,8 +132,8 @@ class ModuleDeleteCommandTest extends BaseTestCase
         $this->assertSame(0, $code);
 
         foreach ($modules as $module) {
-            Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DELETING, strtolower($module)));
-            Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DELETED, strtolower($module)));
+            Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::DELETING, strtolower($module)));
+            Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::DELETED, strtolower($module)));
         }
     }
 }

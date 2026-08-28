@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class FactoryMakeCommand extends GeneratorCommand
 {
@@ -37,53 +39,6 @@ class FactoryMakeCommand extends GeneratorCommand
     protected $description = 'Create a new model factory for the specified module.';
 
     /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    #[Override]
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'The name of the model.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
-        ];
-    }
-
-    protected function getTemplateContents(): string
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub('/factory.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'NAME' => $this->getModelName(),
-            'MODEL_NAMESPACE' => $this->getModelNamespace(),
-        ]))->render();
-    }
-
-    protected function getDestinationFilePath(): string
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $factoryPath = GenerateConfigReader::read('factory');
-
-        return $path.$factoryPath->getPath().'/'.$this->getFileName();
-    }
-
-    private function getFileName(): string
-    {
-        return Str::studly($this->argument('name')).'Factory.php';
-    }
-
-    /**
-     * @return mixed|string
-     */
-    private function getModelName()
-    {
-        return Str::studly($this->argument('name'));
-    }
-
-    /**
      * Get default namespace.
      */
     #[Override]
@@ -102,6 +57,53 @@ class FactoryMakeCommand extends GeneratorCommand
 
         $path = str_replace('/', '\\', $path);
 
-        return $this->laravel['modules']->config('namespace').'\\'.$this->laravel['modules']->findOrFail($this->getModuleName()).'\\'.$path;
+        return $this->laravel['modules']->config('namespace') . '\\' . $this->laravel['modules']->findOrFail($this->getModuleName()) . '\\' . $path;
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    #[Override]
+    protected function getArguments()
+    {
+        return [
+            ['name', InputArgument::REQUIRED, 'The name of the model.'],
+            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+        ];
+    }
+
+    protected function getTemplateContents(): string
+    {
+        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+
+        return (new Stub('/factory.stub', [
+            'NAMESPACE'       => $this->getClassNamespace($module),
+            'NAME'            => $this->getModelName(),
+            'MODEL_NAMESPACE' => $this->getModelNamespace(),
+        ]))->render();
+    }
+
+    protected function getDestinationFilePath(): string
+    {
+        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+
+        $factoryPath = GenerateConfigReader::read('factory');
+
+        return $path . $factoryPath->getPath() . '/' . $this->getFileName();
+    }
+
+    private function getFileName(): string
+    {
+        return Str::studly($this->argument('name')) . 'Factory.php';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    private function getModelName()
+    {
+        return Str::studly($this->argument('name'));
     }
 }

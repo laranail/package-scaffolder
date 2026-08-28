@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class EventMakeCommandTest extends BaseTestCase
 {
@@ -33,7 +35,7 @@ class EventMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Events/PostWasCreated.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Events/PostWasCreated.php'));
         $this->assertSame(0, $code);
     }
 
@@ -41,7 +43,7 @@ class EventMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Events/PostWasCreated.php');
+        $file = $this->finder->get($this->modulePath . '/Events/PostWasCreated.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -53,7 +55,7 @@ class EventMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->getModuleBasePath().'/SuperEvents/PostWasCreated.php');
+        $file = $this->finder->get($this->getModuleBasePath() . '/SuperEvents/PostWasCreated.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -65,7 +67,7 @@ class EventMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Events/PostWasCreated.php');
+        $file = $this->finder->get($this->modulePath . '/Events/PostWasCreated.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

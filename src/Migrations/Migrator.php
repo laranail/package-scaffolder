@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Migrations;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Contracts\Foundation\Application;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class Migrator
 {
@@ -40,7 +42,7 @@ class Migrator
     /**
      * Create new instance.
      *
-     * @param  string|null  $subpath
+     * @param string|null $subpath
      */
     public function __construct(Module $module, Application $application, $subpath = null)
     {
@@ -82,14 +84,14 @@ class Migrator
     /**
      * Get migration files.
      *
-     * @param  bool  $reverse
+     * @param bool $reverse
      */
     public function getMigrations($reverse = false): array
     {
         if (! empty($this->subpath)) {
-            $files = $this->laravel['files']->glob($this->getPath().'/'.$this->subpath);
+            $files = $this->laravel['files']->glob($this->getPath() . '/' . $this->subpath);
         } else {
-            $files = $this->laravel['files']->glob($this->getPath().'/*_*.php');
+            $files = $this->laravel['files']->glob($this->getPath() . '/*_*.php');
         }
 
         // Once we have the array of files in the directory we will just remove the
@@ -192,8 +194,8 @@ class Migrator
 
         $class = Str::studly($name);
 
-        if (! class_exists($class) && file_exists($this->getPath().'/'.$file.'.php')) {
-            return include $this->getPath().'/'.$file.'.php';
+        if (! class_exists($class) && file_exists($this->getPath() . '/' . $file . '.php')) {
+            return include $this->getPath() . '/' . $file . '.php';
         }
 
         return new $class;
@@ -206,7 +208,7 @@ class Migrator
     {
         $path = $this->getPath();
         foreach ($files as $file) {
-            $this->laravel['files']->requireOnce($path.'/'.$file.'.php');
+            $this->laravel['files']->requireOnce($path . '/' . $file . '.php');
         }
     }
 
@@ -223,7 +225,8 @@ class Migrator
     /**
      * Find migration data from database by given migration name.
      *
-     * @param  string  $migration
+     * @param string $migration
+     *
      * @return object
      */
     public function find($migration)
@@ -234,13 +237,13 @@ class Migrator
     /**
      * Save new migration to database.
      *
-     * @param  string  $migration
+     * @param string $migration
      */
     public function log($migration)
     {
         return $this->table()->insert([
             'migration' => $migration,
-            'batch' => $this->getNextBatchNumber(),
+            'batch'     => $this->getNextBatchNumber(),
         ]);
     }
 
@@ -257,7 +260,8 @@ class Migrator
     /**
      * Get the last migration batch number.
      *
-     * @param  array|null  $migrations
+     * @param array|null $migrations
+     *
      * @return int
      */
     public function getLastBatchNumber($migrations = null)
@@ -274,7 +278,8 @@ class Migrator
     /**
      * Get the last migration batch.
      *
-     * @param  array  $migrations
+     * @param array $migrations
+     *
      * @return Collection
      */
     public function getLast($migrations)

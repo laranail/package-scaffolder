@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
 use Arr;
@@ -9,8 +11,6 @@ use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 
 class CheckLangCommand extends BaseCommand
 {
-    private string $langPath;
-
     /**
      * The console command name.
      *
@@ -27,11 +27,13 @@ class CheckLangCommand extends BaseCommand
      */
     protected $description = 'Check missing language keys in the specified module.';
 
+    private string $langPath;
+
     public function __construct()
     {
         parent::__construct();
 
-        $this->langPath = DIRECTORY_SEPARATOR.config('laranail.package-scaffolder.modules.paths.generator.lang.path', 'Resources/lang');
+        $this->langPath = DIRECTORY_SEPARATOR . config('laranail.package-scaffolder.modules.paths.generator.lang.path', 'Resources/lang');
     }
 
     public function executeAction($name): void
@@ -61,7 +63,7 @@ class CheckLangCommand extends BaseCommand
     private function getLangFiles($module): array
     {
         $files = [];
-        $path = $module->getPath().$this->langPath;
+        $path = $module->getPath() . $this->langPath;
         if (is_dir($path)) {
             return array_merge($files, $this->laravel['files']->all($path));
         }
@@ -72,15 +74,15 @@ class CheckLangCommand extends BaseCommand
     private function getDirectories($module): false|Collection
     {
         $moduleName = $module->getStudlyName();
-        $path = $module->getPath().$this->langPath;
+        $path = $module->getPath() . $this->langPath;
         $directories = [];
         if (is_dir($path)) {
             $directories = $this->laravel['files']->directories($path);
             $directories = array_map(fn ($directory): array => [
-                'name' => basename($directory),
+                'name'   => basename($directory),
                 'module' => $moduleName,
-                'path' => $directory,
-                'files' => array_map(basename(...), File::glob($directory.DIRECTORY_SEPARATOR.'*')),
+                'path'   => $directory,
+                'files'  => array_map(basename(...), File::glob($directory . DIRECTORY_SEPARATOR . '*')),
             ], $directories);
         }
 
@@ -125,7 +127,7 @@ class CheckLangCommand extends BaseCommand
                 $this->components->error("Missing language files in $langDirectory directory");
 
                 $this->components->bulletList(
-                    collect($messages)->unique()->values()->toArray()
+                    collect($messages)->unique()->values()->toArray(),
                 );
 
                 $this->newLine();
@@ -146,7 +148,7 @@ class CheckLangCommand extends BaseCommand
         $directories->each(function ($directory) use ($uniqeLangFiles, $langDirectories, &$missingKeysMessage): void {
 
             $uniqeLangFiles->each(function (string $file) use ($directory, $langDirectories, &$missingKeysMessage): void {
-                $langKeys = $this->getLangKeys($directory['path'].DIRECTORY_SEPARATOR.$file);
+                $langKeys = $this->getLangKeys($directory['path'] . DIRECTORY_SEPARATOR . $file);
 
                 if ($langKeys == false) {
                     return;
@@ -158,7 +160,7 @@ class CheckLangCommand extends BaseCommand
 
                         $basePath = str_replace($directory['name'], $langDirectory, $directory['path']);
 
-                        $otherLangKeys = $this->getLangKeys($basePath.DIRECTORY_SEPARATOR.$file);
+                        $otherLangKeys = $this->getLangKeys($basePath . DIRECTORY_SEPARATOR . $file);
 
                         if ($otherLangKeys == false) {
                             return;
@@ -184,7 +186,7 @@ class CheckLangCommand extends BaseCommand
                 $this->components->error("Missing language keys for directory $langDirectory:");
 
                 $this->components->bulletList(
-                    collect($messages)->unique()->values()->toArray()
+                    collect($messages)->unique()->values()->toArray(),
                 );
 
                 $this->newLine();

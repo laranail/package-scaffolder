@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
 use Override;
+use Symfony\Component\Console\Input\InputOption;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 class MigrateRefreshCommand extends BaseCommand implements ConfirmableCommand
 {
@@ -31,15 +33,15 @@ class MigrateRefreshCommand extends BaseCommand implements ConfirmableCommand
 
         $this->components->task("Refreshing Migration {$module->getName()} module", function () use ($module): void {
             $this->call('module:migrate-reset', [
-                'module' => $module->getStudlyName(),
+                'module'     => $module->getStudlyName(),
                 '--database' => $this->option('database'),
-                '--force' => $this->option('force'),
+                '--force'    => $this->option('force'),
             ]);
 
             $this->call('module:migrate', [
-                'module' => $module->getStudlyName(),
+                'module'     => $module->getStudlyName(),
                 '--database' => $this->option('database'),
-                '--force' => $this->option('force'),
+                '--force'    => $this->option('force'),
             ]);
 
             if ($this->option('seed')) {

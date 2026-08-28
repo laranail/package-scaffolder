@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class JobMakeCommand extends GeneratorCommand
 {
@@ -75,7 +77,7 @@ class JobMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
+            'CLASS'     => $this->getClass(),
         ]))->render();
     }
 
@@ -88,15 +90,7 @@ class JobMakeCommand extends GeneratorCommand
 
         $jobPath = GenerateConfigReader::read('jobs');
 
-        return $path.$jobPath->getPath().'/'.$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
+        return $path . $jobPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     protected function getStubName(): string
@@ -106,5 +100,13 @@ class JobMakeCommand extends GeneratorCommand
         }
 
         return '/job-queued.stub';
+    }
+
+    /**
+     * @return string
+     */
+    private function getFileName()
+    {
+        return Str::studly($this->argument('name'));
     }
 }

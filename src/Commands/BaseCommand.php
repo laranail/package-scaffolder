@@ -1,23 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Closure;
-use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Console\Prohibitable;
-use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Support\Collection;
 use Override;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
+use Illuminate\Console\Prohibitable;
+use Illuminate\Console\ConfirmableTrait;
 
 use function Laravel\Prompts\multisearch;
+
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 
 abstract class BaseCommand extends Command implements PromptsForMissingInput
 {
@@ -39,7 +42,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
                 shortcut: 'a',
                 mode: InputOption::VALUE_NONE,
                 description: 'Check all Modules',
-            )
+            ),
         );
 
         $this->getDefinition()->addArgument(
@@ -47,7 +50,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
                 name: 'module',
                 mode: InputArgument::IS_ARRAY,
                 description: 'The name of module will be used.',
-            )
+            ),
         );
 
         if ($this instanceof ConfirmableCommand) {
@@ -124,7 +127,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
             'module',
             value: in_array(self::ALL, $selected_item)
                 ? $modules
-                : $selected_item
+                : $selected_item,
         );
     }
 
@@ -143,7 +146,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
                     name: 'force',
                     mode: InputOption::VALUE_NONE,
                     description: 'Force the operation to run without confirmation.',
-                )
+                ),
             );
     }
 }

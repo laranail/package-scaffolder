@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Support\Migrations;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Support\Arrayable;
 
 class SchemaParser implements Arrayable
 {
@@ -13,7 +15,7 @@ class SchemaParser implements Arrayable
      */
     protected array $customAttributes = [
         'remember_token' => 'rememberToken()',
-        'soft_delete' => 'softDeletes()',
+        'soft_delete'    => 'softDeletes()',
     ];
 
     /**
@@ -128,62 +130,7 @@ class SchemaParser implements Arrayable
             }
         }
 
-        return $results.';'.PHP_EOL;
-    }
-
-    /**
-     * Add relation column.
-     */
-    protected function addRelationColumn(int $key, string $field, ?string $column = null): string
-    {
-        if ($key === 0) {
-            $relatedColumn = Str::snake(class_basename($field)).'_id';
-
-            return "->integer('{$relatedColumn}')->unsigned();".PHP_EOL."\t\t\t"."\$table->foreign('{$relatedColumn}')";
-        }
-        if ($key === 1) {
-            return "->references('{$field}')";
-        }
-        if ($key === 2) {
-            return "->on('{$field}')";
-        }
-        if (Str::contains($field, '(')) {
-            return '->'.$field;
-        }
-
-        return '->'.$field.'()';
-    }
-
-    /**
-     * Format field to script.
-     */
-    protected function addColumn(int $key, string $field, string $column): string
-    {
-        if ($this->hasCustomAttribute($column)) {
-            return '->'.$field;
-        }
-
-        if ($key === 0) {
-            return '->'.$field."('".$column."')";
-        }
-
-        if (Str::contains($field, '(')) {
-            return '->'.$field;
-        }
-
-        return '->'.$field.'()';
-    }
-
-    /**
-     * Format field to script.
-     */
-    protected function removeColumn(int $key, string $field, string $column): string
-    {
-        if ($this->hasCustomAttribute($column)) {
-            return '->'.$field;
-        }
-
-        return '->dropColumn(\''.$column."')";
+        return $results . ';' . PHP_EOL;
     }
 
     /**
@@ -199,7 +146,7 @@ class SchemaParser implements Arrayable
      */
     public function getAttributes(string $column, string $schema): array
     {
-        $fields = str_replace($column.':', '', $schema);
+        $fields = str_replace($column . ':', '', $schema);
 
         return $this->hasCustomAttribute($column) ? $this->getCustomAttribute($column) : explode(':', $fields);
     }
@@ -218,5 +165,60 @@ class SchemaParser implements Arrayable
     public function getCustomAttribute(string $column): array
     {
         return (array) $this->customAttributes[$column];
+    }
+
+    /**
+     * Add relation column.
+     */
+    protected function addRelationColumn(int $key, string $field, ?string $column = null): string
+    {
+        if ($key === 0) {
+            $relatedColumn = Str::snake(class_basename($field)) . '_id';
+
+            return "->integer('{$relatedColumn}')->unsigned();" . PHP_EOL . "\t\t\t" . "\$table->foreign('{$relatedColumn}')";
+        }
+        if ($key === 1) {
+            return "->references('{$field}')";
+        }
+        if ($key === 2) {
+            return "->on('{$field}')";
+        }
+        if (Str::contains($field, '(')) {
+            return '->' . $field;
+        }
+
+        return '->' . $field . '()';
+    }
+
+    /**
+     * Format field to script.
+     */
+    protected function addColumn(int $key, string $field, string $column): string
+    {
+        if ($this->hasCustomAttribute($column)) {
+            return '->' . $field;
+        }
+
+        if ($key === 0) {
+            return '->' . $field . "('" . $column . "')";
+        }
+
+        if (Str::contains($field, '(')) {
+            return '->' . $field;
+        }
+
+        return '->' . $field . '()';
+    }
+
+    /**
+     * Format field to script.
+     */
+    protected function removeColumn(int $key, string $field, string $column): string
+    {
+        if ($this->hasCustomAttribute($column)) {
+            return '->' . $field;
+        }
+
+        return '->dropColumn(\'' . $column . "')";
     }
 }

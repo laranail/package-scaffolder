@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Activators;
 
-use Illuminate\Filesystem\Filesystem;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
+use Illuminate\Filesystem\Filesystem;
+use Spatie\Snapshots\MatchesSnapshots;
 use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
-use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Activators\FileActivator;
 
 class FileActivatorTest extends BaseTestCase
 {
@@ -22,7 +24,7 @@ class FileActivatorTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->module = new TestModule($this->app, 'Recipe', __DIR__.'/stubs/valid/Recipe');
+        $this->module = new TestModule($this->app, 'Recipe', __DIR__ . '/stubs/valid/Recipe');
         $this->finder = $this->app['files'];
         $this->activator = new FileActivator($this->app);
     }

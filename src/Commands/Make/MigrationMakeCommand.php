@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
+use Override;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
-use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\NameParser;
-use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\SchemaParser;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\NameParser;
+use Simtabi\Laranail\Package\Scaffolder\Support\Migrations\SchemaParser;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class MigrationMakeCommand extends GeneratorCommand
 {
@@ -32,6 +34,40 @@ class MigrationMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $description = 'Create a new migration for the specified module.';
+
+    /**
+     * Get schema parser.
+     */
+    public function getSchemaParser(): SchemaParser
+    {
+        return new SchemaParser($this->option('fields'));
+    }
+
+    #[Override]
+    public function getClass()
+    {
+        return $this->getClassName();
+    }
+
+    /**
+     * Run the command.
+     */
+    #[Override]
+    public function handle(): int
+    {
+
+        $this->components->info('Creating migration...');
+
+        if (parent::handle() === E_ERROR) {
+            return E_ERROR;
+        }
+
+        if (app()->environment() === 'testing') {
+            return 0;
+        }
+
+        return 0;
+    }
 
     /**
      * Get the console command arguments.
@@ -62,14 +98,6 @@ class MigrationMakeCommand extends GeneratorCommand
     }
 
     /**
-     * Get schema parser.
-     */
-    public function getSchemaParser(): SchemaParser
-    {
-        return new SchemaParser($this->option('fields'));
-    }
-
-    /**
      * @throws InvalidArgumentException
      */
     protected function getTemplateContents(): string
@@ -77,40 +105,40 @@ class MigrationMakeCommand extends GeneratorCommand
         $parser = new NameParser($this->argument('name'));
         if ($parser->isCreate()) {
             return (string) Stub::create('/migration/create.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields' => $this->getSchemaParser()->render(),
-                'module' => $this->getModuleName(),
+                'class'            => $this->getClass(),
+                'table'            => $parser->getTableName(),
+                'fields'           => $this->getSchemaParser()->render(),
+                'module'           => $this->getModuleName(),
                 'module_namespace' => $this->laravel['modules']->config('namespace'),
             ]);
         }
         if ($parser->isAdd()) {
             return (string) Stub::create('/migration/add.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields_up' => $this->getSchemaParser()->up(),
-                'fields_down' => $this->getSchemaParser()->down(),
-                'module' => $this->getModuleName(),
+                'class'            => $this->getClass(),
+                'table'            => $parser->getTableName(),
+                'fields_up'        => $this->getSchemaParser()->up(),
+                'fields_down'      => $this->getSchemaParser()->down(),
+                'module'           => $this->getModuleName(),
                 'module_namespace' => $this->laravel['modules']->config('namespace'),
             ]);
         }
         if ($parser->isDelete()) {
             return (string) Stub::create('/migration/delete.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields_down' => $this->getSchemaParser()->up(),
-                'fields_up' => $this->getSchemaParser()->down(),
-                'module' => $this->getModuleName(),
+                'class'            => $this->getClass(),
+                'table'            => $parser->getTableName(),
+                'fields_down'      => $this->getSchemaParser()->up(),
+                'fields_up'        => $this->getSchemaParser()->down(),
+                'module'           => $this->getModuleName(),
                 'module_namespace' => $this->laravel['modules']->config('namespace'),
             ]);
         }
 
         if ($parser->isDrop()) {
             return (string) Stub::create('/migration/drop.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields' => $this->getSchemaParser()->render(),
-                'module' => $this->getModuleName(),
+                'class'            => $this->getClass(),
+                'table'            => $parser->getTableName(),
+                'fields'           => $this->getSchemaParser()->render(),
+                'module'           => $this->getModuleName(),
                 'module_namespace' => $this->laravel['modules']->config('namespace'),
             ]);
         }
@@ -126,12 +154,12 @@ class MigrationMakeCommand extends GeneratorCommand
 
         $generatorPath = GenerateConfigReader::read('migration');
 
-        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     private function getFileName(): string
     {
-        return date('Y_m_d_His_').$this->getSchemaName();
+        return date('Y_m_d_His_') . $this->getSchemaName();
     }
 
     /**
@@ -148,31 +176,5 @@ class MigrationMakeCommand extends GeneratorCommand
     private function getClassName()
     {
         return Str::studly($this->argument('name'));
-    }
-
-    #[Override]
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
-    /**
-     * Run the command.
-     */
-    #[Override]
-    public function handle(): int
-    {
-
-        $this->components->info('Creating migration...');
-
-        if (parent::handle() === E_ERROR) {
-            return E_ERROR;
-        }
-
-        if (app()->environment() === 'testing') {
-            return 0;
-        }
-
-        return 0;
     }
 }

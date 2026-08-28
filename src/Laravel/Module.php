@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Laravel;
 
+use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\ProviderRepository;
-use Illuminate\Support\Str;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module as BaseModule;
 
 class Module extends BaseModule
@@ -18,10 +20,10 @@ class Module extends BaseModule
         // This checks if we are running on a Laravel Vapor managed instance
         // and sets the path to a writable one (services path is not on a writable storage in Vapor).
         if (config('laranail.package-scaffolder.modules.vapor_maintenance_mode')) {
-            return Str::replaceLast('config.php', $this->getSnakeName().'_module.php', $this->app->getCachedConfigPath());
+            return Str::replaceLast('config.php', $this->getSnakeName() . '_module.php', $this->app->getCachedConfigPath());
         }
 
-        return Str::replaceLast('services.php', $this->getSnakeName().'_module.php', $this->app->getCachedServicesPath());
+        return Str::replaceLast('services.php', $this->getSnakeName() . '_module.php', $this->app->getCachedServicesPath());
     }
 
     /**

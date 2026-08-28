@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
 use Override;
+use Symfony\Component\Console\Input\InputOption;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleMigrationPaths;
-use Symfony\Component\Console\Input\InputOption;
 
 class MigrateStatusCommand extends BaseCommand
 {
@@ -40,7 +42,7 @@ class MigrateStatusCommand extends BaseCommand
         }
 
         $this->call('migrate:status', array_filter([
-            '--path' => $paths,
+            '--path'     => $paths,
             '--database' => $this->option('database'),
             '--realpath' => true,
         ]));

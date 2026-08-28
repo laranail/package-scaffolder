@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Support\Migrations;
 
 class NameParser
@@ -90,17 +92,9 @@ class NameParser
     {
         return match ($action = $this->getAction()) {
             'add', 'append', 'update', 'insert' => "/{$action}_(.*)_to_(.*)_table/",
-            'delete', 'remove', 'alter' => "/{$action}_(.*)_from_(.*)_table/",
-            default => "/{$action}_(.*)_table/",
+            'delete', 'remove', 'alter'         => "/{$action}_(.*)_from_(.*)_table/",
+            default                             => "/{$action}_(.*)_table/",
         };
-    }
-
-    /**
-     * Fetch the migration name to an array data.
-     */
-    protected function fetchData(): array
-    {
-        return explode('_', $this->name);
     }
 
     /**
@@ -149,5 +143,13 @@ class NameParser
     public function isDrop(): bool
     {
         return in_array($this->getAction(), $this->actions['drop']);
+    }
+
+    /**
+     * Fetch the migration name to an array data.
+     */
+    protected function fetchData(): array
+    {
+        return explode('_', $this->name);
     }
 }

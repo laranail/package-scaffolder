@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ReplacementMakeCommand extends GeneratorCommand
 {
@@ -32,9 +34,16 @@ class ReplacementMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('command_replacements')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Console/Replacements';
+        $filePath = GenerateConfigReader::read('command_replacements')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Console/Replacements';
 
-        return $path.$filePath.'/'.$this->getFileName().'.php';
+        return $path . $filePath . '/' . $this->getFileName() . '.php';
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.command_replacements.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.command_replacements.path', 'Console/Replacements'));
     }
 
     protected function getTemplateContents(): string
@@ -43,7 +52,7 @@ class ReplacementMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClassNameWithoutNamespace(),
+            'CLASS'     => $this->getClassNameWithoutNamespace(),
         ]))->render();
     }
 
@@ -69,20 +78,13 @@ class ReplacementMakeCommand extends GeneratorCommand
         return Str::studly($this->argument('name'));
     }
 
-    private function getClassNameWithoutNamespace(): string
-    {
-        return class_basename($this->getFileName());
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.command_replacements.namespace')
-            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.command_replacements.path', 'Console/Replacements'));
-    }
-
     protected function getStubName(): string
     {
         return '/replacement.stub';
+    }
+
+    private function getClassNameWithoutNamespace(): string
+    {
+        return class_basename($this->getFileName());
     }
 }

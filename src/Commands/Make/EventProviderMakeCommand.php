@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class EventProviderMakeCommand extends GeneratorCommand
 {
@@ -28,7 +30,14 @@ class EventProviderMakeCommand extends GeneratorCommand
 
         $filePath = GenerateConfigReader::read('provider')->getPath();
 
-        return $path.$filePath.'/'.$this->getEventServiceProviderName().'.php';
+        return $path . $filePath . '/' . $this->getEventServiceProviderName() . '.php';
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.provider.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Providers'));
     }
 
     protected function getTemplateContents(): string
@@ -37,7 +46,7 @@ class EventProviderMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClassNameWithoutNamespace(),
+            'CLASS'     => $this->getClassNameWithoutNamespace(),
         ]))->render();
     }
 
@@ -62,20 +71,13 @@ class EventProviderMakeCommand extends GeneratorCommand
         return Str::studly('EventServiceProvider');
     }
 
-    private function getClassNameWithoutNamespace(): string
-    {
-        return class_basename($this->getEventServiceProviderName());
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.provider.namespace')
-            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Providers'));
-    }
-
     protected function getStubName(): string
     {
         return '/event-provider.stub';
+    }
+
+    private function getClassNameWithoutNamespace(): string
+    {
+        return class_basename($this->getEventServiceProviderName());
     }
 }

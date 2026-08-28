@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
 use Illuminate\Console\Command;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Exceptions\FileAlreadyExistException;
-use Simtabi\Laranail\Package\Scaffolder\Generators\FileGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Generators\FileGenerator;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\FileAlreadyExistException;
 
 abstract class GeneratorCommand extends Command
 {
@@ -20,20 +22,6 @@ abstract class GeneratorCommand extends Command
      * @var string
      */
     protected $argumentName = '';
-
-    /**
-     * Get template contents.
-     *
-     * @return string
-     */
-    abstract protected function getTemplateContents();
-
-    /**
-     * Get the destination file path.
-     *
-     * @return string
-     */
-    abstract protected function getDestinationFilePath();
 
     /**
      * Execute the console command.
@@ -83,18 +71,33 @@ abstract class GeneratorCommand extends Command
     /**
      * Get class namespace.
      *
-     * @param  Module  $module
+     * @param Module $module
+     *
      * @return string
      */
     public function getClassNamespace($module)
     {
         $path_namespace = $this->path_namespace(str_replace($this->getClass(), '', $this->argument($this->argumentName)));
 
-        return $this->module_namespace($module->getStudlyName(), $this->getDefaultNamespace().($path_namespace !== '' && $path_namespace !== '0' ? '\\'.$path_namespace : ''));
+        return $this->module_namespace($module->getStudlyName(), $this->getDefaultNamespace() . ($path_namespace !== '' && $path_namespace !== '0' ? '\\' . $path_namespace : ''));
     }
 
     public function module(?string $name = null): Module
     {
         return $this->laravel['modules']->findOrFail($name ?? $this->getModuleName());
     }
+
+    /**
+     * Get template contents.
+     *
+     * @return string
+     */
+    abstract protected function getTemplateContents();
+
+    /**
+     * Get the destination file path.
+     *
+     * @return string
+     */
+    abstract protected function getDestinationFilePath();
 }

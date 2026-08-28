@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Vite as ViteFacade;
-use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
-use Simtabi\Laranail\Package\Scaffolder\Repositories\FileRepository;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Package\Scaffolder\Repositories\FileRepository;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
 
 if (! function_exists('module')) {
     /**
      * Retrieves a module status or its instance.
      *
-     * @param  string  $name  The name of the module.
-     * @param  bool  $instance  Whether to return the module's instance instead of the status. Defaults to false [status].
+     * @param string $name The name of the module.
+     * @param bool $instance Whether to return the module's instance instead of the status. Defaults to false [status].
+     *
      * @return bool|Module The module instance or its status.
      */
     function module(string $name, bool $instance = false): bool|Module
@@ -39,12 +42,12 @@ if (! function_exists('module_path')) {
             // or constrained runtimes like NativePHP). Fall back to the
             // configured modules path so callers get a sane path instead of a
             // fatal "getPath() on null".
-            $base = config('laranail.package-scaffolder.modules.paths.modules', base_path('Modules')).DIRECTORY_SEPARATOR.$name;
+            $base = config('laranail.package-scaffolder.modules.paths.modules', base_path('Modules')) . DIRECTORY_SEPARATOR . $name;
 
-            return $base.($path ? DIRECTORY_SEPARATOR.$path : $path);
+            return $base . ($path ? DIRECTORY_SEPARATOR . $path : $path);
         }
 
-        return $module->getPath().($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $module->getPath() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
@@ -57,9 +60,9 @@ if (! function_exists('artifact_path')) {
     function artifact_path(string $role, string $name, string $path = ''): string
     {
         $container = (string) config("artifacts.kinds.{$role}", "platform/{$role}s");
-        $base = base_path($container).DIRECTORY_SEPARATOR.$name;
+        $base = base_path($container) . DIRECTORY_SEPARATOR . $name;
 
-        return $path === '' ? $base : $base.DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+        return $path === '' ? $base : $base . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
     }
 }
 
@@ -83,7 +86,7 @@ if (! function_exists('config_path')) {
      */
     function config_path(string $path = ''): string
     {
-        return app()->basePath().'/config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app()->basePath() . '/config' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
@@ -93,7 +96,7 @@ if (! function_exists('public_path')) {
      */
     function public_path(string $path = ''): string
     {
-        return app()->make('path.public').($path ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : $path);
+        return app()->make('path.public') . ($path ? DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR) : $path);
     }
 }
 

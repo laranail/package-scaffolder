@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Lumen;
 
 use Illuminate\Support\Str;
@@ -12,7 +14,7 @@ class Module extends BaseModule
      */
     public function getCachedServicesPath(): string
     {
-        return Str::replaceLast('services.php', $this->getSnakeName().'_module.php', $this->app->basePath('storage/app/').'services.php');
+        return Str::replaceLast('services.php', $this->getSnakeName() . '_module.php', $this->app->basePath('storage/app/') . 'services.php');
     }
 
     /**

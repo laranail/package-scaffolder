@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class EventMakeCommand extends GeneratorCommand
 {
@@ -37,7 +39,7 @@ class EventMakeCommand extends GeneratorCommand
 
         return (new Stub('/event.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
+            'CLASS'     => $this->getClass(),
         ]))->render();
     }
 
@@ -47,7 +49,14 @@ class EventMakeCommand extends GeneratorCommand
 
         $eventPath = GenerateConfigReader::read('event');
 
-        return $path.$eventPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $eventPath->getPath() . '/' . $this->getFileName() . '.php';
+    }
+
+    #[Override]
+    public function getDefaultNamespace(): string
+    {
+        return config('laranail.package-scaffolder.modules.paths.generator.event.namespace')
+            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.event.path', 'Events'));
     }
 
     /**
@@ -56,13 +65,6 @@ class EventMakeCommand extends GeneratorCommand
     protected function getFileName()
     {
         return Str::studly($this->argument('name'));
-    }
-
-    #[Override]
-    public function getDefaultNamespace(): string
-    {
-        return config('laranail.package-scaffolder.modules.paths.generator.event.namespace')
-            ?? $this->strip_app_folder(config('laranail.package-scaffolder.modules.paths.generator.event.path', 'Events'));
     }
 
     /**

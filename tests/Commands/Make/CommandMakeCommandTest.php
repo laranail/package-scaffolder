@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class CommandMakeCommandTest extends BaseTestCase
 {
@@ -33,7 +35,7 @@ class CommandMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-command', ['name' => 'MyAwesomeCommand', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Console/MyAwesomeCommand.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Console/MyAwesomeCommand.php'));
         $this->assertSame(0, $code);
     }
 
@@ -41,7 +43,7 @@ class CommandMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-command', ['name' => 'MyAwesomeCommand', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Console/MyAwesomeCommand.php');
+        $file = $this->finder->get($this->modulePath . '/Console/MyAwesomeCommand.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -51,10 +53,10 @@ class CommandMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan(
             'module:make-command',
-            ['name' => 'MyAwesomeCommand', 'module' => 'Blog', '--command' => 'my:awesome']
+            ['name' => 'MyAwesomeCommand', 'module' => 'Blog', '--command' => 'my:awesome'],
         );
 
-        $file = $this->finder->get($this->modulePath.'/Console/MyAwesomeCommand.php');
+        $file = $this->finder->get($this->modulePath . '/Console/MyAwesomeCommand.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -66,7 +68,7 @@ class CommandMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/CustomCommands/AwesomeCommand.php');
+        $file = $this->finder->get($this->modulePath . '/CustomCommands/AwesomeCommand.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -78,7 +80,7 @@ class CommandMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Console/AwesomeCommand.php');
+        $file = $this->finder->get($this->modulePath . '/Console/AwesomeCommand.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

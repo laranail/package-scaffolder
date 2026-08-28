@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class ProviderMakeCommandTest extends BaseTestCase
 {
@@ -33,7 +35,7 @@ class ProviderMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-provider', ['name' => 'MyBlogServiceProvider', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Providers/MyBlogServiceProvider.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Providers/MyBlogServiceProvider.php'));
         $this->assertSame(0, $code);
     }
 
@@ -41,7 +43,7 @@ class ProviderMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-provider', ['name' => 'MyBlogServiceProvider', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Providers/MyBlogServiceProvider.php');
+        $file = $this->finder->get($this->modulePath . '/Providers/MyBlogServiceProvider.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -51,7 +53,7 @@ class ProviderMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-provider', ['name' => 'BlogServiceProvider', 'module' => 'Blog', '--master' => true]);
 
-        $file = $this->finder->get($this->modulePath.'/Providers/BlogServiceProvider.php');
+        $file = $this->finder->get($this->modulePath . '/Providers/BlogServiceProvider.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -62,7 +64,7 @@ class ProviderMakeCommandTest extends BaseTestCase
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.migration', 'migrations');
         $code = $this->artisan('module:make-provider', ['name' => 'BlogServiceProvider', 'module' => 'Blog', '--master' => true]);
 
-        $file = $this->finder->get($this->modulePath.'/Providers/BlogServiceProvider.php');
+        $file = $this->finder->get($this->modulePath . '/Providers/BlogServiceProvider.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -74,7 +76,7 @@ class ProviderMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-provider', ['name' => 'BlogServiceProvider', 'module' => 'Blog', '--master' => true]);
 
-        $file = $this->finder->get($this->getModuleBasePath().'/SuperProviders/BlogServiceProvider.php');
+        $file = $this->finder->get($this->getModuleBasePath() . '/SuperProviders/BlogServiceProvider.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -86,7 +88,7 @@ class ProviderMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-provider', ['name' => 'BlogServiceProvider', 'module' => 'Blog', '--master' => true]);
 
-        $file = $this->finder->get($this->modulePath.'/Providers/BlogServiceProvider.php');
+        $file = $this->finder->get($this->modulePath . '/Providers/BlogServiceProvider.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

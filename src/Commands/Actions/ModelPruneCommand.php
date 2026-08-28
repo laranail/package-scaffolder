@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
-use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Database\Console\PruneCommand;
-use Illuminate\Support\Collection;
+use Override;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Override;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
 
 use function Laravel\Prompts\multiselect;
+
+use Illuminate\Database\Console\PruneCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 
 #[AsCommand(name: 'laranail::package-scaffolder.prune')]
 class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
@@ -75,7 +78,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
             'module',
             value: in_array(self::ALL, $selected_item)
                 ? [self::ALL]
-                : $selected_item
+                : $selected_item,
         );
     }
 
@@ -101,14 +104,14 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
             $path = sprintf(
                 '%s/*/%s',
                 config('laranail.package-scaffolder.modules.paths.modules'),
-                config('laranail.package-scaffolder.modules.paths.generator.model.path')
+                config('laranail.package-scaffolder.modules.paths.generator.model.path'),
             );
         } else {
             $path = collect($modules)->map(fn ($module): string => sprintf(
                 '%s/%s/%s',
                 config('laranail.package-scaffolder.modules.paths.modules'),
                 $module,
-                config('laranail.package-scaffolder.modules.paths.generator.model.path')
+                config('laranail.package-scaffolder.modules.paths.generator.model.path'),
             ))
                 ->filter(fn ($path): bool => is_dir($path))
                 ->toArray();
@@ -119,10 +122,10 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
 
                 $namespace = config('laranail.package-scaffolder.modules.namespace');
 
-                return $namespace.str_replace(
+                return $namespace . str_replace(
                     ['/', '.php'],
                     ['\\', ''],
-                    Str::after($model->getRealPath(), realpath(config('laranail.package-scaffolder.modules.paths.modules')))
+                    Str::after($model->getRealPath(), realpath(config('laranail.package-scaffolder.modules.paths.modules'))),
                 );
             })
             ->values()

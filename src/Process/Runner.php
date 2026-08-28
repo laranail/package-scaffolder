@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simtabi\Laranail\Package\Scaffolder\Process;
 
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RunableInterface;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class Runner implements RunableInterface
 {
