@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Spatie\Snapshots\MatchesSnapshots;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class RequestMakeCommandTest extends BaseTestCase
 {
@@ -35,7 +35,7 @@ class RequestMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/Http/Requests/CreateBlogPostRequest.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Http/Requests/CreateBlogPostRequest.php'));
         $this->assertSame(0, $code);
     }
 
@@ -43,7 +43,7 @@ class RequestMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Http/Requests/CreateBlogPostRequest.php');
+        $file = $this->finder->get($this->modulePath.'/Http/Requests/CreateBlogPostRequest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -55,7 +55,7 @@ class RequestMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->getModuleBasePath() . '/SuperRequests/CreateBlogPostRequest.php');
+        $file = $this->finder->get($this->getModuleBasePath().'/SuperRequests/CreateBlogPostRequest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -67,7 +67,7 @@ class RequestMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Http/Requests/CreateBlogPostRequest.php');
+        $file = $this->finder->get($this->modulePath.'/Http/Requests/CreateBlogPostRequest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

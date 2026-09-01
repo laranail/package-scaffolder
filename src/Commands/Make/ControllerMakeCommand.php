@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ControllerMakeCommand extends GeneratorCommand
 {
@@ -48,7 +48,7 @@ class ControllerMakeCommand extends GeneratorCommand
 
         $controllerPath = GenerateConfigReader::read('controller');
 
-        return $path . $controllerPath->getPath() . '/' . $this->getControllerName() . '.php';
+        return $path.$controllerPath->getPath().'/'.$this->getControllerName().'.php';
     }
 
     #[Override]
@@ -63,15 +63,15 @@ class ControllerMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
-            'MODULENAME'       => $module->getStudlyName(),
-            'CONTROLLERNAME'   => $this->getControllerName(),
-            'NAMESPACE'        => $module->getStudlyName(),
-            'CLASS_NAMESPACE'  => $this->getClassNamespace($module),
-            'CLASS'            => $this->getControllerNameWithoutNamespace(),
-            'LOWER_NAME'       => $module->getLowerName(),
-            'MODULE'           => $this->getModuleName(),
-            'NAME'             => $this->getModuleName(),
-            'STUDLY_NAME'      => $module->getStudlyName(),
+            'MODULENAME' => $module->getStudlyName(),
+            'CONTROLLERNAME' => $this->getControllerName(),
+            'NAMESPACE' => $module->getStudlyName(),
+            'CLASS_NAMESPACE' => $this->getClassNamespace($module),
+            'CLASS' => $this->getControllerNameWithoutNamespace(),
+            'LOWER_NAME' => $module->getLowerName(),
+            'MODULE' => $this->getModuleName(),
+            'NAME' => $this->getModuleName(),
+            'STUDLY_NAME' => $module->getStudlyName(),
             'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
         ]))->render();
     }

@@ -3,26 +3,26 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Set\ValueObject\SetList;
-use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
-use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
-use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
-use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
-use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
-use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 use Rector\DowngradePhp84\Rector\MethodCall\DowngradeNewMethodCallWithoutParenthesesRector;
+use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
+use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
+use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
+use Rector\Set\ValueObject\SetList;
+use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
+use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/src',
+        __DIR__.'/tests',
     ])
     ->withSkip([
-        __DIR__ . '/vendor',
-        __DIR__ . '/stubs',
-        __DIR__ . '/tests/stubs',
-        __DIR__ . '/tests/snapshots',
+        __DIR__.'/vendor',
+        __DIR__.'/stubs',
+        __DIR__.'/tests/stubs',
+        __DIR__.'/tests/snapshots',
         // Permanently skipped on this fork (cosmetic or behaviour-risky on the module engine):
         ClassPropertyAssignToConstructorPromotionRector::class, // relocates docblocks inline + retypes a public ctor param
         ReadOnlyClassRector::class,                              // straitjackets the emit engine
@@ -35,8 +35,8 @@ return RectorConfig::configure()
         // Copies the loose `Container $app` ctor param onto the property, but `$app` is really an
         // Application (the @var union) + is used with Application methods — scoped to the two holders.
         TypedPropertyFromStrictConstructorRector::class => [
-            __DIR__ . '/src/Repositories/FileRepository.php',
-            __DIR__ . '/src/Support/Module.php',
+            __DIR__.'/src/Repositories/FileRepository.php',
+            __DIR__.'/src/Support/Module.php',
         ],
     ])
     ->withPhpSets(php83: true)

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
-use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ProviderMakeCommand extends GeneratorCommand
 {
@@ -81,16 +81,16 @@ class ProviderMakeCommand extends GeneratorCommand
         /** @var Module $module */
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
-        return (new Stub('/' . $stub . '.stub', [
-            'NAMESPACE'        => $this->getClassNamespace($module),
-            'CLASS'            => $this->getClass(),
-            'LOWER_NAME'       => $module->getLowerName(),
-            'MODULE'           => $this->getModuleName(),
-            'NAME'             => $this->getFileName(),
-            'STUDLY_NAME'      => $module->getStudlyName(),
+        return (new Stub('/'.$stub.'.stub', [
+            'NAMESPACE' => $this->getClassNamespace($module),
+            'CLASS' => $this->getClass(),
+            'LOWER_NAME' => $module->getLowerName(),
+            'MODULE' => $this->getModuleName(),
+            'NAME' => $this->getFileName(),
+            'STUDLY_NAME' => $module->getStudlyName(),
             'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
-            'PATH_CONFIG'      => GenerateConfigReader::read('config')->getPath(),
-            'FACTORIES_PATH'   => GenerateConfigReader::read('factory')->getPath(),
+            'PATH_CONFIG' => GenerateConfigReader::read('config')->getPath(),
+            'FACTORIES_PATH' => GenerateConfigReader::read('factory')->getPath(),
         ]))->render();
     }
 
@@ -100,7 +100,7 @@ class ProviderMakeCommand extends GeneratorCommand
 
         $generatorPath = GenerateConfigReader::read('provider');
 
-        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

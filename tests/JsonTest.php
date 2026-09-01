@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
+use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 
 class JsonTest extends BaseTestCase
 {
@@ -14,23 +14,23 @@ class JsonTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $path = __DIR__ . '/stubs/valid/module.json';
+        $path = __DIR__.'/stubs/valid/module.json';
         $this->json = new Json($path, $this->app['files']);
     }
 
     public function test_it_gets_the_file_path(): void
     {
-        $path = __DIR__ . '/stubs/valid/module.json';
+        $path = __DIR__.'/stubs/valid/module.json';
 
         $this->assertEquals($path, $this->json->getPath());
     }
 
     public function test_it_throws_an_exception_with_invalid_json(): void
     {
-        $path = __DIR__ . '/stubs/InvalidJsonModule/module.json';
+        $path = __DIR__.'/stubs/InvalidJsonModule/module.json';
 
         $this->expectException(InvalidJsonException::class);
-        $this->expectExceptionMessage('Error processing file: ' . $path . '. Error: Syntax error');
+        $this->expectExceptionMessage('Error processing file: '.$path.'. Error: Syntax error');
 
         new Json($path, $this->app['files']);
     }
@@ -59,7 +59,7 @@ class JsonTest extends BaseTestCase
 
     public function test_it_makes_json_class(): void
     {
-        $path = __DIR__ . '/stubs/valid/module.json';
+        $path = __DIR__.'/stubs/valid/module.json';
         $json = Json::make($path, $this->app['files']);
 
         $this->assertInstanceOf(Json::class, $json);
@@ -67,7 +67,7 @@ class JsonTest extends BaseTestCase
 
     public function test_it_sets_a_path(): void
     {
-        $path = __DIR__ . '/stubs/valid/module.json';
+        $path = __DIR__.'/stubs/valid/module.json';
         $this->assertEquals($path, $this->json->getPath());
 
         $this->json->setPath('some/path.json');

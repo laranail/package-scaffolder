@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Spatie\Snapshots\MatchesSnapshots;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class ScopeMakeCommandTest extends BaseTestCase
 {
@@ -36,7 +36,7 @@ class ScopeMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-scope', ['name' => 'MyScope', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/Models/Scopes/MyScope.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Models/Scopes/MyScope.php'));
         $this->assertSame(0, $code);
     }
 
@@ -45,7 +45,7 @@ class ScopeMakeCommandTest extends BaseTestCase
         $this->artisan('module:make-scope', ['name' => 'MyScope', 'module' => 'Blog']);
         $code = $this->artisan('module:make-scope', ['name' => 'MyScope', 'module' => 'Blog', '--force' => true]);
 
-        $this->assertTrue(is_file($this->modulePath . '/Models/Scopes/MyScope.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Models/Scopes/MyScope.php'));
         $this->assertSame(0, $code);
     }
 
@@ -53,7 +53,7 @@ class ScopeMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-scope', ['name' => 'MyScope', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Models/Scopes/MyScope.php');
+        $file = $this->finder->get($this->modulePath.'/Models/Scopes/MyScope.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -63,7 +63,7 @@ class ScopeMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-scope', ['name' => 'Api\\MyScope', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/Models/Scopes/Api/MyScope.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Models/Scopes/Api/MyScope.php'));
         $this->assertSame(0, $code);
     }
 
@@ -71,7 +71,7 @@ class ScopeMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-scope', ['name' => 'Api\\MyScope', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Models/Scopes/Api/MyScope.php');
+        $file = $this->finder->get($this->modulePath.'/Models/Scopes/Api/MyScope.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

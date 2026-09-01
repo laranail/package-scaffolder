@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
 
-use RuntimeException;
 use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 
 /**
  * Idempotently wires the host application's composer.json so generated artifacts
@@ -76,7 +76,7 @@ final class HostComposerWriter
             throw new RuntimeException("Failed to encode composer.json for [{$composerPath}].");
         }
 
-        $this->atomicPut($composerPath, $encoded . PHP_EOL);
+        $this->atomicPut($composerPath, $encoded.PHP_EOL);
     }
 
     /**
@@ -86,7 +86,7 @@ final class HostComposerWriter
      */
     private function atomicPut(string $path, string $content): void
     {
-        $tmp = $path . '.tmp' . getmypid();
+        $tmp = $path.'.tmp'.getmypid();
         $this->files->put($tmp, $content);
         $this->files->move($tmp, $path);
     }

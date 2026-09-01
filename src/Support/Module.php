@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
-use Stringable;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Laravel\Lumen\Application;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
+use Laravel\Lumen\Application;
 use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Stringable;
 
 abstract class Module implements Stringable
 {
@@ -208,7 +208,7 @@ abstract class Module implements Stringable
             $file = 'module.json';
         }
 
-        return Arr::get($this->moduleJson, $file, fn (): Json => $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->files));
+        return Arr::get($this->moduleJson, $file, fn (): Json => $this->moduleJson[$file] = new Json($this->getPath().'/'.$file, $this->files));
     }
 
     /**
@@ -343,7 +343,7 @@ abstract class Module implements Stringable
      */
     public function getExtraPath(?string $path): string
     {
-        return $this->getPath() . ($path ? '/' . $path : '');
+        return $this->getPath().($path ? '/'.$path : '');
     }
 
     /**
@@ -353,7 +353,7 @@ abstract class Module implements Stringable
     {
         $lowerName = $this->getLowerName();
 
-        $langPath = $this->getPath() . '/Resources/lang';
+        $langPath = $this->getPath().'/Resources/lang';
 
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, $lowerName);
@@ -366,7 +366,7 @@ abstract class Module implements Stringable
     protected function registerFiles(): void
     {
         foreach ($this->get('files', []) as $file) {
-            include $this->path . '/' . $file;
+            include $this->path.'/'.$file;
         }
     }
 

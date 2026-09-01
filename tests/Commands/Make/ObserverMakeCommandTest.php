@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Spatie\Snapshots\MatchesSnapshots;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class ObserverMakeCommandTest extends BaseTestCase
 {
@@ -35,7 +35,7 @@ class ObserverMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-observer', ['name' => 'Post', 'module' => 'Blog']);
 
-        $observerFile = $this->modulePath . '/Observers/PostObserver.php';
+        $observerFile = $this->modulePath.'/Observers/PostObserver.php';
 
         $this->assertTrue(is_file($observerFile), 'Observer file was not created.');
         $this->assertMatchesSnapshot($this->finder->get($observerFile));
