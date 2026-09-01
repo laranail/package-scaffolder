@@ -46,8 +46,8 @@ return [
     */
     'kinds' => [
         'package' => 'platform/packages',
-        'module'  => 'platform/modules',
-        'plugin'  => 'platform/plugins',
+        'module' => 'platform/modules',
+        'plugin' => 'platform/plugins',
     ],
 
     /*
@@ -65,26 +65,26 @@ return [
         'laravel' => [
             'blueprint' => 'laravel',
             'manifests' => ['composer', 'module', 'plugin'],
-            'panels'    => ['nova', 'filament', 'none'],
-            'features'  => ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'],
+            'panels' => ['nova', 'filament', 'none'],
+            'features' => ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'],
         ],
         'lumen' => [
             'blueprint' => 'lumen',
             'manifests' => ['composer', 'module', 'plugin'],
-            'panels'    => ['none'],
-            'features'  => [],
+            'panels' => ['none'],
+            'features' => [],
         ],
         'vanilla' => [
             'blueprint' => 'vanilla',
             'manifests' => ['composer'],
-            'panels'    => ['none'],
-            'features'  => [],
+            'panels' => ['none'],
+            'features' => [],
         ],
         'symfony' => [
             'blueprint' => 'symfony',
             'manifests' => ['composer', 'module', 'plugin'],
-            'panels'    => ['none'],
-            'features'  => [],
+            'panels' => ['none'],
+            'features' => [],
         ],
     ],
 
@@ -124,45 +124,45 @@ return [
     */
     'features' => [
         'web-ui' => [
-            'default'     => true,
-            'requires'    => [],
+            'default' => true,
+            'requires' => [],
             'description' => 'Blade components, views, web controllers/routes.',
-            'sub'         => [
+            'sub' => [
                 'livewire' => [
-                    'default'     => true,
-                    'requires'    => ['web-ui'],
+                    'default' => true,
+                    'requires' => ['web-ui'],
                     'description' => 'Livewire components (requires web-ui).',
                 ],
             ],
         ],
         'rest-api' => [
-            'default'     => true,
-            'requires'    => [],
+            'default' => true,
+            'requires' => [],
             'description' => 'JSON API controllers, resources, ability middleware, api routes.',
         ],
         'caching' => [
-            'default'     => true,
-            'requires'    => [],
+            'default' => true,
+            'requires' => [],
             'description' => 'Caching repository decorator + event-driven invalidation.',
         ],
         'feeds' => [
-            'default'     => true,
-            'requires'    => ['web-ui'],
+            'default' => true,
+            'requires' => ['web-ui'],
             'description' => 'RSS feed + XML sitemap (web routes/controller — requires web-ui).',
         ],
         'scheduling' => [
-            'default'     => true,
-            'requires'    => [],
+            'default' => true,
+            'requires' => [],
             'description' => 'Scheduled-publish command + job.',
         ],
         'asset-pipeline' => [
-            'default'     => true,
-            'requires'    => ['web-ui'],
+            'default' => true,
+            'requires' => ['web-ui'],
             'description' => 'Vite (tailwind/bootstrap/vanilla) asset build pipeline (Blade/view layer — requires web-ui).',
         ],
         'notifications' => [
-            'default'     => true,
-            'requires'    => [],
+            'default' => true,
+            'requires' => [],
             'description' => 'Publish notification listener (sub-toggle of core events).',
         ],
     ],

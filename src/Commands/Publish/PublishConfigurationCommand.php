@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
 use Override;
-use Symfony\Component\Console\Input\InputOption;
-use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
+use Symfony\Component\Console\Input\InputOption;
 
 class PublishConfigurationCommand extends BaseCommand
 {
@@ -31,8 +31,8 @@ class PublishConfigurationCommand extends BaseCommand
     {
         $this->call('vendor:publish', [
             '--provider' => $this->getServiceProviderForModule($name),
-            '--force'    => $this->option('force'),
-            '--tag'      => ['config'],
+            '--force' => $this->option('force'),
+            '--tag' => ['config'],
         ]);
     }
 

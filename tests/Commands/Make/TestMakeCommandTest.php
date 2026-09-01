@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Spatie\Snapshots\MatchesSnapshots;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class TestMakeCommandTest extends BaseTestCase
 {
@@ -40,7 +40,7 @@ class TestMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/tests/Unit/EloquentPostRepositoryTest.php'));
+        $this->assertTrue(is_file($this->modulePath.'/tests/Unit/EloquentPostRepositoryTest.php'));
         $this->assertSame(0, $code);
     }
 
@@ -48,7 +48,7 @@ class TestMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog', '--feature' => true]);
 
-        $this->assertTrue(is_file($this->modulePath . '/tests/Feature/EloquentPostRepositoryTest.php'));
+        $this->assertTrue(is_file($this->modulePath.'/tests/Feature/EloquentPostRepositoryTest.php'));
         $this->assertSame(0, $code);
     }
 
@@ -56,7 +56,7 @@ class TestMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/tests/Unit/EloquentPostRepositoryTest.php');
+        $file = $this->finder->get($this->modulePath.'/tests/Unit/EloquentPostRepositoryTest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -66,7 +66,7 @@ class TestMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog', '--feature' => true]);
 
-        $file = $this->finder->get($this->modulePath . '/tests/Feature/EloquentPostRepositoryTest.php');
+        $file = $this->finder->get($this->modulePath.'/tests/Feature/EloquentPostRepositoryTest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -78,7 +78,7 @@ class TestMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->getModuleBasePath() . '/SuperTests/Unit/EloquentPostRepositoryTest.php');
+        $file = $this->finder->get($this->getModuleBasePath().'/SuperTests/Unit/EloquentPostRepositoryTest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -90,7 +90,7 @@ class TestMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/tests/Unit/EloquentPostRepositoryTest.php');
+        $file = $this->finder->get($this->modulePath.'/tests/Unit/EloquentPostRepositoryTest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -102,7 +102,7 @@ class TestMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog', '--feature' => true]);
 
-        $file = $this->finder->get($this->modulePath . '/SuperTests/Feature/EloquentPostRepositoryTest.php');
+        $file = $this->finder->get($this->modulePath.'/SuperTests/Feature/EloquentPostRepositoryTest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -114,7 +114,7 @@ class TestMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-test', ['name' => 'EloquentPostRepositoryTest', 'module' => 'Blog', '--feature' => true]);
 
-        $file = $this->finder->get($this->getModuleBasePath() . '/tests/Feature/EloquentPostRepositoryTest.php');
+        $file = $this->finder->get($this->getModuleBasePath().'/tests/Feature/EloquentPostRepositoryTest.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
-use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Traits\CanClearModulesCache;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Traits\CanClearModulesCache;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class SeedMakeCommand extends GeneratorCommand
 {
@@ -105,8 +105,8 @@ class SeedMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/seeder.stub', [
-            'NAME'      => $this->getSeederName(),
-            'MODULE'    => $this->getModuleName(),
+            'NAME' => $this->getSeederName(),
+            'MODULE' => $this->getModuleName(),
             'NAMESPACE' => $this->getClassNamespace($module),
 
         ]))->render();
@@ -120,7 +120,7 @@ class SeedMakeCommand extends GeneratorCommand
 
         $seederPath = GenerateConfigReader::read('seeder');
 
-        return $path . $seederPath->getPath() . '/' . $this->getSeederName() . '.php';
+        return $path.$seederPath->getPath().'/'.$this->getSeederName().'.php';
     }
 
     private function ensureBaseSeederExists(string $moduleName): void
@@ -128,16 +128,16 @@ class SeedMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($moduleName);
 
         $seederPath = GenerateConfigReader::read('seeder');
-        $baseName = Str::studly($module->getName()) . 'DatabaseSeeder';
-        $basePath = $this->laravel['modules']->getModulePath($module->getName()) . $seederPath->getPath() . '/' . $baseName . '.php';
+        $baseName = Str::studly($module->getName()).'DatabaseSeeder';
+        $basePath = $this->laravel['modules']->getModulePath($module->getName()).$seederPath->getPath().'/'.$baseName.'.php';
 
         if ($this->laravel['files']->exists($basePath)) {
             return;
         }
 
         $this->call('module:make-seed', [
-            'name'     => $module->getName(),
-            'module'   => $module->getName(),
+            'name' => $module->getName(),
+            'module' => $module->getName(),
             '--master' => true,
         ]);
     }

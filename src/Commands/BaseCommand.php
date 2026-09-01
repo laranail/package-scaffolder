@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Closure;
-use Override;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
-use Illuminate\Console\Prohibitable;
 use Illuminate\Console\ConfirmableTrait;
-
-use function Laravel\Prompts\multisearch;
-
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Console\Prohibitable;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Illuminate\Support\Collection;
+use Override;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
-use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+
+use function Laravel\Prompts\multisearch;
 
 abstract class BaseCommand extends Command implements PromptsForMissingInput
 {

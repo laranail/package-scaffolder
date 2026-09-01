@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ClassMakeCommand extends GeneratorCommand
 {
@@ -39,7 +39,7 @@ class ClassMakeCommand extends GeneratorCommand
     {
         return (new Stub($this->stub(), [
             'NAMESPACE' => $this->getClassNamespace($this->module()),
-            'CLASS'     => $this->typeClass(),
+            'CLASS' => $this->typeClass(),
         ]))->render();
     }
 
@@ -52,9 +52,9 @@ class ClassMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('class')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Classes';
+        $filePath = GenerateConfigReader::read('class')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Classes';
 
-        return $this->typePath($path . $filePath . '/' . $this->getFileName() . '.php');
+        return $this->typePath($path.$filePath.'/'.$this->getFileName().'.php');
     }
 
     public function typeClass(): string

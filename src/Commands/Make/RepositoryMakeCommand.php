@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class RepositoryMakeCommand extends GeneratorCommand
 {
@@ -28,9 +28,9 @@ class RepositoryMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('repository')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Repositories';
+        $filePath = GenerateConfigReader::read('repository')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder').'Repositories';
 
-        return $path . $filePath . '/' . $this->getRepositoryName() . '.php';
+        return $path.$filePath.'/'.$this->getRepositoryName().'.php';
     }
 
     #[Override]
@@ -45,7 +45,7 @@ class RepositoryMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'           => $this->getClassNameWithoutNamespace(),
+            'CLASS' => $this->getClassNameWithoutNamespace(),
         ]))->render();
     }
 

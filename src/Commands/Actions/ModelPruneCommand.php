@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
-use Override;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Illuminate\Database\Console\PruneCommand;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Support\Collection;
-use Symfony\Component\Finder\Finder;
-
-use function Laravel\Prompts\multiselect;
-
-use Illuminate\Database\Console\PruneCommand;
+use Override;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
-use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Symfony\Component\Finder\Finder;
+
+use function Laravel\Prompts\multiselect;
 
 #[AsCommand(name: 'laranail::package-scaffolder.prune')]
 class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
@@ -122,7 +121,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
 
                 $namespace = config('laranail.package-scaffolder.modules.namespace');
 
-                return $namespace . str_replace(
+                return $namespace.str_replace(
                     ['/', '.php'],
                     ['\\', ''],
                     Str::after($model->getRealPath(), realpath(config('laranail.package-scaffolder.modules.paths.modules'))),

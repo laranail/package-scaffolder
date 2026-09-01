@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
-use Override;
-use LogicException;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
+use LogicException;
+use Override;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 
 abstract class ModuleServiceProvider extends ServiceProvider
@@ -111,7 +111,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
      */
     protected function registerTranslations(): void
     {
-        $langPath = resource_path('lang/modules/' . $this->nameLower);
+        $langPath = resource_path('lang/modules/'.$this->nameLower);
 
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, $this->nameLower);
@@ -135,11 +135,11 @@ abstract class ModuleServiceProvider extends ServiceProvider
 
             foreach ($iterator as $file) {
                 if ($file->isFile() && $file->getExtension() === 'php') {
-                    $config = str_replace($configPath . DIRECTORY_SEPARATOR, '', $file->getPathname());
+                    $config = str_replace($configPath.DIRECTORY_SEPARATOR, '', $file->getPathname());
                     $configKey = str_replace(DIRECTORY_SEPARATOR, '.', $config);
                     $configKey = str_replace('.php', '', $configKey);
 
-                    $segments = explode('.', $this->nameLower . '.' . $configKey);
+                    $segments = explode('.', $this->nameLower.'.'.$configKey);
 
                     // Remove duplicated adjacent segments
                     $normalized = [];
@@ -150,7 +150,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
                     }
 
                     $key = ($config === 'config.php') ? $this->nameLower : implode('.', $normalized);
-                    $publishPath = ($config === 'config.php') ? config_path($this->nameLower . '.php') : config_path($config);
+                    $publishPath = ($config === 'config.php') ? config_path($this->nameLower.'.php') : config_path($config);
                     // Scoped to the module, not the bare `config` this used to
                     // claim. Publish tags are a global registry, and every
                     // module in the application registering `config` means
@@ -160,7 +160,7 @@ abstract class ModuleServiceProvider extends ServiceProvider
                     // The module's own name and not `laranail-`: this provider
                     // is the base class a *consuming application's* generated
                     // modules extend, so the name belongs to that application.
-                    $this->publishes([$file->getPathname() => $publishPath], $this->nameLower . '-config');
+                    $this->publishes([$file->getPathname() => $publishPath], $this->nameLower.'-config');
 
                     $this->merge_config_from($file->getPathname(), $key);
                 }
@@ -173,14 +173,14 @@ abstract class ModuleServiceProvider extends ServiceProvider
      */
     protected function registerViews(): void
     {
-        $viewPath = resource_path('views/modules/' . $this->nameLower);
+        $viewPath = resource_path('views/modules/'.$this->nameLower);
         $sourcePath = module_path($this->name, config('laranail.package-scaffolder.modules.paths.generator.views.path'));
 
-        $this->publishes([$sourcePath => $viewPath], ['views', $this->nameLower . '-module-views']);
+        $this->publishes([$sourcePath => $viewPath], ['views', $this->nameLower.'-module-views']);
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->nameLower);
 
-        Blade::componentNamespace(config('laranail.package-scaffolder.modules.namespace') . '\\' . $this->name . '\\View\\Components', $this->nameLower);
+        Blade::componentNamespace(config('laranail.package-scaffolder.modules.namespace').'\\'.$this->name.'\\View\\Components', $this->nameLower);
     }
 
     /**
@@ -205,8 +205,8 @@ abstract class ModuleServiceProvider extends ServiceProvider
     {
         $paths = [];
         foreach (config('view.paths') as $path) {
-            if (is_dir($path . '/modules/' . $this->nameLower)) {
-                $paths[] = $path . '/modules/' . $this->nameLower;
+            if (is_dir($path.'/modules/'.$this->nameLower)) {
+                $paths[] = $path.'/modules/'.$this->nameLower;
             }
         }
 

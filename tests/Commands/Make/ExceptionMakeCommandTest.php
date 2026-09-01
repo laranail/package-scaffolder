@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Spatie\Snapshots\MatchesSnapshots;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class ExceptionMakeCommandTest extends BaseTestCase
 {
@@ -36,7 +36,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-exception', ['name' => 'MyException', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/Exceptions/MyException.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Exceptions/MyException.php'));
         $this->assertSame(0, $code);
     }
 
@@ -45,7 +45,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
         $this->artisan('module:make-exception', ['name' => 'MyException', 'module' => 'Blog']);
         $code = $this->artisan('module:make-exception', ['name' => 'MyException', 'module' => 'Blog', '--force' => true]);
 
-        $this->assertTrue(is_file($this->modulePath . '/Exceptions/MyException.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Exceptions/MyException.php'));
         $this->assertSame(0, $code);
     }
 
@@ -53,7 +53,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-exception', ['name' => 'MyException', 'module' => 'Blog', '--render' => true]);
 
-        $this->assertTrue(is_file($this->modulePath . '/Exceptions/MyException.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Exceptions/MyException.php'));
         $this->assertSame(0, $code);
     }
 
@@ -61,7 +61,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-exception', ['name' => 'MyException', 'module' => 'Blog', '--report' => true]);
 
-        $this->assertTrue(is_file($this->modulePath . '/Exceptions/MyException.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Exceptions/MyException.php'));
         $this->assertSame(0, $code);
     }
 
@@ -69,7 +69,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-exception', ['name' => 'MyException', 'module' => 'Blog', '--report' => true, '--render' => true]);
 
-        $this->assertTrue(is_file($this->modulePath . '/Exceptions/MyException.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Exceptions/MyException.php'));
         $this->assertSame(0, $code);
     }
 
@@ -77,7 +77,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-exception', ['name' => 'MyException', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Exceptions/MyException.php');
+        $file = $this->finder->get($this->modulePath.'/Exceptions/MyException.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -87,7 +87,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-exception', ['name' => 'Api\\MyException', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/Exceptions/Api/MyException.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Exceptions/Api/MyException.php'));
         $this->assertSame(0, $code);
     }
 
@@ -95,7 +95,7 @@ class ExceptionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-exception', ['name' => 'Api\\MyException', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Exceptions/Api/MyException.php');
+        $file = $this->finder->get($this->modulePath.'/Exceptions/Api/MyException.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

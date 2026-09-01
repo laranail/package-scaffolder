@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Spatie\Snapshots\MatchesSnapshots;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class InterfaceMakeCommandTest extends BaseTestCase
 {
@@ -36,7 +36,7 @@ class InterfaceMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-interface', ['name' => 'MyInterface', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/Interfaces/MyInterface.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Interfaces/MyInterface.php'));
         $this->assertSame(0, $code);
     }
 
@@ -45,7 +45,7 @@ class InterfaceMakeCommandTest extends BaseTestCase
         $this->artisan('module:make-interface', ['name' => 'MyInterface', 'module' => 'Blog']);
         $code = $this->artisan('module:make-interface', ['name' => 'MyInterface', 'module' => 'Blog', '--force' => true]);
 
-        $this->assertTrue(is_file($this->modulePath . '/Interfaces/MyInterface.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Interfaces/MyInterface.php'));
         $this->assertSame(0, $code);
     }
 
@@ -53,7 +53,7 @@ class InterfaceMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-interface', ['name' => 'MyInterface', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Interfaces/MyInterface.php');
+        $file = $this->finder->get($this->modulePath.'/Interfaces/MyInterface.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -63,7 +63,7 @@ class InterfaceMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-interface', ['name' => 'Api\\MyInterface', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath . '/Interfaces/Api/MyInterface.php'));
+        $this->assertTrue(is_file($this->modulePath.'/Interfaces/Api/MyInterface.php'));
         $this->assertSame(0, $code);
     }
 
@@ -71,7 +71,7 @@ class InterfaceMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-interface', ['name' => 'Api\\MyInterface', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath . '/Interfaces/Api/MyInterface.php');
+        $file = $this->finder->get($this->modulePath.'/Interfaces/Api/MyInterface.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

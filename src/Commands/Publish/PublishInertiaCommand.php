@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Publish;
 
-use Override;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Symfony\Component\Console\Input\InputOption;
 
 class PublishInertiaCommand extends Command
 {
@@ -23,9 +23,9 @@ class PublishInertiaCommand extends Command
     public function handle(): int
     {
         $stub = match ($this->getInertiaFrontend()) {
-            'react'  => '/inertia/app-react.stub',
+            'react' => '/inertia/app-react.stub',
             'svelte' => '/inertia/app-svelte.stub',
-            default  => '/inertia/app-vue.stub',
+            default => '/inertia/app-vue.stub',
         };
         $destination = resource_path('js/app.js');
 
