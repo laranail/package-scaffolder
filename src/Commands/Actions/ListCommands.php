@@ -35,9 +35,7 @@ class ListCommands extends BaseCommand
         $groupedCommands = [];
         foreach ($commands as $command) {
             $directory = $this->getDirectoryFromNamespace($command['namespace']);
-            if (! isset($groupedCommands[$directory])) {
-                $groupedCommands[$directory] = [];
-            }
+            $groupedCommands[$directory] ??= [];
             $groupedCommands[$directory][] = $command;
         }
 

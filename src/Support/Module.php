@@ -204,9 +204,7 @@ abstract class Module implements Stringable
      */
     public function json(?string $file = null): Json
     {
-        if ($file === null) {
-            $file = 'module.json';
-        }
+        $file ??= 'module.json';
 
         return Arr::get($this->moduleJson, $file, fn (): Json => $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->files));
     }
