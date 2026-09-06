@@ -127,7 +127,7 @@ class Stub implements Stringable
      */
     public function saveTo(string $path, string $filename): bool
     {
-        return file_put_contents($path.'/'.$filename, $this->getContents());
+        return file_put_contents($path.'/'.$filename, $this->getContents()) !== false;
     }
 
     /**

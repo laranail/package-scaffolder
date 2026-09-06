@@ -29,7 +29,7 @@ trait PathNamespace
      */
     public function path_namespace(string $path): string
     {
-        return Str::of($this->studly_path($path))->replace('/', '\\')->trim('\\');
+        return Str::of($this->studly_path($path))->replace('/', '\\')->trim('\\')->toString();
     }
 
     /**
@@ -38,7 +38,7 @@ trait PathNamespace
     public function module_namespace(string $module, ?string $path = null): string
     {
         $module_namespace = config('laranail.package-scaffolder.modules.namespace', $this->path_namespace(config('laranail.package-scaffolder.modules.paths.modules'))).'\\'.($module);
-        $module_namespace .= strlen($path) !== 0 ? '\\'.$this->path_namespace($path) : '';
+        $module_namespace .= ($path !== null && $path !== '') ? '\\'.$this->path_namespace($path) : '';
 
         return $this->studly_namespace($module_namespace);
     }

@@ -59,7 +59,7 @@ class ClassMakeCommand extends GeneratorCommand
 
     public function typeClass(): string
     {
-        return Str::of($this->getFileName())->basename()->studly();
+        return Str::of($this->getFileName())->basename()->studly()->toString();
     }
 
     #[Override]
@@ -88,11 +88,11 @@ class ClassMakeCommand extends GeneratorCommand
      */
     protected function type(): string
     {
-        return Str::of($this->option('type'))->remove('=')->singular();
+        return Str::of($this->option('type'))->remove('=')->singular()->toString();
     }
 
     protected function typePath(string $path): string
     {
-        return ($this->type() === 'class') ? $path : Str::of($path)->replaceLast('Classes', Str::of($this->type())->plural()->studly());
+        return ($this->type() === 'class') ? $path : Str::of($path)->replaceLast('Classes', Str::of($this->type())->plural()->studly())->toString();
     }
 }

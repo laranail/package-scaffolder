@@ -571,7 +571,7 @@ class ModuleGenerator extends Generator
      */
     protected function getPluralLowerNameReplacement(): string
     {
-        return Str::of($this->getName())->lower()->plural();
+        return Str::of($this->getName())->lower()->plural()->toString();
     }
 
     protected function getKebabNameReplacement(): string
@@ -592,7 +592,7 @@ class ModuleGenerator extends Generator
      */
     protected function getPluralStudlyNameReplacement(): string
     {
-        return Str::of($this->getName())->pluralStudly();
+        return Str::of($this->getName())->pluralStudly()->toString();
     }
 
     /**
@@ -600,7 +600,7 @@ class ModuleGenerator extends Generator
      */
     protected function getPluralUpperNameReplacement(): string
     {
-        return Str::of($this->getName())->upper()->plural();
+        return Str::of($this->getName())->upper()->plural()->toString();
     }
 
     /**

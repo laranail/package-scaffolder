@@ -100,7 +100,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
     protected function promptForMissingArguments(InputInterface $input, OutputInterface $output): void
     {
         $modules = $this->hasOption('direction')
-            ? array_keys($this->laravel['modules']->getOrdered($input->hasOption('direction')))
+            ? array_keys($this->laravel['modules']->getOrdered((string) ($input->getOption('direction') ?: 'asc')))
             : array_keys($this->laravel['modules']->all());
 
         if ($input->getOption(strtolower(self::ALL))) {

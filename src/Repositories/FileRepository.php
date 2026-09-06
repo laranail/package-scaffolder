@@ -166,7 +166,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
 
         /** @var Module $module */
         foreach ($this->all() as $name => $module) {
-            if ($module->isStatus($status)) {
+            if ($module->isStatus((bool) $status)) {
                 $modules[$name] = $module;
             }
         }
@@ -365,7 +365,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      */
     public function getUsedNow(): string
     {
-        return $this->findOrFail($this->getFiles()->get($this->getUsedStoragePath()));
+        return $this->findOrFail($this->getFiles()->get($this->getUsedStoragePath()))->getName();
     }
 
     /**
