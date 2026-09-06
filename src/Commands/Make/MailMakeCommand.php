@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class MailMakeCommand extends GeneratorCommand
 {
@@ -63,7 +63,7 @@ class MailMakeCommand extends GeneratorCommand
 
         return (new Stub('/mail.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClass(),
+            'CLASS'     => $this->getClass(),
         ]))->render();
     }
 
@@ -76,7 +76,7 @@ class MailMakeCommand extends GeneratorCommand
 
         $mailPath = GenerateConfigReader::read('emails');
 
-        return $path.$mailPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $mailPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     /**

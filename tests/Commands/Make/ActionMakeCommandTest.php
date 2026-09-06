@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class ActionMakeCommandTest extends BaseTestCase
 {
@@ -36,7 +36,7 @@ class ActionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-action', ['name' => 'MyAction', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Actions/MyAction.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Actions/MyAction.php'));
         $this->assertSame(0, $code);
     }
 
@@ -45,7 +45,7 @@ class ActionMakeCommandTest extends BaseTestCase
         $this->artisan('module:make-action', ['name' => 'MyAction', 'module' => 'Blog']);
         $code = $this->artisan('module:make-action', ['name' => 'MyAction', 'module' => 'Blog', '--force' => true]);
 
-        $this->assertTrue(is_file($this->modulePath.'/Actions/MyAction.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Actions/MyAction.php'));
         $this->assertSame(0, $code);
     }
 
@@ -53,7 +53,7 @@ class ActionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-action', ['name' => 'MyAction', 'module' => 'Blog', '--invokable' => true]);
 
-        $this->assertTrue(is_file($this->modulePath.'/Actions/MyAction.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Actions/MyAction.php'));
         $this->assertSame(0, $code);
     }
 
@@ -61,7 +61,7 @@ class ActionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-action', ['name' => 'MyAction', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Actions/MyAction.php');
+        $file = $this->finder->get($this->modulePath . '/Actions/MyAction.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -71,7 +71,7 @@ class ActionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-action', ['name' => 'Api\\MyAction', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Actions/Api/MyAction.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Actions/Api/MyAction.php'));
         $this->assertSame(0, $code);
     }
 
@@ -79,7 +79,7 @@ class ActionMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-action', ['name' => 'Api\\MyAction', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Actions/Api/MyAction.php');
+        $file = $this->finder->get($this->modulePath . '/Actions/Api/MyAction.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

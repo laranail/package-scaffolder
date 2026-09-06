@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class ComponentClassMakeCommandTest extends BaseTestCase
 {
@@ -34,14 +34,14 @@ class ComponentClassMakeCommandTest extends BaseTestCase
     public function test_it_generates_the_component_class(): void
     {
         $code = $this->artisan('module:make-component', ['name' => 'Blog', 'module' => 'Blog']);
-        $this->assertTrue(is_file($this->modulePath.'/View/Components/Blog.php'));
+        $this->assertTrue(is_file($this->modulePath . '/View/Components/Blog.php'));
         $this->assertSame(0, $code);
     }
 
     public function test_it_generates_the_component_view_from_component_class_command(): void
     {
         $code = $this->artisan('module:make-component', ['name' => 'Blog', 'module' => 'Blog']);
-        $file = $this->finder->get($this->getModuleBasePath().'/resources/views/components/blog.blade.php');
+        $file = $this->finder->get($this->getModuleBasePath() . '/resources/views/components/blog.blade.php');
         $this->assertTrue(str_contains($file, '<div>'));
         $this->assertSame(0, $code);
     }
@@ -49,7 +49,7 @@ class ComponentClassMakeCommandTest extends BaseTestCase
     public function test_it_generated_correct_file_with_content(): void
     {
         $code = $this->artisan('module:make-component', ['name' => 'Blog', 'module' => 'Blog']);
-        $file = $this->finder->get($this->modulePath.'/View/Components/Blog.php');
+        $file = $this->finder->get($this->modulePath . '/View/Components/Blog.php');
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
     }
@@ -60,7 +60,7 @@ class ComponentClassMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-component', ['name' => 'Blog', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->getModuleBasePath().'/View/Components/newDirectory/Blog.php');
+        $file = $this->finder->get($this->getModuleBasePath() . '/View/Components/newDirectory/Blog.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

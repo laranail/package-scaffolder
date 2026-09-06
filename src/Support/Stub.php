@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
-use RuntimeException;
 use Stringable;
+use RuntimeException;
 
 class Stub implements Stringable
 {
@@ -86,9 +86,9 @@ class Stub implements Stringable
      */
     public function getPath(): string
     {
-        $path = static::getBasePath().$this->path;
+        $path = static::getBasePath() . $this->path;
 
-        return file_exists($path) ? $path : dirname(__DIR__, 2).'/stubs'.$this->path;
+        return file_exists($path) ? $path : dirname(__DIR__, 2) . '/stubs' . $this->path;
     }
 
     /**
@@ -104,7 +104,7 @@ class Stub implements Stringable
         }
 
         foreach ($this->replaces as $search => $replace) {
-            $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
+            $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
         }
 
         foreach ($this->removalTags as $removalTag) {
@@ -127,7 +127,7 @@ class Stub implements Stringable
      */
     public function saveTo(string $path, string $filename): bool
     {
-        return file_put_contents($path.'/'.$filename, $this->getContents()) !== false;
+        return file_put_contents($path . '/' . $filename, $this->getContents()) !== false;
     }
 
     /**
@@ -165,7 +165,7 @@ class Stub implements Stringable
     {
         $tag = preg_quote($tag, '/');
 
-        return preg_replace('/%START_'.$tag.'%.*?%END_'.$tag.'%/s', '', $contents);
+        return preg_replace('/%START_' . $tag . '%.*?%END_' . $tag . '%/s', '', $contents);
     }
 
     /**

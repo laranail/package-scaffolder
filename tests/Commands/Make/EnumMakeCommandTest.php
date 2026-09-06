@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class EnumMakeCommandTest extends BaseTestCase
 {
@@ -36,7 +36,7 @@ class EnumMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Enums/MyEnum.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Enums/MyEnum.php'));
         $this->assertSame(0, $code);
     }
 
@@ -45,7 +45,7 @@ class EnumMakeCommandTest extends BaseTestCase
         $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
         $code = $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog', '--force' => true]);
 
-        $this->assertTrue(is_file($this->modulePath.'/Enums/MyEnum.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Enums/MyEnum.php'));
         $this->assertSame(0, $code);
     }
 
@@ -53,7 +53,7 @@ class EnumMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Enums/MyEnum.php');
+        $file = $this->finder->get($this->modulePath . '/Enums/MyEnum.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -63,7 +63,7 @@ class EnumMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-enum', ['name' => 'Api\\MyEnum', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Enums/Api/MyEnum.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Enums/Api/MyEnum.php'));
         $this->assertSame(0, $code);
     }
 
@@ -71,7 +71,7 @@ class EnumMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-enum', ['name' => 'Api\\MyEnum', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Enums/Api/MyEnum.php');
+        $file = $this->finder->get($this->modulePath . '/Enums/Api/MyEnum.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

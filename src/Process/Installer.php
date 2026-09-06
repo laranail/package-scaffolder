@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Process;
 
-use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class Installer
 {
@@ -207,10 +207,10 @@ class Installer
     public function getPackageName(): string
     {
         if (is_null($this->version)) {
-            return $this->name.':dev-master';
+            return $this->name . ':dev-master';
         }
 
-        return $this->name.':'.$this->version;
+        return $this->name . ':' . $this->version;
     }
 
     /**

@@ -100,8 +100,8 @@ class TokenReplacerTest extends TestCase
     {
         $t = [
             'namespaceBase' => 'Acme', 'studly' => 'Shop', 'lower' => 'shop', 'vendor' => 'acme',
-            'entityStudly' => 'A$1B', 'entityStudlyPlural' => 'A$1Bs',
-            'entityLower' => 'a$1b', 'entityPlural' => 'a$1bs',
+            'entityStudly'  => 'A$1B', 'entityStudlyPlural' => 'A$1Bs',
+            'entityLower'   => 'a$1b', 'entityPlural' => 'a$1bs',
         ];
 
         $this->assertSame('A$1B', TokenReplacer::replace('Post', $t));
@@ -122,7 +122,7 @@ class TokenReplacerTest extends TestCase
     {
         return [
             'namespaceBase' => 'Acme', 'studly' => 'Customer', 'lower' => 'customer', 'vendor' => 'acme',
-            'entityStudly' => 'Order', 'entityStudlyPlural' => 'Orders', 'entityLower' => 'order', 'entityPlural' => 'orders',
+            'entityStudly'  => 'Order', 'entityStudlyPlural' => 'Orders', 'entityLower' => 'order', 'entityPlural' => 'orders',
         ];
     }
 }

@@ -36,7 +36,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
 final class MarkerProcessor
 {
     /**
-     * @param  list<string>  $enabledFeatures
+     * @param list<string> $enabledFeatures
      */
     public static function process(string $content, array $enabledFeatures): string
     {
@@ -82,7 +82,7 @@ final class MarkerProcessor
      * An ENABLED feature keeps the inner text verbatim (only the `[[…]]` tokens are
      * removed); a DISABLED feature removes the whole span. Same-line only.
      *
-     * @param  list<string>  $enabledFeatures
+     * @param list<string> $enabledFeatures
      */
     private static function applyInline(string $line, array $enabledFeatures): string
     {

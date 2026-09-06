@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Repositories;
 
 use Countable;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
 use Laravel\Lumen\Application;
-use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidAssetPath;
-use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
-use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
-use Simtabi\Laranail\Package\Scaffolder\Process\Updater;
-use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
+use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Process\Process;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
-use Symfony\Component\Process\Process;
+use Simtabi\Laranail\Package\Scaffolder\Process\Updater;
+use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
+use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
+use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidAssetPath;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\ModuleNotFoundException;
 
 abstract class FileRepository implements Countable, RepositoryInterface
 {
@@ -294,9 +294,9 @@ abstract class FileRepository implements Countable, RepositoryInterface
     public function getModulePath($module): string
     {
         try {
-            return $this->findOrFail($module)->getPath().'/';
+            return $this->findOrFail($module)->getPath() . '/';
         } catch (ModuleNotFoundException) {
-            return $this->getPath().'/'.Str::studly($module).'/';
+            return $this->getPath() . '/' . Str::studly($module) . '/';
         }
     }
 
@@ -305,7 +305,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      */
     public function assetPath(string $module): string
     {
-        return $this->config('paths.assets').'/'.$module;
+        return $this->config('paths.assets') . '/' . $module;
     }
 
     /**
@@ -313,7 +313,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
      */
     public function config(string $key, $default = null)
     {
-        return $this->config->get('laranail.package-scaffolder.modules.'.$key, $default);
+        return $this->config->get('laranail.package-scaffolder.modules.' . $key, $default);
     }
 
     /**
@@ -343,7 +343,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     {
         $module = $this->findOrFail($name);
 
-        $this->getFiles()->put($this->getUsedStoragePath(), $module);
+        $this->getFiles()->put($this->getUsedStoragePath(), $module->getName());
 
         $module->fireEvent(ModuleEvent::USED);
     }
@@ -396,9 +396,9 @@ abstract class FileRepository implements Countable, RepositoryInterface
         }
         [$name, $url] = explode(':', $asset);
 
-        $baseUrl = str_replace(public_path().DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
+        $baseUrl = str_replace(public_path() . DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
 
-        $url = $this->url->asset($baseUrl."/{$name}/".$url);
+        $url = $this->url->asset($baseUrl . "/{$name}/" . $url);
 
         return str_replace(['http://', 'https://'], '//', $url);
     }

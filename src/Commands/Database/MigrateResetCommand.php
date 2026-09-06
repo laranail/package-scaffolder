@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Database;
 
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
-use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleMigrationPaths;
 use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Commands\BaseCommand;
+use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleMigrationPaths;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 
 class MigrateResetCommand extends BaseCommand implements ConfirmableCommand
 {
@@ -43,10 +43,10 @@ class MigrateResetCommand extends BaseCommand implements ConfirmableCommand
         }
 
         $this->call('migrate:reset', array_filter([
-            '--path' => $paths,
+            '--path'     => $paths,
             '--database' => $this->option('database'),
-            '--pretend' => $this->option('pretend'),
-            '--force' => $this->option('force'),
+            '--pretend'  => $this->option('pretend'),
+            '--force'    => $this->option('force'),
             '--realpath' => true,
         ]));
     }

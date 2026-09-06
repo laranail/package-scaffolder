@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Artifacts;
 
 use Illuminate\Filesystem\Filesystem;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\HostComposerWriter;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class PortabilityTest extends BaseTestCase
 {
@@ -32,19 +32,19 @@ class PortabilityTest extends BaseTestCase
 
     public function test_same_artifact_resolves_to_same_namespace_in_every_container(): void
     {
-        $config = require dirname(__DIR__, 2).'/config/artifacts.php';
-        $source = dirname(__DIR__, 2).'/stubs/blueprints/laravel';
+        $config = require dirname(__DIR__, 2) . '/config/artifacts.php';
+        $source = dirname(__DIR__, 2) . '/stubs/blueprints/laravel';
         $features = array_keys($config['features']);
         $features[] = 'livewire';
 
         $providers = [];
         foreach (['module', 'package', 'plugin'] as $kind) {
-            $target = sys_get_temp_dir().'/laranail-port-'.$kind.'-'.uniqid();
+            $target = sys_get_temp_dir() . '/laranail-port-' . $kind . '-' . uniqid();
             $this->cleanup[] = $target;
             $plugin = $kind === 'plugin' ? 'none' : 'none';
             (new ArtifactGenerator($this->fs, $config))
                 ->generate(new GenerationRequest($kind, $plugin, $features, 'Widget', 'Acme', 'acme'), $source, $target);
-            $providers[$kind] = $this->fs->get($target.'/src/Providers/WidgetServiceProvider.php');
+            $providers[$kind] = $this->fs->get($target . '/src/Providers/WidgetServiceProvider.php');
         }
 
         foreach ($providers as $kind => $content) {
@@ -57,15 +57,15 @@ class PortabilityTest extends BaseTestCase
 
     public function test_host_composer_wiring_is_idempotent_and_preserves_unrelated_keys(): void
     {
-        $path = sys_get_temp_dir().'/laranail-host-'.uniqid().'.json';
+        $path = sys_get_temp_dir() . '/laranail-host-' . uniqid() . '.json';
         $this->cleanup[] = $path;
 
         // A pre-existing composer with unrelated keys + a developer's own choices.
         $this->fs->put($path, json_encode([
-            'name' => 'acme/app',
-            'require' => ['php' => '^8.4'],
+            'name'              => 'acme/app',
+            'require'           => ['php' => '^8.4'],
             'minimum-stability' => 'stable',
-            'config' => ['allow-plugins' => ['acme/custom-plugin' => true]],
+            'config'            => ['allow-plugins' => ['acme/custom-plugin' => true]],
         ], JSON_PRETTY_PRINT));
 
         $writer = new HostComposerWriter($this->fs);
