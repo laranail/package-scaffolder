@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2, was @master
+      uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
       with:
         php-version: ${{ matrix.php-versions }}
         coverage: xdebug
@@ -54,8 +54,21 @@ jobs:
       timeout-minutes: 15
       steps:
           - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-          - name: "laravel-pint"
-            uses: aglipanci/laravel-pint-action@36de00d5f5a8a4e12d443e01671daa12a18f4c79 # 2.6, was @latest
+
+          # Was aglipanci/laravel-pint-action with `configPath: ./pint.json` - a
+          # file this package does not have. Pint silently falls back to its own
+          # defaults when handed a config path that does not exist, so this job
+          # was reporting on a rule set nobody chose, and disagreed with
+          # `composer pint` (which runs the shared laranail config through
+          # laranail-pint). Same binary as the composer script now.
+          - name: Setup PHP
+            uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
             with:
-                configPath: './pint.json'
-                testMode: true
+                php-version: '8.4'
+                coverage: none
+
+          - name: Install dependencies
+            run: composer install --prefer-dist --no-progress
+
+          - name: "laravel-pint"
+            run: composer pint
