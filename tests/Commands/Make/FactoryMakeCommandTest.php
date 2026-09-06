@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class FactoryMakeCommandTest extends BaseTestCase
 {
@@ -35,7 +35,7 @@ class FactoryMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-factory', ['name' => 'Post', 'module' => 'Blog']);
 
-        $factoryFile = $this->getModuleBasePath().'/database/factories/PostFactory.php';
+        $factoryFile = $this->getModuleBasePath() . '/database/factories/PostFactory.php';
 
         $this->assertTrue(is_file($factoryFile), 'Factory file was not created.');
         $this->assertMatchesSnapshot($this->finder->get($factoryFile));

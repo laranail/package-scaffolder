@@ -28,7 +28,7 @@ class GeneratorPath
 
         $this->path = $config;
         $this->generate = (bool) $config;
-        $this->namespace = $this->path_namespace($this->strip_app_folder($config));
+        $this->namespace = $this->path_namespace($this->strip_app_folder(is_string($config) ? $config : null));
     }
 
     public function getPath()

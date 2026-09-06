@@ -3,7 +3,7 @@
 declare(strict_types=1);
 use Illuminate\Filesystem\Filesystem;
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +17,12 @@ require __DIR__.'/../vendor/autoload.php';
 | fail EVERY subsequent boot. Clear both once, before any test app boots.
 |
 */
-$skeleton = __DIR__.'/../vendor/orchestra/testbench-core/laravel';
+$skeleton = __DIR__ . '/../vendor/orchestra/testbench-core/laravel';
 
-if (is_dir($skeleton.'/modules')) {
-    (new Filesystem)->deleteDirectory($skeleton.'/modules');
+if (is_dir($skeleton . '/modules')) {
+    (new Filesystem)->deleteDirectory($skeleton . '/modules');
 }
 
-if (is_file($skeleton.'/bootstrap/cache/modules.php')) {
-    @unlink($skeleton.'/bootstrap/cache/modules.php');
+if (is_file($skeleton . '/bootstrap/cache/modules.php')) {
+    @unlink($skeleton . '/bootstrap/cache/modules.php');
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class ReplacementMakeCommandTest extends BaseTestCase
 {
@@ -35,7 +35,7 @@ class ReplacementMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-replacement', ['name' => 'Demo', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Console/Replacements/Demo.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Console/Replacements/Demo.php'));
         $this->assertSame(0, $code);
     }
 
@@ -44,7 +44,7 @@ class ReplacementMakeCommandTest extends BaseTestCase
         $this->artisan('module:make-replacement', ['name' => 'Demo', 'module' => 'Blog']);
         $code = $this->artisan('module:make-replacement', ['name' => 'Demo', 'module' => 'Blog', '--force' => true]);
 
-        $this->assertTrue(is_file($this->modulePath.'/Console/Replacements/Demo.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Console/Replacements/Demo.php'));
         $this->assertSame(0, $code);
     }
 
@@ -52,7 +52,7 @@ class ReplacementMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-replacement', ['name' => 'Demo', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Console/Replacements/Demo.php');
+        $file = $this->finder->get($this->modulePath . '/Console/Replacements/Demo.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -62,7 +62,7 @@ class ReplacementMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-replacement', ['name' => 'Api\\Demo', 'module' => 'Blog']);
 
-        $this->assertTrue(is_file($this->modulePath.'/Console/Replacements/Api/Demo.php'));
+        $this->assertTrue(is_file($this->modulePath . '/Console/Replacements/Api/Demo.php'));
         $this->assertSame(0, $code);
     }
 
@@ -70,7 +70,7 @@ class ReplacementMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-replacement', ['name' => 'Api\\Demo', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Console/Replacements/Api/Demo.php');
+        $file = $this->finder->get($this->modulePath . '/Console/Replacements/Api/Demo.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

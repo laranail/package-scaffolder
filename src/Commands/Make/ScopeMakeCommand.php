@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ScopeMakeCommand extends GeneratorCommand
 {
@@ -28,9 +28,9 @@ class ScopeMakeCommand extends GeneratorCommand
     {
         $path = $this->laravel['modules']->getModulePath($this->getModuleName());
 
-        $filePath = GenerateConfigReader::read('scopes')->getPath() ?? config('laranail.package-scaffolder.modules.paths.generator.model.path').'/Scopes';
+        $filePath = GenerateConfigReader::read('scopes')->getPath() ?? config('laranail.package-scaffolder.modules.paths.generator.model.path') . '/Scopes';
 
-        return $path.$filePath.'/'.$this->getScopeName().'.php';
+        return $path . $filePath . '/' . $this->getScopeName() . '.php';
     }
 
     #[Override]
@@ -41,7 +41,7 @@ class ScopeMakeCommand extends GeneratorCommand
         $parts = explode('/', $namespace);
         $models = end($parts);
 
-        return $models.'\Scopes';
+        return $models . '\Scopes';
     }
 
     protected function getTemplateContents(): string
@@ -50,7 +50,7 @@ class ScopeMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS' => $this->getClassNameWithoutNamespace(),
+            'CLASS'           => $this->getClassNameWithoutNamespace(),
         ]))->render();
     }
 

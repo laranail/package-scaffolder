@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class ObserverMakeCommand extends GeneratorCommand
 {
@@ -55,7 +55,7 @@ class ObserverMakeCommand extends GeneratorCommand
 
         $nsPart = trim(str_replace('/', '\\', $path), '\\'); // 'Models'
 
-        return $moduleNamespace.'\\'.$moduleName.'\\'.$nsPart; // Modules\Core\Models
+        return $moduleNamespace . '\\' . $moduleName . '\\' . $nsPart; // Modules\Core\Models
     }
 
     #[Override]
@@ -104,10 +104,10 @@ class ObserverMakeCommand extends GeneratorCommand
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/observer.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'NAME' => $this->getModelName(),
+            'NAMESPACE'       => $this->getClassNamespace($module),
+            'NAME'            => $this->getModelName(),
             'MODEL_NAMESPACE' => $this->getModelNamespace(),
-            'NAME_VARIABLE' => $this->getModelVariable(),
+            'NAME_VARIABLE'   => $this->getModelVariable(),
         ]))->render();
     }
 
@@ -117,7 +117,7 @@ class ObserverMakeCommand extends GeneratorCommand
 
         $observerPath = GenerateConfigReader::read('observer');
 
-        return $path.$observerPath->getPath().'/'.$this->getFileName();
+        return $path . $observerPath->getPath() . '/' . $this->getFileName();
     }
 
     /**
@@ -130,11 +130,11 @@ class ObserverMakeCommand extends GeneratorCommand
 
     private function getModelVariable(): string
     {
-        return '$'.Str::lower($this->argument('name'));
+        return '$' . Str::lower($this->argument('name'));
     }
 
     private function getFileName(): string
     {
-        return Str::studly($this->argument('name')).'Observer.php';
+        return Str::studly($this->argument('name')) . 'Observer.php';
     }
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Make;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 
 class PolicyMakeCommandTest extends BaseTestCase
 {
@@ -35,7 +35,7 @@ class PolicyMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
-        $policyFile = $this->modulePath.'/Policies/PostPolicy.php';
+        $policyFile = $this->modulePath . '/Policies/PostPolicy.php';
 
         $this->assertTrue(is_file($policyFile), 'Policy file was not created.');
         $this->assertMatchesSnapshot($this->finder->get($policyFile));
@@ -48,7 +48,7 @@ class PolicyMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->getModuleBasePath().'/SuperPolicies/PostPolicy.php');
+        $file = $this->finder->get($this->getModuleBasePath() . '/SuperPolicies/PostPolicy.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);
@@ -60,7 +60,7 @@ class PolicyMakeCommandTest extends BaseTestCase
 
         $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
-        $file = $this->finder->get($this->modulePath.'/Policies/PostPolicy.php');
+        $file = $this->finder->get($this->modulePath . '/Policies/PostPolicy.php');
 
         $this->assertMatchesSnapshot($file);
         $this->assertSame(0, $code);

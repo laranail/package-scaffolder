@@ -35,9 +35,9 @@ class HelpersTest extends BaseTestCase
     {
         $base = config('laranail.package-scaffolder.modules.paths.modules');
 
-        $this->assertSame($base.DIRECTORY_SEPARATOR.'Unknown', module_path('Unknown'));
+        $this->assertSame($base . DIRECTORY_SEPARATOR . 'Unknown', module_path('Unknown'));
         $this->assertSame(
-            $base.DIRECTORY_SEPARATOR.'Unknown'.DIRECTORY_SEPARATOR.'config/config.php',
+            $base . DIRECTORY_SEPARATOR . 'Unknown' . DIRECTORY_SEPARATOR . 'config/config.php',
             module_path('Unknown', 'config/config.php'),
         );
     }

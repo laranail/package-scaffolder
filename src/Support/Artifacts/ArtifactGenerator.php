@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support\Artifacts;
 
-use FilesystemIterator;
-use Illuminate\Filesystem\Filesystem;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use RuntimeException;
+use FilesystemIterator;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
@@ -79,7 +79,7 @@ final class ArtifactGenerator
     }
 
     /**
-     * @param  list<string>  $needles
+     * @param list<string> $needles
      */
     private static function matchesAny(string $haystack, array $needles): bool
     {
@@ -102,7 +102,7 @@ final class ArtifactGenerator
             }
 
             foreach ((array) $files as $relative) {
-                $path = $targetPath.'/'.$relative;
+                $path = $targetPath . '/' . $relative;
                 if ($this->files->exists($path)) {
                     $this->files->delete($path);
                 }
@@ -145,12 +145,12 @@ final class ArtifactGenerator
         $tokens = $request->tokens();
 
         $map = [
-            'Posts' => $tokens['entityStudlyPlural'],
-            'Post' => $tokens['entityStudly'],
-            'posts' => $tokens['entityPlural'],
-            'post' => $tokens['entityLower'],
+            'Posts'                           => $tokens['entityStudlyPlural'],
+            'Post'                            => $tokens['entityStudly'],
+            'posts'                           => $tokens['entityPlural'],
+            'post'                            => $tokens['entityLower'],
             TokenReplacer::PLACEHOLDER_STUDLY => $request->studly(),  // Blog
-            TokenReplacer::PLACEHOLDER_LOWER => $request->lower(),    // blog
+            TokenReplacer::PLACEHOLDER_LOWER  => $request->lower(),    // blog
         ];
 
         $iterator = new RecursiveIteratorIterator(
@@ -163,7 +163,7 @@ final class ArtifactGenerator
             $renamed = strtr($name, $map);
 
             if ($renamed !== $name) {
-                $destination = $item->getPath().'/'.$renamed;
+                $destination = $item->getPath() . '/' . $renamed;
                 if (! $this->files->move($item->getPathname(), $destination)) {
                     throw new RuntimeException("Failed to rename [{$item->getPathname()}] to [{$destination}].");
                 }
@@ -228,12 +228,12 @@ final class ArtifactGenerator
     }
 
     /**
-     * @param  list<string>  $paths
+     * @param list<string> $paths
      */
     private function deletePaths(string $targetPath, array $paths): void
     {
         foreach ($paths as $relative) {
-            $full = $targetPath.'/'.rtrim($relative, '/');
+            $full = $targetPath . '/' . rtrim($relative, '/');
 
             if (str_ends_with($relative, '/')) {
                 $this->files->deleteDirectory($full);
@@ -251,7 +251,7 @@ final class ArtifactGenerator
      */
     private function repairComposer(GenerationRequest $request, string $targetPath): void
     {
-        $path = $targetPath.'/composer.json';
+        $path = $targetPath . '/composer.json';
 
         if (! $this->files->exists($path)) {
             return;
@@ -307,7 +307,7 @@ final class ArtifactGenerator
             throw new RuntimeException("Failed to encode repaired composer.json at [{$path}].");
         }
 
-        $this->atomicPut($path, $encoded.PHP_EOL);
+        $this->atomicPut($path, $encoded . PHP_EOL);
     }
 
     /**
@@ -316,7 +316,7 @@ final class ArtifactGenerator
      */
     private function atomicPut(string $path, string $content): void
     {
-        $tmp = $path.'.tmp'.getmypid();
+        $tmp = $path . '.tmp' . getmypid();
         $this->files->put($tmp, $content);
         $this->files->move($tmp, $path);
     }

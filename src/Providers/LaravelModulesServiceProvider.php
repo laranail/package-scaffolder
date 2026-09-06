@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
+use Override;
+use SplFileInfo;
+use Illuminate\Support\Str;
 use Composer\InstalledVersions;
-use Illuminate\Contracts\Translation\Translator as TranslatorContract;
-use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Translation\Translator;
+use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Events\DiscoverEvents;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Str;
-use Illuminate\Translation\Translator;
-use Override;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
-use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidActivatorClass;
-use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
-use Simtabi\Laranail\Package\Scaffolder\Laravel\LaravelFileRepository;
-use Simtabi\Laranail\Package\Scaffolder\Laravel\Module as LaravelModule;
-use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Illuminate\Contracts\Translation\Translator as TranslatorContract;
+use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\LaravelFileRepository;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ResolvesModuleNamespace;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\Module as LaravelModule;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidActivatorClass;
 use Simtabi\Laranail\Package\Tools\Support\Definitions\AboutSectionDefinition;
-use SplFileInfo;
 
 class LaravelModulesServiceProvider extends ModulesServiceProvider
 {
@@ -65,8 +65,8 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $this->registerMigrations();
         $this->registerTranslations();
 
-        $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'laranail.package-scaffolder.modules');
-        $this->mergeConfigFrom(__DIR__.'/../../config/artifacts.php', 'laranail.package-scaffolder.artifacts');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'laranail.package-scaffolder.modules');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/artifacts.php', 'laranail.package-scaffolder.artifacts');
 
         $this->registerModules();
     }
@@ -76,7 +76,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
      */
     public function setupStubPath(): void
     {
-        $path = $this->app['config']->get('laranail.package-scaffolder.modules.stubs.path') ?? dirname(__DIR__, 2).'/stubs';
+        $path = $this->app['config']->get('laranail.package-scaffolder.modules.stubs.path') ?? dirname(__DIR__, 2) . '/stubs';
         Stub::setBasePath($path);
 
         $this->app->booted(function ($app): void {
@@ -120,7 +120,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
             if ($modulePath === false) {
                 continue;
             }
-            if (! str_starts_with($realPath, $modulePath.DIRECTORY_SEPARATOR)) {
+            if (! str_starts_with($realPath, $modulePath . DIRECTORY_SEPARATOR)) {
                 continue;
             }
 
@@ -134,7 +134,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
             $relative = $this->strip_app_folder(str_replace(DIRECTORY_SEPARATOR, '/', $relative));
             $relative = preg_replace('/\.php$/', '', $relative);
 
-            return $namespace.'\\'.str_replace('/', '\\', $relative);
+            return $namespace . '\\' . str_replace('/', '\\', $relative);
         }
 
         return null;
@@ -149,7 +149,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         $class = trim(Str::replaceFirst($basePath, '', $file->getRealPath()), DIRECTORY_SEPARATOR);
 
         return ucfirst(Str::camel(str_replace(
-            [DIRECTORY_SEPARATOR, ucfirst(basename(app()->path())).'\\'],
+            [DIRECTORY_SEPARATOR, ucfirst(basename(app()->path())) . '\\'],
             ['\\', app()->getNamespace()],
             ucfirst(Str::replaceLast('.php', '', $class)),
         )));
@@ -167,7 +167,7 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
         });
         $this->app->singleton(ActivatorInterface::class, function ($app): object {
             $activator = $app['config']->get('laranail.package-scaffolder.modules.activator');
-            $class = $app['config']->get('laranail.package-scaffolder.modules.activators.'.$activator)['class'];
+            $class = $app['config']->get('laranail.package-scaffolder.modules.activators.' . $activator)['class'];
 
             if ($class === null) {
                 throw InvalidActivatorClass::missingConfig();

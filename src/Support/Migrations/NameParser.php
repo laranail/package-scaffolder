@@ -92,8 +92,8 @@ class NameParser
     {
         return match ($action = $this->getAction()) {
             'add', 'append', 'update', 'insert' => "/{$action}_(.*)_to_(.*)_table/",
-            'delete', 'remove', 'alter' => "/{$action}_(.*)_from_(.*)_table/",
-            default => "/{$action}_(.*)_table/",
+            'delete', 'remove', 'alter'         => "/{$action}_(.*)_from_(.*)_table/",
+            default                             => "/{$action}_(.*)_table/",
         };
     }
 
