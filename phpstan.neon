@@ -24,4 +24,16 @@ parameters:
     # types slightly differently from the run that generated the baseline —
     # nine getOptions() entries went stale exactly this way. Genuine errors
     # still fail the gate; only "this ignore matched nothing" is silenced.
+    #
+    # The view-string ignore below needs the same setting for its own reason:
+    # only larastan 3.x emits that error, so where an older one resolves the
+    # pattern would itself become an unmatched-ignore ERROR.
     reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        # larastan validates a view-string literal against a skeleton app that never
+        # boots this package's provider, so a namespace registered at RUNTIME is
+        # invisible to it and every `view()` / `View::make()` call reads as an error.
+        # The views exist; the suite renders them.
+        - '#expects view-string, string given#'
+
