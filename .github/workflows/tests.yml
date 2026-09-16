@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   phpunit:
-    name: PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php }} · ${{ matrix.stability }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -23,6 +23,11 @@ jobs:
       matrix:
         php: ['8.4', '8.5']
 
+        # prefer-lowest is what actually installs the floor composer.json declares.
+        # Without it nothing ever resolves the minimum this package tells consumers
+        # it supports. Paired with --prefer-stable because bare --prefer-lowest
+        # resolves the lowest UNSTABLE release, which fails for the wrong reason.
+        stability: [prefer-lowest, prefer-stable]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -56,7 +61,7 @@ jobs:
         run: rm -rf "$(composer config cache-files-dir)/laranail"
 
       - name: Install dependencies
-        run: composer update --prefer-stable --no-interaction --no-progress
+        run: composer update --${{ matrix.stability }} --prefer-stable --prefer-stable --no-interaction --no-progress
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit --no-coverage
