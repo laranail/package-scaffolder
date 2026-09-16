@@ -33,7 +33,7 @@ class GeneratedArtifactBootTest extends BaseTestCase
         parent::setUp();
 
         if (! class_exists(PackageServiceProvider::class)) {
-            $this->markTestSkipped('laranail/package-tools is not installed (dev dependency).');
+            $this->markTestSkipped('laranail/package-tools is not installed.');
         }
 
         $this->fs = new Filesystem;

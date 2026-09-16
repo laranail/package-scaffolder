@@ -49,7 +49,6 @@
         "laravel/pint": "^1.16",
         "spatie/phpunit-snapshot-assertions": "^5.0",
         "phpstan/phpstan": "^2.0",
-        "laranail/package-tools": "^0.1",
         "rector/rector": "^2.5.8"
     },
     "autoload": {
