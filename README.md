@@ -4,7 +4,7 @@
 [![Static analysis](https://github.com/laranail/package-scaffolder/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/laranail/package-scaffolder/actions/workflows/static-analysis.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-`laranail/package-scaffolder` is not published to Packagist, so there is no registry-version badge to show — see [Install](#install).
+`laranail/package-scaffolder` is not published to Packagist, so there is no registry-version badge to show: see [Install](#install).
 
 > Author-time generator for the laranail ecosystem — scaffold self-contained Laravel **packages, modules, and plugins** (HMVC) from one Artisan command, each with its own views, controllers, models, migrations, service providers, tests, and CI.
 
