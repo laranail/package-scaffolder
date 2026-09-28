@@ -3,11 +3,17 @@
 ## Reporting a vulnerability
 
 Please do **not** open public issues for security vulnerabilities. Instead,
-email the maintainer privately with:
+**email `security@simtabi.com`** with:
 
 - a description of the vulnerability and its impact,
 - steps to reproduce, and
 - any suggested remediation.
+
+> **GitHub private vulnerability reporting is not offered here yet.** It is a
+> public-repository feature and is off until a repository turns it on. Once this
+> package ships from a public repository with the feature enabled, name it above the
+> email address — and not before. Advertising a channel that is off sends a reporter
+> to a button that is not on the page.
 
 You will receive an acknowledgement, and a fix will be released as soon as
 practical with credit unless you prefer to remain anonymous.
