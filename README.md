@@ -16,6 +16,15 @@ Requires PHP `^8.4.1 || ^8.5` on Laravel `^13`. Its runtime counterpart is [`lar
 composer require --dev laranail/package-scaffolder
 ```
 
+## Quick start
+
+```bash
+php artisan laranail::package-scaffolder.new Blog --type=module
+# -> platform/modules/Blog/ with composer.json, module.json, its provider, tests and CI
+```
+
+The full walkthrough is in [Getting started](docs/getting-started.md); everything else is in the [documentation index](#documentation).
+
 ## Documentation
 
 Full documentation is at **[opensource.simtabi.com/documentation/laranail/package-scaffolder](https://opensource.simtabi.com/documentation/laranail/package-scaffolder/)** — getting started, the generated artifacts (package/module/plugin manifests), the make commands, architecture, and configuration.
