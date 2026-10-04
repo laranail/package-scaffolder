@@ -33,7 +33,7 @@ class NotificationMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_the_notification_class(): void
     {
-        $code = $this->artisan('module:make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Notifications/WelcomeNotification.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class NotificationMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Notifications/WelcomeNotification.php');
 
@@ -53,7 +53,7 @@ class NotificationMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.notifications.path', 'SuperNotifications');
 
-        $code = $this->artisan('module:make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperNotifications/WelcomeNotification.php');
 
@@ -65,7 +65,7 @@ class NotificationMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.notifications.namespace', 'SuperNotifications');
 
-        $code = $this->artisan('module:make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-notification', ['name' => 'WelcomeNotification', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Notifications/WelcomeNotification.php');
 

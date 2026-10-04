@@ -67,6 +67,12 @@ abstract class ModulesServiceProvider extends ServiceProvider
             $configPath => config_path('laranail/package-scaffolder/modules.php'),
         ], 'laranail::package-scaffolder-config');
 
+        // artifacts.php had no tag, so the file the configuration docs call
+        // user-editable could not be published at all.
+        $this->publishes([
+            dirname(__DIR__, 2) . '/config/artifacts.php' => config_path('laranail/package-scaffolder/artifacts.php'),
+        ], 'laranail::package-scaffolder-artifacts');
+
         $this->publishes([
             $stubsPath => base_path('stubs/laranail-package-scaffolder'),
         ], 'laranail::package-scaffolder-stubs');

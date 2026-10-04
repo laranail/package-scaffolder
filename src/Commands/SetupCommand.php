@@ -6,10 +6,12 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Console\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class SetupCommand extends Command
 {
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     /**
      * The console command name.

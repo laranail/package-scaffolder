@@ -10,11 +10,13 @@ use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 use Simtabi\Laranail\Package\Scaffolder\Generators\FileGenerator;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\FileAlreadyExistException;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 abstract class GeneratorCommand extends Command
 {
     use PathNamespace;
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     /**
      * The name of 'name' argument.

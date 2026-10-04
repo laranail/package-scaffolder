@@ -21,12 +21,14 @@ use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 abstract class BaseCommand extends Command implements PromptsForMissingInput
 {
     use ConfirmableTrait;
     use Prohibitable;
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     public const ALL = 'All';
 

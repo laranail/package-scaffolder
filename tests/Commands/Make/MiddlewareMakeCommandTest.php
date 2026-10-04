@@ -33,7 +33,7 @@ class MiddlewareMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_middleware_class(): void
     {
-        $code = $this->artisan('module:make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Http/Middleware/SomeMiddleware.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class MiddlewareMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Middleware/SomeMiddleware.php');
 
@@ -53,7 +53,7 @@ class MiddlewareMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.filter.path', 'Middleware');
 
-        $code = $this->artisan('module:make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/Middleware/SomeMiddleware.php');
 
@@ -65,7 +65,7 @@ class MiddlewareMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.filter.namespace', 'Middleware');
 
-        $code = $this->artisan('module:make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-middleware', ['name' => 'SomeMiddleware', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Middleware/SomeMiddleware.php');
 

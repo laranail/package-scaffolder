@@ -13,8 +13,16 @@ Requires PHP `^8.4.1 || ^8.5` on Laravel `^13`. Its runtime counterpart is [`lar
 ## Install
 
 ```bash
-composer require --dev laranail/package-scaffolder
+composer require laranail/package-scaffolder
 ```
+
+Install it as a regular dependency, not `--dev`: modules generated with
+`laranail::package-scaffolder.make` extend its `ModuleServiceProvider` and are loaded at runtime
+by its service provider, so a `--no-dev` production install would leave them without a base class.
+
+Every command is named `laranail::package-scaffolder.<command>`. The old `module:<command>` and
+`make:artifact` names still work as deprecated aliases and print a one-line warning naming the
+replacement; they are removed no earlier than the next minor after 0.1.
 
 ## Quick start guide and usage
 
@@ -22,11 +30,12 @@ composer require --dev laranail/package-scaffolder
 
 Nothing is required before the first call: the generator runs on its packaged config. By default it
 also wires the host `composer.json` (merge-plugin plus path repositories) so the generated artifact
-autoloads; pass `--no-repo` to skip that. Optionally publish the module config or the per-file stubs
-to customise them:
+autoloads; pass `--no-repo` to skip that. Optionally publish the module config, the artifact config
+or the per-file stubs to customise them:
 
 ```bash
 php artisan vendor:publish --tag=laranail::package-scaffolder-config
+php artisan vendor:publish --tag=laranail::package-scaffolder-artifacts
 php artisan vendor:publish --tag=laranail::package-scaffolder-stubs
 ```
 

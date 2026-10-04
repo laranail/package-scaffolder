@@ -31,7 +31,7 @@ class PublishCommandTest extends BaseTestCase
 
     public function test_it_published_module_assets(): void
     {
-        $code = $this->artisan('module:publish', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.publish', ['module' => 'Blog']);
 
         $this->assertTrue(is_file(public_path('modules/blog/script.js')));
         $this->assertSame(0, $code);

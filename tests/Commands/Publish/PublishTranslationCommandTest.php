@@ -23,7 +23,7 @@ class PublishTranslationCommandTest extends BaseTestCase
 
     public function test_it_published_module_translations(): void
     {
-        $code = $this->artisan('module:publish-translation', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.publish-translation', ['module' => 'Blog']);
 
         $this->assertDirectoryExists(base_path('resources/lang/blog'));
         $this->assertSame(0, $code);

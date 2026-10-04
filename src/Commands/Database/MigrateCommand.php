@@ -52,7 +52,7 @@ class MigrateCommand extends BaseCommand
         ]));
 
         if ($this->option('seed')) {
-            $this->call('module:seed', ['module' => $module->getName(), '--force' => $this->option('force')]);
+            $this->call('laranail::package-scaffolder.seed', ['module' => $module->getName(), '--force' => $this->option('force')]);
         }
     }
 

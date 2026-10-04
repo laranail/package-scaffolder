@@ -34,7 +34,7 @@ class EnumMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_enum_class(): void
     {
-        $code = $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Enums/MyEnum.php'));
         $this->assertSame(0, $code);
@@ -42,8 +42,8 @@ class EnumMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_enum_class_can_override_with_force_option(): void
     {
-        $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
-        $code = $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog', '--force' => true]);
+        $this->artisan('laranail::package-scaffolder.make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-enum', ['name' => 'MyEnum', 'module' => 'Blog', '--force' => true]);
 
         $this->assertTrue(is_file($this->modulePath . '/Enums/MyEnum.php'));
         $this->assertSame(0, $code);
@@ -51,7 +51,7 @@ class EnumMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-enum', ['name' => 'MyEnum', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Enums/MyEnum.php');
 
@@ -61,7 +61,7 @@ class EnumMakeCommandTest extends BaseTestCase
 
     public function test_it_can_generate_a_enum_in_sub_namespace_in_correct_folder(): void
     {
-        $code = $this->artisan('module:make-enum', ['name' => 'Api\\MyEnum', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-enum', ['name' => 'Api\\MyEnum', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Enums/Api/MyEnum.php'));
         $this->assertSame(0, $code);
@@ -69,7 +69,7 @@ class EnumMakeCommandTest extends BaseTestCase
 
     public function test_it_can_generate_a_enum_in_sub_namespace_with_correct_generated_file(): void
     {
-        $code = $this->artisan('module:make-enum', ['name' => 'Api\\MyEnum', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-enum', ['name' => 'Api\\MyEnum', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Enums/Api/MyEnum.php');
 

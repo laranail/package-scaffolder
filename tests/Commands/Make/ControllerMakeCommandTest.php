@@ -34,7 +34,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_controller_class(): void
     {
-        $code = $this->artisan('module:make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Http/Controllers/MyController.php'));
         $this->assertSame(0, $code);
@@ -42,7 +42,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Controllers/MyController.php');
 
@@ -52,7 +52,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_appends_controller_to_name_if_not_present(): void
     {
-        $code = $this->artisan('module:make-controller', ['controller' => 'My', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'My', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Http/Controllers/MyController.php'));
         $this->assertSame(0, $code);
@@ -60,7 +60,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_appends_controller_to_class_name_if_not_present(): void
     {
-        $code = $this->artisan('module:make-controller', ['controller' => 'My', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'My', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Controllers/MyController.php');
 
@@ -70,7 +70,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_plain_controller(): void
     {
-        $code = $this->artisan('module:make-controller', [
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', [
             'controller' => 'MyController',
             'module'     => 'Blog',
             '--plain'    => true,
@@ -84,7 +84,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_an_api_controller(): void
     {
-        $code = $this->artisan('module:make-controller', [
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', [
             'controller' => 'MyController',
             'module'     => 'Blog',
             '--api'      => true,
@@ -98,7 +98,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_an_invokable_controller(): void
     {
-        $code = $this->artisan('module:make-controller', [
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', [
             'controller'  => 'MyController',
             'module'      => 'Blog',
             '--invokable' => true,
@@ -112,7 +112,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_an_inertia_controller(): void
     {
-        $code = $this->artisan('module:make-controller', [
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', [
             'controller' => 'MyController',
             'module'     => 'Blog',
             '--inertia'  => true,
@@ -128,7 +128,7 @@ class ControllerMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.controller.path', 'Controllers');
 
-        $code = $this->artisan('module:make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/Controllers/MyController.php');
 
@@ -140,7 +140,7 @@ class ControllerMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.controller.namespace', 'Controllers');
 
-        $code = $this->artisan('module:make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'MyController', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Controllers/MyController.php');
 
@@ -150,7 +150,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_can_generate_a_controller_in_sub_namespace_in_correct_folder(): void
     {
-        $code = $this->artisan('module:make-controller', ['controller' => 'Api\\MyController', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'Api\\MyController', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Http/Controllers/Api/MyController.php'));
         $this->assertSame(0, $code);
@@ -158,7 +158,7 @@ class ControllerMakeCommandTest extends BaseTestCase
 
     public function test_it_can_generate_a_controller_in_sub_namespace_with_correct_generated_file(): void
     {
-        $code = $this->artisan('module:make-controller', ['controller' => 'Api\\MyController', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-controller', ['controller' => 'Api\\MyController', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Controllers/Api/MyController.php');
 

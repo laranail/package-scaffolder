@@ -38,14 +38,14 @@ class ModuleHelperTest extends BaseTestCase
 
     public function test_module_returns_false_when_disabled(): void
     {
-        Artisan::call('module:disable Blog');
+        Artisan::call('laranail::package-scaffolder.disable Blog');
 
         $this->assertFalse(module('Blog'));
     }
 
     public function test_module_returns_instance_when_disabled_and_instance_parameter_is_true(): void
     {
-        Artisan::call('module:disable Blog');
+        Artisan::call('laranail::package-scaffolder.disable Blog');
 
         $module = module('Blog', true);
 
@@ -62,7 +62,7 @@ class ModuleHelperTest extends BaseTestCase
 
     public function test_module_directive_does_not_render_content_when_module_is_disabled(): void
     {
-        Artisan::call('module:disable Blog');
+        Artisan::call('laranail::package-scaffolder.disable Blog');
 
         $blade = "@module('Blog') Enabled @endmodule";
 

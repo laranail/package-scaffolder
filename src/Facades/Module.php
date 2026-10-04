@@ -40,7 +40,7 @@ class Module extends Facade
     /**
      * Indicate if destructive Artisan commands should be prohibited.
      *
-     * Prohibits: module:migrate-fresh, module:migrate-refresh, and module:migrate-reset
+     * Prohibits: laranail::package-scaffolder.migrate-fresh, .migrate-refresh and .migrate-reset
      */
     public static function prohibitDestructiveCommands(bool $prohibit = true): void
     {

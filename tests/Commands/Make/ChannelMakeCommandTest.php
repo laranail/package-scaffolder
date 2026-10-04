@@ -33,7 +33,7 @@ class ChannelMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_the_channel_class(): void
     {
-        $code = $this->artisan('module:make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Broadcasting/WelcomeChannel.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class ChannelMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Broadcasting/WelcomeChannel.php');
 
@@ -53,7 +53,7 @@ class ChannelMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.channels.path', 'SuperChannel');
 
-        $code = $this->artisan('module:make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperChannel/WelcomeChannel.php');
 
@@ -65,7 +65,7 @@ class ChannelMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.channels.namespace', 'SuperChannel');
 
-        $code = $this->artisan('module:make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-channel', ['name' => 'WelcomeChannel', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Broadcasting/WelcomeChannel.php');
 

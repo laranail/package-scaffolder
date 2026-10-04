@@ -33,7 +33,7 @@ class DisableCommandTest extends BaseTestCase
         $blogModule = $this->repository->find('Blog');
         $blogModule->disable();
 
-        $code = $this->artisan('module:disable', ['module' => ['Blog']]);
+        $code = $this->artisan('laranail::package-scaffolder.disable', ['module' => ['Blog']]);
 
         $this->assertTrue($blogModule->isDisabled());
         $this->assertSame(0, $code);
@@ -49,7 +49,7 @@ class DisableCommandTest extends BaseTestCase
         $taxonomyModule = $this->repository->find('Taxonomy');
         $taxonomyModule->enable();
 
-        $code = $this->artisan('module:disable', ['module' => ['Blog', 'Taxonomy']]);
+        $code = $this->artisan('laranail::package-scaffolder.disable', ['module' => ['Blog', 'Taxonomy']]);
 
         $this->assertTrue($blogModule->isDisabled() && $taxonomyModule->isDisabled());
         $this->assertSame(0, $code);
@@ -65,7 +65,7 @@ class DisableCommandTest extends BaseTestCase
         $taxonomyModule = $this->repository->find('Taxonomy');
         $taxonomyModule->enable();
 
-        $code = $this->artisan('module:disable', ['--all' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.disable', ['--all' => true]);
 
         $this->assertTrue($blogModule->isDisabled() && $taxonomyModule->isDisabled());
         $this->assertSame(0, $code);

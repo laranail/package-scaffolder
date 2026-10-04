@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 /*
 |--------------------------------------------------------------------------
-| Artifact generation (make:artifact / laranail::package-scaffolder.new)
+| Artifact generation (laranail::package-scaffolder.new)
 |--------------------------------------------------------------------------
 |
-| Single source of truth for what `make:artifact` can generate: where each
+| Single source of truth for what `laranail::package-scaffolder.new` can generate: where each
 | artifact kind is written, the plugin dimension, and the toggleable feature
 | taxonomy. The generation engine reads this; the command's prompts/flags are
 | derived from it so a flag and its prompt can never drift apart.
 |
 | See REFACTOR_AUDIT.md (entry 0002) for the per-feature prune map.
+|
+| Environment variables are read under their LARANAIL_PACKAGE_SCAFFOLDER_
+| name first. The unprefixed ARTIFACT_* names are deprecated fallbacks,
+| removed no earlier than the next minor after 0.1.
 |
 */
 
@@ -22,7 +26,7 @@ return [
     | Root PHP namespace offered at creation. The container directory is NEVER
     | derived into the namespace; the user is prompted (default + suggestions).
     */
-    'default_namespace' => env('ARTIFACT_DEFAULT_NAMESPACE', 'Modules'),
+    'default_namespace' => env('LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_NAMESPACE', env('ARTIFACT_DEFAULT_NAMESPACE', 'Modules')),
 
     'namespace_suggestions' => [
         'Modules',
@@ -35,10 +39,10 @@ return [
     | Default primary entity (Post → {entity}) when --entity is not given. It MUST be
     | distinct from the artifact name — the manager is named after the artifact and the
     | model after the entity, so identical names collide. A generic default lets
-    | `make:artifact Admin` build cleanly (an Admin package with an Item record);
+    | `laranail::package-scaffolder.new Admin` build cleanly (an Admin package with an Item record);
     | rename it after generation or pass --entity.
     */
-    'default_entity' => env('ARTIFACT_DEFAULT_ENTITY', 'Item'),
+    'default_entity' => env('LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_ENTITY', env('ARTIFACT_DEFAULT_ENTITY', 'Item')),
 
     /*
     | Artifact kinds → container directory (relative to base_path()). The folder
@@ -59,7 +63,7 @@ return [
     | per-flavor pruning. (Only `laravel` ships a blueprint today; lumen/vanilla
     | are registered and their blueprints follow.)
     */
-    'default_flavor' => env('ARTIFACT_DEFAULT_FLAVOR', 'laravel'),
+    'default_flavor' => env('LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_FLAVOR', env('ARTIFACT_DEFAULT_FLAVOR', 'laravel')),
 
     'flavors' => [
         'laravel' => [

@@ -33,7 +33,7 @@ class ObserverMakeCommandTest extends BaseTestCase
 
     public function test_it_makes_observer(): void
     {
-        $code = $this->artisan('module:make-observer', ['name' => 'Post', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-observer', ['name' => 'Post', 'module' => 'Blog']);
 
         $observerFile = $this->modulePath . '/Observers/PostObserver.php';
 

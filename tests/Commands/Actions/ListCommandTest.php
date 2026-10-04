@@ -23,7 +23,7 @@ class ListCommandTest extends BaseTestCase
 
     public function test_it_can_list_modules(): void
     {
-        $code = $this->artisan('module:list');
+        $code = $this->artisan('laranail::package-scaffolder.list');
 
         // We just want to make sure nothing throws an exception inside the list command
         $this->assertTrue(true);

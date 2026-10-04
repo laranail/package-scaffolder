@@ -33,7 +33,7 @@ class RequestMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_form_request_class(): void
     {
-        $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Http/Requests/CreateBlogPostRequest.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class RequestMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Requests/CreateBlogPostRequest.php');
 
@@ -53,7 +53,7 @@ class RequestMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.request.path', 'SuperRequests');
 
-        $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperRequests/CreateBlogPostRequest.php');
 
@@ -65,7 +65,7 @@ class RequestMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.request.namespace', 'SuperRequests');
 
-        $code = $this->artisan('module:make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-request', ['name' => 'CreateBlogPostRequest', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Http/Requests/CreateBlogPostRequest.php');
 

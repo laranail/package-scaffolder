@@ -33,7 +33,7 @@ class FactoryMakeCommandTest extends BaseTestCase
 
     public function test_it_makes_factory(): void
     {
-        $code = $this->artisan('module:make-factory', ['name' => 'Post', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-factory', ['name' => 'Post', 'module' => 'Blog']);
 
         $factoryFile = $this->getModuleBasePath() . '/database/factories/PostFactory.php';
 

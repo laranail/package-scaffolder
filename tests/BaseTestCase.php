@@ -81,7 +81,7 @@ abstract class BaseTestCase extends OrchestraTestCase
 
     protected function createModule(string $moduleName = 'Blog'): int
     {
-        return $this->artisan('module:make', ['name' => [$moduleName]]);
+        return $this->artisan('laranail::package-scaffolder.make', ['name' => [$moduleName]]);
     }
 
     protected function getModuleAppPath(string $moduleName = 'Blog'): string

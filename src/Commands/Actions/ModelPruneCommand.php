@@ -19,11 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 #[AsCommand(name: 'laranail::package-scaffolder.prune')]
 class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
 {
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     public const ALL = 'All';
 

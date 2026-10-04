@@ -408,7 +408,7 @@ class ModuleGenerator extends Generator
     public function generateResources(): void
     {
         if (GenerateConfigReader::read('seeder')->generate()) {
-            $this->console->call('module:make-seed', [
+            $this->console->call('laranail::package-scaffolder.make-seed', [
                 'name'     => $this->getName(),
                 'module'   => $this->getName(),
                 '--master' => true,
@@ -417,7 +417,7 @@ class ModuleGenerator extends Generator
 
         $providerGenerator = GenerateConfigReader::read('provider');
         if ($providerGenerator->generate()) {
-            $this->console->call('module:make-provider', [
+            $this->console->call('laranail::package-scaffolder.make-provider', [
                 'name'     => $this->getName() . 'ServiceProvider',
                 'module'   => $this->getName(),
                 '--master' => true,
@@ -441,7 +441,7 @@ class ModuleGenerator extends Generator
         $eventGeneratorConfig = GenerateConfigReader::read('event-provider');
         if ((is_null($eventGeneratorConfig->getPath()) && $providerGenerator->generate())
         || (! is_null($eventGeneratorConfig->getPath()) && $eventGeneratorConfig->generate())) {
-            $this->console->call('module:make-event-provider', [
+            $this->console->call('laranail::package-scaffolder.make-event-provider', [
                 'module' => $this->getName(),
             ]);
         } elseif ($providerGenerator->generate()) {
@@ -456,7 +456,7 @@ class ModuleGenerator extends Generator
         $routeGeneratorConfig = GenerateConfigReader::read('route-provider');
         if ((is_null($routeGeneratorConfig->getPath()) && $providerGenerator->generate())
         || (! is_null($routeGeneratorConfig->getPath()) && $routeGeneratorConfig->generate())) {
-            $this->console->call('module:route-provider', [
+            $this->console->call('laranail::package-scaffolder.route-provider', [
                 'module' => $this->getName(),
             ]);
         } elseif ($providerGenerator->generate()) {
@@ -473,7 +473,7 @@ class ModuleGenerator extends Generator
             if ($this->inertia) {
                 $options = ['--inertia' => true];
             }
-            $this->console->call('module:make-controller', [
+            $this->console->call('laranail::package-scaffolder.make-controller', [
                 'controller' => $this->getName() . 'Controller',
                 'module'     => $this->getName(),
             ] + $options);
@@ -481,7 +481,7 @@ class ModuleGenerator extends Generator
 
         if ($this->inertia) {
             foreach (['Index', 'Create', 'Show', 'Edit'] as $page) {
-                $this->console->call('module:make-inertia-page', [
+                $this->console->call('laranail::package-scaffolder.make-inertia-page', [
                     'name'   => $page,
                     'module' => $this->getName(),
                 ]);

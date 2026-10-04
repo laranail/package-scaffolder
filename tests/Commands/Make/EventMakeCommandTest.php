@@ -33,7 +33,7 @@ class EventMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_event_class(): void
     {
-        $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Events/PostWasCreated.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class EventMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Events/PostWasCreated.php');
 
@@ -53,7 +53,7 @@ class EventMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.event.path', 'SuperEvents');
 
-        $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperEvents/PostWasCreated.php');
 
@@ -65,7 +65,7 @@ class EventMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.event.namespace', 'SuperEvents');
 
-        $code = $this->artisan('module:make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-event', ['name' => 'PostWasCreated', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Events/PostWasCreated.php');
 

@@ -28,7 +28,7 @@ class LaravelFileRepositoryTest extends BaseTestCase
     protected function tearDown(): void
     {
         $this->activator->reset();
-        $this->artisan('module:delete', ['--all' => true, '--force' => true]);
+        $this->artisan('laranail::package-scaffolder.delete', ['--all' => true, '--force' => true]);
         parent::tearDown();
     }
 
@@ -192,7 +192,7 @@ class LaravelFileRepositoryTest extends BaseTestCase
 
     public function test_it_can_delete_a_module(): void
     {
-        $this->artisan('module:make', ['name' => ['Blog']]);
+        $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
 
         $this->repository->delete('Blog');
 

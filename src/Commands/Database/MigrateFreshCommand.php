@@ -84,7 +84,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
     {
         $module = $this->getModuleModel($name);
 
-        $this->call('module:migrate', array_filter([
+        $this->call('laranail::package-scaffolder.migrate', array_filter([
             'module'     => $module->getStudlyName(),
             '--database' => $this->option('database'),
             '--force'    => $this->option('force'),

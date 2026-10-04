@@ -33,7 +33,7 @@ class JobMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_the_job_class(): void
     {
-        $code = $this->artisan('module:make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Jobs/SomeJob.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class JobMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Jobs/SomeJob.php');
 
@@ -51,7 +51,7 @@ class JobMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_sync_job_file_with_content(): void
     {
-        $code = $this->artisan('module:make-job', ['name' => 'SomeJob', 'module' => 'Blog', '--sync' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.make-job', ['name' => 'SomeJob', 'module' => 'Blog', '--sync' => true]);
 
         $file = $this->finder->get($this->modulePath . '/Jobs/SomeJob.php');
 
@@ -63,7 +63,7 @@ class JobMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.jobs.path', 'SuperJobs');
 
-        $code = $this->artisan('module:make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperJobs/SomeJob.php');
 
@@ -75,7 +75,7 @@ class JobMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.jobs.namespace', 'SuperJobs');
 
-        $code = $this->artisan('module:make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-job', ['name' => 'SomeJob', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Jobs/SomeJob.php');
 

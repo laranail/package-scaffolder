@@ -34,7 +34,7 @@ class ListenerMakeCommandTest extends BaseTestCase
     public function test_it_generates_a_new_event_class(): void
     {
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog', '--event' => 'UserWasCreated'],
         );
 
@@ -45,7 +45,7 @@ class ListenerMakeCommandTest extends BaseTestCase
     public function test_it_generated_correct_sync_event_with_content(): void
     {
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog', '--event' => 'UserWasCreated'],
         );
 
@@ -58,7 +58,7 @@ class ListenerMakeCommandTest extends BaseTestCase
     public function test_it_generated_correct_sync_event_in_a_subdirectory_with_content(): void
     {
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog', '--event' => 'User/WasCreated'],
         );
 
@@ -71,7 +71,7 @@ class ListenerMakeCommandTest extends BaseTestCase
     public function test_it_generated_correct_sync_duck_event_with_content(): void
     {
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog'],
         );
 
@@ -84,7 +84,7 @@ class ListenerMakeCommandTest extends BaseTestCase
     public function test_it_generated_correct_queued_event_with_content(): void
     {
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog', '--event' => 'UserWasCreated', '--queued' => true],
         );
 
@@ -97,7 +97,7 @@ class ListenerMakeCommandTest extends BaseTestCase
     public function test_it_generated_correct_queued_event_in_a_subdirectory_with_content(): void
     {
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog', '--event' => 'User/WasCreated', '--queued' => true],
         );
 
@@ -110,7 +110,7 @@ class ListenerMakeCommandTest extends BaseTestCase
     public function test_it_generated_correct_queued_duck_event_with_content(): void
     {
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog', '--queued' => true],
         );
 
@@ -125,7 +125,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.listener.path', 'Events/Handlers');
 
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog'],
         );
 
@@ -140,7 +140,7 @@ class ListenerMakeCommandTest extends BaseTestCase
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.listener.namespace', 'Events\\Handlers');
 
         $code = $this->artisan(
-            'module:make-listener',
+            'laranail::package-scaffolder.make-listener',
             ['name' => 'NotifyUsersOfANewPost', 'module' => 'Blog'],
         );
 

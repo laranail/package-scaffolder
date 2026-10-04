@@ -10,7 +10,9 @@ Scaffold your first artifact with `laranail::package-scaffolder.new`, then run i
 composer require laranail/package-scaffolder
 ```
 
-The service provider + the `Module` facade are auto-discovered.
+The service provider + the `Module` facade are auto-discovered. Install it as a regular dependency,
+not `--dev`: generated modules extend its `ModuleServiceProvider` at runtime (see
+[Installation](installation.md)).
 
 ## 2. Scaffold an artifact
 

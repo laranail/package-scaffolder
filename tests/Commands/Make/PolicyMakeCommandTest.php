@@ -33,7 +33,7 @@ class PolicyMakeCommandTest extends BaseTestCase
 
     public function test_it_makes_policy(): void
     {
-        $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
         $policyFile = $this->modulePath . '/Policies/PostPolicy.php';
 
@@ -46,7 +46,7 @@ class PolicyMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.policies.path', 'SuperPolicies');
 
-        $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperPolicies/PostPolicy.php');
 
@@ -58,7 +58,7 @@ class PolicyMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.policies.namespace', 'SuperPolicies');
 
-        $code = $this->artisan('module:make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-policy', ['name' => 'PostPolicy', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Policies/PostPolicy.php');
 

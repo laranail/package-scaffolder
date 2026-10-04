@@ -35,7 +35,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
     {
         $path = $this->modulePath . '/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog']);
 
         $this->assertTrue(is_file($path));
         $this->assertSame(0, $code);
@@ -45,7 +45,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
     {
         $path = $this->modulePath . '/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog']);
 
         $file = $this->finder->get($path);
 
@@ -57,7 +57,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.path', 'SuperProviders');
 
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperProviders/RouteServiceProvider.php');
 
@@ -71,7 +71,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
         $path = $this->modulePath . '/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog']);
 
         $file = $this->finder->get($path);
 
@@ -84,7 +84,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         $this->app['config']->set('laranail.package-scaffolder.modules.stubs.files.routes/web', 'SuperRoutes/web.php');
         $this->app['config']->set('laranail.package-scaffolder.modules.stubs.files.routes/api', 'SuperRoutes/api.php');
 
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog', '--force' => true]);
 
         $file = $this->finder->get($this->modulePath . '/Providers/RouteServiceProvider.php');
 
@@ -94,10 +94,10 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_can_overwrite_file(): void
     {
-        $this->artisan('module:route-provider', ['module' => 'Blog']);
+        $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog']);
         $this->app['config']->set('laranail.package-scaffolder.modules.stubs.files.routes/web', 'SuperRoutes/web.php');
 
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog', '--force' => true]);
         $file = $this->finder->get($this->modulePath . '/Providers/RouteServiceProvider.php');
 
         $this->assertMatchesSnapshot($file);
@@ -109,7 +109,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.controller.path', 'Base/Http/Controllers');
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.provider.path', 'Base/Providers');
 
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog']);
         $file = $this->finder->get($this->getModuleBasePath() . '/Base/Providers/RouteServiceProvider.php');
 
         $this->assertMatchesSnapshot($file);
@@ -122,7 +122,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
         $path = $this->modulePath . '/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog', '--force' => true]);
 
         $file = $this->finder->get($path);
 
@@ -139,7 +139,7 @@ class RouteProviderMakeCommandTest extends BaseTestCase
 
         $path = $this->modulePath . '/Providers/RouteServiceProvider.php';
         $this->finder->delete($path);
-        $code = $this->artisan('module:route-provider', ['module' => 'Blog', '--force' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.route-provider', ['module' => 'Blog', '--force' => true]);
 
         $file = $this->finder->get($path);
 

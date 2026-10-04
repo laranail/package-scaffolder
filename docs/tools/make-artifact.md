@@ -7,6 +7,10 @@ services, actions, repositories, search manager, body pipeline, lifecycle events
 optional web/API/feeds/panels, tests and docs), parameterised to your name and namespace and pruned
 to the features you select.
 
+> `make:artifact` is a deprecated alias of `laranail::package-scaffolder.new`. It still runs the same
+> command, prints a one-line warning naming the replacement, and is removed no earlier than the next
+> minor after 0.1.
+
 It runs the **same way interactively or unattended** — every prompt has a flag, both share one
 validation + generation path, so a flag and its prompt can never drift. A non-TTY (or
 `--no-interaction`) runs unattended; a missing **required** value then fails loudly, naming the flag.

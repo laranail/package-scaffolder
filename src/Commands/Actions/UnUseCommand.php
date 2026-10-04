@@ -22,7 +22,7 @@ class UnUseCommand extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Forget the used module with module:use';
+    protected $description = 'Forget the used module with laranail::package-scaffolder.use';
 
     public function executeAction($name): void
     {

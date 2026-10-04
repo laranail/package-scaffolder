@@ -11,10 +11,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class InstallCommand extends Command
 {
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     /**
      * The console command name.
@@ -111,7 +113,7 @@ class InstallCommand extends Command
         $installer->run();
 
         if (! $this->option('no-update')) {
-            $this->call('module:update', [
+            $this->call('laranail::package-scaffolder.update', [
                 'module' => $installer->getModuleName(),
             ]);
         }

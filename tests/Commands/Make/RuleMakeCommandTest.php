@@ -33,7 +33,7 @@ class RuleMakeCommandTest extends BaseTestCase
 
     public function test_it_makes_rule(): void
     {
-        $code = $this->artisan('module:make-rule', ['name' => 'UniqueRule', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-rule', ['name' => 'UniqueRule', 'module' => 'Blog']);
 
         $ruleFile = $this->modulePath . '/Rules/UniqueRule.php';
 
@@ -44,7 +44,7 @@ class RuleMakeCommandTest extends BaseTestCase
 
     public function test_it_makes_implicit_rule(): void
     {
-        $code = $this->artisan('module:make-rule', ['name' => 'ImplicitUniqueRule', 'module' => 'Blog', '--implicit' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.make-rule', ['name' => 'ImplicitUniqueRule', 'module' => 'Blog', '--implicit' => true]);
 
         $ruleFile = $this->modulePath . '/Rules/ImplicitUniqueRule.php';
 
@@ -57,7 +57,7 @@ class RuleMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.rules.path', 'SuperRules');
 
-        $code = $this->artisan('module:make-rule', ['name' => 'UniqueRule', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-rule', ['name' => 'UniqueRule', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperRules/UniqueRule.php');
 
@@ -69,7 +69,7 @@ class RuleMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.rules.namespace', 'SuperRules');
 
-        $code = $this->artisan('module:make-rule', ['name' => 'UniqueRule', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-rule', ['name' => 'UniqueRule', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Rules/UniqueRule.php');
 

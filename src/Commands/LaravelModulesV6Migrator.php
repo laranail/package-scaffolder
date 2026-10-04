@@ -8,10 +8,12 @@ use Illuminate\Console\Command;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class LaravelModulesV6Migrator extends Command
 {
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     protected $name = 'laranail::package-scaffolder.v6:migrate';
 
