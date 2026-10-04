@@ -23,7 +23,7 @@ class UpdatePhpunitCoverageTest extends BaseTestCase
 
     public function test_no_phpunit_file(): void
     {
-        $code = $this->artisan('module:update-phpunit-coverage');
+        $code = $this->artisan('laranail::package-scaffolder.update-phpunit-coverage');
 
         $this->assertSame(100, $code);
     }
@@ -32,7 +32,7 @@ class UpdatePhpunitCoverageTest extends BaseTestCase
     {
         $this->makePhpunit();
 
-        $code = $this->artisan('module:update-phpunit-coverage');
+        $code = $this->artisan('laranail::package-scaffolder.update-phpunit-coverage');
 
         $this->assertSame(99, $code);
     }

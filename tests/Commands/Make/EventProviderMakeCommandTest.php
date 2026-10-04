@@ -34,7 +34,7 @@ class EventProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_event_provider_class(): void
     {
-        $code = $this->artisan('module:make-event-provider', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-event-provider', ['module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Providers/EventServiceProvider.php'));
         $this->assertSame(1, $code);
@@ -42,8 +42,8 @@ class EventProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_event_provider_class_can_override_with_force_option(): void
     {
-        $this->artisan('module:make-event-provider', ['module' => 'Blog']);
-        $code = $this->artisan('module:make-event-provider', ['module' => 'Blog', '--force' => true]);
+        $this->artisan('laranail::package-scaffolder.make-event-provider', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-event-provider', ['module' => 'Blog', '--force' => true]);
 
         $this->assertTrue(is_file($this->modulePath . '/Providers/EventServiceProvider.php'));
         $this->assertSame(0, $code);
@@ -51,7 +51,7 @@ class EventProviderMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-event-provider', ['module' => 'Blog', '--force' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.make-event-provider', ['module' => 'Blog', '--force' => true]);
 
         $file = $this->finder->get($this->modulePath . '/Providers/EventServiceProvider.php');
 

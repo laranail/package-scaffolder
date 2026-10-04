@@ -33,7 +33,7 @@ class MailMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_the_mail_class(): void
     {
-        $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Emails/SomeMail.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class MailMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Emails/SomeMail.php');
 
@@ -53,7 +53,7 @@ class MailMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.emails.path', 'SuperEmails');
 
-        $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/SuperEmails/SomeMail.php');
 
@@ -65,7 +65,7 @@ class MailMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.emails.namespace', 'SuperEmails');
 
-        $code = $this->artisan('module:make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-mail', ['name' => 'SomeMail', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Emails/SomeMail.php');
 

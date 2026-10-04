@@ -33,14 +33,14 @@ class ComponentViewMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_the_component_view(): void
     {
-        $code = $this->artisan('module:make-component-view', ['name' => 'Blog', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-component-view', ['name' => 'Blog', 'module' => 'Blog']);
         $this->assertTrue(is_file($this->getModuleBasePath() . '/resources/views/components/blog.blade.php'));
         $this->assertSame(0, $code);
     }
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-component-view', ['name' => 'Blog', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-component-view', ['name' => 'Blog', 'module' => 'Blog']);
         $file = $this->finder->get($this->getModuleBasePath() . '/resources/views/components/blog.blade.php');
         $this->assertTrue(str_contains($file, '<div>'));
         $this->assertSame(0, $code);
@@ -50,7 +50,7 @@ class ComponentViewMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.component-view.path', 'Resources/views/components/newDirectory');
 
-        $code = $this->artisan('module:make-component-view', ['name' => 'Blog', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-component-view', ['name' => 'Blog', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->getModuleBasePath() . '/Resources/views/components/newDirectory/blog.blade.php');
 

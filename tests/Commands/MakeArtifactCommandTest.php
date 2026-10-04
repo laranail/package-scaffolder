@@ -32,7 +32,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     {
         $dir = $this->tmp();
 
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--type'           => 'package',
             '--namespace'      => 'Acme',
@@ -56,7 +56,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         // (that collides the manager {Artifact} with the model {Entity}); it defaults
         // to a distinct generic entity (Item) so the artifact builds.
         $dir = $this->tmp();
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'   => 'Admin', '--type' => 'package', '--namespace' => 'Acme',
             '--path' => $dir, '--no-interaction' => true, '--no-repo' => true,
         ]);
@@ -69,7 +69,7 @@ class MakeArtifactCommandTest extends BaseTestCase
 
     public function test_entity_equal_to_artifact_is_rejected(): void
     {
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'   => 'Admin', '--type' => 'package', '--entity' => 'Admin',
             '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
         ]);
@@ -81,7 +81,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     public function test_default_flavor_emits_all_manifests_from_the_laravel_blueprint(): void
     {
         $dir = $this->tmp();
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'   => 'Demo', '--type' => 'package', '--namespace' => 'Acme', '--vendor' => 'acme',
             '--path' => $dir, '--no-interaction' => true, '--no-repo' => true,
         ]);
@@ -99,7 +99,7 @@ class MakeArtifactCommandTest extends BaseTestCase
 
     public function test_unknown_flavor_is_rejected(): void
     {
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'   => 'Demo', '--type' => 'package', '--flavor' => 'django',
             '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
         ]);
@@ -111,7 +111,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     public function test_panel_incompatible_with_flavor_is_rejected(): void
     {
         // vanilla has no admin panels
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'   => 'Demo', '--type' => 'package', '--flavor' => 'vanilla', '--plugin' => 'filament',
             '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
         ]);
@@ -123,7 +123,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     public function test_feature_incompatible_with_flavor_is_rejected(): void
     {
         // web-ui is not part of the vanilla flavor's feature set
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'       => 'Demo', '--type' => 'package', '--flavor' => 'vanilla', '--plugin' => 'none',
             '--features' => 'web-ui', '--path' => $this->tmp(), '--no-interaction' => true, '--no-repo' => true,
         ]);
@@ -134,7 +134,7 @@ class MakeArtifactCommandTest extends BaseTestCase
 
     public function test_missing_required_type_fails_loudly(): void
     {
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--path'           => $this->tmp(),
             '--no-interaction' => true,
@@ -147,7 +147,7 @@ class MakeArtifactCommandTest extends BaseTestCase
 
     public function test_unknown_feature_errors(): void
     {
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--type'           => 'package',
             '--features'       => 'web-ui,teleporter',
@@ -167,7 +167,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         $this->targets[] = base_path('platform');
 
         // generating the same name into the packages container must fail
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Collision',
             '--type'           => 'package',
             '--no-interaction' => true,
@@ -181,7 +181,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     public function test_selecting_livewire_pulls_in_its_required_web_ui(): void
     {
         $dir = $this->tmp();
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--type'           => 'package',
             '--features'       => 'livewire',
@@ -202,7 +202,7 @@ class MakeArtifactCommandTest extends BaseTestCase
         // feeds (RSS/sitemap) are web routes + a web controller, so choosing feeds
         // must transitively pull in web-ui (else the generated feed 500s at runtime).
         $dir = $this->tmp();
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--type'           => 'package',
             '--features'       => 'feeds',
@@ -220,7 +220,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     {
         // the Assets component is a Blade/view concern, so asset-pipeline requires web-ui.
         $dir = $this->tmp();
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--type'           => 'package',
             '--features'       => 'asset-pipeline',
@@ -236,7 +236,7 @@ class MakeArtifactCommandTest extends BaseTestCase
     public function test_panel_defaults_to_none_and_is_zero_footprint(): void
     {
         $dir = $this->tmp();
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--type'           => 'plugin',
             '--namespace'      => 'Acme',
@@ -253,7 +253,7 @@ class MakeArtifactCommandTest extends BaseTestCase
 
     public function test_invalid_panel_value_is_rejected(): void
     {
-        $code = Artisan::call('make:artifact', [
+        $code = Artisan::call('laranail::package-scaffolder.new', [
             'name'             => 'Demo',
             '--type'           => 'plugin',
             '--plugin'         => 'wordpress',

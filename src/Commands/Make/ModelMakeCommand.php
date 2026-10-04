@@ -135,7 +135,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         if ($this->option('migration') === true) {
             $migrationName = 'create_' . $this->createMigrationName() . '_table';
-            $this->call('module:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
+            $this->call('laranail::package-scaffolder.make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
         }
     }
 
@@ -147,7 +147,7 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('controller') === true) {
             $controllerName = "{$this->getModelName()}Controller";
 
-            $this->call('module:make-controller', array_filter([
+            $this->call('laranail::package-scaffolder.make-controller', array_filter([
                 'controller' => $controllerName,
                 'module'     => $this->argument('module'),
             ]));
@@ -160,7 +160,7 @@ class ModelMakeCommand extends GeneratorCommand
     protected function handleOptionalFactoryOption(): void
     {
         if ($this->option('factory') === true) {
-            $this->call('module:make-factory', array_filter([
+            $this->call('laranail::package-scaffolder.make-factory', array_filter([
                 'name'   => $this->getModelName(),
                 'module' => $this->argument('module'),
             ]));
@@ -175,7 +175,7 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('request') === true) {
             $requestName = "{$this->getModelName()}Request";
 
-            $this->call('module:make-request', array_filter([
+            $this->call('laranail::package-scaffolder.make-request', array_filter([
                 'name'   => $requestName,
                 'module' => $this->argument('module'),
             ]));
@@ -190,7 +190,7 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('resource') === true) {
             $resourceName = "{$this->getModelName()}Resource";
 
-            $this->call('module:make-resource', array_filter([
+            $this->call('laranail::package-scaffolder.make-resource', array_filter([
                 'name'   => $resourceName,
                 'module' => $this->argument('module'),
             ]));
@@ -205,7 +205,7 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('seed') === true) {
             $seedName = "{$this->getModelName()}Seeder";
 
-            $this->call('module:make-seed', array_filter([
+            $this->call('laranail::package-scaffolder.make-seed', array_filter([
                 'name'   => $seedName,
                 'module' => $this->argument('module'),
             ]));

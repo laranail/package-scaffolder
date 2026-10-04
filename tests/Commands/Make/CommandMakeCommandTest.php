@@ -33,7 +33,7 @@ class CommandMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_console_command_class(): void
     {
-        $code = $this->artisan('module:make-command', ['name' => 'MyAwesomeCommand', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-command', ['name' => 'MyAwesomeCommand', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Console/MyAwesomeCommand.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class CommandMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-command', ['name' => 'MyAwesomeCommand', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-command', ['name' => 'MyAwesomeCommand', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Console/MyAwesomeCommand.php');
 
@@ -52,7 +52,7 @@ class CommandMakeCommandTest extends BaseTestCase
     public function test_it_uses_set_command_name_in_class(): void
     {
         $code = $this->artisan(
-            'module:make-command',
+            'laranail::package-scaffolder.make-command',
             ['name' => 'MyAwesomeCommand', 'module' => 'Blog', '--command' => 'my:awesome'],
         );
 
@@ -66,7 +66,7 @@ class CommandMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.command.path', 'app/CustomCommands');
 
-        $code = $this->artisan('module:make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/CustomCommands/AwesomeCommand.php');
 
@@ -78,7 +78,7 @@ class CommandMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.command.namespace', 'Commands');
 
-        $code = $this->artisan('module:make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-command', ['name' => 'AwesomeCommand', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Console/AwesomeCommand.php');
 

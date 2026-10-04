@@ -27,7 +27,7 @@ class SeedCommandTest extends BaseTestCase
     {
         parent::setUp();
         $this->finder = $this->app['files'];
-        $this->artisan('module:make', ['name' => ['Blog']]);
+        $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
     }
 
     protected function tearDown(): void
@@ -35,7 +35,7 @@ class SeedCommandTest extends BaseTestCase
         // Delete only the module created in setUp(). Never use --all here: the
         // scan-path test registers the on-disk fixtures as modules, and --all
         // would delete those fixture directories from the repository.
-        $this->artisan('module:delete', ['module' => ['Blog'], '--force' => true]);
+        $this->artisan('laranail::package-scaffolder.delete', ['module' => ['Blog'], '--force' => true]);
         $this->app[ActivatorInterface::class]->reset();
         parent::tearDown();
     }
@@ -51,7 +51,7 @@ class SeedCommandTest extends BaseTestCase
         // Re-resolve the module so the new module.json is picked up.
         $this->app[RepositoryInterface::class]->scan();
 
-        Artisan::call('module:seed', ['module' => ['Blog']]);
+        Artisan::call('laranail::package-scaffolder.seed', ['module' => ['Blog']]);
         $output = Artisan::output();
 
         // Before the fix the task closure returned `false`, which the task
@@ -73,7 +73,7 @@ class SeedCommandTest extends BaseTestCase
 
         $this->app[RepositoryInterface::class]->scan();
 
-        Artisan::call('module:seed', ['module' => ['Recipe']]);
+        Artisan::call('laranail::package-scaffolder.seed', ['module' => ['Recipe']]);
         $output = Artisan::output();
 
         $this->assertStringContainsString('Module [Recipe] seeded.', $output);

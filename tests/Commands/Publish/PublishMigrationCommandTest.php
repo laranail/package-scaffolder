@@ -17,7 +17,7 @@ class PublishMigrationCommandTest extends BaseTestCase
         parent::setUp();
         $this->finder = $this->app['files'];
         $this->createModule();
-        $this->artisan('module:make-migration', ['name' => 'create_posts_table', 'module' => 'Blog']);
+        $this->artisan('laranail::package-scaffolder.make-migration', ['name' => 'create_posts_table', 'module' => 'Blog']);
     }
 
     protected function tearDown(): void
@@ -29,7 +29,7 @@ class PublishMigrationCommandTest extends BaseTestCase
 
     public function test_it_publishes_module_migrations(): void
     {
-        $code = $this->artisan('module:publish-migration', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.publish-migration', ['module' => 'Blog']);
 
         $files = $this->finder->allFiles(base_path('database/migrations'));
 

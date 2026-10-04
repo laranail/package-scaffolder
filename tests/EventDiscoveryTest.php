@@ -14,12 +14,12 @@ class EventDiscoveryTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('module:make', ['name' => ['Blog']]);
+        $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
     }
 
     protected function tearDown(): void
     {
-        $this->artisan('module:delete', ['module' => ['Blog'], '--force' => true]);
+        $this->artisan('laranail::package-scaffolder.delete', ['module' => ['Blog'], '--force' => true]);
         $this->app[ActivatorInterface::class]->reset();
         parent::tearDown();
     }

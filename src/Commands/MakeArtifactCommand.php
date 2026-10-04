@@ -17,6 +17,7 @@ use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\HostComposerWriter;
 use Simtabi\Laranail\Console\Tools\Commands\Services\CommandInteractionService;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 /**
  * Generate a module / package / plugin from the blueprint template. Runs
@@ -28,6 +29,7 @@ use Simtabi\Laranail\Console\Tools\Commands\Services\CommandInteractionService;
 class MakeArtifactCommand extends Command
 {
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     protected $name = 'laranail::package-scaffolder.new';
 

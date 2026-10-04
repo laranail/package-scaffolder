@@ -33,7 +33,7 @@ class ResourceMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_a_new_resource_class(): void
     {
-        $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog']);
 
         $this->assertTrue(is_file($this->modulePath . '/Transformers/PostsTransformer.php'));
         $this->assertSame(0, $code);
@@ -41,7 +41,7 @@ class ResourceMakeCommandTest extends BaseTestCase
 
     public function test_it_generated_correct_file_with_content(): void
     {
-        $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog']);
 
         $file = $this->finder->get($this->modulePath . '/Transformers/PostsTransformer.php');
 
@@ -51,7 +51,7 @@ class ResourceMakeCommandTest extends BaseTestCase
 
     public function test_it_can_generate_a_collection_resource_class(): void
     {
-        $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 
         $file = $this->finder->get($this->modulePath . '/Transformers/PostsTransformer.php');
 
@@ -63,7 +63,7 @@ class ResourceMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.resource.path', 'app/Http/Resources');
 
-        $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 
         $file = $this->finder->get($this->modulePath . '/Http/Resources/PostsTransformer.php');
 
@@ -75,7 +75,7 @@ class ResourceMakeCommandTest extends BaseTestCase
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.paths.generator.resource.namespace', 'Http\\Resources');
 
-        $code = $this->artisan('module:make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.make-resource', ['name' => 'PostsTransformer', 'module' => 'Blog', '--collection' => true]);
 
         $file = $this->finder->get($this->modulePath . '/Transformers/PostsTransformer.php');
 

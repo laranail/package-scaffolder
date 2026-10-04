@@ -9,10 +9,12 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class ListCommand extends Command
 {
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     /**
      * The console command name.

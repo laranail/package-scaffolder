@@ -34,7 +34,7 @@ class ListCommandsTest extends BaseTestCase
         $this->createModuleCommand('TestCommand', 'Commands');
 
         // Run the command
-        $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.list-commands', ['module' => 'Blog']);
 
         // We just want to make sure the command runs without errors
         $this->assertSame(0, $code);
@@ -46,7 +46,7 @@ class ListCommandsTest extends BaseTestCase
         $this->createModuleCommand('ConsoleTestCommand', 'Console/Commands');
 
         // Run the command
-        $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.list-commands', ['module' => 'Blog']);
 
         // We just want to make sure the command runs without errors
         $this->assertSame(0, $code);
@@ -58,7 +58,7 @@ class ListCommandsTest extends BaseTestCase
         $this->createModuleCommand('AppTestCommand', 'app/Commands');
 
         // Run the command
-        $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.list-commands', ['module' => 'Blog']);
 
         // We just want to make sure the command runs without errors
         $this->assertSame(0, $code);
@@ -70,7 +70,7 @@ class ListCommandsTest extends BaseTestCase
         $this->createModuleCommand('AppConsoleTestCommand', 'app/Console/Commands');
 
         // Run the command
-        $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.list-commands', ['module' => 'Blog']);
 
         // We just want to make sure the command runs without errors
         $this->assertSame(0, $code);
@@ -85,7 +85,7 @@ class ListCommandsTest extends BaseTestCase
         $this->createModuleCommand('TestCommand4', 'app/Console/Commands');
 
         // Run the command
-        $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.list-commands', ['module' => 'Blog']);
 
         // We just want to make sure the command runs without errors
         $this->assertSame(0, $code);
@@ -94,7 +94,7 @@ class ListCommandsTest extends BaseTestCase
     public function test_it_shows_message_when_no_commands_found(): void
     {
         // Run the command without creating any commands
-        $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.list-commands', ['module' => 'Blog']);
 
         // We just want to make sure the command runs without errors
         $this->assertSame(0, $code);
@@ -109,7 +109,7 @@ class ListCommandsTest extends BaseTestCase
         $this->createModuleCommand('RegularCommand', 'Commands');
 
         // Run the command
-        $code = $this->artisan('module:list-commands', ['module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.list-commands', ['module' => 'Blog']);
 
         // We just want to make sure the command runs without errors
         $this->assertSame(0, $code);

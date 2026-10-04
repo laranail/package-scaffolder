@@ -42,7 +42,7 @@ class SeedMakeCommand extends GeneratorCommand
     {
         $autoBase = ! $this->option('master') && ! $this->option('without-base');
 
-        // Capture the module before generating, since calling module:make-seed
+        // Capture the module before generating, since calling laranail::package-scaffolder.make-seed
         // for the base re-runs this same command instance and would otherwise
         // overwrite the current input.
         $module = $autoBase ? $this->getModuleName() : null;
@@ -135,7 +135,7 @@ class SeedMakeCommand extends GeneratorCommand
             return;
         }
 
-        $this->call('module:make-seed', [
+        $this->call('laranail::package-scaffolder.make-seed', [
             'name'     => $module->getName(),
             'module'   => $module->getName(),
             '--master' => true,

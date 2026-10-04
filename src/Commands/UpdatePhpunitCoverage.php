@@ -7,10 +7,12 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 use DOMDocument;
 use Illuminate\Console\Command;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class UpdatePhpunitCoverage extends Command
 {
     use SupportsNamespacedNames;
+    use WarnsOnDeprecatedAlias;
 
     /**
      * The name and signature of the console command.

@@ -19,12 +19,12 @@ class SeedMakeCommandTest extends BaseTestCase
         parent::setUp();
         $this->finder = $this->app['files'];
         $this->modulePath = base_path('modules/Blog');
-        $this->artisan('module:make', ['name' => ['Blog']]);
+        $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
     }
 
     protected function tearDown(): void
     {
-        $this->artisan('module:delete', ['module' => ['Blog'], '--force' => true]);
+        $this->artisan('laranail::package-scaffolder.delete', ['module' => ['Blog'], '--force' => true]);
         $this->app[ActivatorInterface::class]->reset();
         parent::tearDown();
     }
@@ -35,7 +35,7 @@ class SeedMakeCommandTest extends BaseTestCase
         $this->finder->delete($basePath);
         $this->assertFalse($this->finder->exists($basePath));
 
-        $code = $this->artisan('module:make-seed', ['name' => 'Posts', 'module' => 'Blog']);
+        $code = $this->artisan('laranail::package-scaffolder.make-seed', ['name' => 'Posts', 'module' => 'Blog']);
 
         $this->assertTrue($this->finder->exists($this->modulePath . '/database/seeders/PostsSeeder.php'));
         $this->assertTrue($this->finder->exists($basePath), 'the base seeder should be auto-generated (#2147)');
@@ -47,7 +47,7 @@ class SeedMakeCommandTest extends BaseTestCase
         $basePath = $this->modulePath . '/database/seeders/BlogDatabaseSeeder.php';
         $this->finder->delete($basePath);
 
-        $code = $this->artisan('module:make-seed', ['name' => 'Posts', 'module' => 'Blog', '--without-base' => true]);
+        $code = $this->artisan('laranail::package-scaffolder.make-seed', ['name' => 'Posts', 'module' => 'Blog', '--without-base' => true]);
 
         $this->assertTrue($this->finder->exists($this->modulePath . '/database/seeders/PostsSeeder.php'));
         $this->assertFalse($this->finder->exists($basePath));

@@ -32,20 +32,20 @@ class MigrateRefreshCommand extends BaseCommand implements ConfirmableCommand
         $module = $this->getModuleModel($name);
 
         $this->components->task("Refreshing Migration {$module->getName()} module", function () use ($module): void {
-            $this->call('module:migrate-reset', [
+            $this->call('laranail::package-scaffolder.migrate-reset', [
                 'module'     => $module->getStudlyName(),
                 '--database' => $this->option('database'),
                 '--force'    => $this->option('force'),
             ]);
 
-            $this->call('module:migrate', [
+            $this->call('laranail::package-scaffolder.migrate', [
                 'module'     => $module->getStudlyName(),
                 '--database' => $this->option('database'),
                 '--force'    => $this->option('force'),
             ]);
 
             if ($this->option('seed')) {
-                $this->call('module:seed', [
+                $this->call('laranail::package-scaffolder.seed', [
                     'module' => $module->getStudlyName(),
                 ]);
             }
