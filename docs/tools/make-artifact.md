@@ -1,6 +1,6 @@
-# Generating artifacts — `make:artifact`
+# Generating artifacts — `laranail::package-scaffolder.new`
 
-`make:artifact` (canonical name `laranail::package-scaffolder.new`) generates a complete,
+`laranail::package-scaffolder.new` generates a complete,
 opinionated artifact — a **module**, **package**, or **plugin** — from the bundled blueprint
 template (`stubs/blueprints/laravel/`). The output is a full `laranail/package-tools` package (models,
 services, actions, repositories, search manager, body pipeline, lifecycle events, console commands,
@@ -15,10 +15,10 @@ validation + generation path, so a flag and its prompt can never drift. A non-TT
 
 ```bash
 # interactive (guided prompts)
-php artisan make:artifact
+php artisan laranail::package-scaffolder.new
 
-# unattended (flags) — alias and canonical name are equivalent
-php artisan make:artifact Blog --type=module --plugin=none --features=web-ui,rest-api,caching
+# unattended (flags)
+php artisan laranail::package-scaffolder.new Blog --type=module --plugin=none --features=web-ui,rest-api,caching
 php artisan laranail::package-scaffolder.new Shop --type=plugin --plugin=filament --no-interaction
 ```
 

@@ -1,6 +1,6 @@
 # Configuration
 
-Two published config files drive the scaffolder: `config/artifacts.php` (what `make:artifact` emits) and
+Two published config files drive the scaffolder: `config/artifacts.php` (what `laranail::package-scaffolder.new` emits) and
 `config/config.php` (module runtime paths + generators, inherited from the upstream module engine).
 
 ## Flavors
@@ -21,11 +21,11 @@ generated for:
 Choose one per generation with `--flavor`:
 
 ```bash
-php artisan make:artifact Blog --flavor=lumen
+php artisan laranail::package-scaffolder.new Blog --flavor=lumen
 ```
 
-Each flavor declares which features and blueprint set it supports; `make:artifact` resolves the feature
-set from the chosen flavor (see [make:artifact](tools/make-artifact.md)).
+Each flavor declares which features and blueprint set it supports; `laranail::package-scaffolder.new` resolves the feature
+set from the chosen flavor (see [`laranail::package-scaffolder.new`](tools/make-artifact.md)).
 
 ## Artifact roles + manifest files
 

@@ -5,7 +5,7 @@ Breaking changes are documented here per release, with a clear before/after.
 ## Within the laranail line
 
 The laranail `1.x` line targets PHP `^8.4.1 || ^8.5` and Laravel `^13.0`. Breaking changes — to the
-`make:artifact` command surface, the generated-artifact layout, or the **manifest schemas**
+`laranail::package-scaffolder.new` command surface, the generated-artifact layout, or the **manifest schemas**
 (`composer.json` / `module.json` / `plugin.json`) — are a major bump. Keep the manifest schemas in
 lockstep with [`laranail/package-management`](https://github.com/laranail/package-management); they are
 the shared contract between the generator and the loader.

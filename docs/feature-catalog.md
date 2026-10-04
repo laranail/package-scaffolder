@@ -36,7 +36,7 @@ rewriting `PostService`/`PostObserver`/the models, so it is **core**, not option
 
 ## Optional features (toggleable; `config('artifacts.features')`)
 
-All default **on** — a plain `make:artifact` reproduces the full gold-standard blueprint, and you
+All default **on** — a plain `laranail::package-scaffolder.new` reproduces the full gold-standard blueprint, and you
 opt **out** via `--features=` (the selected subset). Three features `require: web-ui` and pull it
 in automatically if selected alone — `livewire` (Livewire components), `feeds` (web feed
 routes/controller), and `asset-pipeline` (the Blade `<x-…::assets>` component).
@@ -92,4 +92,4 @@ and — per D1 — strips even the panel-named comments. Files: `plugin_files` i
 
 ---
 
-[← Docs index](README.md#documentation)
+[← Docs index](../README.md#documentation)
