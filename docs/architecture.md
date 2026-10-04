@@ -5,9 +5,9 @@ the internal structure of this package itself. Part 1 is the one you'll interact
 
 ---
 
-## 1. Generated artifact structure (what `make:artifact` produces)
+## 1. Generated artifact structure (what `laranail::package-scaffolder.new` produces)
 
-`make:artifact` (canonical `laranail::package-scaffolder.new`) generates a complete artifact from a
+`laranail::package-scaffolder.new` generates a complete artifact from a
 per-flavor blueprint under `stubs/blueprints/{flavor}/`. Generation has four orthogonal, data-driven
 dimensions (all from the `flavors`/`kinds`/`plugin_types`/`features` registries in
 `config/artifacts.php`):
@@ -32,7 +32,7 @@ dimensions (all from the `flavors`/`kinds`/`plugin_types`/`features` registries 
 - **Artifact vs entity.** The **artifact** is the package/module/plugin (`Blog` → `{Artifact}`, the
   manager/facade/config/slug). The **primary entity** is the main record (`Post` → `{Entity}`, via
   `--entity`, default `Item`, must differ from the artifact). `Comment`/`Category`/`Tag` stay as the
-  generic supporting layer. See [make:artifact](tools/make-artifact.md).
+  generic supporting layer. See [`laranail::package-scaffolder.new`](tools/make-artifact.md).
 
 ### Canonical tree
 
@@ -108,7 +108,7 @@ its namespace segment. PSR-4 base `Simtabi\Laranail\Package\Scaffolder\` → `sr
 (`*FileRepository` extend `Repositories\FileRepository`; `Laravel\Module`/`Lumen\Module` extend
 `Support\Module`) — grouped by framework because splitting would collide the three `Module` variants.
 
-**Templates.** `stubs/` (top-level) holds the `module:make-*` per-file templates + the vendored
+**Templates.** `stubs/` (top-level) holds the `laranail::package-scaffolder.make-*` per-file templates + the vendored
 `stubs/blueprints/laravel/` (excluded from classmap + phpstan). **Procedural helpers** live in
 `helpers/helpers.php` (composer `files` autoload — not namespaced).
 

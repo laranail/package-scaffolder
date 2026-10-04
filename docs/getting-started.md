@@ -1,6 +1,6 @@
 # Getting started
 
-Scaffold your first artifact with `make:artifact`, then run it. For the full command reference see
+Scaffold your first artifact with `laranail::package-scaffolder.new`, then run it. For the full command reference see
 [Generating artifacts](tools/make-artifact.md); for everything else the
 [Documentation index](../README.md#documentation).
 
@@ -15,9 +15,9 @@ The service provider + the `Module` facade are auto-discovered.
 ## 2. Scaffold an artifact
 
 ```bash
-php artisan make:artifact Blog                  # all roles (package/module/plugin), laravel flavor
-php artisan make:artifact Blog --type=module    # pick the primary role
-php artisan make:artifact Blog --flavor=lumen   # pick the framework flavor (vanilla | laravel | lumen | symfony)
+php artisan laranail::package-scaffolder.new Blog                  # prompts for the role; laravel flavor
+php artisan laranail::package-scaffolder.new Blog --type=module    # pick the primary role
+php artisan laranail::package-scaffolder.new Blog --flavor=lumen   # pick the framework flavor (vanilla | laravel | lumen | symfony)
 ```
 
 This emits a ready-to-run artifact under `platform/` carrying its manifests (`composer.json`,
@@ -36,7 +36,7 @@ php artisan laranail::package-management.install blog
 
 ## Next steps
 
-- [Generating artifacts (`make:artifact`)](tools/make-artifact.md) — types, plugins, features, portability.
+- [Generating artifacts (`laranail::package-scaffolder.new`)](tools/make-artifact.md) — types, plugins, features, portability.
 - [Configuration](configuration.md) — flavors, artifact types, manifest files.
 - [Architecture](architecture.md) — the generated-artifact structure + the scaffolder's own layout.
 

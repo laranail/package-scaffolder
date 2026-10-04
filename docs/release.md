@@ -16,7 +16,7 @@ that version's `CHANGELOG.md` section as the release body and publishes the GitH
 
 ## Versioning
 
-Semver. Breaking changes to the public API (the `make:artifact` command surface, the generated-artifact
+Semver. Breaking changes to the public API (the `laranail::package-scaffolder.new` command surface, the generated-artifact
 layout, and the **manifest schemas**) are a major bump and must be documented in
 [../UPGRADING.md](../UPGRADING.md). Keep the manifest schemas in lockstep with
 [`laranail/package-management`](https://github.com/laranail/package-management) — they are the shared

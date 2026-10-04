@@ -16,23 +16,44 @@ Requires PHP `^8.4.1 || ^8.5` on Laravel `^13`. Its runtime counterpart is [`lar
 composer require --dev laranail/package-scaffolder
 ```
 
-## Quick start
+## Quick start guide and usage
+
+### Getting started
+
+Nothing is required before the first call: the generator runs on its packaged config. By default it
+also wires the host `composer.json` (merge-plugin plus path repositories) so the generated artifact
+autoloads; pass `--no-repo` to skip that. Optionally publish the module config or the per-file stubs
+to customise them:
+
+```bash
+php artisan vendor:publish --tag=laranail::package-scaffolder-config
+php artisan vendor:publish --tag=laranail::package-scaffolder-stubs
+```
+
+### Usage
 
 ```bash
 php artisan laranail::package-scaffolder.new Blog --type=module
 # -> platform/modules/Blog/ with composer.json, module.json, its provider, tests and CI
 ```
 
-The full walkthrough is in [Getting started](docs/getting-started.md); everything else is in the [documentation index](#documentation).
+Run it with no arguments for the guided prompts, or fully unattended:
 
-## Documentation
+```bash
+php artisan laranail::package-scaffolder.new Shop --type=plugin --plugin=filament --no-interaction
+```
+
+The full walkthrough is in [Getting started](docs/getting-started.md).
+Everything else is in the [documentation index](#documentation).
+
+## <a name="documentation"></a>Documentation
 
 Full documentation is at **[opensource.simtabi.com/documentation/laranail/package-scaffolder](https://opensource.simtabi.com/documentation/laranail/package-scaffolder/)** — getting started, the generated artifacts (package/module/plugin manifests), the make commands, architecture, and configuration.
 
 ## Contributing & security
 
 Issues and PRs are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Report vulnerabilities per
-[SECURITY.md](SECURITY.md) (opensource@simtabi.com); participation follows the [Code of Conduct](CODE_OF_CONDUCT.md).
+[SECURITY.md](SECURITY.md) (security@simtabi.com); participation follows the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
