@@ -7,6 +7,7 @@ namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands;
 use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Contracts\Console\Kernel;
+use Symfony\Component\Console\Command\Command;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
@@ -123,7 +124,7 @@ class DeprecatedAliasTest extends BaseTestCase
     }
 
     /**
-     * @return array<string, \Symfony\Component\Console\Command\Command>
+     * @return array<string, Command>
      */
     private function packageCommands(): array
     {
