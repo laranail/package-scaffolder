@@ -33,6 +33,7 @@
     },
     "require": {
         "php": "^8.4.1 || ^8.5",
+        "laravel/framework": "^13.0",
         "ext-dom": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
