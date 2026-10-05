@@ -1,111 +1,111 @@
 # Module Generator Commands
 
-All generators follow the pattern: `php artisan module:make-{type} {Name} {ModuleName}`
+All generators follow the pattern: `php artisan laranail::package-scaffolder.make-{type} {Name} {ModuleName}`
 
 ## Controllers
 
 ```bash
-php artisan module:make-controller PostController Blog
-php artisan module:make-controller PostController Blog --api        # Resourceful API controller
-php artisan module:make-controller PostController Blog --invokable  # Single-action controller
-php artisan module:make-controller PostController Blog --plain      # Empty controller
+php artisan laranail::package-scaffolder.make-controller PostController Blog
+php artisan laranail::package-scaffolder.make-controller PostController Blog --api        # Resourceful API controller
+php artisan laranail::package-scaffolder.make-controller PostController Blog --invokable  # Single-action controller
+php artisan laranail::package-scaffolder.make-controller PostController Blog --plain      # Empty controller
 ```
 
 ## Models
 
 ```bash
-php artisan module:make-model Post Blog
-php artisan module:make-model Post Blog --migration  # Create model + migration together
-php artisan module:make-model Post Blog --factory    # Create model + factory
-php artisan module:make-model Post Blog --fillable=title,body  # Set $fillable
+php artisan laranail::package-scaffolder.make-model Post Blog
+php artisan laranail::package-scaffolder.make-model Post Blog --migration  # Create model + migration together
+php artisan laranail::package-scaffolder.make-model Post Blog --factory    # Create model + factory
+php artisan laranail::package-scaffolder.make-model Post Blog --fillable=title,body  # Set $fillable
 ```
 
 ## Migrations & Database
 
 ```bash
-php artisan module:make-migration create_posts_table Blog
-php artisan module:make-migration add_slug_to_posts_table Blog
-php artisan module:make-factory PostFactory Blog
-php artisan module:make-seed PostDatabaseSeeder Blog
+php artisan laranail::package-scaffolder.make-migration create_posts_table Blog
+php artisan laranail::package-scaffolder.make-migration add_slug_to_posts_table Blog
+php artisan laranail::package-scaffolder.make-factory PostFactory Blog
+php artisan laranail::package-scaffolder.make-seed PostDatabaseSeeder Blog
 ```
 
 ## Requests & Resources
 
 ```bash
-php artisan module:make-request StorePostRequest Blog
-php artisan module:make-request UpdatePostRequest Blog
-php artisan module:make-resource PostResource Blog
-php artisan module:make-resource PostCollection Blog --collection
+php artisan laranail::package-scaffolder.make-request StorePostRequest Blog
+php artisan laranail::package-scaffolder.make-request UpdatePostRequest Blog
+php artisan laranail::package-scaffolder.make-resource PostResource Blog
+php artisan laranail::package-scaffolder.make-resource PostCollection Blog --collection
 ```
 
 ## Policies & Rules
 
 ```bash
-php artisan module:make-policy PostPolicy Blog
-php artisan module:make-rule UniqueSlug Blog
+php artisan laranail::package-scaffolder.make-policy PostPolicy Blog
+php artisan laranail::package-scaffolder.make-rule UniqueSlug Blog
 ```
 
 ## Events, Listeners & Observers
 
 ```bash
-php artisan module:make-event PostCreated Blog
-php artisan module:make-event PostPublished Blog
-php artisan module:make-listener SendPostNotification Blog
-php artisan module:make-listener SendPostNotification Blog --event=PostCreated
-php artisan module:make-observer PostObserver Blog
+php artisan laranail::package-scaffolder.make-event PostCreated Blog
+php artisan laranail::package-scaffolder.make-event PostPublished Blog
+php artisan laranail::package-scaffolder.make-listener SendPostNotification Blog
+php artisan laranail::package-scaffolder.make-listener SendPostNotification Blog --event=PostCreated
+php artisan laranail::package-scaffolder.make-observer PostObserver Blog
 ```
 
 ## Jobs, Mail & Notifications
 
 ```bash
-php artisan module:make-job ProcessPost Blog
-php artisan module:make-job ProcessPost Blog --sync   # Synchronous job
-php artisan module:make-mail WelcomeMail Blog
-php artisan module:make-notification PostPublished Blog
+php artisan laranail::package-scaffolder.make-job ProcessPost Blog
+php artisan laranail::package-scaffolder.make-job ProcessPost Blog --sync   # Synchronous job
+php artisan laranail::package-scaffolder.make-mail WelcomeMail Blog
+php artisan laranail::package-scaffolder.make-notification PostPublished Blog
 ```
 
 ## Commands, Providers & Middleware
 
 ```bash
-php artisan module:make-command SyncPosts Blog
-php artisan module:make-provider BlogAuthServiceProvider Blog
-php artisan module:make-middleware EnsureUserIsAdmin Blog
+php artisan laranail::package-scaffolder.make-command SyncPosts Blog
+php artisan laranail::package-scaffolder.make-provider BlogAuthServiceProvider Blog
+php artisan laranail::package-scaffolder.make-middleware EnsureUserIsAdmin Blog
 ```
 
 ## Service & Repository Classes
 
 ```bash
-php artisan module:make-service PostService Blog
-php artisan module:make-repository PostRepository Blog
-php artisan module:make-action CreatePost Blog
-php artisan module:make-class PostFormatter Blog
-php artisan module:make-interface PostRepositoryInterface Blog
-php artisan module:make-trait HasSlug Blog
+php artisan laranail::package-scaffolder.make-service PostService Blog
+php artisan laranail::package-scaffolder.make-repository PostRepository Blog
+php artisan laranail::package-scaffolder.make-action CreatePost Blog
+php artisan laranail::package-scaffolder.make-class PostFormatter Blog
+php artisan laranail::package-scaffolder.make-interface PostRepositoryInterface Blog
+php artisan laranail::package-scaffolder.make-trait HasSlug Blog
 ```
 
 ## Enums & Casts
 
 ```bash
-php artisan module:make-enum PostStatus Blog
-php artisan module:make-cast MoneyValue Blog
+php artisan laranail::package-scaffolder.make-enum PostStatus Blog
+php artisan laranail::package-scaffolder.make-cast MoneyValue Blog
 ```
 
 ## Tests
 
 ```bash
-php artisan module:make-test PostFeatureTest Blog         # Feature test
-php artisan module:make-test PostUnitTest Blog --unit     # Unit test
+php artisan laranail::package-scaffolder.make-test PostFeatureTest Blog         # Feature test
+php artisan laranail::package-scaffolder.make-test PostUnitTest Blog --unit     # Unit test
 ```
 
 ## Inertia Pages & Components
 
 ```bash
-php artisan module:make Blog --inertia                         # Full Inertia module scaffold
-php artisan module:make-inertia-page Index Blog                # Page (uses default frontend)
-php artisan module:make-inertia-page Index Blog --vue
-php artisan module:make-inertia-page Index Blog --react
-php artisan module:make-inertia-page Index Blog --svelte
-php artisan module:make-inertia-component PostCard Blog        # Reusable component
+php artisan laranail::package-scaffolder.make Blog --inertia                         # Full Inertia module scaffold
+php artisan laranail::package-scaffolder.make-inertia-page Index Blog                # Page (uses default frontend)
+php artisan laranail::package-scaffolder.make-inertia-page Index Blog --vue
+php artisan laranail::package-scaffolder.make-inertia-page Index Blog --react
+php artisan laranail::package-scaffolder.make-inertia-page Index Blog --svelte
+php artisan laranail::package-scaffolder.make-inertia-component PostCard Blog        # Reusable component
 ```
 
 ## Generated File Locations
@@ -137,4 +137,4 @@ php artisan module:make-inertia-component PostCard Blog        # Reusable compon
 | Enum | `Modules/Blog/app/Enums/` |
 | Cast | `Modules/Blog/app/Casts/` |
 
-All paths are configurable via `config/modules.php` under `paths.generator`.
+All paths are configurable via `config/laranail/package-scaffolder/modules.php` under `paths.generator`.

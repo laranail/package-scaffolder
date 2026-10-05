@@ -1,23 +1,23 @@
-# Blueprint generation — `make:artifact`
+# Blueprint generation — `laranail::package-scaffolder.new`
 
-`make:artifact` (canonical `laranail::package-scaffolder.new`) scaffolds a **complete, opinionated
+`laranail::package-scaffolder.new` scaffolds a **complete, opinionated
 artifact** from the bundled gold-standard blueprint (`stubs/blueprints/laravel/`): a full
 `laranail/package-tools` package with the manager + fluent DSL, services/actions, a repository +
 contract, a search manager, a model body-processing pipeline, lifecycle events, policies, an
 optional REST API, web UI, feeds, scheduling, an asset pipeline, and tests.
 
-Use this to **start** an artifact; use `module:make-*` (see `rules/generators.md`) to add individual
+Use this to **start** an artifact; use `laranail::package-scaffolder.make-*` (see `rules/generators.md`) to add individual
 classes into one that already exists.
 
 ## Usage
 
 ```bash
 # interactive (guided prompts)
-php artisan make:artifact
+php artisan laranail::package-scaffolder.new
 
 # unattended
-php artisan make:artifact Blog --type=module --plugin=none --features=web-ui,rest-api,caching --no-interaction
-php artisan make:artifact Customer --type=package --entity=Account --plugin=filament
+php artisan laranail::package-scaffolder.new Blog --type=module --plugin=none --features=web-ui,rest-api,caching --no-interaction
+php artisan laranail::package-scaffolder.new Customer --type=package --entity=Account --plugin=filament
 ```
 
 | Input | Flag | Notes |
@@ -53,7 +53,7 @@ panel docs/tests — and strips even the panel-named comments.
 
 ## Feature catalog (config-driven)
 
-The toggle set is **data**, in `config('artifacts.features')` (and documented in `FEATURE_CATALOG.md`),
+The toggle set is **data**, in `config('laranail.package-scaffolder.artifacts.features')` (and documented in `FEATURE_CATALOG.md`),
 so prompts and `--features` can't drift. Each feature has a `default`, `requires`, and `description`.
 
 - **Always-on core** (not toggleable): lifecycle events, search manager, body pipeline, macroable
