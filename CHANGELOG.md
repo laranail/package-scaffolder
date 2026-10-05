@@ -80,6 +80,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **The module repository is one shared instance again.** `ContractsServiceProvider` re-bound `RepositoryInterface` with `bind()` over the singleton `LaravelModulesServiceProvider` registers, so every `app(RepositoryInterface::class)`, `app('modules')` and `app('laranail.package-scaffolder.modules')` built a fresh repository: a location added with `addLocation()` or a stub path set with `setStubPath()` was lost on the next resolve, and the `Module` facade (which caches its instance) disagreed with the container. It now uses `bindIf()`, so the singleton stands. On Lumen the re-bind also swapped `LumenFileRepository` for `LaravelFileRepository`; Lumen now gets its own. **Behaviour change:** state set on the repository now persists across resolves within a process. The module path is still read from `laranail.package-scaffolder.modules.paths.modules` on every call, as before. Inherited from nwidart/laravel-modules.
+
 - **The Laravel Boost guidance cited config keys, files and publish tags that no longer exist.**
   It pointed agents at `config('artifacts.features')`, `config/modules.php`,
   `Module::config('modules.namespace')` and `vendor:publish --tag="stubs"`, all renamed in 0.1.0
