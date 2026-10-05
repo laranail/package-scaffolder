@@ -20,8 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ConfirmableCommand;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 abstract class BaseCommand extends Command implements PromptsForMissingInput
 {
@@ -103,8 +103,8 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
     protected function promptForMissingArguments(InputInterface $input, OutputInterface $output): void
     {
         $modules = $this->hasOption('direction')
-            ? array_keys($this->laravel['modules']->getOrdered((string) ($input->getOption('direction') ?: 'asc')))
-            : array_keys($this->laravel['modules']->all());
+            ? array_keys($this->laravel['laranail.package-scaffolder.modules']->getOrdered((string) ($input->getOption('direction') ?: 'asc')))
+            : array_keys($this->laravel['laranail.package-scaffolder.modules']->all());
 
         if ($input->getOption(strtolower(self::ALL))) {
             $input->setArgument('module', $modules);
@@ -137,7 +137,7 @@ abstract class BaseCommand extends Command implements PromptsForMissingInput
     {
         return $name instanceof Module
             ? $name
-            : $this->laravel['modules']->findOrFail($name);
+            : $this->laravel['laranail.package-scaffolder.modules']->findOrFail($name);
     }
 
     private function configureConfirmable(): void

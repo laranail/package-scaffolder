@@ -20,13 +20,13 @@ class HelperMakeCommand extends GeneratorCommand
 
     protected $name = 'laranail::package-scaffolder.make-helper';
 
-    protected $aliases = ['module:make-helper'];
+    protected array $deprecatedCommandAliases = ['module:make-helper'];
 
     protected $description = 'Create a new helper class for the specified module.';
 
     public function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $filePath = GenerateConfigReader::read('helpers')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Helpers';
 
@@ -41,7 +41,7 @@ class HelperMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),

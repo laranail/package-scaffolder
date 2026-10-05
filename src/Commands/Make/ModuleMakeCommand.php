@@ -11,8 +11,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Generators\ModuleGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class ModuleMakeCommand extends Command
 {
@@ -26,7 +26,7 @@ class ModuleMakeCommand extends Command
      */
     protected $name = 'laranail::package-scaffolder.make';
 
-    protected $aliases = ['module:make'];
+    protected array $deprecatedCommandAliases = ['module:make'];
 
     /**
      * The console command description.
@@ -46,7 +46,7 @@ class ModuleMakeCommand extends Command
         foreach ($names as $name) {
             $code = with(new ModuleGenerator($name))
                 ->setFilesystem($this->laravel['files'])
-                ->setModule($this->laravel['modules'])
+                ->setModule($this->laravel['laranail.package-scaffolder.modules'])
                 ->setConfig($this->laravel['config'])
                 ->setActivator($this->laravel[ActivatorInterface::class])
                 ->setConsole($this)

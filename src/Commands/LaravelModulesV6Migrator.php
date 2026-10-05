@@ -7,8 +7,8 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 use Illuminate\Console\Command;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class LaravelModulesV6Migrator extends Command
 {
@@ -17,7 +17,7 @@ class LaravelModulesV6Migrator extends Command
 
     protected $name = 'laranail::package-scaffolder.v6:migrate';
 
-    protected $aliases = ['module:v6:migrate'];
+    protected array $deprecatedCommandAliases = ['module:v6:migrate'];
 
     protected $description = 'Migrate legacy v5 module statuses to the v6 format.';
 
@@ -25,7 +25,7 @@ class LaravelModulesV6Migrator extends Command
     {
         $moduleStatuses = [];
         /** @var RepositoryInterface $modules */
-        $modules = $this->laravel['modules'];
+        $modules = $this->laravel['laranail.package-scaffolder.modules'];
 
         $modules = $modules->all();
         /** @var Module $module */

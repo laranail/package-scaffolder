@@ -10,8 +10,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class InstallCommand extends Command
 {
@@ -25,7 +25,7 @@ class InstallCommand extends Command
      */
     protected $name = 'laranail::package-scaffolder.install';
 
-    protected $aliases = ['module:install'];
+    protected array $deprecatedCommandAliases = ['module:install'];
 
     /**
      * The console command description.
@@ -98,7 +98,7 @@ class InstallCommand extends Command
             $tree ?: $this->option('tree'),
         );
 
-        $installer->setRepository($this->laravel['modules']);
+        $installer->setRepository($this->laravel['laranail.package-scaffolder.modules']);
 
         $installer->setConsole($this);
 

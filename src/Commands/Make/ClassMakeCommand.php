@@ -26,7 +26,7 @@ class ClassMakeCommand extends GeneratorCommand
         {module : The targeted module}';
 
     /** @var list<string> */
-    protected $aliases = ['module:make-class'];
+    protected array $deprecatedCommandAliases = ['module:make-class'];
 
     /**
      * The console command description.
@@ -50,7 +50,7 @@ class ClassMakeCommand extends GeneratorCommand
 
     public function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $filePath = GenerateConfigReader::read('class')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Classes';
 

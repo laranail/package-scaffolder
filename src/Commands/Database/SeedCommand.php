@@ -34,7 +34,7 @@ class SeedCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.seed';
 
-    protected $aliases = ['module:seed'];
+    protected array $deprecatedCommandAliases = ['module:seed'];
 
     /**
      * The console command description.
@@ -78,7 +78,7 @@ class SeedCommand extends BaseCommand
      */
     public function getModuleRepository(): RepositoryInterface
     {
-        $modules = $this->laravel['modules'];
+        $modules = $this->laravel['laranail.package-scaffolder.modules'];
         if (! $modules instanceof RepositoryInterface) {
             throw new RuntimeException('Module repository not found!');
         }
@@ -154,7 +154,7 @@ class SeedCommand extends BaseCommand
     {
         $name = Str::studly($name);
 
-        $namespace = $this->laravel['modules']->config('namespace');
+        $namespace = $this->laravel['laranail.package-scaffolder.modules']->config('namespace');
         $config = GenerateConfigReader::read('seeder');
         $seederPath = str_replace('/', '\\', $config->getPath());
 
@@ -193,7 +193,7 @@ class SeedCommand extends BaseCommand
         $seederPath = str_replace('/', '\\', $seederPath->getPath());
 
         $foundModules = [];
-        foreach ($this->laravel['modules']->config('scan.paths') as $path) {
+        foreach ($this->laravel['laranail.package-scaffolder.modules']->config('scan.paths') as $path) {
             $namespace = array_slice(explode('/', $path), -1)[0];
             $foundModules[] = $namespace . '\\' . $name . '\\' . $seederPath . '\\' . $name . 'DatabaseSeeder';
         }

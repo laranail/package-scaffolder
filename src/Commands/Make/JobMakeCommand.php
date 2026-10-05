@@ -23,7 +23,7 @@ class JobMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-job';
 
-    protected $aliases = ['module:make-job'];
+    protected array $deprecatedCommandAliases = ['module:make-job'];
 
     /**
      * The console command description.
@@ -73,7 +73,7 @@ class JobMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'NAMESPACE' => $this->getClassNamespace($module),
@@ -86,7 +86,7 @@ class JobMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $jobPath = GenerateConfigReader::read('jobs');
 

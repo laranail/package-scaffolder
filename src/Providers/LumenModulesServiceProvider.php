@@ -39,8 +39,8 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
     {
         Stub::setBasePath(dirname(__DIR__, 2) . '/stubs');
 
-        if (app('modules')->config('stubs.enabled') === true) {
-            Stub::setBasePath(app('modules')->config('stubs.path'));
+        if (app('laranail.package-scaffolder.modules')->config('stubs.enabled') === true) {
+            Stub::setBasePath(app('laranail.package-scaffolder.modules')->config('stubs.path'));
         }
     }
 
@@ -60,6 +60,7 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
 
             return new $class($app);
         });
-        $this->app->alias(RepositoryInterface::class, 'modules');
+        $this->app->alias(RepositoryInterface::class, self::CONTAINER_ALIAS);
+        $this->app->alias(RepositoryInterface::class, self::DEPRECATED_CONTAINER_ALIAS);
     }
 }

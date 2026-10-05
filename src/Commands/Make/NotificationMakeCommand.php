@@ -22,7 +22,7 @@ final class NotificationMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-notification';
 
-    protected $aliases = ['module:make-notification'];
+    protected array $deprecatedCommandAliases = ['module:make-notification'];
 
     protected $argumentName = 'name';
 
@@ -45,7 +45,7 @@ final class NotificationMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/notification.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
@@ -58,7 +58,7 @@ final class NotificationMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $notificationPath = GenerateConfigReader::read('notifications');
 

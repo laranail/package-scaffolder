@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use Illuminate\Console\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class SetupCommand extends Command
 {
@@ -20,7 +20,7 @@ class SetupCommand extends Command
      */
     protected $name = 'laranail::package-scaffolder.setup';
 
-    protected $aliases = ['module:setup'];
+    protected array $deprecatedCommandAliases = ['module:setup'];
 
     /**
      * The console command description.
@@ -45,7 +45,7 @@ class SetupCommand extends Command
     public function generateModulesFolder(): int
     {
         return $this->generateDirectory(
-            $this->laravel['modules']->config('paths.modules'),
+            $this->laravel['laranail.package-scaffolder.modules']->config('paths.modules'),
             'Modules directory created successfully',
             'Modules directory already exist',
         );
@@ -57,7 +57,7 @@ class SetupCommand extends Command
     public function generateAssetsFolder(): int
     {
         return $this->generateDirectory(
-            $this->laravel['modules']->config('paths.assets'),
+            $this->laravel['laranail.package-scaffolder.modules']->config('paths.assets'),
             'Assets directory created successfully',
             'Assets directory already exist',
         );

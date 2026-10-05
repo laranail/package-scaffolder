@@ -16,7 +16,7 @@ class PublishCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.publish';
 
-    protected $aliases = ['module:publish'];
+    protected array $deprecatedCommandAliases = ['module:publish'];
 
     /**
      * The console command description.
@@ -31,7 +31,7 @@ class PublishCommand extends BaseCommand
 
         $this->components->task("Publishing Assets <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
             with(new AssetPublisher($module))
-                ->setRepository($this->laravel['modules'])
+                ->setRepository($this->laravel['laranail.package-scaffolder.modules'])
                 ->setConsole($this)
                 ->publish();
         });

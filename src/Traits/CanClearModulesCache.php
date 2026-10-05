@@ -11,6 +11,6 @@ trait CanClearModulesCache
      */
     public function clearCache(): void
     {
-        $this->laravel['modules']->resetModules();
+        $this->laravel['laranail.package-scaffolder.modules']->resetModules();
     }
 }

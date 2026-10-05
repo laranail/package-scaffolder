@@ -29,7 +29,7 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-factory';
 
-    protected $aliases = ['module:make-factory'];
+    protected array $deprecatedCommandAliases = ['module:make-factory'];
 
     /**
      * The console command description.
@@ -57,7 +57,7 @@ class FactoryMakeCommand extends GeneratorCommand
 
         $path = str_replace('/', '\\', $path);
 
-        return $this->laravel['modules']->config('namespace') . '\\' . $this->laravel['modules']->findOrFail($this->getModuleName()) . '\\' . $path;
+        return $this->laravel['laranail.package-scaffolder.modules']->config('namespace') . '\\' . $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName()) . '\\' . $path;
     }
 
     /**
@@ -76,7 +76,7 @@ class FactoryMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/factory.stub', [
             'NAMESPACE'       => $this->getClassNamespace($module),
@@ -87,7 +87,7 @@ class FactoryMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $factoryPath = GenerateConfigReader::read('factory');
 

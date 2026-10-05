@@ -37,6 +37,24 @@ Every command is named `laranail::package-scaffolder.<command>` (for example
 `make:artifact`, remain registered as deprecated aliases: they run the same command and print a
 one-line warning naming the replacement. They are removed no earlier than the next minor after 0.1.
 
+The warning comes from `laranail/console`'s shared `WarnsOnDeprecatedAlias`: each command lists its
+old name in `$deprecatedCommandAliases`. On a terminal it is written to stderr, so piped output is
+unchanged.
+
+## Container alias
+
+The module repository is registered in the container as `laranail.package-scaffolder.modules`
+(`ModulesServiceProvider::CONTAINER_ALIAS`), and the `Module` facade resolves through it. Resolve it by
+that name or by `Contracts\RepositoryInterface`:
+
+```php
+app('laranail.package-scaffolder.modules')->find('Blog');
+```
+
+`modules`, the name nwidart/laravel-modules uses, remains registered as a deprecated alias of the same
+repository, so `app('modules')` and `$app['modules']` keep working. It is a plain container alias, so it
+prints no warning. It is removed no earlier than the next minor after 0.1.
+
 ## Autoloading generated modules
 
 Generated modules are autoloaded through `wikimedia/composer-merge-plugin`. In the host app's

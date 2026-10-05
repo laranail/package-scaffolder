@@ -22,7 +22,7 @@ final class ChannelMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-channel';
 
-    protected $aliases = ['module:make-channel'];
+    protected array $deprecatedCommandAliases = ['module:make-channel'];
 
     protected $argumentName = 'name';
 
@@ -45,7 +45,7 @@ final class ChannelMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/channel.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
@@ -58,7 +58,7 @@ final class ChannelMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $channelPath = GenerateConfigReader::read('channels');
 

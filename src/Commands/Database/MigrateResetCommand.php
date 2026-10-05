@@ -21,7 +21,7 @@ class MigrateResetCommand extends BaseCommand implements ConfirmableCommand
      */
     protected $name = 'laranail::package-scaffolder.migrate-reset';
 
-    protected $aliases = ['module:migrate-reset'];
+    protected array $deprecatedCommandAliases = ['module:migrate-reset'];
 
     /**
      * The console command description.

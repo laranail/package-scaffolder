@@ -15,7 +15,7 @@ class UpdateCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.update';
 
-    protected $aliases = ['module:update'];
+    protected array $deprecatedCommandAliases = ['module:update'];
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class UpdateCommand extends BaseCommand
         $module = $this->getModuleModel($name);
 
         $this->components->task("Updating <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
-            $this->laravel['modules']->update($module);
+            $this->laravel['laranail.package-scaffolder.modules']->update($module);
         });
     }
 

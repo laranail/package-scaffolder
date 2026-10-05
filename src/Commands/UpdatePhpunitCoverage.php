@@ -6,8 +6,8 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use DOMDocument;
 use Illuminate\Console\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class UpdatePhpunitCoverage extends Command
 {
@@ -21,7 +21,7 @@ class UpdatePhpunitCoverage extends Command
      */
     protected $signature = 'laranail::package-scaffolder.update-phpunit-coverage';
 
-    protected $aliases = ['module:update-phpunit-coverage'];
+    protected array $deprecatedCommandAliases = ['module:update-phpunit-coverage'];
 
     /**
      * The console command description.

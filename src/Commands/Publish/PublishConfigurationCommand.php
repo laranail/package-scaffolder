@@ -18,7 +18,7 @@ class PublishConfigurationCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.publish-config';
 
-    protected $aliases = ['module:publish-config'];
+    protected array $deprecatedCommandAliases = ['module:publish-config'];
 
     /**
      * The console command description.

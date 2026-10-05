@@ -16,9 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `_ARTIFACT_DEFAULT_ENTITY`, `_ARTIFACT_DEFAULT_FLAVOR`, `_MODULE_VENDOR`, `_MODULE_AUTHOR_NAME` and
   `_MODULE_AUTHOR_EMAIL`. Each is read first; the old unprefixed name is the fallback.
 - **A one-line deprecation warning when a command is invoked by a bare alias**, naming the
-  vendor-scoped command to use instead. Implemented once, in the
-  `Commands\Concerns\WarnsOnDeprecatedAlias` trait, which every command uses through its base class
-  or directly; a test reads the live Artisan registry to assert all 70 do.
+  vendor-scoped command to use instead. Implemented once, by `laranail/console`'s shared
+  `WarnsOnDeprecatedAlias` trait, which every command uses through its base class or directly; a test
+  reads the live Artisan registry to assert all 70 do.
+- **The module repository is registered as `laranail.package-scaffolder.modules`**
+  (`ModulesServiceProvider::CONTAINER_ALIAS`), beside `Contracts\RepositoryInterface`. Container
+  aliases share one flat map with the host and every other package, so the name carries the vendor
+  and slug. `NamingConventionTest` reads the live container and Artisan registries through
+  package-tools' `AssertsRegisteredNames` and fails on any bare name the package owns that is not a
+  declared deprecated alias.
 
 ### Changed
 
@@ -38,6 +44,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   said `--dev`; installation and getting-started did not. Modules generated with
   `laranail::package-scaffolder.make` extend this package's `ModuleServiceProvider` and are booted by
   its provider at runtime, so a `--no-dev` production install would break them.
+- **The bare-alias warning now comes from `laranail/console`'s shared `WarnsOnDeprecatedAlias`.**
+  Each command lists its old name in `$deprecatedCommandAliases` (was Laravel's `$aliases`), so the
+  same names stay registered and the warning text is unchanged. One difference: on a real terminal
+  the warning is written to stderr rather than stdout, so piped command output no longer carries it.
+  Under `Artisan::call()` it still appears in `Artisan::output()`.
+- **Internal code resolves the repository as `laranail.package-scaffolder.modules`.** Every command,
+  trait, the Lumen provider, the `module()` / `module_path()` helpers and the `Module` facade
+  accessor used the bare `modules` alias. A facade swap (`Module::swap()`) now replaces the scoped
+  name, which is what every internal call resolves.
+- Requires `laranail/console ^0.1.5` (the first release with the shared `WarnsOnDeprecatedAlias`) and
+  `laranail/package-tools ^0.1.4` (`AssertsRegisteredNames` with `vendor/` and `tests/` excluded from
+  the package's scope).
 
 ### Deprecated
 
@@ -49,6 +67,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `ARTIFACT_DEFAULT_FLAVOR`, `MODULE_VENDOR`, `MODULE_AUTHOR_NAME` and `MODULE_AUTHOR_EMAIL`. Still
   read as fallbacks; use the `LARANAIL_PACKAGE_SCAFFOLDER_` names. Removal no earlier than the next
   minor after 0.1.
+- **The `modules` container alias.** Still an alias of `Contracts\RepositoryInterface`, so
+  `app('modules')` and `$app['modules']` (the nwidart/laravel-modules name) resolve the same
+  repository; use `laranail.package-scaffolder.modules` or the interface. It stays a plain alias, so
+  it raises no runtime notice. Removal no earlier than the next minor after 0.1.
+- **`Commands\Concerns\WarnsOnDeprecatedAlias`** (this package's trait). It now composes
+  `laranail/console`'s trait of the same name and still warns on every plain alias of a command that
+  uses it, so a command outside this package keeps working. This package's commands no longer use it.
+  Use `Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias` with
+  `$deprecatedCommandAliases`. Removal no earlier than the next minor after 0.1.
 
 ### Fixed
 

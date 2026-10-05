@@ -36,9 +36,9 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
-        "laranail/console": "^0.1",
+        "laranail/console": "^0.1.5",
         "wikimedia/composer-merge-plugin": "^2.1",
-        "laranail/package-tools": "^0.1"
+        "laranail/package-tools": "^0.1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^13.2",

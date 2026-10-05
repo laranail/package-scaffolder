@@ -20,7 +20,7 @@ if (! function_exists('module')) {
     function module(string $name, bool $instance = false): bool|Module
     {
         /** @var FileRepository $repository */
-        $repository = app('modules');
+        $repository = app('laranail.package-scaffolder.modules');
 
         try {
             $module = $repository->findOrFail($name);
@@ -35,7 +35,7 @@ if (! function_exists('module')) {
 if (! function_exists('module_path')) {
     function module_path(string $name, string $path = ''): string
     {
-        $module = app('modules')->find($name);
+        $module = app('laranail.package-scaffolder.modules')->find($name);
 
         if ($module === null) {
             // The module registry may not be resolved yet (e.g. early bootstrap

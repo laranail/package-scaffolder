@@ -30,7 +30,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-middleware';
 
-    protected $aliases = ['module:make-middleware'];
+    protected array $deprecatedCommandAliases = ['module:make-middleware'];
 
     /**
      * The console command description.
@@ -89,7 +89,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         $stub = $this->option('inertia') ? '/middleware/handle-inertia-requests.stub' : '/middleware.stub';
 
@@ -101,7 +101,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $middlewarePath = GenerateConfigReader::read('filter');
 

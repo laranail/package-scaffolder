@@ -8,9 +8,9 @@ use Illuminate\Console\Command;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Traits\PathNamespace;
 use Simtabi\Laranail\Package\Scaffolder\Generators\FileGenerator;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\FileAlreadyExistException;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 abstract class GeneratorCommand extends Command
 {
@@ -86,7 +86,7 @@ abstract class GeneratorCommand extends Command
 
     public function module(?string $name = null): Module
     {
-        return $this->laravel['modules']->findOrFail($name ?? $this->getModuleName());
+        return $this->laravel['laranail.package-scaffolder.modules']->findOrFail($name ?? $this->getModuleName());
     }
 
     /**

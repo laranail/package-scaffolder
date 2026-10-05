@@ -22,7 +22,9 @@ by its service provider, so a `--no-dev` production install would leave them wit
 
 Every command is named `laranail::package-scaffolder.<command>`. The old `module:<command>` and
 `make:artifact` names still work as deprecated aliases and print a one-line warning naming the
-replacement; they are removed no earlier than the next minor after 0.1.
+replacement; they are removed no earlier than the next minor after 0.1. The module repository is
+bound as `laranail.package-scaffolder.modules`; the bare `modules` container alias is likewise kept as a
+deprecated alias.
 
 ## Quick start guide and usage
 

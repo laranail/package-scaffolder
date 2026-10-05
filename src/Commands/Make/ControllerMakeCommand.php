@@ -30,7 +30,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-controller';
 
-    protected $aliases = ['module:make-controller'];
+    protected array $deprecatedCommandAliases = ['module:make-controller'];
 
     /**
      * The console command description.
@@ -44,7 +44,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     public function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $controllerPath = GenerateConfigReader::read('controller');
 
@@ -60,7 +60,7 @@ class ControllerMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'MODULENAME'       => $module->getStudlyName(),
@@ -72,7 +72,7 @@ class ControllerMakeCommand extends GeneratorCommand
             'MODULE'           => $this->getModuleName(),
             'NAME'             => $this->getModuleName(),
             'STUDLY_NAME'      => $module->getStudlyName(),
-            'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
+            'MODULE_NAMESPACE' => $this->laravel['laranail.package-scaffolder.modules']->config('namespace'),
         ]))->render();
     }
 

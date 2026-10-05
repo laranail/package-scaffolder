@@ -15,7 +15,7 @@ class DumpCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.dump';
 
-    protected $aliases = ['module:dump'];
+    protected array $deprecatedCommandAliases = ['module:dump'];
 
     /**
      * The console command description.

@@ -175,7 +175,8 @@ class LaravelModulesServiceProvider extends ModulesServiceProvider
 
             return new $class($app);
         });
-        $this->app->alias(RepositoryInterface::class, 'modules');
+        $this->app->alias(RepositoryInterface::class, self::CONTAINER_ALIAS);
+        $this->app->alias(RepositoryInterface::class, self::DEPRECATED_CONTAINER_ALIAS);
 
         $this->app->singleton(
             ModuleManifest::class,

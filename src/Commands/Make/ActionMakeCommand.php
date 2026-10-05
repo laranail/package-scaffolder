@@ -20,13 +20,13 @@ class ActionMakeCommand extends GeneratorCommand
 
     protected $name = 'laranail::package-scaffolder.make-action';
 
-    protected $aliases = ['module:make-action'];
+    protected array $deprecatedCommandAliases = ['module:make-action'];
 
     protected $description = 'Create a new action class for the specified module.';
 
     public function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $filePath = GenerateConfigReader::read('actions')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Actions';
 
@@ -41,7 +41,7 @@ class ActionMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),

@@ -15,7 +15,7 @@ class UnUseCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.unuse';
 
-    protected $aliases = ['module:unuse'];
+    protected array $deprecatedCommandAliases = ['module:unuse'];
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class UnUseCommand extends BaseCommand
         $module = $this->getModuleModel($name);
 
         $this->components->task("Forget Using <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
-            $this->laravel['modules']->forgetUsed($module);
+            $this->laravel['laranail.package-scaffolder.modules']->forgetUsed($module);
         });
     }
 

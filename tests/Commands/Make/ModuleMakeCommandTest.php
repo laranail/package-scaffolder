@@ -99,7 +99,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_web_route_file(): void
     {
-        $files = $this->app['modules']->config('stubs.files');
+        $files = $this->app['laranail.package-scaffolder.modules']->config('stubs.files');
         $code = $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
 
         $path = $this->modulePath . '/' . $files['routes/web'];
@@ -111,7 +111,7 @@ class ModuleMakeCommandTest extends BaseTestCase
     public function test_it_generates_web_route_file_with_multi_segment_default_namespace(): void
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.namespace', 'Custom\Modules');
-        $files = $this->app['modules']->config('stubs.files');
+        $files = $this->app['laranail.package-scaffolder.modules']->config('stubs.files');
         $code = $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
 
         $path = $this->modulePath . '/' . $files['routes/web'];
@@ -122,7 +122,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
     public function test_it_generates_api_route_file(): void
     {
-        $files = $this->app['modules']->config('stubs.files');
+        $files = $this->app['laranail.package-scaffolder.modules']->config('stubs.files');
         $code = $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
 
         $path = $this->modulePath . '/' . $files['routes/api'];
@@ -134,7 +134,7 @@ class ModuleMakeCommandTest extends BaseTestCase
     public function test_it_generates_api_route_file_with_multi_segment_default_namespace(): void
     {
         $this->app['config']->set('laranail.package-scaffolder.modules.namespace', 'Custom\Modules');
-        $files = $this->app['modules']->config('stubs.files');
+        $files = $this->app['laranail.package-scaffolder.modules']->config('stubs.files');
 
         $code = $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
 
@@ -148,7 +148,7 @@ class ModuleMakeCommandTest extends BaseTestCase
     {
         $code = $this->artisan('laranail::package-scaffolder.make', ['name' => ['Blog']]);
 
-        $path = $this->modulePath . '/' . $this->app['modules']->config('stubs.files.vite');
+        $path = $this->modulePath . '/' . $this->app['laranail.package-scaffolder.modules']->config('stubs.files.vite');
 
         $this->assertMatchesSnapshot($this->finder->get($path));
         $this->assertSame(0, $code);

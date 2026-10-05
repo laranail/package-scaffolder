@@ -20,7 +20,7 @@ class TestMakeCommand extends GeneratorCommand
 
     protected $name = 'laranail::package-scaffolder.make-test';
 
-    protected $aliases = ['module:make-test'];
+    protected array $deprecatedCommandAliases = ['module:make-test'];
 
     protected $description = 'Create a new test class for the specified module.';
 
@@ -65,7 +65,7 @@ class TestMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
         $stub = '/tests/' . (($this->option('feature')) ? 'feature' : 'unit') . '.stub';
 
         return (new Stub($stub, [
@@ -76,7 +76,7 @@ class TestMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         if ($this->option('feature')) {
             $testPath = GenerateConfigReader::read('test-feature');

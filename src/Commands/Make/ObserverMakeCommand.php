@@ -22,7 +22,7 @@ class ObserverMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-observer';
 
-    protected $aliases = ['module:make-observer'];
+    protected array $deprecatedCommandAliases = ['module:make-observer'];
 
     /**
      * The name of argument name.
@@ -43,11 +43,11 @@ class ObserverMakeCommand extends GeneratorCommand
      */
     public function getModelNamespace(): string
     {
-        $moduleNamespace = $this->laravel['modules']->config('namespace'); // 'Modules'
-        $moduleName = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $moduleNamespace = $this->laravel['laranail.package-scaffolder.modules']->config('namespace'); // 'Modules'
+        $moduleName = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
-        $path = $this->laravel['modules']->config('paths.generator.model.path', 'Entities'); // current is 'app/Models'
-        $appFolder = $this->laravel['modules']->config('paths.app_folder', 'app/');
+        $path = $this->laravel['laranail.package-scaffolder.modules']->config('paths.generator.model.path', 'Entities'); // current is 'app/Models'
+        $appFolder = $this->laravel['laranail.package-scaffolder.modules']->config('paths.app_folder', 'app/');
 
         if (str_starts_with($path, $appFolder)) {
             $path = substr($path, strlen($appFolder)); // has 'Models'
@@ -101,7 +101,7 @@ class ObserverMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/observer.stub', [
             'NAMESPACE'       => $this->getClassNamespace($module),
@@ -113,7 +113,7 @@ class ObserverMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $observerPath = GenerateConfigReader::read('observer');
 

@@ -20,7 +20,7 @@ class ViewMakeCommand extends GeneratorCommand
 
     protected $name = 'laranail::package-scaffolder.make-view';
 
-    protected $aliases = ['module:make-view'];
+    protected array $deprecatedCommandAliases = ['module:make-view'];
 
     protected $description = 'Create a new view for the specified module.';
 
@@ -40,7 +40,7 @@ class ViewMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
         $factoryPath = GenerateConfigReader::read('views');
 
         return $path . $factoryPath->getPath() . '/' . $this->getFileName();
