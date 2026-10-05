@@ -27,6 +27,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   migrate-refresh commands called sibling commands by their bare `module:*` names; they now call
   `laranail::package-scaffolder.*`, so no internal call prints the new deprecation warning. The test
   suite likewise invokes the scoped names, and a source scan keeps both that way.
+- **The Laravel Boost guideline and skill name the vendor-scoped commands.**
+  `resources/boost/guidelines/core.blade.php` and the `laranail-scaffolder-development` skill
+  (`SKILL.md` and its `generators`, `architecture`, `artifacts` and `testing` rules) told AI agents to
+  run `module:make-*`, `module:*` and `make:artifact`, which now print a deprecation warning. Every
+  reference is now `laranail::package-scaffolder.<command>`, and the guidance says the bare names are
+  deprecated aliases. `BoostGuidanceCommandNamesTest` scans `resources/boost/**` for bare command
+  references and checks every scoped name it cites against the live Artisan registry.
 - **Install docs agree on `composer require laranail/package-scaffolder`** (no `--dev`). The README
   said `--dev`; installation and getting-started did not. Modules generated with
   `laranail::package-scaffolder.make` extend this package's `ModuleServiceProvider` and are booted by
@@ -42,6 +49,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `ARTIFACT_DEFAULT_FLAVOR`, `MODULE_VENDOR`, `MODULE_AUTHOR_NAME` and `MODULE_AUTHOR_EMAIL`. Still
   read as fallbacks; use the `LARANAIL_PACKAGE_SCAFFOLDER_` names. Removal no earlier than the next
   minor after 0.1.
+
+### Fixed
+
+- **The Laravel Boost guidance cited config keys, files and publish tags that no longer exist.**
+  It pointed agents at `config('artifacts.features')`, `config/modules.php`,
+  `Module::config('modules.namespace')` and `vendor:publish --tag="stubs"`, all renamed in 0.1.0
+  without a fallback, so an agent following it read null or published nothing. It now cites
+  `config('laranail.package-scaffolder.artifacts.features')`,
+  `config/laranail/package-scaffolder/modules.php`, `Module::config('namespace')` and the
+  `laranail::package-scaffolder-config` / `-artifacts` / `-stubs` tags.
+  `BoostGuidanceConfigReferencesTest` checks every package config key, config file path and
+  publish tag the guidance cites against the booted app's config, publish map and
+  `publishableGroups()`.
 
 ## [0.1.0] - 2026-08-15
 

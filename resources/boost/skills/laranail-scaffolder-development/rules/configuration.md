@@ -1,8 +1,11 @@
 # Package Scaffolder Configuration
 
-Publish config: `php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider"`
+Publish config: `php artisan vendor:publish --tag=laranail::package-scaffolder-config`
 
-The config file lands at `config/modules.php`.
+The config file lands at `config/laranail/package-scaffolder/modules.php` and is read under the key
+`laranail.package-scaffolder.modules` (e.g. `config('laranail.package-scaffolder.modules.namespace')`).
+The blueprint settings publish separately with `--tag=laranail::package-scaffolder-artifacts` to
+`config/laranail/package-scaffolder/artifacts.php` (key `laranail.package-scaffolder.artifacts`).
 
 ## Key Configuration Options
 
@@ -121,7 +124,7 @@ Customise generated file templates:
 
 Set `enabled` to `true` and publish stubs with:
 ```bash
-php artisan vendor:publish --provider="Simtabi\Laranail\Package\Scaffolder\Providers\LaravelModulesServiceProvider" --tag="stubs"
+php artisan vendor:publish --tag=laranail::package-scaffolder-stubs
 ```
 
 ### Inertia

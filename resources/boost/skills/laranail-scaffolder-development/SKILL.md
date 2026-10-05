@@ -1,6 +1,6 @@
 ---
 name: laranail-scaffolder-development
-description: "Use for any task involving laranail/package-scaffolder (the laranail module/package/plugin scaffolder). Activate when the user mentions make:artifact, laranail::package-scaffolder, the blueprint, generating a module/package/plugin, the feature catalog, modules, Modules/ directory, module:make, module:enable/disable/migrate, module.json, the Module facade, or modular Laravel architecture. Covers: blueprint-based generation via make:artifact (artifact types, the nova|filament|none panel, the config-driven feature catalog, the artifact-vs-entity naming model), all module:make-* per-file generators, module management commands, per-module migrations/seeding, publishing, namespaces/view references, service-provider registration, Blade directives, Inertia support, auto-discovery, inter-module events, and testing. Do not use for non-modular Laravel features or unrelated package development."
+description: "Use for any task involving laranail/package-scaffolder (the laranail module/package/plugin scaffolder). Activate when the user mentions laranail::package-scaffolder (including its .new, .make, .enable/.disable/.migrate commands or their deprecated bare module:* aliases), the blueprint, generating a module/package/plugin, the feature catalog, modules, Modules/ directory, module.json, the Module facade, or modular Laravel architecture. Covers: blueprint-based generation via laranail::package-scaffolder.new (artifact types, the nova|filament|none panel, the config-driven feature catalog, the artifact-vs-entity naming model), all laranail::package-scaffolder.make-* per-file generators, module management commands, per-module migrations/seeding, publishing, namespaces/view references, service-provider registration, Blade directives, Inertia support, auto-discovery, inter-module events, and testing. Do not use for non-modular Laravel features or unrelated package development."
 license: MIT
 metadata:
   author: Simtabi LLC
@@ -17,28 +17,29 @@ Best practices for laranail/package-scaffolder, prioritised by impact. For exact
 Before applying any pattern, check what the application already does. If modules exist in the codebase, follow their structure. Don't invent a second convention.
 
 This is the **laranail/package-scaffolder** fork: Artisan commands are namespaced
-`laranail::package-scaffolder.*` with the upstream `module:*` names kept as aliases. Beyond the
-upstream per-file generators it adds **blueprint-based generation** — `make:artifact` — which
+`laranail::package-scaffolder.*`. The upstream `module:*` names are kept only as deprecated aliases
+that print a warning: always run the scoped name. Beyond the
+upstream per-file generators it adds **blueprint-based generation** — `laranail::package-scaffolder.new` — which
 scaffolds a complete, opinionated artifact from a gold-standard template.
 
 ## Quick Reference
 
-### 0. Blueprint generation (`make:artifact`) → `rules/artifacts.md`
+### 0. Blueprint generation (`laranail::package-scaffolder.new`) → `rules/artifacts.md`
 
-- `php artisan make:artifact Blog --type=package|module|plugin` (alias of `laranail::package-scaffolder.new`)
+- `php artisan laranail::package-scaffolder.new Blog --type=package|module|plugin`
   generates a **full `laranail/package-tools` package** (manager/DSL, services/actions, repository+
   contract, search manager, body pipeline, lifecycle events, policies, REST API, web UI, …) — not an
-  empty shell. Use `module:make-*` to add classes into an existing artifact.
+  empty shell. Use `laranail::package-scaffolder.make-*` to add classes into an existing artifact.
 - Output: `platform/{packages,modules,plugins}/{Name}`; the folder is location-only, the PSR-4 root is
   `--namespace`. Artifact name (`Blog`→`{Name}`) is distinct from the primary entity (`Post`→`--entity`,
   default = distinct generic `Item`, must differ from the artifact); `Comment`/`Category`/`Tag` are fixed supporting entities.
 - Panel: `--plugin=nova|filament|none` (mutually exclusive; default `none` = zero footprint).
-- Features are config-driven (`config('artifacts.features')` / `FEATURE_CATALOG.md`), opt-in/opt-out via
+- Features are config-driven (`config('laranail.package-scaffolder.artifacts.features')` / `FEATURE_CATALOG.md`), opt-in/opt-out via
   `--features=`; off ⇒ not generated; dependencies auto-resolved (`livewire` requires `web-ui`).
 
 ### 1. Creating & Structuring Modules → `rules/architecture.md`
 
-- Scaffold: `php artisan module:make Blog`
+- Scaffold: `php artisan laranail::package-scaffolder.make Blog`
 - Standard structure: `app/`, `config/`, `database/`, `resources/`, `routes/`, `tests/`, `module.json`, `composer.json`
 - `module.json` controls name, alias, active state, load order, and which service providers to register
 - Namespaces: `Modules\{StudlyName}` — views: `{lower}::{path}` — config: `{lower}.{key}` — lang: `{lower}::{file}.{key}`
@@ -53,11 +54,11 @@ scaffolds a complete, opinionated artifact from a gold-standard template.
 - Services, repositories, actions, interfaces, traits, enums, casts
 - Inertia pages and components
 
-All generators follow: `php artisan module:make-{type} {Name} {ModuleName}`
+All generators follow: `php artisan laranail::package-scaffolder.make-{type} {Name} {ModuleName}`
 
 ### 3. Configuration → `rules/configuration.md`
 
-- `config/modules.php`: namespace, paths, stubs, auto-discover, activators, Inertia frontend
+- `config/laranail/package-scaffolder/modules.php` (key `laranail.package-scaffolder.modules`): namespace, paths, stubs, auto-discover, activators, Inertia frontend
 - `auto-discover.migrations`: auto-register module migration paths (default: true)
 - `auto-discover.translations`: auto-register module lang namespaces (default: false)
 - Activator stores enabled/disabled state in `modules_statuses.json`
@@ -73,51 +74,51 @@ All generators follow: `php artisan module:make-{type} {Name} {ModuleName}`
 ### 5. Testing → `rules/testing.md`
 
 - Tests live inside `Modules/{Name}/tests/Feature/` and `tests/Unit/`
-- Generate: `php artisan module:make-test PostTest Blog`
+- Generate: `php artisan laranail::package-scaffolder.make-test PostTest Blog`
 - Run module tests: `php artisan test --compact Modules/Blog/tests/`
 - Use standard Pest syntax with `RefreshDatabase` trait
 
 ## Creating a Module
 
 ```bash
-php artisan module:make Blog
-php artisan module:make Blog --plain
-php artisan module:make Blog --api
-php artisan module:make Blog --inertia
-php artisan module:make Blog User Shop
+php artisan laranail::package-scaffolder.make Blog
+php artisan laranail::package-scaffolder.make Blog --plain
+php artisan laranail::package-scaffolder.make Blog --api
+php artisan laranail::package-scaffolder.make Blog --inertia
+php artisan laranail::package-scaffolder.make Blog User Shop
 ```
 
 ## Module Management
 
 ```bash
-php artisan module:list
-php artisan module:enable Blog
-php artisan module:disable Blog
-php artisan module:delete Blog
-php artisan module:use Blog
-php artisan module:unuse
+php artisan laranail::package-scaffolder.list
+php artisan laranail::package-scaffolder.enable Blog
+php artisan laranail::package-scaffolder.disable Blog
+php artisan laranail::package-scaffolder.delete Blog
+php artisan laranail::package-scaffolder.use Blog
+php artisan laranail::package-scaffolder.unuse
 ```
 
 ## Database Operations
 
 ```bash
-php artisan module:migrate Blog
-php artisan module:migrate-fresh Blog
-php artisan module:migrate-rollback Blog
-php artisan module:migrate-refresh Blog
-php artisan module:migrate-reset Blog
-php artisan module:migrate-status Blog
-php artisan module:seed Blog
+php artisan laranail::package-scaffolder.migrate Blog
+php artisan laranail::package-scaffolder.migrate-fresh Blog
+php artisan laranail::package-scaffolder.migrate-rollback Blog
+php artisan laranail::package-scaffolder.migrate-refresh Blog
+php artisan laranail::package-scaffolder.migrate-reset Blog
+php artisan laranail::package-scaffolder.migrate-status Blog
+php artisan laranail::package-scaffolder.seed Blog
 ```
 
 ## Publishing
 
 ```bash
-php artisan module:publish Blog
-php artisan module:publish-config Blog
-php artisan module:publish-migration Blog
-php artisan module:publish-translation Blog
-php artisan module:publish-inertia
+php artisan laranail::package-scaffolder.publish Blog
+php artisan laranail::package-scaffolder.publish-config Blog
+php artisan laranail::package-scaffolder.publish-migration Blog
+php artisan laranail::package-scaffolder.publish-translation Blog
+php artisan laranail::package-scaffolder.publish-inertia
 ```
 
 ## Naming Conventions
@@ -213,12 +214,12 @@ protected $listen = [
 ## Common Pitfalls
 
 - **Provider missing from module.json**: Routes, bindings, and migrations silently don't load. Always list every provider under `providers`.
-- **Disabled module 404**: Routes from a disabled module return 404. Run `module:enable` first.
+- **Disabled module 404**: Routes from a disabled module return 404. Run `laranail::package-scaffolder.enable` first.
 - **Auto-discovery off**: If `auto-discover.migrations` is `false`, you must call `loadMigrationsFrom()` manually.
 - **Wrong namespace casing**: Must be StudlyCase — `Modules\Blog`, not `Modules\blog` or `modules\Blog`.
 - **Cross-module class imports**: Importing `Modules\OtherModule\...` directly causes fatal errors when that module is disabled. Use events.
 - **Stale module manifest**: After adding/removing modules, run `php artisan optimize:clear`.
-- **Publishing conflicts**: `module:publish-migration` copies to `database/migrations/` — check for timestamp clashes.
+- **Publishing conflicts**: `laranail::package-scaffolder.publish-migration` copies to `database/migrations/` — check for timestamp clashes.
 
 ## How to Apply
 

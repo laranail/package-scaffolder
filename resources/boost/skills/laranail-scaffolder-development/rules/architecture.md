@@ -2,7 +2,7 @@
 
 ## Generated artifact directory structure
 
-`make:artifact` generates a complete `laranail/package-tools` artifact from the blueprint. The
+`laranail::package-scaffolder.new` generates a complete `laranail/package-tools` artifact from the blueprint. The
 `--type` chooses the container (`platform/packages`, `platform/modules`, or `platform/plugins`); the
 folder is **location only** — the PHP root namespace comes from `--namespace`, never the container.
 The PSR-4 root is **`src/`** (not `app/`).
@@ -39,7 +39,7 @@ e.g. `--features` without `web-ui` drops `Http`/`View`/`Livewire`/web routes; wi
 automatically). The core substrate (manager/DSL, search Manager, body pipeline, events, `spy()` seam)
 is always present.
 
-The per-file `module:make-*` generators still exist for adding individual classes into an
+The per-file `laranail::package-scaffolder.make-*` generators still exist for adding individual classes into an
 already-generated artifact.
 
 ## Service Provider Architecture
@@ -159,7 +159,7 @@ Module::isDisabled('Blog');            // bool
 
 // Paths and config
 Module::getModulePath('Blog');         // Full path to Modules/Blog/
-Module::config('modules.namespace');  // Read package config
+Module::config('namespace');          // Reads laranail.package-scaffolder.modules.namespace
 
 // Lifecycle
 Module::delete($module);              // Delete a module
@@ -244,7 +244,7 @@ When `auto-discover.migrations` is `true` (the default), all enabled modules hav
 
 When `auto-discover.translations` is `true`, module lang namespaces are also auto-registered.
 
-Both can be configured per-environment in `config/modules.php`.
+Both can be configured per-environment in `config/laranail/package-scaffolder/modules.php`.
 
 ## Module Load Order
 
@@ -262,27 +262,27 @@ The `order` field in `module.json` controls load order. Lower numbers load first
 
 ```bash
 # Scaffold a module with Inertia pages
-php artisan module:make Blog --inertia
+php artisan laranail::package-scaffolder.make Blog --inertia
 
 # Generate pages
-php artisan module:make-inertia-page Index Blog --vue
-php artisan module:make-inertia-page Show Blog --react
-php artisan module:make-inertia-page Create Blog --svelte
+php artisan laranail::package-scaffolder.make-inertia-page Index Blog --vue
+php artisan laranail::package-scaffolder.make-inertia-page Show Blog --react
+php artisan laranail::package-scaffolder.make-inertia-page Create Blog --svelte
 
 # Reusable Inertia components
-php artisan module:make-inertia-component PostCard Blog
+php artisan laranail::package-scaffolder.make-inertia-component PostCard Blog
 
 # Publish the app.js entry point
-php artisan module:publish-inertia
+php artisan laranail::package-scaffolder.publish-inertia
 ```
 
-Default frontend is configured in `config/modules.php` under `inertia.frontend` ('vue', 'react', or 'svelte').
+Default frontend is configured in `config/laranail/package-scaffolder/modules.php` under `inertia.frontend` ('vue', 'react', or 'svelte').
 
 ## Module Activation and Deactivation
 
 ```bash
-php artisan module:enable Blog    # Registers providers on next boot
-php artisan module:disable Blog   # Skips providers on next boot; 404 on all module routes
+php artisan laranail::package-scaffolder.enable Blog    # Registers providers on next boot
+php artisan laranail::package-scaffolder.disable Blog   # Skips providers on next boot; 404 on all module routes
 ```
 
 Activation state is stored in `modules_statuses.json` at the project root. Commit this file to source control to ensure consistent module state across environments.

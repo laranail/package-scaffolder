@@ -16,8 +16,8 @@ Modules/Blog/
 ## Generating Tests
 
 ```bash
-php artisan module:make-test PostFeatureTest Blog         # Feature test
-php artisan module:make-test PostUnitTest Blog --unit     # Unit test
+php artisan laranail::package-scaffolder.make-test PostFeatureTest Blog         # Feature test
+php artisan laranail::package-scaffolder.make-test PostUnitTest Blog --unit     # Unit test
 ```
 
 ## Running Module Tests
