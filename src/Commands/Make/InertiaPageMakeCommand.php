@@ -25,7 +25,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-inertia-page';
 
-    protected $aliases = ['module:make-inertia-page'];
+    protected array $deprecatedCommandAliases = ['module:make-inertia-page'];
 
     /**
      * The console command description.
@@ -74,7 +74,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'STUDLY_NAME' => $module->getStudlyName(),
@@ -87,7 +87,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
         $pagesPath = GenerateConfigReader::read('inertia')->getPath() ?? 'resources/js/Pages';
         $subDirectory = $this->getSubDirectory();
 

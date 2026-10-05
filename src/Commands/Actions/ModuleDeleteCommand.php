@@ -13,7 +13,7 @@ class ModuleDeleteCommand extends BaseCommand implements ConfirmableCommand
 {
     protected $name = 'laranail::package-scaffolder.delete';
 
-    protected $aliases = ['module:delete'];
+    protected array $deprecatedCommandAliases = ['module:delete'];
 
     protected $description = 'Delete a module from the application';
 

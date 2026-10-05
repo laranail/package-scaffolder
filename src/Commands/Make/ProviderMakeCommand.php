@@ -31,7 +31,7 @@ class ProviderMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-provider';
 
-    protected $aliases = ['module:make-provider'];
+    protected array $deprecatedCommandAliases = ['module:make-provider'];
 
     /**
      * The console command description.
@@ -79,7 +79,7 @@ class ProviderMakeCommand extends GeneratorCommand
         $stub = $this->option('master') ? 'scaffold/provider' : 'provider';
 
         /** @var Module $module */
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/' . $stub . '.stub', [
             'NAMESPACE'        => $this->getClassNamespace($module),
@@ -88,7 +88,7 @@ class ProviderMakeCommand extends GeneratorCommand
             'MODULE'           => $this->getModuleName(),
             'NAME'             => $this->getFileName(),
             'STUDLY_NAME'      => $module->getStudlyName(),
-            'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
+            'MODULE_NAMESPACE' => $this->laravel['laranail.package-scaffolder.modules']->config('namespace'),
             'PATH_CONFIG'      => GenerateConfigReader::read('config')->getPath(),
             'FACTORIES_PATH'   => GenerateConfigReader::read('factory')->getPath(),
         ]))->render();
@@ -96,7 +96,7 @@ class ProviderMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $generatorPath = GenerateConfigReader::read('provider');
 

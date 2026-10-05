@@ -20,13 +20,13 @@ class EnumMakeCommand extends GeneratorCommand
 
     protected $name = 'laranail::package-scaffolder.make-enum';
 
-    protected $aliases = ['module:make-enum'];
+    protected array $deprecatedCommandAliases = ['module:make-enum'];
 
     protected $description = 'Create a new enum class for the specified module.';
 
     public function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $filePath = GenerateConfigReader::read('enums')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Enums';
 
@@ -41,7 +41,7 @@ class EnumMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),

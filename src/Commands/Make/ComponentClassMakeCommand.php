@@ -29,7 +29,7 @@ class ComponentClassMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-component';
 
-    protected $aliases = ['module:make-component'];
+    protected array $deprecatedCommandAliases = ['module:make-component'];
 
     /**
      * The console command description.
@@ -80,7 +80,7 @@ class ComponentClassMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/component-class.stub', [
             'NAMESPACE'      => $this->getClassNamespace($module),
@@ -92,7 +92,7 @@ class ComponentClassMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
         $factoryPath = GenerateConfigReader::read('component-class');
 
         return $path . $factoryPath->getPath() . '/' . $this->getFileName();

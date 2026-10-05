@@ -15,7 +15,7 @@ class UseCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.use';
 
-    protected $aliases = ['module:use'];
+    protected array $deprecatedCommandAliases = ['module:use'];
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class UseCommand extends BaseCommand
         $module = $this->getModuleModel($name);
 
         $this->components->task("Using <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
-            $this->laravel['modules']->setUsed($module);
+            $this->laravel['laranail.package-scaffolder.modules']->setUsed($module);
         });
     }
 

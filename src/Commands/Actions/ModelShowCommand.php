@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Database\Console\ShowModelCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 #[AsCommand('laranail::package-scaffolder.model-show', 'Show information about an Eloquent model in modules')]
 class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInput
@@ -30,7 +30,7 @@ class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInpu
      */
     protected $name = 'laranail::package-scaffolder.model-show';
 
-    protected $aliases = ['module:model-show'];
+    protected array $deprecatedCommandAliases = ['module:model-show'];
 
     /**
      * The console command description.

@@ -30,7 +30,7 @@ class ComponentViewMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-component-view';
 
-    protected $aliases = ['module:make-component-view'];
+    protected array $deprecatedCommandAliases = ['module:make-component-view'];
 
     /**
      * The console command description.
@@ -60,7 +60,7 @@ class ComponentViewMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
         $factoryPath = GenerateConfigReader::read('component-view');
 
         return $path . $factoryPath->getPath() . '/' . $this->getFileName();

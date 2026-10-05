@@ -20,13 +20,13 @@ class ServiceMakeCommand extends GeneratorCommand
 
     protected $name = 'laranail::package-scaffolder.make-service';
 
-    protected $aliases = ['module:make-service'];
+    protected array $deprecatedCommandAliases = ['module:make-service'];
 
     protected $description = 'Create a new service class for the specified module.';
 
     public function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $filePath = GenerateConfigReader::read('services')->getPath() ?? config('laranail.package-scaffolder.modules.paths.app_folder') . 'Services';
 
@@ -41,7 +41,7 @@ class ServiceMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),

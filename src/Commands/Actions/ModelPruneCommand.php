@@ -18,8 +18,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 #[AsCommand(name: 'laranail::package-scaffolder.prune')]
 class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
@@ -31,7 +31,7 @@ class ModelPruneCommand extends PruneCommand implements PromptsForMissingInput
 
     protected $name = 'laranail::package-scaffolder.prune';
 
-    protected $aliases = ['module:prune'];
+    protected array $deprecatedCommandAliases = ['module:prune'];
 
     /**
      * The console command name.

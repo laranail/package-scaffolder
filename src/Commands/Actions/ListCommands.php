@@ -16,7 +16,7 @@ class ListCommands extends BaseCommand
 {
     protected $name = 'laranail::package-scaffolder.list-commands';
 
-    protected $aliases = ['module:list-commands'];
+    protected array $deprecatedCommandAliases = ['module:list-commands'];
 
     protected $description = 'List all commands in the specified module(s)';
 

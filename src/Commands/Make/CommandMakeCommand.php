@@ -30,7 +30,7 @@ class CommandMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-command';
 
-    protected $aliases = ['module:make-command'];
+    protected array $deprecatedCommandAliases = ['module:make-command'];
 
     /**
      * The console command description.
@@ -75,7 +75,7 @@ class CommandMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/command.stub', [
             'COMMAND_NAME' => $this->getCommandName(),
@@ -86,7 +86,7 @@ class CommandMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $commandPath = GenerateConfigReader::read('command');
 

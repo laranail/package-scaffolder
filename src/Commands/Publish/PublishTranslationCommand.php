@@ -16,7 +16,7 @@ class PublishTranslationCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.publish-translation';
 
-    protected $aliases = ['module:publish-translation'];
+    protected array $deprecatedCommandAliases = ['module:publish-translation'];
 
     /**
      * The console command description.
@@ -31,7 +31,7 @@ class PublishTranslationCommand extends BaseCommand
 
         $this->components->task("Publishing Translations <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
             with(new LangPublisher($module))
-                ->setRepository($this->laravel['modules'])
+                ->setRepository($this->laravel['laranail.package-scaffolder.modules'])
                 ->setConsole($this)
                 ->publish();
         });

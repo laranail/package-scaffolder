@@ -25,7 +25,7 @@ class SeedMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-seed';
 
-    protected $aliases = ['module:make-seed'];
+    protected array $deprecatedCommandAliases = ['module:make-seed'];
 
     /**
      * The console command description.
@@ -102,7 +102,7 @@ class SeedMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): mixed
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/seeder.stub', [
             'NAME'      => $this->getSeederName(),
@@ -116,7 +116,7 @@ class SeedMakeCommand extends GeneratorCommand
     {
         $this->clearCache();
 
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $seederPath = GenerateConfigReader::read('seeder');
 
@@ -125,11 +125,11 @@ class SeedMakeCommand extends GeneratorCommand
 
     private function ensureBaseSeederExists(string $moduleName): void
     {
-        $module = $this->laravel['modules']->findOrFail($moduleName);
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($moduleName);
 
         $seederPath = GenerateConfigReader::read('seeder');
         $baseName = Str::studly($module->getName()) . 'DatabaseSeeder';
-        $basePath = $this->laravel['modules']->getModulePath($module->getName()) . $seederPath->getPath() . '/' . $baseName . '.php';
+        $basePath = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($module->getName()) . $seederPath->getPath() . '/' . $baseName . '.php';
 
         if ($this->laravel['files']->exists($basePath)) {
             return;

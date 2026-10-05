@@ -17,7 +17,7 @@ class PublishMigrationCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.publish-migration';
 
-    protected $aliases = ['module:publish-migration'];
+    protected array $deprecatedCommandAliases = ['module:publish-migration'];
 
     /**
      * The console command description.
@@ -32,7 +32,7 @@ class PublishMigrationCommand extends BaseCommand
 
         $this->components->task("Publishing Migration <fg=cyan;options=bold>{$module->getName()}</> Module", function () use ($module): void {
             with(new MigrationPublisher(new Migrator($module, $this->getLaravel())))
-                ->setRepository($this->laravel['modules'])
+                ->setRepository($this->laravel['laranail.package-scaffolder.modules'])
                 ->setConsole($this)
                 ->publish();
         });

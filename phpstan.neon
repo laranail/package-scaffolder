@@ -37,3 +37,10 @@ parameters:
         # The views exist; the suite renders them.
         - '#expects view-string, string given#'
 
+
+        # The local WarnsOnDeprecatedAlias is a deprecated delegate kept for commands
+        # OUTSIDE this package; none of the package's own commands use it any more, so
+        # PHPStan sees it used zero times. DeprecatedAliasTest exercises it.
+        -
+            identifier: trait.unused
+            path: src/Commands/Concerns/WarnsOnDeprecatedAlias.php

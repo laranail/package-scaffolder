@@ -8,9 +8,9 @@ trait ModuleCommandTrait
 {
     public function getModuleName(): string
     {
-        $module = $this->argument('module') ?: app('modules')->getUsedNow();
+        $module = $this->argument('module') ?: app('laranail.package-scaffolder.modules')->getUsedNow();
 
-        $module = app('modules')->findOrFail($module);
+        $module = app('laranail.package-scaffolder.modules')->findOrFail($module);
 
         return $module->getStudlyName();
     }

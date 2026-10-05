@@ -26,7 +26,7 @@ class MigrationMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-migration';
 
-    protected $aliases = ['module:make-migration'];
+    protected array $deprecatedCommandAliases = ['module:make-migration'];
 
     /**
      * The console command description.
@@ -109,7 +109,7 @@ class MigrationMakeCommand extends GeneratorCommand
                 'table'            => $parser->getTableName(),
                 'fields'           => $this->getSchemaParser()->render(),
                 'module'           => $this->getModuleName(),
-                'module_namespace' => $this->laravel['modules']->config('namespace'),
+                'module_namespace' => $this->laravel['laranail.package-scaffolder.modules']->config('namespace'),
             ]);
         }
         if ($parser->isAdd()) {
@@ -119,7 +119,7 @@ class MigrationMakeCommand extends GeneratorCommand
                 'fields_up'        => $this->getSchemaParser()->up(),
                 'fields_down'      => $this->getSchemaParser()->down(),
                 'module'           => $this->getModuleName(),
-                'module_namespace' => $this->laravel['modules']->config('namespace'),
+                'module_namespace' => $this->laravel['laranail.package-scaffolder.modules']->config('namespace'),
             ]);
         }
         if ($parser->isDelete()) {
@@ -129,7 +129,7 @@ class MigrationMakeCommand extends GeneratorCommand
                 'fields_down'      => $this->getSchemaParser()->up(),
                 'fields_up'        => $this->getSchemaParser()->down(),
                 'module'           => $this->getModuleName(),
-                'module_namespace' => $this->laravel['modules']->config('namespace'),
+                'module_namespace' => $this->laravel['laranail.package-scaffolder.modules']->config('namespace'),
             ]);
         }
 
@@ -139,7 +139,7 @@ class MigrationMakeCommand extends GeneratorCommand
                 'table'            => $parser->getTableName(),
                 'fields'           => $this->getSchemaParser()->render(),
                 'module'           => $this->getModuleName(),
-                'module_namespace' => $this->laravel['modules']->config('namespace'),
+                'module_namespace' => $this->laravel['laranail.package-scaffolder.modules']->config('namespace'),
             ]);
         }
 
@@ -150,7 +150,7 @@ class MigrationMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $generatorPath = GenerateConfigReader::read('migration');
 

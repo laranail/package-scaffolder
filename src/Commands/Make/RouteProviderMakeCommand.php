@@ -24,7 +24,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.route-provider';
 
-    protected $aliases = ['module:route-provider'];
+    protected array $deprecatedCommandAliases = ['module:route-provider'];
 
     /**
      * The command description.
@@ -66,12 +66,12 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/route-provider.stub', [
             'NAMESPACE'            => $this->getClassNamespace($module),
             'CLASS'                => $this->getFileName(),
-            'MODULE_NAMESPACE'     => $this->laravel['modules']->config('namespace'),
+            'MODULE_NAMESPACE'     => $this->laravel['laranail.package-scaffolder.modules']->config('namespace'),
             'MODULE'               => $this->getModuleName(),
             'CONTROLLER_NAMESPACE' => $this->getControllerNameSpace(),
             'WEB_ROUTES_PATH'      => $this->getWebRoutesPath(),
@@ -89,7 +89,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $generatorPath = GenerateConfigReader::read('provider');
 
@@ -108,12 +108,12 @@ class RouteProviderMakeCommand extends GeneratorCommand
 
     protected function getWebRoutesPath(): string
     {
-        return '/' . $this->laravel['modules']->config('stubs.files.routes/web', 'Routes/web.php');
+        return '/' . $this->laravel['laranail.package-scaffolder.modules']->config('stubs.files.routes/web', 'Routes/web.php');
     }
 
     protected function getApiRoutesPath(): string
     {
-        return '/' . $this->laravel['modules']->config('stubs.files.routes/api', 'Routes/api.php');
+        return '/' . $this->laravel['laranail.package-scaffolder.modules']->config('stubs.files.routes/api', 'Routes/api.php');
     }
 
     private function getFileName(): string
@@ -123,7 +123,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
 
     private function getControllerNameSpace(): string
     {
-        $module = $this->laravel['modules'];
+        $module = $this->laravel['laranail.package-scaffolder.modules'];
 
         return str_replace('/', '\\', $module->config('paths.generator.controller.namespace') ?: $module->config('paths.generator.controller.path', 'Controller'));
     }

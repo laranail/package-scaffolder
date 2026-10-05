@@ -24,7 +24,7 @@ class EventMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-event';
 
-    protected $aliases = ['module:make-event'];
+    protected array $deprecatedCommandAliases = ['module:make-event'];
 
     /**
      * The console command description.
@@ -35,7 +35,7 @@ class EventMakeCommand extends GeneratorCommand
 
     public function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub('/event.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
@@ -45,7 +45,7 @@ class EventMakeCommand extends GeneratorCommand
 
     public function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $eventPath = GenerateConfigReader::read('event');
 

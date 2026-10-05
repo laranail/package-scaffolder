@@ -20,7 +20,7 @@ class MigrateCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.migrate';
 
-    protected $aliases = ['module:migrate'];
+    protected array $deprecatedCommandAliases = ['module:migrate'];
 
     /**
      * The console command description.

@@ -26,7 +26,7 @@ class ListenerMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-listener';
 
-    protected $aliases = ['module:make-listener'];
+    protected array $deprecatedCommandAliases = ['module:make-listener'];
 
     /**
      * The console command description.
@@ -72,7 +72,7 @@ class ListenerMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'NAMESPACE'      => $this->getClassNamespace($module),
@@ -84,7 +84,7 @@ class ListenerMakeCommand extends GeneratorCommand
 
     protected function getEventName(Module $module): string|array
     {
-        $namespace = $this->laravel['modules']->config('namespace') . '\\' . $module->getStudlyName();
+        $namespace = $this->laravel['laranail.package-scaffolder.modules']->config('namespace') . '\\' . $module->getStudlyName();
         $eventPath = GenerateConfigReader::read('event');
 
         $eventName = $namespace . '\\' . $eventPath->getPath() . '\\' . $this->option('event');
@@ -99,7 +99,7 @@ class ListenerMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $listenerPath = GenerateConfigReader::read('listener');
 

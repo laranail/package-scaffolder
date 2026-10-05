@@ -25,7 +25,7 @@ class InertiaComponentMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-inertia-component';
 
-    protected $aliases = ['module:make-inertia-component'];
+    protected array $deprecatedCommandAliases = ['module:make-inertia-component'];
 
     /**
      * The console command description.
@@ -74,7 +74,7 @@ class InertiaComponentMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'STUDLY_NAME'    => $module->getStudlyName(),
@@ -87,7 +87,7 @@ class InertiaComponentMakeCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
         $componentsPath = GenerateConfigReader::read('inertia-components')->getPath() ?? 'resources/js/Components';
         $subDirectory = $this->getSubDirectory();
 

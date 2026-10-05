@@ -51,6 +51,6 @@ class Module extends Facade
 
     protected static function getFacadeAccessor(): string
     {
-        return 'modules';
+        return 'laranail.package-scaffolder.modules';
     }
 }

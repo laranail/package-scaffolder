@@ -8,8 +8,8 @@ use Override;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class ListCommand extends Command
 {
@@ -23,7 +23,7 @@ class ListCommand extends Command
      */
     protected $name = 'laranail::package-scaffolder.list';
 
-    protected $aliases = ['module:list'];
+    protected array $deprecatedCommandAliases = ['module:list'];
 
     /**
      * The console command description.
@@ -69,10 +69,10 @@ class ListCommand extends Command
     public function getModules()
     {
         return match ($this->option('only')) {
-            'enabled'  => $this->laravel['modules']->getByStatus(1),
-            'disabled' => $this->laravel['modules']->getByStatus(0),
-            'priority' => $this->laravel['modules']->getPriority($this->option('direction')),
-            default    => $this->laravel['modules']->all(),
+            'enabled'  => $this->laravel['laranail.package-scaffolder.modules']->getByStatus(1),
+            'disabled' => $this->laravel['laranail.package-scaffolder.modules']->getByStatus(0),
+            'priority' => $this->laravel['laranail.package-scaffolder.modules']->getPriority($this->option('direction')),
+            default    => $this->laravel['laranail.package-scaffolder.modules']->all(),
         };
     }
 

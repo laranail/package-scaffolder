@@ -8,13 +8,19 @@ use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Command\Command;
+use Illuminate\Console\Command as IlluminateCommand;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias as LegacyWarnsOnDeprecatedAlias;
 
 /**
  * The bare `module:*` and `make:artifact` names are deprecated aliases of the
  * vendor-scoped `laranail::package-scaffolder.*` commands: still registered,
  * still runnable, but they warn, and nothing in the package calls them.
+ *
+ * The warning comes from laranail/console's shared WarnsOnDeprecatedAlias, driven
+ * by each command's `$deprecatedCommandAliases`. This package's own trait of the
+ * same name is a deprecated delegate kept for commands outside the package.
  */
 class DeprecatedAliasTest extends BaseTestCase
 {
@@ -34,6 +40,16 @@ class DeprecatedAliasTest extends BaseTestCase
                 WarnsOnDeprecatedAlias::class,
                 class_uses_recursive($command),
                 "[{$name}] does not use WarnsOnDeprecatedAlias, so its bare alias would run silently.",
+            );
+            $this->assertNotContains(
+                LegacyWarnsOnDeprecatedAlias::class,
+                class_uses_recursive($command),
+                "[{$name}] still uses the deprecated local WarnsOnDeprecatedAlias.",
+            );
+            $this->assertSame(
+                $command->getAliases(),
+                $command->deprecatedCommandAliases(),
+                "[{$name}] registers an alias that is not declared deprecated, so it would run silently.",
             );
         }
     }
@@ -85,10 +101,41 @@ class DeprecatedAliasTest extends BaseTestCase
         $this->assertStringContainsString('Use [laranail::package-scaffolder.new] instead.', $output);
     }
 
+    public function test_the_deprecated_local_trait_still_warns_on_a_plain_alias(): void
+    {
+        $command = new class extends IlluminateCommand
+        {
+            use LegacyWarnsOnDeprecatedAlias;
+
+            protected $signature = 'acme:legacy-run';
+
+            protected $aliases = ['legacy:run'];
+
+            public function handle(): int
+            {
+                return self::SUCCESS;
+            }
+        };
+
+        $this->assertSame(['legacy:run'], $command->getAliases());
+        $this->assertSame(['legacy:run'], $command->deprecatedCommandAliases());
+
+        $this->app[Kernel::class]->registerCommand($command);
+
+        $this->assertSame(0, Artisan::call('legacy:run'));
+        $this->assertStringContainsString(
+            '[legacy:run] is a deprecated alias and will be removed in the next minor after 0.1. Use [acme:legacy-run] instead.',
+            Artisan::output(),
+        );
+
+        $this->assertSame(0, Artisan::call('acme:legacy-run'));
+        $this->assertStringNotContainsString('deprecated alias', Artisan::output());
+    }
+
     /**
      * Source scan, because the defect is a string in a line no test may
      * execute. Biased towards a false "used": any quoted bare name counts,
-     * except the `$aliases` declarations that keep the aliases registered.
+     * except the `$deprecatedCommandAliases` declarations that keep the aliases registered.
      */
     public function test_package_source_and_tests_never_call_a_bare_name(): void
     {
@@ -107,7 +154,7 @@ class DeprecatedAliasTest extends BaseTestCase
                 $inspected[$dir]++;
 
                 foreach (preg_split('/\R/', $file->getContents()) as $i => $line) {
-                    if (preg_match('/\$aliases\s*=/', $line)) {
+                    if (preg_match('/\$(aliases|deprecatedCommandAliases)\s*=/', $line)) {
                         continue;
                     }
 

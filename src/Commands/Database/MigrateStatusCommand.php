@@ -20,7 +20,7 @@ class MigrateStatusCommand extends BaseCommand
      */
     protected $name = 'laranail::package-scaffolder.migrate-status';
 
-    protected $aliases = ['module:migrate-status'];
+    protected array $deprecatedCommandAliases = ['module:migrate-status'];
 
     /**
      * The console command description.

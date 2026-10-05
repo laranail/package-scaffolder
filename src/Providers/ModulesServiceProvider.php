@@ -15,6 +15,25 @@ use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 abstract class ModulesServiceProvider extends ServiceProvider
 {
     /**
+     * The container alias the module repository is registered under.
+     *
+     * Container aliases share one flat map with the host application and every other
+     * package, so the name carries the vendor and the package slug.
+     */
+    public const string CONTAINER_ALIAS = 'laranail.package-scaffolder.modules';
+
+    /**
+     * The bare alias, kept so code written against nwidart/laravel-modules (`app('modules')`,
+     * `$app['modules']`) keeps resolving the same repository.
+     *
+     * @deprecated since 0.1, removable in the next minor after 0.1. Use {@see self::CONTAINER_ALIAS}
+     *             or {@see RepositoryInterface}. It stays a plain container alias rather than a
+     *             warning binding, so `isAlias()`/`getAlias()` and instance swaps behave as before;
+     *             the deprecation is documented, not raised at runtime.
+     */
+    public const string DEPRECATED_CONTAINER_ALIAS = 'modules';
+
+    /**
      * Booting the package.
      */
     public function boot() {}
@@ -31,7 +50,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
     #[Override]
     public function provides(): array
     {
-        return [RepositoryInterface::class, 'modules'];
+        return [RepositoryInterface::class, self::CONTAINER_ALIAS, self::DEPRECATED_CONTAINER_ALIAS];
     }
 
     /**

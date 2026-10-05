@@ -20,7 +20,7 @@ class MigrateFreshCommand extends BaseCommand implements ConfirmableCommand
      */
     protected $name = 'laranail::package-scaffolder.migrate-fresh';
 
-    protected $aliases = ['module:migrate-fresh'];
+    protected array $deprecatedCommandAliases = ['module:migrate-fresh'];
 
     /**
      * The console command description.

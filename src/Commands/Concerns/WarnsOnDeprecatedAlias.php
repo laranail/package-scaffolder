@@ -4,39 +4,53 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Concerns;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use ReflectionProperty;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias as SharedWarnsOnDeprecatedAlias;
 
 /**
  * Prints a one-line deprecation warning when a command is invoked by one of
- * its bare legacy aliases (`module:*`, `make:artifact`) rather than by its
- * vendor-scoped name (`laranail::package-scaffolder.*`).
+ * its aliases rather than by its vendor-scoped name.
  *
- * The aliases stay registered, so every existing script keeps working; the
- * warning names the replacement. Detection reads the name the caller actually
- * typed: the input's first argument is the command token for `php artisan`,
- * `Artisan::call()` and `$this->call()` alike, while `getName()` is always the
- * canonical name.
+ * @deprecated since 0.1, removable in the next minor after 0.1. Use
+ *             {@see SharedWarnsOnDeprecatedAlias} from laranail/console and list
+ *             the old names in the command's `$deprecatedCommandAliases`. This
+ *             package's own commands no longer use this trait.
  *
- * Symfony calls initialize() after binding the input and before interact(),
- * so the warning prints before any prompt.
+ * Kept as a delegate so a command outside this package that still uses it keeps
+ * warning exactly as before: every plain alias it registers (Laravel's
+ * `$aliases`, or `setAliases()`) is treated as deprecated, in addition to any
+ * `$deprecatedCommandAliases` it declares. The warning text and the detection
+ * come from the shared trait.
  */
 trait WarnsOnDeprecatedAlias
 {
-    protected function initialize(InputInterface $input, OutputInterface $output): void
+    use SharedWarnsOnDeprecatedAlias {
+        SharedWarnsOnDeprecatedAlias::deprecatedCommandAliases as sharedDeprecatedCommandAliases;
+    }
+
+    /**
+     * The shared list plus every plain alias, which is what this trait warned on.
+     *
+     * The plain aliases are read from Symfony's own storage rather than through
+     * `getAliases()`, which the shared trait builds from this method -- calling it
+     * here would recurse.
+     *
+     * @return list<string>
+     */
+    public function deprecatedCommandAliases(): array
     {
-        parent::initialize($input, $output);
+        $name = $this->getName();
 
-        $invokedAs = $input->getFirstArgument();
+        /** @var array<mixed> $registered */
+        $registered = (new ReflectionProperty(SymfonyCommand::class, 'aliases'))->getValue($this);
 
-        if (! is_string($invokedAs) || $invokedAs === $this->getName() || ! in_array($invokedAs, $this->getAliases(), true)) {
-            return;
-        }
-
-        $output->writeln(sprintf(
-            '<comment>Deprecated:</comment> [%s] is a deprecated alias and will be removed in the next minor after 0.1. Use [%s] instead.',
-            $invokedAs,
-            (string) $this->getName(),
-        ));
+        return array_values(array_unique([
+            ...$this->sharedDeprecatedCommandAliases(),
+            ...array_filter(
+                $registered,
+                static fn (mixed $alias): bool => is_string($alias) && $alias !== '' && $alias !== $name,
+            ),
+        ]));
     }
 }

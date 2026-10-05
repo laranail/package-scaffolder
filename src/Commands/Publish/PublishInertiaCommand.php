@@ -8,8 +8,8 @@ use Override;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class PublishInertiaCommand extends Command
 {
@@ -18,7 +18,7 @@ class PublishInertiaCommand extends Command
 
     protected $name = 'laranail::package-scaffolder.publish-inertia';
 
-    protected $aliases = ['module:publish-inertia'];
+    protected array $deprecatedCommandAliases = ['module:publish-inertia'];
 
     protected $description = 'Publish the Inertia app.js to resources/js, configured to resolve pages from all modules.';
 

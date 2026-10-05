@@ -11,7 +11,7 @@ trait MigrationLoaderTrait
      */
     protected function loadMigrationFiles(string $module)
     {
-        $path = $this->laravel['modules']->getModulePath($module) . $this->getMigrationGeneratorPath();
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($module) . $this->getMigrationGeneratorPath();
 
         $files = $this->laravel['files']->glob($path . '/*_*.php');
 
@@ -25,6 +25,6 @@ trait MigrationLoaderTrait
      */
     protected function getMigrationGeneratorPath(): string
     {
-        return $this->laravel['modules']->config('paths.generator.migration');
+        return $this->laravel['laranail.package-scaffolder.modules']->config('paths.generator.migration');
     }
 }

@@ -20,7 +20,7 @@ class ResourceMakeCommand extends GeneratorCommand
 
     protected $name = 'laranail::package-scaffolder.make-resource';
 
-    protected $aliases = ['module:make-resource'];
+    protected array $deprecatedCommandAliases = ['module:make-resource'];
 
     protected $description = 'Create a new resource class for the specified module.';
 
@@ -55,7 +55,7 @@ class ResourceMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         return (new Stub($this->getStubName(), [
             'NAMESPACE' => $this->getClassNamespace($module),
@@ -65,7 +65,7 @@ class ResourceMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $resourcePath = GenerateConfigReader::read('resource');
 

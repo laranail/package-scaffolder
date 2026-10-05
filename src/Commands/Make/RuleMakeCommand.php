@@ -30,7 +30,7 @@ class RuleMakeCommand extends GeneratorCommand
      */
     protected $name = 'laranail::package-scaffolder.make-rule';
 
-    protected $aliases = ['module:make-rule'];
+    protected array $deprecatedCommandAliases = ['module:make-rule'];
 
     /**
      * The console command description.
@@ -75,7 +75,7 @@ class RuleMakeCommand extends GeneratorCommand
 
     protected function getTemplateContents(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        $module = $this->laravel['laranail.package-scaffolder.modules']->findOrFail($this->getModuleName());
 
         $stub = $this->option('implicit')
             ? '/rule.implicit.stub'
@@ -89,7 +89,7 @@ class RuleMakeCommand extends GeneratorCommand
 
     protected function getDestinationFilePath(): string
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
+        $path = $this->laravel['laranail.package-scaffolder.modules']->getModulePath($this->getModuleName());
 
         $rulePath = GenerateConfigReader::read('rules');
 
