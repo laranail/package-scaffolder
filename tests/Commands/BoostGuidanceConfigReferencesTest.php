@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Finder\SplFileInfo;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 /**
