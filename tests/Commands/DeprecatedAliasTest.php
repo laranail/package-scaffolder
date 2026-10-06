@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands;
 
+use LogicException;
 use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\StreamOutput;
 use Illuminate\Console\Command as IlluminateCommand;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias as LegacyWarnsOnDeprecatedAlias;
 
@@ -88,6 +94,31 @@ class DeprecatedAliasTest extends BaseTestCase
 
         $this->assertSame(0, $exit);
         $this->assertStringNotContainsString('deprecated alias', Artisan::output());
+    }
+
+    /**
+     * On a terminal-like output (separate error stream) a bare alias adds the
+     * one warning line and nothing else: same exit code, and with that line
+     * removed the output is byte-identical to the scoped name's.
+     *
+     * Which stream carries the line is deliberately not pinned. The shared
+     * trait means it for stderr, but Laravel wraps the terminal output in an
+     * OutputStyle before initialize() runs, so today it lands on stdout.
+     */
+    public function test_on_a_console_output_a_bare_alias_adds_only_the_warning_line(): void
+    {
+        [$aliasExit, $aliasOut, $aliasErr] = $this->runOnConsoleOutput('module:list');
+        [$scopedExit, $scopedOut, $scopedErr] = $this->runOnConsoleOutput(self::SCOPED_PREFIX . 'list');
+
+        $warning = 'Deprecated: [module:list] is a deprecated alias and will be removed in the next minor after 0.1. '
+            . 'Use [laranail::package-scaffolder.list] instead.' . PHP_EOL;
+
+        $this->assertSame(0, $scopedExit);
+        $this->assertSame($scopedExit, $aliasExit);
+        $this->assertSame(1, substr_count($aliasOut . $aliasErr, $warning), 'The warning must print exactly once.');
+        $this->assertSame($scopedOut, str_replace($warning, '', $aliasOut));
+        $this->assertSame($scopedErr, str_replace($warning, '', $aliasErr));
+        $this->assertStringNotContainsString('deprecated alias', $scopedOut . $scopedErr);
     }
 
     public function test_make_artifact_alias_warns_before_any_validation(): void
@@ -184,5 +215,56 @@ class DeprecatedAliasTest extends BaseTestCase
         }
 
         return $commands;
+    }
+
+    /**
+     * Runs a command through the console kernel on an output that, like a real
+     * terminal's, carries a separate error stream.
+     *
+     * @return array{int, string, string}
+     */
+    private function runOnConsoleOutput(string $command): array
+    {
+        $stdout = fopen('php://memory', 'w+');
+        $stderr = fopen('php://memory', 'w+');
+        $this->assertIsResource($stdout);
+        $this->assertIsResource($stderr);
+
+        $output = new class($stdout, $stderr) extends StreamOutput implements ConsoleOutputInterface
+        {
+            private OutputInterface $error;
+
+            /**
+             * @param resource $stdout
+             * @param resource $stderr
+             */
+            public function __construct($stdout, $stderr)
+            {
+                parent::__construct($stdout, self::VERBOSITY_NORMAL, false);
+                $this->error = new StreamOutput($stderr, self::VERBOSITY_NORMAL, false);
+            }
+
+            public function getErrorOutput(): OutputInterface
+            {
+                return $this->error;
+            }
+
+            public function setErrorOutput(OutputInterface $error): void
+            {
+                $this->error = $error;
+            }
+
+            public function section(): ConsoleSectionOutput
+            {
+                throw new LogicException('Sections are not used by these commands.');
+            }
+        };
+
+        $exit = $this->app[Kernel::class]->handle(new ArrayInput(['command' => $command]), $output);
+
+        rewind($stdout);
+        rewind($stderr);
+
+        return [$exit, (string) stream_get_contents($stdout), (string) stream_get_contents($stderr)];
     }
 }

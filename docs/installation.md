@@ -38,8 +38,10 @@ Every command is named `laranail::package-scaffolder.<command>` (for example
 one-line warning naming the replacement. They are removed no earlier than the next minor after 0.1.
 
 The warning comes from `laranail/console`'s shared `WarnsOnDeprecatedAlias`: each command lists its
-old name in `$deprecatedCommandAliases`. On a terminal it is written to stderr, so piped output is
-unchanged.
+old name in `$deprecatedCommandAliases`. The warning is one line printed before the command's own
+output, and the exit code is unchanged. It currently lands on stdout, not stderr: Laravel wraps the
+terminal output in an `OutputStyle` before the trait sees it, so the trait's stderr route is not
+taken. A script that parses a command's output should call the scoped name.
 
 ## Container alias
 

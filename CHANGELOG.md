@@ -47,9 +47,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   its provider at runtime, so a `--no-dev` production install would break them.
 - **The bare-alias warning now comes from `laranail/console`'s shared `WarnsOnDeprecatedAlias`.**
   Each command lists its old name in `$deprecatedCommandAliases` (was Laravel's `$aliases`), so the
-  same names stay registered and the warning text is unchanged. One difference: on a real terminal
-  the warning is written to stderr rather than stdout, so piped command output no longer carries it.
-  Under `Artisan::call()` it still appears in `Artisan::output()`.
+  same names stay registered and the warning text is unchanged. The shared trait routes the warning
+  to stderr when it is handed a terminal output, but a Laravel command wraps that output in an
+  `OutputStyle` first, so on a terminal the warning is still the first line of stdout. Under
+  `Artisan::call()` it appears in `Artisan::output()`. The exit code and the rest of the output
+  match the scoped name's; `DeprecatedAliasTest` asserts both on a terminal-like output.
 - **Internal code resolves the repository as `laranail.package-scaffolder.modules`.** Every command,
   trait, the Lumen provider, the `module()` / `module_path()` helpers and the `Module` facade
   accessor used the bare `modules` alias. A facade swap (`Module::swap()`) now replaces the scoped
