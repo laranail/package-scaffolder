@@ -155,7 +155,7 @@ class MakeArtifactCommand extends Command
         if ($value === '') {
             $value = $nonInteractive
                 ? $default
-                : $io->askSelect('Framework flavor', $flavors, (int) (array_search($default, $flavors, true) ?: 0));
+                : $io->askSelect('Framework flavor', $flavors, array_search($default, $flavors, true) ?: 0);
         }
 
         if (! in_array($value, $flavors, true)) {
