@@ -17,6 +17,6 @@ class ContractsServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->bind(RepositoryInterface::class, LaravelFileRepository::class);
+        $this->app->bindIf(RepositoryInterface::class, LaravelFileRepository::class, true);
     }
 }

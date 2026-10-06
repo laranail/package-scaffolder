@@ -49,11 +49,10 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
      */
     protected function registerServices()
     {
-        $this->app->singleton(RepositoryInterface::class, function ($app): LumenFileRepository {
-            $path = $app['config']->get('laranail.package-scaffolder.modules.paths.modules');
-
-            return new LumenFileRepository($app, $path);
-        });
+        // No path argument: getPath() then reads `paths.modules` on every call, which is what every
+        // caller got while ContractsServiceProvider re-bound this non-shared. Capturing it here would
+        // freeze whatever the config held when the repository was first resolved.
+        $this->app->singleton(RepositoryInterface::class, fn ($app): LumenFileRepository => new LumenFileRepository($app));
         $this->app->singleton(ActivatorInterface::class, function ($app): object {
             $activator = $app['config']->get('laranail.package-scaffolder.modules.activator');
             $class = $app['config']->get('laranail.package-scaffolder.modules.activators.' . $activator)['class'];
