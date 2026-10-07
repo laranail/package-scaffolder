@@ -101,9 +101,14 @@ class DeprecatedAliasTest extends BaseTestCase
      * one warning line and nothing else: same exit code, and with that line
      * removed the output is byte-identical to the scoped name's.
      *
-     * Which stream carries the line is deliberately not pinned. The shared
-     * trait means it for stderr, but Laravel wraps the terminal output in an
-     * OutputStyle before initialize() runs, so today it lands on stdout.
+     * The stream is pinned to the installed laranail/console. Laravel wraps
+     * the terminal output in an OutputStyle before initialize() runs; v0.1.5
+     * of the shared trait did not see through it, so the line landed on
+     * stdout. The release carrying laranail/console#77 unwraps it and the
+     * line goes to stderr, leaving stdout byte-identical to the scoped
+     * name's. Which one is installed is read from the class that fix added,
+     * so this asserts the right stream on either side of the upgrade and
+     * fails if the fixed release regresses.
      */
     public function test_on_a_console_output_a_bare_alias_adds_only_the_warning_line(): void
     {
@@ -116,9 +121,17 @@ class DeprecatedAliasTest extends BaseTestCase
         $this->assertSame(0, $scopedExit);
         $this->assertSame($scopedExit, $aliasExit);
         $this->assertSame(1, substr_count($aliasOut . $aliasErr, $warning), 'The warning must print exactly once.');
-        $this->assertSame($scopedOut, str_replace($warning, '', $aliasOut));
-        $this->assertSame($scopedErr, str_replace($warning, '', $aliasErr));
         $this->assertStringNotContainsString('deprecated alias', $scopedOut . $scopedErr);
+
+        if ($this->consoleRoutesWarningToStderr()) {
+            $this->assertSame($scopedOut, $aliasOut, 'stdout must be unchanged by a bare alias.');
+            $this->assertSame($warning . $scopedErr, $aliasErr, 'The warning must be the first line of stderr.');
+
+            return;
+        }
+
+        $this->assertSame($warning . $scopedOut, $aliasOut, 'Before the console fix the warning leads stdout.');
+        $this->assertSame($scopedErr, $aliasErr);
     }
 
     public function test_make_artifact_alias_warns_before_any_validation(): void
@@ -199,6 +212,16 @@ class DeprecatedAliasTest extends BaseTestCase
         $this->assertGreaterThanOrEqual(70, $inspected['src'], 'The src/ scan matched too few files to be meaningful.');
         $this->assertGreaterThanOrEqual(50, $inspected['tests'], 'The tests/ scan matched too few files to be meaningful.');
         $this->assertSame([], $offenders, "Bare command names are still called:\n" . implode("\n", $offenders));
+    }
+
+    /**
+     * Whether the installed laranail/console sees through Laravel's OutputStyle
+     * when it routes the warning to stderr (laranail/console#77). Named as a
+     * string so static analysis does not require the class on older releases.
+     */
+    private function consoleRoutesWarningToStderr(): bool
+    {
+        return class_exists('Simtabi\\Laranail\\Console\\Tools\\Support\\ErrorOutput');
     }
 
     /**
