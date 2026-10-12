@@ -40,8 +40,8 @@ one-line warning naming the replacement. They are removed no earlier than the ne
 The warning comes from `laranail/console`'s shared `WarnsOnDeprecatedAlias`: each command lists its
 old name in `$deprecatedCommandAliases`. The warning is one line printed before the command's own
 output, and the exit code is unchanged. On a terminal it goes to stderr, so stdout is the same as the
-scoped name's; under `Artisan::call()` it appears in `Artisan::output()`. That needs the
-`laranail/console` release carrying laranail/console#77 (the first after v0.1.5). With v0.1.5 the
+scoped name's; under `Artisan::call()` it appears in `Artisan::output()`. That needs
+`laranail/console` v0.1.6, which carries laranail/console#77. With v0.1.5 the
 line lands on stdout instead: Laravel wraps the terminal output in an `OutputStyle` before the trait
 sees it, and that release did not unwrap it. A script that parses a command's output should call the
 scoped name either way.
