@@ -7,6 +7,7 @@ use Rector\Set\ValueObject\SetList;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
+use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
@@ -37,6 +38,11 @@ return RectorConfig::configure()
         TypedPropertyFromStrictConstructorRector::class => [
             __DIR__ . '/src/Repositories/FileRepository.php',
             __DIR__ . '/src/Support/Module.php',
+        ],
+        // Names laranail/console's ErrorOutput as a string on purpose: the class only exists from
+        // console v0.1.6, and the test must still load and analyse against v0.1.5 (prefer-lowest).
+        StringClassNameToClassConstantRector::class => [
+            __DIR__ . '/tests/Commands/DeprecatedAliasTest.php',
         ],
     ])
     ->withPhpSets(php83: true)
