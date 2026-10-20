@@ -7,6 +7,7 @@ namespace Some\NamespacePath\Blog\Tests;
 use Illuminate\Foundation\Application;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Simtabi\Laranail\Package\Tools\Testing\TestCredentials;
 use Some\NamespacePath\Blog\Providers\BlogServiceProvider;
 use Some\NamespacePath\Blog\Tests\Fixtures\User;
 
@@ -64,7 +65,7 @@ abstract class TestCase extends Orchestra
         return User::query()->create(array_merge([
             'name' => 'Test User',
             'email' => 'user'.uniqid().'@example.test',
-            'password' => 'secret',
+            'password' => TestCredentials::password('user'),
         ], $attributes));
     }
 

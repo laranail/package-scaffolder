@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Every package generated from the Laravel blueprint ships the credential guard,
+  `tests/Architecture/NoLiteralCredentialsTest.php`, with its own `Architecture` testsuite. It fails
+  on a literal credential in the tests and on a compound `TestCredentials` purpose. The
+  blueprint's `TestCase::createUser()` now generates its password instead of using a literal.
 - **`laranail::package-scaffolder-artifacts` publish tag** for `config/artifacts.php`, published to
   `config/laranail/package-scaffolder/artifacts.php`. The configuration docs already described it as
   a published file, but only `config.php` had a tag, so it could not be published at all.
@@ -88,6 +92,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The Laravel blueprint (`stubs/blueprints/laravel`) required `laranail/console ^1.1` and
+  `laranail/package-tools ^3.0`. Neither exists: both are on the `0.1` line. It also declared no
+  repositories, so a package generated from it could resolve those names only from Packagist,
+  which the family excludes. It now requires `^0.1` and `^0.1.11` through the family's vcs
+  repositories, with Packagist excluded for `laranail/*`.
 - **The module repository is one shared instance again.** `ContractsServiceProvider` re-bound `RepositoryInterface` with `bind()` over the singleton `LaravelModulesServiceProvider` registers, so every `app(RepositoryInterface::class)`, `app('modules')` and `app('laranail.package-scaffolder.modules')` built a fresh repository: a location added with `addLocation()` or a stub path set with `setStubPath()` was lost on the next resolve, and the `Module` facade (which caches its instance) disagreed with the container. It now uses `bindIf()`, so the singleton stands. On Lumen the re-bind also swapped `LumenFileRepository` for `LaravelFileRepository`; Lumen now gets its own. **Behaviour change:** state set on the repository now persists across resolves within a process. The module path is still read from `laranail.package-scaffolder.modules.paths.modules` on every call, as before. Inherited from nwidart/laravel-modules.
 
 - **The Laravel Boost guidance cited config keys, files and publish tags that no longer exist.**
