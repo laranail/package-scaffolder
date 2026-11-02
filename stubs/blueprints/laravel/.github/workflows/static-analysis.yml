@@ -35,7 +35,14 @@ jobs:
           if len(files) < floor:
               sys.exit(f"{len(files)} workflow files in {d}; floor is {floor}. "
                        "A search that stops matching must fail, not report a clean repository.")
-          uses = re.compile(r"uses:\s*([\w.-]+/[\w./-]+?)@([\w./-]+?)([ \t]*#[ \t]*(\S+))?\s*$", re.M)
+          # The step keyword is assembled from a variable rather than written out, so no
+          # line here carries that keyword next to an "at" sign. A pin checker reading
+          # this file would otherwise match the pattern inside this guard and report a
+          # phantom third-party action. simtabi/repo-templates' render gate did exactly
+          # that, once per stack; this repository has no such gate, so the literal form
+          # passed here and would have shipped to every package scaffolded from it.
+          key = "uses"
+          uses = re.compile(rf"{key}:\s*([\w.-]+/[\w./-]+?)@([\w./-]+?)([ \t]*#[ \t]*(\S+))?\s*$", re.M)
           bad, seen = [], 0
           for name in files:
               for ref, at, _, note in uses.findall(open(os.path.join(d, name)).read()):
