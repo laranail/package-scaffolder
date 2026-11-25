@@ -49,7 +49,6 @@ return RectorConfig::configure()
     ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
-        SetList::EARLY_RETURN,
         SetList::TYPE_DECLARATION,
     ])
     // Keep the codebase parseable on the 8.3 syntax floor: wrap PHP 8.4
