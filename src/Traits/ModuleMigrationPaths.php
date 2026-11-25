@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Traits;
 
 use Illuminate\Support\Collection;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 /**
  * Resolves the migration paths for a module so every migrate command
@@ -52,7 +52,7 @@ trait ModuleMigrationPaths
             return $this->getModuleMigrationPaths($module);
         }
 
-        $target = $module->getExtraPath($this->getModuleMigrationRelativePath($module) . '/' . $subpath);
+        $target = $module->getExtraPath($this->getModuleMigrationRelativePath($module).'/'.$subpath);
 
         return file_exists($target) ? [$target] : [];
     }
@@ -71,8 +71,7 @@ trait ModuleMigrationPaths
     }
 
     /**
-     * @param Collection<int, string> $paths
-     *
+     * @param  Collection<int, string>  $paths
      * @return array<int, string>
      */
     private function normalizeMigrationPaths(Collection $paths): array

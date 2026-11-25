@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
-use Override;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use Simtabi\Laranail\Package\Scaffolder\Support\Json;
-use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
+use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
+use Simtabi\Laranail\Package\Scaffolder\Support\Json;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class InstallCommand extends Command
 {
@@ -84,10 +84,10 @@ class InstallCommand extends Command
     /**
      * Install the specified module.
      *
-     * @param string $name
-     * @param string $version
-     * @param string $type
-     * @param bool $tree
+     * @param  string  $name
+     * @param  string  $version
+     * @param  string  $type
+     * @param  bool  $tree
      */
     protected function install($name, $version = 'dev-master', $type = 'composer', $tree = false)
     {

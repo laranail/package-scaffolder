@@ -6,10 +6,10 @@ namespace Simtabi\Laranail\Package\Scaffolder\Facades;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Facade;
-use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateFreshCommand;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateResetCommand;
 use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateRefreshCommand;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Database\MigrateResetCommand;
+use Simtabi\Laranail\Package\Scaffolder\Support\Collection;
 
 /**
  * @method static array all()

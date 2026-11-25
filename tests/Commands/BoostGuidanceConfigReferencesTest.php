@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands;
 
-use Symfony\Component\Finder\Finder;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Finder\SplFileInfo;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * The Boost guidance under `resources/boost/` tells AI agents which config keys
@@ -73,14 +73,14 @@ class BoostGuidanceConfigReferencesTest extends BaseTestCase
             preg_match_all(self::MODULE_CONFIG_KEY, $text, $moduleKeys);
             foreach ($moduleKeys[1] as $key) {
                 $references++;
-                $full = self::MODULES_KEY . '.' . $key;
+                $full = self::MODULES_KEY.'.'.$key;
                 $this->assertTrue($config->has($full), "{$where} cites Module::config('{$key}'), which reads [{$full}], which does not exist.");
             }
 
             preg_match_all(self::CONFIG_PATH, $text, $paths);
             foreach (preg_grep(self::PACKAGE_PATH, $paths[1]) as $path) {
                 $references++;
-                $published = array_filter($destinations, static fn (string $d): bool => str_ends_with(str_replace('\\', '/', $d), '/config/' . $path));
+                $published = array_filter($destinations, static fn (string $d): bool => str_ends_with(str_replace('\\', '/', $d), '/config/'.$path));
                 $this->assertNotEmpty($published, "{$where} cites config/{$path}, which no publish tag writes.");
             }
 
@@ -97,7 +97,7 @@ class BoostGuidanceConfigReferencesTest extends BaseTestCase
     /** @return list<SplFileInfo> */
     private function guidanceFiles(): array
     {
-        $finder = Finder::create()->files()->in(dirname(__DIR__, 2) . '/resources/boost');
+        $finder = Finder::create()->files()->in(dirname(__DIR__, 2).'/resources/boost');
 
         return array_values(iterator_to_array($finder, false));
     }

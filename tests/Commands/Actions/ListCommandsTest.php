@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Actions;
 
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class ListCommandsTest extends BaseTestCase
 {
@@ -120,7 +120,7 @@ class ListCommandsTest extends BaseTestCase
      */
     private function createModuleCommand(string $commandName, string $directory): void
     {
-        $path = $this->modulePath . '/' . $directory;
+        $path = $this->modulePath.'/'.$directory;
 
         // Create directory if it doesn't exist
         if (! $this->filesystem->isDirectory($path)) {
@@ -149,7 +149,7 @@ class {$commandName} extends Command
 }
 EOT;
 
-        $this->filesystem->put($path . '/' . $commandName . '.php', $content);
+        $this->filesystem->put($path.'/'.$commandName.'.php', $content);
     }
 
     /**
@@ -157,7 +157,7 @@ EOT;
      */
     private function createNonCommandClass(string $className, string $directory): void
     {
-        $path = $this->modulePath . '/' . $directory;
+        $path = $this->modulePath.'/'.$directory;
 
         // Create directory if it doesn't exist
         if (! $this->filesystem->isDirectory($path)) {
@@ -180,7 +180,7 @@ class {$className}
 }
 EOT;
 
-        $this->filesystem->put($path . '/' . $className . '.php', $content);
+        $this->filesystem->put($path.'/'.$className.'.php', $content);
     }
 
     /**

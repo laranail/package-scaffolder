@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class MiddlewareMakeCommand extends GeneratorCommand
 {
@@ -95,7 +95,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
 
         return (new Stub($stub, [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
+            'CLASS' => $this->getClass(),
         ]))->render();
     }
 
@@ -105,7 +105,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
 
         $middlewarePath = GenerateConfigReader::read('filter');
 
-        return $path . $middlewarePath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$middlewarePath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

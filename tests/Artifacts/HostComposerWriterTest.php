@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Artifacts;
 
-use RuntimeException;
-use PHPUnit\Framework\TestCase;
 use Illuminate\Filesystem\Filesystem;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\HostComposerWriter;
 
 class HostComposerWriterTest extends TestCase
@@ -19,7 +19,7 @@ class HostComposerWriterTest extends TestCase
     {
         parent::setUp();
         $this->fs = new Filesystem;
-        $this->path = sys_get_temp_dir() . '/laranail-hcw-' . getmypid() . '-' . uniqid() . '.json';
+        $this->path = sys_get_temp_dir().'/laranail-hcw-'.getmypid().'-'.uniqid().'.json';
     }
 
     protected function tearDown(): void
@@ -45,9 +45,9 @@ class HostComposerWriterTest extends TestCase
     public function test_preserves_the_developers_unrelated_keys(): void
     {
         $this->fs->put($this->path, json_encode([
-            'name'    => 'acme/app',
+            'name' => 'acme/app',
             'require' => ['php' => '^8.4'],
-            'config'  => ['preferred-install' => 'source'],
+            'config' => ['preferred-install' => 'source'],
         ]));
 
         $this->wire();

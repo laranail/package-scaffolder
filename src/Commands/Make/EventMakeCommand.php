@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputArgument;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Symfony\Component\Console\Input\InputArgument;
 
 class EventMakeCommand extends GeneratorCommand
 {
@@ -39,7 +39,7 @@ class EventMakeCommand extends GeneratorCommand
 
         return (new Stub('/event.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
+            'CLASS' => $this->getClass(),
         ]))->render();
     }
 
@@ -49,7 +49,7 @@ class EventMakeCommand extends GeneratorCommand
 
         $eventPath = GenerateConfigReader::read('event');
 
-        return $path . $eventPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$eventPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     #[Override]

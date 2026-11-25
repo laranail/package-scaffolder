@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Support\Config;
 
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GeneratorPath;
 use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GeneratorPath;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 final class GenerateConfigReaderTest extends BaseTestCase
 {

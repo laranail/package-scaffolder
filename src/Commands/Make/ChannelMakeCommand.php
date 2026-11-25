@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Override;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputArgument;
+use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Symfony\Component\Console\Input\InputArgument;
 
 final class ChannelMakeCommand extends GeneratorCommand
 {
@@ -49,7 +49,7 @@ final class ChannelMakeCommand extends GeneratorCommand
 
         return (new Stub('/channel.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
+            'CLASS' => $this->getClass(),
         ]))->render();
     }
 
@@ -62,7 +62,7 @@ final class ChannelMakeCommand extends GeneratorCommand
 
         $channelPath = GenerateConfigReader::read('channels');
 
-        return $path . $channelPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$channelPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

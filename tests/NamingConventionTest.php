@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
 use Illuminate\Contracts\Console\Kernel;
-use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
-use Simtabi\Laranail\Package\Tools\Testing\NamingScope;
-use Simtabi\Laranail\Package\Tools\Testing\AssertsRegisteredNames;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Simtabi\Laranail\Package\Scaffolder\Providers\ModulesServiceProvider;
+use Simtabi\Laranail\Package\Tools\Testing\AssertsRegisteredNames;
+use Simtabi\Laranail\Package\Tools\Testing\NamingScope;
 
 /**
  * Reads the live registries of the booted application: the container's aliases

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Activators;
 
-use RuntimeException;
-use Illuminate\Container\Container;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Config\Repository as Config;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 class FileActivator implements ActivatorInterface
 {
@@ -132,7 +132,7 @@ class FileActivator implements ActivatorInterface
 
         // Atomic write (temp + rename) so an interrupted write can't corrupt the
         // module enable/disable state file and break module discovery.
-        $tmp = $this->statusesFile . '.tmp' . getmypid();
+        $tmp = $this->statusesFile.'.tmp'.getmypid();
         $this->files->put($tmp, $encoded);
         $this->files->move($tmp, $this->statusesFile);
     }
@@ -156,6 +156,6 @@ class FileActivator implements ActivatorInterface
      */
     private function config(string $key, $default = null)
     {
-        return $this->config->get('laranail.package-scaffolder.modules.activators.file.' . $key, $default);
+        return $this->config->get('laranail.package-scaffolder.modules.activators.file.'.$key, $default);
     }
 }

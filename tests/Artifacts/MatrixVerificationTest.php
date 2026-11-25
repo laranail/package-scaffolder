@@ -6,9 +6,9 @@ namespace Simtabi\Laranail\Package\Scaffolder\Tests\Artifacts;
 
 use Illuminate\Filesystem\Filesystem;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 /**
  * Self-verification sweep across the type × plugin × feature matrix: every
@@ -30,8 +30,8 @@ class MatrixVerificationTest extends BaseTestCase
     {
         parent::setUp();
         $this->fs = new Filesystem;
-        $this->config = require dirname(__DIR__, 2) . '/config/artifacts.php';
-        $this->source = dirname(__DIR__, 2) . '/stubs/blueprints/laravel';
+        $this->config = require dirname(__DIR__, 2).'/config/artifacts.php';
+        $this->source = dirname(__DIR__, 2).'/stubs/blueprints/laravel';
     }
 
     protected function tearDown(): void
@@ -63,7 +63,7 @@ class MatrixVerificationTest extends BaseTestCase
     #[DataProvider('matrix')]
     public function test_matrix_combination_generates_a_valid_artifact(string $kind, string $plugin, array $features): void
     {
-        $target = sys_get_temp_dir() . '/laranail-matrix-' . uniqid();
+        $target = sys_get_temp_dir().'/laranail-matrix-'.uniqid();
         $this->targets[] = $target;
 
         (new ArtifactGenerator($this->fs, $this->config))
@@ -80,38 +80,38 @@ class MatrixVerificationTest extends BaseTestCase
         $this->assertSame([], $leftover, 'leftover @artifact / [[inline]] markers');
 
         // 2. the densest wiring file is valid PHP
-        $provider = $target . '/src/Providers/WidgetServiceProvider.php';
+        $provider = $target.'/src/Providers/WidgetServiceProvider.php';
         $this->assertFileExists($provider);
-        exec('php -l ' . escapeshellarg($provider) . ' 2>&1', $o, $code);
-        $this->assertSame(0, $code, 'invalid provider: ' . implode("\n", $o));
+        exec('php -l '.escapeshellarg($provider).' 2>&1', $o, $code);
+        $this->assertSame(0, $code, 'invalid provider: '.implode("\n", $o));
 
         // 3. both laranail libraries are required by the generated artifact
-        $composer = json_decode($this->fs->get($target . '/composer.json'), true);
+        $composer = json_decode($this->fs->get($target.'/composer.json'), true);
         $this->assertArrayHasKey('laranail/console', $composer['require']);
         $this->assertArrayHasKey('laranail/package-tools', $composer['require']);
 
         // 4. plugin dimension honored. PanelsTest is a fixture that references the
         // integration provider(s); a single-panel artifact keeps ONLY its own (else
         // it references a deleted provider — the bug this guards).
-        $panelsTest = $target . '/tests/Feature/PanelsTest.php';
+        $panelsTest = $target.'/tests/Feature/PanelsTest.php';
         if ($plugin === 'nova') {
-            $this->assertDirectoryExists($target . '/src/Nova');
-            $this->assertDirectoryDoesNotExist($target . '/src/Filament');
+            $this->assertDirectoryExists($target.'/src/Nova');
+            $this->assertDirectoryDoesNotExist($target.'/src/Filament');
             $this->assertFileExists($panelsTest);
             $pt = $this->fs->get($panelsTest);
             $this->assertStringContainsString('Integrations\\Nova', $pt);
             $this->assertStringNotContainsString('Integrations\\Filament', $pt);
         } elseif ($plugin === 'filament') {
-            $this->assertDirectoryExists($target . '/src/Filament');
-            $this->assertDirectoryDoesNotExist($target . '/src/Nova');
+            $this->assertDirectoryExists($target.'/src/Filament');
+            $this->assertDirectoryDoesNotExist($target.'/src/Nova');
             $this->assertFileExists($panelsTest);
             $pt = $this->fs->get($panelsTest);
             $this->assertStringContainsString('Integrations\\Filament', $pt);
             $this->assertStringNotContainsString('Integrations\\Nova', $pt);
         } else { // none ⇒ literal zero Nova/Filament footprint across the WHOLE tree
-            $this->assertDirectoryDoesNotExist($target . '/src/Nova');
-            $this->assertDirectoryDoesNotExist($target . '/src/Filament');
-            $this->assertFileDoesNotExist($target . '/docs/tools/panels.md');
+            $this->assertDirectoryDoesNotExist($target.'/src/Nova');
+            $this->assertDirectoryDoesNotExist($target.'/src/Filament');
+            $this->assertFileDoesNotExist($target.'/docs/tools/panels.md');
             $this->assertFileDoesNotExist($panelsTest);
 
             $refs = [];

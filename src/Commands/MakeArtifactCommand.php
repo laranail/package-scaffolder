@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
-use Override;
-use Throwable;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Override;
 use Simtabi\Laranail\Console\Tools\Commands\Command;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Console\Tools\Commands\Services\CommandInteractionService;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\HostComposerWriter;
-use Simtabi\Laranail\Console\Tools\Commands\Services\CommandInteractionService;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Throwable;
 
 /**
  * Generate a module / package / plugin from the blueprint template. Runs
@@ -61,9 +61,9 @@ class MakeArtifactCommand extends Command
         $request = new GenerationRequest($type, $plugin, $features, $name, $namespace, $vendor, (bool) $this->option('force'), $entity, $flavor);
 
         $base = $this->option('path') ?: base_path((string) config("laranail.package-scaffolder.artifacts.kinds.{$type}"));
-        $target = rtrim($base, '/') . '/' . $request->studly();
+        $target = rtrim($base, '/').'/'.$request->studly();
         $blueprint = (string) config("laranail.package-scaffolder.artifacts.flavors.{$flavor}.blueprint", $flavor);
-        $source = dirname(__DIR__, 2) . '/stubs/blueprints/' . $blueprint;
+        $source = dirname(__DIR__, 2).'/stubs/blueprints/'.$blueprint;
 
         // Artifact identity is keyed by name across ALL containers (module.json
         // name + activator), so a name must be globally unique. Skipped for an
@@ -71,7 +71,7 @@ class MakeArtifactCommand extends Command
         if (! $this->option('force') && ! $this->option('path')) {
             $files = new Filesystem;
             foreach ((array) config('laranail.package-scaffolder.artifacts.kinds') as $containerPath) {
-                $existing = base_path((string) $containerPath) . '/' . $request->studly();
+                $existing = base_path((string) $containerPath).'/'.$request->studly();
                 if ($files->isDirectory($existing)) {
                     $this->components->error(sprintf(
                         'An artifact named [%s] already exists at [%s]. Names must be unique across all containers.',
@@ -137,7 +137,7 @@ class MakeArtifactCommand extends Command
     /** The Pint binary to format generated output with (scaffolder's, else host's). */
     private function pintBinary(): ?string
     {
-        foreach ([dirname(__DIR__, 2) . '/vendor/bin/pint', base_path('vendor/bin/pint')] as $candidate) {
+        foreach ([dirname(__DIR__, 2).'/vendor/bin/pint', base_path('vendor/bin/pint')] as $candidate) {
             if (is_file($candidate)) {
                 return $candidate;
             }
@@ -159,7 +159,7 @@ class MakeArtifactCommand extends Command
         }
 
         if (! in_array($value, $flavors, true)) {
-            throw new InvalidArgumentException('--flavor must be one of: ' . implode(', ', $flavors) . '.');
+            throw new InvalidArgumentException('--flavor must be one of: '.implode(', ', $flavors).'.');
         }
 
         return $value;
@@ -169,7 +169,7 @@ class MakeArtifactCommand extends Command
      * A flavor gates which panels + features are available (e.g. vanilla has no
      * Nova/Filament and no Laravel-only features). Fail loudly on a mismatch.
      *
-     * @param list<string> $features
+     * @param  list<string>  $features
      */
     private function assertFlavorCompatible(string $flavor, string $plugin, array $features): void
     {
@@ -178,7 +178,7 @@ class MakeArtifactCommand extends Command
         $panels = (array) ($caps['panels'] ?? ['none']);
         if (! in_array($plugin, $panels, true)) {
             throw new InvalidArgumentException(
-                "Panel [{$plugin}] is not available for the [{$flavor}] flavor (allowed: " . implode(', ', $panels) . ').',
+                "Panel [{$plugin}] is not available for the [{$flavor}] flavor (allowed: ".implode(', ', $panels).').',
             );
         }
 
@@ -186,7 +186,7 @@ class MakeArtifactCommand extends Command
         $unsupported = array_values(array_diff($features, $allowed));
         if ($unsupported !== []) {
             throw new InvalidArgumentException(
-                'Feature(s) [' . implode(', ', $unsupported) . "] are not available for the [{$flavor}] flavor.",
+                'Feature(s) ['.implode(', ', $unsupported)."] are not available for the [{$flavor}] flavor.",
             );
         }
     }
@@ -197,14 +197,14 @@ class MakeArtifactCommand extends Command
 
         if ($value !== null && $value !== '') {
             if (! in_array($value, $options, true)) {
-                throw new InvalidArgumentException("--{$option} must be one of: " . implode(', ', $options) . '.');
+                throw new InvalidArgumentException("--{$option} must be one of: ".implode(', ', $options).'.');
             }
 
             return (string) $value;
         }
 
         if ($nonInteractive) {
-            throw new InvalidArgumentException("--{$option} is required in non-interactive mode (one of: " . implode(', ', $options) . ').');
+            throw new InvalidArgumentException("--{$option} is required in non-interactive mode (one of: ".implode(', ', $options).').');
         }
 
         return $io->askSelect($label, $options, 0);
@@ -222,7 +222,7 @@ class MakeArtifactCommand extends Command
 
         if ($value !== null && $value !== '') {
             if (! in_array($value, $types, true)) {
-                throw new InvalidArgumentException('--plugin must be one of: ' . implode(', ', $types) . '.');
+                throw new InvalidArgumentException('--plugin must be one of: '.implode(', ', $types).'.');
             }
 
             return (string) $value;
@@ -282,7 +282,7 @@ class MakeArtifactCommand extends Command
         if (Str::lower($entity) === Str::lower(Str::studly($name))) {
             throw new InvalidArgumentException(
                 "The primary entity must differ from the artifact name [{$entity}]: the manager is named after the "
-                . 'artifact and the model after the entity, so identical names collide. Pass a distinct --entity (e.g. --entity=Account).',
+                .'artifact and the model after the entity, so identical names collide. Pass a distinct --entity (e.g. --entity=Account).',
             );
         }
 
@@ -336,7 +336,7 @@ class MakeArtifactCommand extends Command
         $unknown = array_diff($list, $selectable);
 
         if ($unknown !== []) {
-            throw new InvalidArgumentException('Unknown feature(s): ' . implode(', ', $unknown) . '. Valid: ' . implode(', ', $selectable) . '.');
+            throw new InvalidArgumentException('Unknown feature(s): '.implode(', ', $unknown).'. Valid: '.implode(', ', $selectable).'.');
         }
 
         return $this->resolveRequires(array_values(array_unique($list)));
@@ -346,8 +346,7 @@ class MakeArtifactCommand extends Command
      * Pull in each selected feature's `requires` (transitively), so a dependency
      * can never be silently missing (e.g. selecting `livewire` pulls in `web-ui`).
      *
-     * @param list<string> $list
-     *
+     * @param  list<string>  $list
      * @return list<string>
      */
     private function resolveRequires(array $list): array

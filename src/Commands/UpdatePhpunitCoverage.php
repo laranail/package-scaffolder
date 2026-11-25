@@ -6,8 +6,8 @@ namespace Simtabi\Laranail\Package\Scaffolder\Commands;
 
 use DOMDocument;
 use Illuminate\Console\Command;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
 
 class UpdatePhpunitCoverage extends Command
 {
@@ -36,7 +36,7 @@ class UpdatePhpunitCoverage extends Command
     public function handle(): int
     {
         $appFolder = config('laranail.package-scaffolder.modules.paths.app_folder', 'app/');
-        $appFolder = rtrim($appFolder, '/') . '/';
+        $appFolder = rtrim($appFolder, '/').'/';
         $phpunitXmlPath = base_path('phpunit.xml');
         $modulesStatusPath = config('laranail.package-scaffolder.modules.activators.file.statuses-file', base_path('modules_statuses.json'));
 
@@ -55,17 +55,17 @@ class UpdatePhpunitCoverage extends Command
         $enabledModules = json_decode(file_get_contents($modulesStatusPath), true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->error("Error decoding JSON from {$modulesStatusPath}: " . json_last_error_msg());
+            $this->error("Error decoding JSON from {$modulesStatusPath}: ".json_last_error_msg());
 
             return 98;
         }
 
-        $modulesPath = rtrim(config('laranail.package-scaffolder.modules.paths.modules', base_path('Modules')), '/') . '/';
+        $modulesPath = rtrim(config('laranail.package-scaffolder.modules.paths.modules', base_path('Modules')), '/').'/';
         $moduleDirs = [];
 
         foreach ($enabledModules as $module => $status) {
             if ($status) { // Only add enabled modules
-                $moduleDir = $modulesPath . $module . '/' . $appFolder;
+                $moduleDir = $modulesPath.$module.'/'.$appFolder;
                 if (is_dir($moduleDir)) {
                     $moduleDirs[] = $moduleDir;
                 }

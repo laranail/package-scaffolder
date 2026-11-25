@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Artisan;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use Illuminate\Support\Facades\Blade;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 class ModuleHelperTest extends BaseTestCase
 {

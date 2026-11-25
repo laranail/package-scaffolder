@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
-use Override;
-use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\ProviderRepository;
-use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\ModuleManifest;
 
 abstract class ModulesServiceProvider extends ServiceProvider
 {
@@ -72,8 +72,8 @@ abstract class ModulesServiceProvider extends ServiceProvider
      */
     protected function registerNamespaces()
     {
-        $configPath = __DIR__ . '/../../config/config.php';
-        $stubsPath = dirname(__DIR__, 2) . '/stubs';
+        $configPath = __DIR__.'/../../config/config.php';
+        $stubsPath = dirname(__DIR__, 2).'/stubs';
 
         // A path, not a dotted key: the config key is
         // `laranail.package-scaffolder.modules`, which Laravel reads from
@@ -89,7 +89,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
         // artifacts.php had no tag, so the file the configuration docs call
         // user-editable could not be published at all.
         $this->publishes([
-            dirname(__DIR__, 2) . '/config/artifacts.php' => config_path('laranail/package-scaffolder/artifacts.php'),
+            dirname(__DIR__, 2).'/config/artifacts.php' => config_path('laranail/package-scaffolder/artifacts.php'),
         ], 'laranail::package-scaffolder-artifacts');
 
         $this->publishes([
@@ -97,7 +97,7 @@ abstract class ModulesServiceProvider extends ServiceProvider
         ], 'laranail::package-scaffolder-stubs');
 
         $this->publishes([
-            __DIR__ . '/../../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
+            __DIR__.'/../../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
         ], 'laranail::package-scaffolder-vite');
     }
 

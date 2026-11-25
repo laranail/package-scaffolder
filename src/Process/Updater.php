@@ -54,13 +54,13 @@ class Updater extends Runner
      * is escaped so an untrusted module's composer metadata cannot inject shell
      * syntax into the `composer require` command.
      *
-     * @param array<string, string> $packages
+     * @param  array<string, string>  $packages
      */
     private function concatPackages(array $packages): string
     {
         $out = '';
         foreach ($packages as $name => $version) {
-            $out .= escapeshellarg("{$name}:{$version}") . ' ';
+            $out .= escapeshellarg("{$name}:{$version}").' ';
         }
 
         return trim($out) === '' ? '' : $out;
@@ -106,7 +106,7 @@ class Updater extends Runner
 
         // Atomic write: temp file + rename, so an interrupted write can't corrupt
         // the developer's root composer.json.
-        $tmp = $path . '.tmp' . getmypid();
+        $tmp = $path.'.tmp'.getmypid();
         file_put_contents($tmp, $encoded);
         rename($tmp, $path);
     }

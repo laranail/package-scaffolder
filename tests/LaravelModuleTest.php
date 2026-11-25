@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Override;
 use Exception;
 use Illuminate\Support\Facades\Event;
-use Modules\Recipe\Providers\RecipeServiceProvider;
 use Modules\Recipe\Providers\DeferredServiceProvider;
-use Simtabi\Laranail\Package\Scaffolder\Support\Json;
-use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
+use Modules\Recipe\Providers\RecipeServiceProvider;
+use Override;
 use Simtabi\Laranail\Package\Scaffolder\Constants\ModuleEvent;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
+use Simtabi\Laranail\Package\Scaffolder\Laravel\Module;
+use Simtabi\Laranail\Package\Scaffolder\Support\Json;
 
 class LaravelModuleTest extends BaseTestCase
 {
@@ -24,20 +24,20 @@ class LaravelModuleTest extends BaseTestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        symlink(__DIR__ . '/stubs/valid', __DIR__ . '/stubs/valid_symlink');
+        symlink(__DIR__.'/stubs/valid', __DIR__.'/stubs/valid_symlink');
     }
 
     #[Override]
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        unlink(__DIR__ . '/stubs/valid_symlink');
+        unlink(__DIR__.'/stubs/valid_symlink');
     }
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->module = new TestingModule($this->app, 'Recipe Name', __DIR__ . '/stubs/valid/Recipe');
+        $this->module = new TestingModule($this->app, 'Recipe Name', __DIR__.'/stubs/valid/Recipe');
         $this->activator = $this->app[ActivatorInterface::class];
     }
 
@@ -74,23 +74,23 @@ class LaravelModuleTest extends BaseTestCase
 
     public function test_it_gets_module_path(): void
     {
-        $this->assertEquals(__DIR__ . '/stubs/valid/Recipe', $this->module->getPath());
+        $this->assertEquals(__DIR__.'/stubs/valid/Recipe', $this->module->getPath());
     }
 
     public function test_it_gets_module_path_with_symlink(): void
     {
         // symlink created in setUpBeforeClass
 
-        $this->module = new TestingModule($this->app, 'Recipe Name', __DIR__ . '/stubs/valid_symlink/Recipe');
+        $this->module = new TestingModule($this->app, 'Recipe Name', __DIR__.'/stubs/valid_symlink/Recipe');
 
-        $this->assertEquals(__DIR__ . '/stubs/valid_symlink/Recipe', $this->module->getPath());
+        $this->assertEquals(__DIR__.'/stubs/valid_symlink/Recipe', $this->module->getPath());
 
         // symlink deleted in tearDownAfterClass
     }
 
     public function test_it_loads_module_translations(): void
     {
-        (new TestingModule($this->app, 'Recipe', __DIR__ . '/stubs/valid/Recipe'))->boot();
+        (new TestingModule($this->app, 'Recipe', __DIR__.'/stubs/valid/Recipe'))->boot();
         $this->assertEquals('Recipe', trans('recipe::recipes.title.recipes'));
     }
 
@@ -149,8 +149,8 @@ class LaravelModuleTest extends BaseTestCase
 
         $this->module->enable();
 
-        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::ENABLING, $this->module->getLowerName()));
-        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::ENABLED, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::ENABLING, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::ENABLED, $this->module->getLowerName()));
     }
 
     public function test_it_fires_events_when_module_is_disabled(): void
@@ -159,8 +159,8 @@ class LaravelModuleTest extends BaseTestCase
 
         $this->module->disable();
 
-        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::DISABLING, $this->module->getLowerName()));
-        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.' . ModuleEvent::DISABLED, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DISABLING, $this->module->getLowerName()));
+        Event::assertDispatched(sprintf('laranail.package-scaffolder.modules.%s.'.ModuleEvent::DISABLED, $this->module->getLowerName()));
     }
 
     public function test_it_has_a_good_providers_manifest_path(): void
@@ -188,9 +188,9 @@ class LaravelModuleTest extends BaseTestCase
                 RecipeServiceProvider::class,
                 DeferredServiceProvider::class,
             ],
-            'eager'    => [RecipeServiceProvider::class],
+            'eager' => [RecipeServiceProvider::class],
             'deferred' => ['deferred' => DeferredServiceProvider::class],
-            'when'     => [DeferredServiceProvider::class => []],
+            'when' => [DeferredServiceProvider::class => []],
         ], $manifest);
     }
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Publishing;
 
-use RuntimeException;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Simtabi\Laranail\Package\Scaffolder\Support\Module;
+use RuntimeException;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\PublisherInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
+use Simtabi\Laranail\Package\Scaffolder\Support\Module;
 
 abstract class Publisher implements PublisherInterface
 {
