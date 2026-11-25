@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Override;
+use Illuminate\Support\ServiceProvider;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Laravel\LaravelFileRepository;
 

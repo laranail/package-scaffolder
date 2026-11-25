@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Make;
 
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 use Simtabi\Laranail\Package\Scaffolder\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Simtabi\Laranail\Package\Scaffolder\Support\Config\GenerateConfigReader;
 
 class InertiaPageMakeCommand extends GeneratorCommand
 {
@@ -78,7 +78,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
 
         return (new Stub($this->getStubName(), [
             'STUDLY_NAME' => $module->getStudlyName(),
-            'PAGE_NAME' => $this->getPageName(),
+            'PAGE_NAME'   => $this->getPageName(),
         ]))->render();
     }
 
@@ -91,7 +91,7 @@ class InertiaPageMakeCommand extends GeneratorCommand
         $pagesPath = GenerateConfigReader::read('inertia')->getPath() ?? 'resources/js/Pages';
         $subDirectory = $this->getSubDirectory();
 
-        return $path.$pagesPath.'/'.($subDirectory !== '' && $subDirectory !== '0' ? $subDirectory.'/' : '').$this->getFileName();
+        return $path . $pagesPath . '/' . ($subDirectory !== '' && $subDirectory !== '0' ? $subDirectory . '/' : '') . $this->getFileName();
     }
 
     /**
@@ -100,9 +100,9 @@ class InertiaPageMakeCommand extends GeneratorCommand
     protected function getStubName(): string
     {
         return match ($this->getInertiaFrontend()) {
-            'react' => '/inertia/page-react.stub',
+            'react'  => '/inertia/page-react.stub',
             'svelte' => '/inertia/page-svelte.stub',
-            default => '/inertia/page-vue.stub',
+            default  => '/inertia/page-vue.stub',
         };
     }
 
@@ -130,12 +130,12 @@ class InertiaPageMakeCommand extends GeneratorCommand
     private function getFileName(): string
     {
         $extension = match ($this->getInertiaFrontend()) {
-            'react' => '.jsx',
+            'react'  => '.jsx',
             'svelte' => '.svelte',
-            default => '.vue',
+            default  => '.vue',
         };
 
-        return Str::studly(basename(str_replace('\\', '/', $this->argument('name')))).$extension;
+        return Str::studly(basename(str_replace('\\', '/', $this->argument('name')))) . $extension;
     }
 
     /**

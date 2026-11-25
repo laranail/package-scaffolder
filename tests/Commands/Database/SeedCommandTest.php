@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands\Database;
 
+use RuntimeException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
-use RuntimeException;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class ThrowingSeeder extends Seeder
 {
@@ -66,9 +66,9 @@ class SeedCommandTest extends BaseTestCase
         // module and make the default-namespace guess miss, so the seeder can
         // only be resolved via the module's own composer.json psr-4 (#1861).
         config([
-            'laranail.package-scaffolder.modules.namespace' => 'SomethingElse',
+            'laranail.package-scaffolder.modules.namespace'    => 'SomethingElse',
             'laranail.package-scaffolder.modules.scan.enabled' => true,
-            'laranail.package-scaffolder.modules.scan.paths' => [dirname(__DIR__, 2).'/stubs/valid'],
+            'laranail.package-scaffolder.modules.scan.paths'   => [dirname(__DIR__, 2) . '/stubs/valid'],
         ]);
 
         $this->app[RepositoryInterface::class]->scan();

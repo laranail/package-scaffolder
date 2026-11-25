@@ -11,8 +11,8 @@ class CollectionTest extends BaseTestCase
 {
     public function test_to_array_sets_path_attribute(): void
     {
-        $moduleOnePath = __DIR__.'/stubs/valid/Recipe';
-        $moduleTwoPath = __DIR__.'/stubs/valid/Requirement';
+        $moduleOnePath = __DIR__ . '/stubs/valid/Recipe';
+        $moduleTwoPath = __DIR__ . '/stubs/valid/Requirement';
         $modules = [
             new Module($this->app, 'module-one', $moduleOnePath),
             new Module($this->app, 'module-two', $moduleTwoPath),
@@ -29,8 +29,8 @@ class CollectionTest extends BaseTestCase
     public function test_get_items_returns_the_collection_items(): void
     {
         $modules = [
-            new Module($this->app, 'module-one', __DIR__.'/stubs/valid/Recipe'),
-            new Module($this->app, 'module-two', __DIR__.'/stubs/valid/Requirement'),
+            new Module($this->app, 'module-one', __DIR__ . '/stubs/valid/Recipe'),
+            new Module($this->app, 'module-two', __DIR__ . '/stubs/valid/Requirement'),
         ];
         $collection = new Collection($modules);
         $items = $collection->getItems();

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Filesystem\Filesystem;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 
 class ModuleManifest
@@ -85,7 +85,7 @@ class ModuleManifest
                 }
 
                 foreach ($manifest['files'] as $file) {
-                    include_once $manifest['module_directory'].DIRECTORY_SEPARATOR.$file;
+                    include_once $manifest['module_directory'] . DIRECTORY_SEPARATOR . $file;
                 }
             });
     }

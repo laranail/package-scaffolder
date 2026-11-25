@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Providers;
 
 use Override;
+use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
+use Simtabi\Laranail\Package\Scaffolder\Lumen\LumenFileRepository;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
-use Simtabi\Laranail\Package\Scaffolder\Lumen\LumenFileRepository;
-use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 
 class LumenModulesServiceProvider extends ModulesServiceProvider
 {
@@ -37,7 +37,7 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
      */
     public function setupStubPath(): void
     {
-        Stub::setBasePath(dirname(__DIR__, 2).'/stubs');
+        Stub::setBasePath(dirname(__DIR__, 2) . '/stubs');
 
         if (app('laranail.package-scaffolder.modules')->config('stubs.enabled') === true) {
             Stub::setBasePath(app('laranail.package-scaffolder.modules')->config('stubs.path'));
@@ -55,7 +55,7 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
         $this->app->singleton(RepositoryInterface::class, fn ($app): LumenFileRepository => new LumenFileRepository($app));
         $this->app->singleton(ActivatorInterface::class, function ($app): object {
             $activator = $app['config']->get('laranail.package-scaffolder.modules.activator');
-            $class = $app['config']->get('laranail.package-scaffolder.modules.activators.'.$activator)['class'];
+            $class = $app['config']->get('laranail.package-scaffolder.modules.activators.' . $activator)['class'];
 
             return new $class($app);
         });

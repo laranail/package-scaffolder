@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Contracts;
 
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Laravel\LaravelFileRepository;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class RepositoryInterfaceTest extends BaseTestCase
 {

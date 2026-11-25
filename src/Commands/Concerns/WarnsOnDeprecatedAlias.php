@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Concerns;
 
 use ReflectionProperty;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias as SharedWarnsOnDeprecatedAlias;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias as SharedWarnsOnDeprecatedAlias;
 
 /**
  * Prints a one-line deprecation warning when a command is invoked by one of

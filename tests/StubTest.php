@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 use RuntimeException;
+use Illuminate\Support\Str;
+use Illuminate\Filesystem\Filesystem;
 use Simtabi\Laranail\Package\Scaffolder\Support\Stub;
 
 class StubTest extends BaseTestCase
@@ -53,8 +53,8 @@ class StubTest extends BaseTestCase
     {
         $stub = new Stub('/command.stub', [
             'COMMAND_NAME' => 'my:command',
-            'NAMESPACE' => 'Blog\Commands',
-            'CLASS' => 'MyCommand',
+            'NAMESPACE'    => 'Blog\Commands',
+            'CLASS'        => 'MyCommand',
         ]);
 
         $stub->saveTo(base_path(), 'my-command.php');
@@ -77,11 +77,11 @@ class StubTest extends BaseTestCase
     {
         $stub = new Stub('/command.stub', [
             'COMMAND_NAME' => 'my:command',
-            'NAMESPACE' => 'Blog\Commands',
-            'CLASS' => 'MyCommand',
+            'NAMESPACE'    => 'Blog\Commands',
+            'CLASS'        => 'MyCommand',
         ]);
 
-        $stub->setBasePath(__DIR__.'/stubs');
+        $stub->setBasePath(__DIR__ . '/stubs');
 
         $stub->saveTo(base_path(), 'stub-override-not-exists.php');
 
@@ -94,7 +94,7 @@ class StubTest extends BaseTestCase
             'NAME' => 'Name',
         ]);
 
-        $stub->setBasePath(__DIR__.'/stubs');
+        $stub->setBasePath(__DIR__ . '/stubs');
 
         $stub->saveTo(base_path(), 'stub-override-exists.php');
 
@@ -110,11 +110,11 @@ class StubTest extends BaseTestCase
     public function test_removal_tag_with_regex_metacharacters_is_literal(): void
     {
         Stub::setBasePath(sys_get_temp_dir());
-        $name = '/laranail-tagtest-'.getmypid().'.stub';
-        file_put_contents(sys_get_temp_dir().$name, 'keep %START_A/B%gone%END_A/B% end');
+        $name = '/laranail-tagtest-' . getmypid() . '.stub';
+        file_put_contents(sys_get_temp_dir() . $name, 'keep %START_A/B%gone%END_A/B% end');
 
         $out = (new Stub($name, [], ['A/B']))->getContents();
-        @unlink(sys_get_temp_dir().$name);
+        @unlink(sys_get_temp_dir() . $name);
 
         $this->assertStringNotContainsString('gone', $out);
         $this->assertStringContainsString('keep', $out);
@@ -128,7 +128,7 @@ class StubTest extends BaseTestCase
     public function test_get_contents_throws_when_the_stub_is_missing(): void
     {
         Stub::setBasePath(sys_get_temp_dir());
-        $stub = new Stub('/laranail-definitely-missing-'.getmypid().'.stub');
+        $stub = new Stub('/laranail-definitely-missing-' . getmypid() . '.stub');
 
         $this->expectException(RuntimeException::class);
         $stub->getContents();

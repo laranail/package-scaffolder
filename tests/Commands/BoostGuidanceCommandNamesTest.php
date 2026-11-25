@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands;
 
-use Illuminate\Contracts\Console\Kernel;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Symfony\Component\Finder\Finder;
+use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Finder\SplFileInfo;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 /**
  * The Laravel Boost guidelines and skill under `resources/boost/` are read by
@@ -67,7 +67,7 @@ class BoostGuidanceCommandNamesTest extends BaseTestCase
 
             foreach ($matches as [, $command, $wildcard]) {
                 $references++;
-                $name = self::SCOPED_PREFIX.$command;
+                $name = self::SCOPED_PREFIX . $command;
 
                 if ($wildcard !== '' || $command === '') {
                     $family = array_filter($registered, static fn (string $n): bool => str_starts_with($n, $name));
@@ -86,7 +86,7 @@ class BoostGuidanceCommandNamesTest extends BaseTestCase
     /** @return list<SplFileInfo> */
     private function guidanceFiles(): array
     {
-        $finder = Finder::create()->files()->in(dirname(__DIR__, 2).'/resources/boost');
+        $finder = Finder::create()->files()->in(dirname(__DIR__, 2) . '/resources/boost');
 
         return array_values(iterator_to_array($finder, false));
     }

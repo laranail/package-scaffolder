@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Artifacts;
 
 use Illuminate\Filesystem\Filesystem;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\ArtifactGenerator;
 use Simtabi\Laranail\Package\Scaffolder\Support\Artifacts\GenerationRequest;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class ArtifactGeneratorTest extends BaseTestCase
 {
@@ -21,7 +21,7 @@ class ArtifactGeneratorTest extends BaseTestCase
     {
         parent::setUp();
         $this->fs = new Filesystem;
-        $this->source = dirname(__DIR__, 2).'/stubs/blueprints/laravel';
+        $this->source = dirname(__DIR__, 2) . '/stubs/blueprints/laravel';
     }
 
     protected function tearDown(): void
@@ -37,7 +37,7 @@ class ArtifactGeneratorTest extends BaseTestCase
         $all = ['web-ui', 'livewire', 'rest-api', 'caching', 'feeds', 'scheduling', 'asset-pipeline', 'notifications'];
         $t = $this->generate(new GenerationRequest('package', 'none', $all, 'Blog', 'Modules', 'modules'));
 
-        $provider = $t.'/src/Providers/BlogServiceProvider.php';
+        $provider = $t . '/src/Providers/BlogServiceProvider.php';
         $this->assertFileExists($provider);
         $content = $this->fs->get($provider);
         $this->assertStringContainsString('namespace Modules\\Blog\\Providers;', $content);
@@ -45,18 +45,18 @@ class ArtifactGeneratorTest extends BaseTestCase
         $this->assertTrue($this->phpLint($provider), 'generated provider must be valid PHP');
 
         // core + enabled features present
-        $this->assertFileExists($t.'/src/Repositories/CachingPostRepository.php');
-        $this->assertFileExists($t.'/src/Search/SearchManager.php');
-        $this->assertFileExists($t.'/src/Livewire/PostList.php');
+        $this->assertFileExists($t . '/src/Repositories/CachingPostRepository.php');
+        $this->assertFileExists($t . '/src/Search/SearchManager.php');
+        $this->assertFileExists($t . '/src/Livewire/PostList.php');
 
         // plugin = none ⇒ zero Nova/Filament code footprint
-        $this->assertDirectoryDoesNotExist($t.'/src/Filament');
-        $this->assertDirectoryDoesNotExist($t.'/src/Nova');
-        $this->assertFileDoesNotExist($t.'/src/Providers/Integrations/FilamentBlogServiceProvider.php');
+        $this->assertDirectoryDoesNotExist($t . '/src/Filament');
+        $this->assertDirectoryDoesNotExist($t . '/src/Nova');
+        $this->assertFileDoesNotExist($t . '/src/Providers/Integrations/FilamentBlogServiceProvider.php');
         // Functional footprint: no Filament\ / Laravel\Nova namespace usage in src/.
         // (Incidental prose mentions in doc comments are scrubbed separately, task #23.)
         $refs = [];
-        foreach ($this->fs->allFiles($t.'/src') as $f) {
+        foreach ($this->fs->allFiles($t . '/src') as $f) {
             $c = $this->fs->get($f->getPathname());
             if (str_contains($c, 'Filament\\') || str_contains($c, 'Laravel\\Nova')) {
                 $refs[] = $f->getFilename();
@@ -65,7 +65,7 @@ class ArtifactGeneratorTest extends BaseTestCase
         $this->assertSame([], $refs, 'plugin=none must leave no functional Nova/Filament references in src/');
 
         // composer: one provider, no nova/filament deps
-        $composer = json_decode($this->fs->get($t.'/composer.json'), true);
+        $composer = json_decode($this->fs->get($t . '/composer.json'), true);
         $this->assertCount(1, $composer['extra']['laravel']['providers']);
         $deps = implode(' ', array_keys(($composer['require'] ?? []) + ($composer['require-dev'] ?? []) + ($composer['suggest'] ?? [])));
         $this->assertStringNotContainsStringIgnoringCase('filament', $deps);
@@ -78,12 +78,12 @@ class ArtifactGeneratorTest extends BaseTestCase
                 continue;
             }
             $out = [];
-            exec('php -l '.escapeshellarg($f->getPathname()).' 2>&1', $out, $code);
+            exec('php -l ' . escapeshellarg($f->getPathname()) . ' 2>&1', $out, $code);
             if ($code !== 0) {
                 $bad[] = $f->getRelativePathname();
             }
         }
-        $this->assertSame([], $bad, 'invalid PHP in generated artifact: '.implode(', ', $bad));
+        $this->assertSame([], $bad, 'invalid PHP in generated artifact: ' . implode(', ', $bad));
     }
 
     public function test_plugin_filament_with_caching_and_livewire_off_and_renamed(): void
@@ -91,7 +91,7 @@ class ArtifactGeneratorTest extends BaseTestCase
         $features = ['web-ui', 'rest-api', 'feeds', 'scheduling', 'asset-pipeline', 'notifications']; // no caching, no livewire
         $t = $this->generate(new GenerationRequest('plugin', 'filament', $features, 'Shop', 'Acme', 'acme'));
 
-        $provider = $t.'/src/Providers/ShopServiceProvider.php';
+        $provider = $t . '/src/Providers/ShopServiceProvider.php';
         $this->assertFileExists($provider);
         $content = $this->fs->get($provider);
         $this->assertStringContainsString('namespace Acme\\Shop\\Providers;', $content);
@@ -99,20 +99,20 @@ class ArtifactGeneratorTest extends BaseTestCase
         $this->assertTrue($this->phpLint($provider));
 
         // caching OFF
-        $this->assertFileDoesNotExist($t.'/src/Repositories/CachingPostRepository.php');
-        $this->assertFileDoesNotExist($t.'/src/Listeners/FlushBlogCache.php');
+        $this->assertFileDoesNotExist($t . '/src/Repositories/CachingPostRepository.php');
+        $this->assertFileDoesNotExist($t . '/src/Listeners/FlushBlogCache.php');
         $this->assertStringNotContainsString('cache.enabled', $content);
 
         // web-ui ON but livewire OFF
-        $this->assertFileExists($t.'/src/Http/Controllers/ShopController.php');
-        $this->assertDirectoryDoesNotExist($t.'/src/Livewire');
+        $this->assertFileExists($t . '/src/Http/Controllers/ShopController.php');
+        $this->assertDirectoryDoesNotExist($t . '/src/Livewire');
 
         // plugin filament KEPT, nova removed
-        $this->assertDirectoryExists($t.'/src/Filament');
-        $this->assertFileExists($t.'/src/Providers/Integrations/FilamentShopServiceProvider.php');
-        $this->assertDirectoryDoesNotExist($t.'/src/Nova');
+        $this->assertDirectoryExists($t . '/src/Filament');
+        $this->assertFileExists($t . '/src/Providers/Integrations/FilamentShopServiceProvider.php');
+        $this->assertDirectoryDoesNotExist($t . '/src/Nova');
 
-        $composer = json_decode($this->fs->get($t.'/composer.json'), true);
+        $composer = json_decode($this->fs->get($t . '/composer.json'), true);
         $providers = implode(' ', $composer['extra']['laravel']['providers']);
         $this->assertStringContainsString('Integrations\\Filament', $providers);
         $this->assertStringNotContainsString('Integrations\\Nova', $providers);
@@ -124,29 +124,29 @@ class ArtifactGeneratorTest extends BaseTestCase
 
     public function test_pint_pass_strips_imports_orphaned_by_a_disabled_feature(): void
     {
-        $pint = dirname(__DIR__, 2).'/vendor/bin/pint';
+        $pint = dirname(__DIR__, 2) . '/vendor/bin/pint';
         if (! is_file($pint)) {
             $this->markTestSkipped('Pint binary not available.');
         }
 
-        $config = require dirname(__DIR__, 2).'/config/artifacts.php';
-        $target = sys_get_temp_dir().'/laranail-artifact-'.uniqid();
+        $config = require dirname(__DIR__, 2) . '/config/artifacts.php';
+        $target = sys_get_temp_dir() . '/laranail-artifact-' . uniqid();
         $this->targets[] = $target;
 
         $features = ['web-ui', 'livewire', 'rest-api', 'feeds', 'scheduling', 'asset-pipeline', 'notifications']; // caching OFF
         (new ArtifactGenerator($this->fs, $config, $pint))
             ->generate(new GenerationRequest('package', 'none', $features, 'Blog', 'Modules', 'modules'), $this->source, $target);
 
-        $content = $this->fs->get($target.'/src/Providers/BlogServiceProvider.php');
+        $content = $this->fs->get($target . '/src/Providers/BlogServiceProvider.php');
         // the caching wiring is stripped AND its now-unused import removed by Pint
         $this->assertStringNotContainsString('CachingPostRepository', $content);
-        $this->assertTrue($this->phpLint($target.'/src/Providers/BlogServiceProvider.php'));
+        $this->assertTrue($this->phpLint($target . '/src/Providers/BlogServiceProvider.php'));
     }
 
     private function generate(GenerationRequest $req): string
     {
-        $config = require dirname(__DIR__, 2).'/config/artifacts.php';
-        $target = sys_get_temp_dir().'/laranail-artifact-'.uniqid();
+        $config = require dirname(__DIR__, 2) . '/config/artifacts.php';
+        $target = sys_get_temp_dir() . '/laranail-artifact-' . uniqid();
         $this->targets[] = $target;
 
         return (new ArtifactGenerator($this->fs, $config))->generate($req, $this->source, $target);
@@ -154,7 +154,7 @@ class ArtifactGeneratorTest extends BaseTestCase
 
     private function phpLint(string $file): bool
     {
-        exec('php -l '.escapeshellarg($file).' 2>&1', $out, $code);
+        exec('php -l ' . escapeshellarg($file) . ' 2>&1', $out, $code);
 
         return $code === 0;
     }

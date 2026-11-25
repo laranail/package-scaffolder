@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Commands\Actions;
 
-use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Database\Console\ShowModelCommand;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Override;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
-use Symfony\Component\Console\Attribute\AsCommand;
+use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 use function Laravel\Prompts\search;
+
+use Illuminate\Support\Facades\File;
+use Illuminate\Database\Console\ShowModelCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\SupportsNamespacedNames;
 
 #[AsCommand('laranail::package-scaffolder.model-show', 'Show information about an Eloquent model in modules')]
 class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInput
@@ -79,7 +80,7 @@ class ModelShowCommand extends ShowModelCommand implements PromptsForMissingInpu
     {
         return
             Str::of($path)
-                ->after(base_path().DIRECTORY_SEPARATOR)
+                ->after(base_path() . DIRECTORY_SEPARATOR)
                 ->replace(
                     [config('laranail.package-scaffolder.modules.paths.app_folder'), '/', '.php'],
                     ['', '\\', ''],

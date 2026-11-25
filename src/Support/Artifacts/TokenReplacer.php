@@ -44,11 +44,11 @@ final class TokenReplacer
     public const string PLACEHOLDER_VENDOR = 'modules';
 
     /**
-     * @param  array{namespaceBase:string, studly:string, lower:string, vendor:string, upper?:string, entityStudly?:string, entityStudlyPlural?:string, entityLower?:string, entityPlural?:string}  $target
+     * @param array{namespaceBase:string, studly:string, lower:string, vendor:string, upper?:string, entityStudly?:string, entityStudlyPlural?:string, entityLower?:string, entityPlural?:string} $target
      */
     public static function replace(string $content, array $target): string
     {
-        $rootSingle = $target['namespaceBase'].'\\'.$target['studly'];
+        $rootSingle = $target['namespaceBase'] . '\\' . $target['studly'];
 
         $pairs = [
             // JSON-escaped namespace (composer.json) first.
@@ -56,14 +56,14 @@ final class TokenReplacer
             // PHP namespace + use statements.
             self::PLACEHOLDER_NAMESPACE => $rootSingle,
             // Composite name forms before the broad lower pass.
-            self::PLACEHOLDER_VENDOR.'/'.self::PLACEHOLDER_LOWER => $target['vendor'].'/'.$target['lower'],
-            self::PLACEHOLDER_VENDOR.'-'.self::PLACEHOLDER_LOWER => $target['vendor'].'-'.$target['lower'],
-            self::PLACEHOLDER_VENDOR.'.'.self::PLACEHOLDER_LOWER => $target['vendor'].'.'.$target['lower'],
+            self::PLACEHOLDER_VENDOR . '/' . self::PLACEHOLDER_LOWER => $target['vendor'] . '/' . $target['lower'],
+            self::PLACEHOLDER_VENDOR . '-' . self::PLACEHOLDER_LOWER => $target['vendor'] . '-' . $target['lower'],
+            self::PLACEHOLDER_VENDOR . '.' . self::PLACEHOLDER_LOWER => $target['vendor'] . '.' . $target['lower'],
             // SCREAMING_SNAKE env-var prefix (`BLOG_USER_MODEL` → `{UPPER}_USER_MODEL`).
             self::PLACEHOLDER_UPPER => $target['upper'] ?? self::PLACEHOLDER_UPPER,
             // Bare identifiers (studly before lower is irrelevant — case-sensitive).
             self::PLACEHOLDER_STUDLY => $target['studly'],
-            self::PLACEHOLDER_LOWER => $target['lower'],
+            self::PLACEHOLDER_LOWER  => $target['lower'],
         ];
 
         return self::replaceEntity(strtr($content, $pairs), $target);
@@ -74,7 +74,7 @@ final class TokenReplacer
      * English words that share the substring. Defaults to the `Post` identity, so a
      * target without entity keys is a no-op.
      *
-     * @param  array<string, string>  $target
+     * @param array<string, string> $target
      */
     private static function replaceEntity(string $content, array $target): string
     {

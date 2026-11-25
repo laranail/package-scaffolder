@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Commands;
 
-use Illuminate\Console\Command as IlluminateCommand;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Support\Facades\Artisan;
 use LogicException;
-use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
-use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias as LegacyWarnsOnDeprecatedAlias;
-use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\ConsoleSectionOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Finder\Finder;
+use Illuminate\Console\Command as IlluminateCommand;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\ConsoleSectionOutput;
+use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Simtabi\Laranail\Console\Tools\Commands\Concerns\WarnsOnDeprecatedAlias;
+use Simtabi\Laranail\Package\Scaffolder\Commands\Concerns\WarnsOnDeprecatedAlias as LegacyWarnsOnDeprecatedAlias;
 
 /**
  * The bare `module:*` and `make:artifact` names are deprecated aliases of the
@@ -68,8 +68,8 @@ class DeprecatedAliasTest extends BaseTestCase
             foreach ($command->getAliases() as $alias) {
                 $aliases++;
                 $expected = $alias === 'make:artifact'
-                    ? self::SCOPED_PREFIX.'new'
-                    : self::SCOPED_PREFIX.substr($alias, strlen('module:'));
+                    ? self::SCOPED_PREFIX . 'new'
+                    : self::SCOPED_PREFIX . substr($alias, strlen('module:'));
 
                 $this->assertSame($expected, $name, "Alias [{$alias}] does not map to [{$expected}].");
             }
@@ -113,24 +113,24 @@ class DeprecatedAliasTest extends BaseTestCase
     public function test_on_a_console_output_a_bare_alias_adds_only_the_warning_line(): void
     {
         [$aliasExit, $aliasOut, $aliasErr] = $this->runOnConsoleOutput('module:list');
-        [$scopedExit, $scopedOut, $scopedErr] = $this->runOnConsoleOutput(self::SCOPED_PREFIX.'list');
+        [$scopedExit, $scopedOut, $scopedErr] = $this->runOnConsoleOutput(self::SCOPED_PREFIX . 'list');
 
         $warning = 'Deprecated: [module:list] is a deprecated alias and will be removed in the next minor after 0.1. '
-            .'Use [laranail::package-scaffolder.list] instead.'.PHP_EOL;
+            . 'Use [laranail::package-scaffolder.list] instead.' . PHP_EOL;
 
         $this->assertSame(0, $scopedExit);
         $this->assertSame($scopedExit, $aliasExit);
-        $this->assertSame(1, substr_count($aliasOut.$aliasErr, $warning), 'The warning must print exactly once.');
-        $this->assertStringNotContainsString('deprecated alias', $scopedOut.$scopedErr);
+        $this->assertSame(1, substr_count($aliasOut . $aliasErr, $warning), 'The warning must print exactly once.');
+        $this->assertStringNotContainsString('deprecated alias', $scopedOut . $scopedErr);
 
         if ($this->consoleRoutesWarningToStderr()) {
             $this->assertSame($scopedOut, $aliasOut, 'stdout must be unchanged by a bare alias.');
-            $this->assertSame($warning.$scopedErr, $aliasErr, 'The warning must be the first line of stderr.');
+            $this->assertSame($warning . $scopedErr, $aliasErr, 'The warning must be the first line of stderr.');
 
             return;
         }
 
-        $this->assertSame($warning.$scopedOut, $aliasOut, 'Before the console fix the warning leads stdout.');
+        $this->assertSame($warning . $scopedOut, $aliasOut, 'Before the console fix the warning leads stdout.');
         $this->assertSame($scopedErr, $aliasErr);
     }
 
@@ -188,7 +188,7 @@ class DeprecatedAliasTest extends BaseTestCase
         $inspected = ['src' => 0, 'tests' => 0];
 
         foreach (['src', 'tests'] as $dir) {
-            $finder = Finder::create()->files()->name('*.php')->in($root.'/'.$dir)->exclude(['__snapshots__', 'stubs']);
+            $finder = Finder::create()->files()->name('*.php')->in($root . '/' . $dir)->exclude(['__snapshots__', 'stubs']);
 
             foreach ($finder as $file) {
                 if (in_array($file->getFilename(), ['DeprecatedAliasTest.php', 'CommandNamingTest.php'], true)) {
@@ -203,7 +203,7 @@ class DeprecatedAliasTest extends BaseTestCase
                     }
 
                     if (preg_match('/[\'"](module:[a-z0-9:-]+|make:artifact)\b/', $line)) {
-                        $offenders[] = $dir.'/'.$file->getRelativePathname().':'.($i + 1);
+                        $offenders[] = $dir . '/' . $file->getRelativePathname() . ':' . ($i + 1);
                     }
                 }
             }
@@ -211,7 +211,7 @@ class DeprecatedAliasTest extends BaseTestCase
 
         $this->assertGreaterThanOrEqual(70, $inspected['src'], 'The src/ scan matched too few files to be meaningful.');
         $this->assertGreaterThanOrEqual(50, $inspected['tests'], 'The tests/ scan matched too few files to be meaningful.');
-        $this->assertSame([], $offenders, "Bare command names are still called:\n".implode("\n", $offenders));
+        $this->assertSame([], $offenders, "Bare command names are still called:\n" . implode("\n", $offenders));
     }
 
     /**
@@ -258,8 +258,8 @@ class DeprecatedAliasTest extends BaseTestCase
             private OutputInterface $error;
 
             /**
-             * @param  resource  $stdout
-             * @param  resource  $stderr
+             * @param resource $stdout
+             * @param resource $stderr
              */
             public function __construct($stdout, $stderr)
             {

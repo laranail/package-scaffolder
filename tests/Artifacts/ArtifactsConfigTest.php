@@ -13,15 +13,15 @@ class ArtifactsConfigTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->config = require dirname(__DIR__, 2).'/config/artifacts.php';
+        $this->config = require dirname(__DIR__, 2) . '/config/artifacts.php';
     }
 
     public function test_kinds_map_to_platform_containers(): void
     {
         $this->assertSame([
             'package' => 'platform/packages',
-            'module' => 'platform/modules',
-            'plugin' => 'platform/plugins',
+            'module'  => 'platform/modules',
+            'plugin'  => 'platform/plugins',
         ], $this->config['kinds']);
     }
 

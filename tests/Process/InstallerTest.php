@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Process;
 
 use InvalidArgumentException;
+use Symfony\Component\Process\Process;
 use Simtabi\Laranail\Package\Scaffolder\Process\Installer;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
-use Symfony\Component\Process\Process;
 
 /**
  * Regression: module name / version(branch) / type reach a shell command, so a
@@ -19,7 +19,7 @@ class InstallerTest extends BaseTestCase
     {
         $malicious = 'master; touch /tmp/laranail-pwned';
         $installer = (new Installer('acme/mod', $malicious, 'github-https'))
-            ->setPath(sys_get_temp_dir().'/laranail-dest');
+            ->setPath(sys_get_temp_dir() . '/laranail-dest');
 
         $cmd = $installer->getProcess()->getCommandLine();
 
@@ -46,7 +46,7 @@ class InstallerTest extends BaseTestCase
     public function test_run_without_a_console_does_not_error(): void
     {
         $installer = (new Installer('acme/mod', 'main', 'github-https'))
-            ->setPath(sys_get_temp_dir().'/laranail-dest');
+            ->setPath(sys_get_temp_dir() . '/laranail-dest');
 
         // no setConsole() — must not throw an uninitialized-property Error
         $process = $installer->run();
@@ -57,7 +57,7 @@ class InstallerTest extends BaseTestCase
     public function test_git_install_fails_loudly_on_an_unresolvable_type(): void
     {
         $installer = (new Installer('acme/mod', 'main', 'definitely-not-a-url-or-scheme'))
-            ->setPath(sys_get_temp_dir().'/laranail-dest');
+            ->setPath(sys_get_temp_dir() . '/laranail-dest');
 
         $this->expectException(InvalidArgumentException::class);
         $installer->getProcess();

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Simtabi\Laranail\Package\Scaffolder\Support;
 
 use Exception;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
-use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
 use Stringable;
+use Illuminate\Support\Collection;
+use Illuminate\Filesystem\Filesystem;
+use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidJsonException;
 
 class Json implements Stringable
 {
@@ -128,7 +128,7 @@ class Json implements Stringable
 
         // any JSON parsing errors should throw an exception
         if (json_last_error() > 0) {
-            throw new InvalidJsonException('Error processing file: '.$this->getPath().'. Error: '.json_last_error_msg());
+            throw new InvalidJsonException('Error processing file: ' . $this->getPath() . '. Error: ' . json_last_error_msg());
         }
 
         return $attributes;

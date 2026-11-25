@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests;
 
+use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\ActivatorInterface;
 use Simtabi\Laranail\Package\Scaffolder\Contracts\RepositoryInterface;
 use Simtabi\Laranail\Package\Scaffolder\Exceptions\InvalidActivatorClass;
-use Simtabi\Laranail\Package\Scaffolder\Facades\Module;
 
 class LaravelModulesServiceProviderTest extends BaseTestCase
 {

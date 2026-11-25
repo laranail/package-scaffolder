@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Simtabi\Laranail\Package\Scaffolder\Tests\Support\Config;
 
+use ReflectionProperty;
 use Illuminate\Support\Env;
 use Illuminate\Support\ServiceProvider;
 use PHPUnit\Framework\Attributes\DataProvider;
-use ReflectionProperty;
 use Simtabi\Laranail\Package\Scaffolder\Tests\BaseTestCase;
 
 class PublishAndEnvTest extends BaseTestCase
@@ -34,9 +34,9 @@ class PublishAndEnvTest extends BaseTestCase
     {
         return [
             'artifact namespace' => ['LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_NAMESPACE', 'ARTIFACT_DEFAULT_NAMESPACE', 'artifacts.php', 'default_namespace'],
-            'artifact entity' => ['LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_ENTITY', 'ARTIFACT_DEFAULT_ENTITY', 'artifacts.php', 'default_entity'],
-            'artifact flavor' => ['LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_FLAVOR', 'ARTIFACT_DEFAULT_FLAVOR', 'artifacts.php', 'default_flavor'],
-            'module vendor' => ['LARANAIL_PACKAGE_SCAFFOLDER_MODULE_VENDOR', 'MODULE_VENDOR', 'config.php', 'composer.vendor'],
+            'artifact entity'    => ['LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_ENTITY', 'ARTIFACT_DEFAULT_ENTITY', 'artifacts.php', 'default_entity'],
+            'artifact flavor'    => ['LARANAIL_PACKAGE_SCAFFOLDER_ARTIFACT_DEFAULT_FLAVOR', 'ARTIFACT_DEFAULT_FLAVOR', 'artifacts.php', 'default_flavor'],
+            'module vendor'      => ['LARANAIL_PACKAGE_SCAFFOLDER_MODULE_VENDOR', 'MODULE_VENDOR', 'config.php', 'composer.vendor'],
             'module author name' => ['LARANAIL_PACKAGE_SCAFFOLDER_MODULE_AUTHOR_NAME', 'MODULE_AUTHOR_NAME', 'config.php', 'composer.author.name'],
             'module author mail' => ['LARANAIL_PACKAGE_SCAFFOLDER_MODULE_AUTHOR_EMAIL', 'MODULE_AUTHOR_EMAIL', 'config.php', 'composer.author.email'],
         ];
@@ -125,7 +125,7 @@ class PublishAndEnvTest extends BaseTestCase
         $inspected = 0;
         $offenders = [];
 
-        foreach (glob(dirname(__DIR__, 3).'/config/*.php') ?: [] as $path) {
+        foreach (glob(dirname(__DIR__, 3) . '/config/*.php') ?: [] as $path) {
             $source = (string) file_get_contents($path);
 
             preg_match_all("/env\\(\\s*'([A-Z0-9_]+)'(?:\\s*,\\s*env\\(\\s*'([A-Z0-9_]+)')?/", $source, $matches, PREG_SET_ORDER);
@@ -140,13 +140,13 @@ class PublishAndEnvTest extends BaseTestCase
                 }
 
                 if (! str_starts_with($name, 'LARANAIL_PACKAGE_SCAFFOLDER_')) {
-                    $offenders[] = basename($path).": [{$name}] is neither vendor-prefixed nor a nested fallback";
+                    $offenders[] = basename($path) . ": [{$name}] is neither vendor-prefixed nor a nested fallback";
 
                     continue;
                 }
 
                 if ($fallback !== '' && ($pairs[$name] ?? null) !== $fallback) {
-                    $offenders[] = basename($path).": fallback [{$fallback}] for [{$name}] has no renamedEnvKeys() row";
+                    $offenders[] = basename($path) . ": fallback [{$fallback}] for [{$name}] has no renamedEnvKeys() row";
                 }
             }
         }
@@ -204,6 +204,6 @@ class PublishAndEnvTest extends BaseTestCase
         $repository = new ReflectionProperty(Env::class, 'repository');
         $repository->setValue(null, null);
 
-        return require dirname(__DIR__, 3).'/config/'.$file;
+        return require dirname(__DIR__, 3) . '/config/' . $file;
     }
 }
