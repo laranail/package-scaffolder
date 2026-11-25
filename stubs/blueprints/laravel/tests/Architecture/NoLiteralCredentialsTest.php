@@ -20,7 +20,7 @@ final class NoLiteralCredentialsTest extends TestCase
     /** @return list<string> */
     private function scanned(): array
     {
-        return array_values(array_filter([dirname(__DIR__), dirname(__DIR__, 2) . '/database/factories'], 'is_dir'));
+        return array_values(array_filter([dirname(__DIR__), dirname(__DIR__, 2).'/database/factories'], 'is_dir'));
     }
 
     #[Test]

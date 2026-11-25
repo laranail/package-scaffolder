@@ -6,7 +6,6 @@ use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
-use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
@@ -27,7 +26,6 @@ return RectorConfig::configure()
         // Permanently skipped on this fork (cosmetic or behaviour-risky on the module engine):
         ClassPropertyAssignToConstructorPromotionRector::class, // relocates docblocks inline + retypes a public ctor param
         ReadOnlyClassRector::class,                              // straitjackets the emit engine
-        DisallowedEmptyRuleFixerRector::class,                  // behaviour-sensitive; not in the intended sets
         NullToStrictStringFuncCallArgRector::class,             // coercion change (php81) — behaviour-risky here
         ReadOnlyPropertyRector::class,                          // php81 — would need per-property write-once review
         // Types the container closures' `$app` param as `array` (from `$app['config']` dim-fetch), but
@@ -49,7 +47,6 @@ return RectorConfig::configure()
     ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
-        SetList::EARLY_RETURN,
         SetList::TYPE_DECLARATION,
     ])
     // Keep the codebase parseable on the 8.3 syntax floor: wrap PHP 8.4
